@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+<head>
+    <meta charset="<?php bloginfo('charset'); ?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><?php bloginfo('name'); ?><?php wp_title('|', true, 'left'); ?></title>
+    <?php wp_head(); ?>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script>
+        tailwind.config = {
+            content: ["./src/**/*.{html,js}"],
+            theme: {
+                extend: {
+                    fontFamily: {
+                      montserrat: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                      orange: {
+                        light: '#FFF7F5',
+                        'light-hover': '#FFF2F0',
+                        'light-active': '#FFE5E1',
+                        normal: '#FFAA9D',
+                        'normal-hover': '#E6998D',
+                        'normal-active': '#CC887E',
+                        dark: '#BF8076',
+                        'dark-hover': '#99665E',
+                        'dark-active': '#734C47',
+                        darker: '#593B37',
+                      },
+                      red: {
+                        light: '#FBF0F0',
+                        'light-hover': '#F9E8E8',
+                        'light-active': '#F2D0CF',
+                        normal: '#D56665',
+                        'normal-hover': '#C05C5B',
+                        'normal-active': '#AA5251',
+                        dark: '#A04D4C',
+                        'dark-hover': '#803D3D',
+                        'dark-active': '#602E2D',
+                        darker: '#4B2423',
+                      },
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body <?php body_class(); ?>>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- === Header === -->
+<header class="flex overflow-hidden gap-5 justify-between px-4 py-1.5 w-full bg-red-100 "
+  >
+    <h1 class="text-2xl text-black self-stretch my-auto text-red-normal">LiteRead</h1>
+    <div class="flex gap-2.5 items-center self-start">
+      <button
+        class="flex gap-2.5 items-center self-stretch p-2 my-auto w-10 rounded-[90px]"
+        aria-label="Search"
+      >
+        <span class="flex self-stretch my-auto w-6 min-h-6"></span>
+      </button>
+      <button class="self-stretch my-auto w-[30px]" aria-label="Menu">
+        <span class="flex w-full bg-red-400 min-h-0.5 rounded-[99px]"></span>
+        <span
+          class="flex mt-1.5 w-full bg-red-400 min-h-0.5 rounded-[99px]"
+        ></span>
+        <span
+          class="flex mt-1.5 w-full bg-red-400 min-h-0.5 rounded-[99px]"
+        ></span>
+      </button>
+    </div>
+</header>

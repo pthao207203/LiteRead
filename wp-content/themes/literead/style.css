@@ -1,0 +1,20 @@
+/*
+Theme Name: LiteRead
+Theme URI: https://example.com/your-theme
+Author: Your Name or Company
+Author URI: https://example.com
+Description: A brief description of your theme.
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: your-theme
+Tags: responsive, custom-background, custom-logo
+
+This theme is designed for WordPress.
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+
+body {
+  font-family: "Montserrat", sans-serif !important;
+}
