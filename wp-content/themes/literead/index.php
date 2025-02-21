@@ -266,7 +266,7 @@
           <span class="text-xs font-medium text-white bg-red-normal rounded-sm px-1 py-0.5 w-fit">
             Full
           </span>
-          <h3 class="mt-2 text-base font-semibold text-orange-darker">
+          <h3 class="mt-2 text-[16px] font-semibold text-orange-darker">
             Thỉnh Hạ
           </h3>
           <div class="flex items-center mt-1">
