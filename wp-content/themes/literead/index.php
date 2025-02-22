@@ -1,595 +1,772 @@
-<?php get_header(); ?>
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+<style>
+/* globals.css */
+@import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,700,600");
+* {
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0px;
+  height: 100%;
+}
+/* a blue color as a generic focus style */
+button:focus-visible {
+  outline: 2px solid #4a90e2 !important;
+  outline: -webkit-focus-ring-color auto 5px !important;
+}
+a {
+  text-decoration: none;
+}
 
-<main class="home">
-  <!-- Carousel -->
-  <div id="myCarousel" class="carousel slide" data-ride="carousel">
-    
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-      <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-      <li data-target="#myCarousel" data-slide-to="1"></li>
-      <li data-target="#myCarousel" data-slide-to="2"></li>
-      <li data-target="#myCarousel" data-slide-to="3"></li>
-      <li data-target="#myCarousel" data-slide-to="4"></li>
-    </ol>
+/* style.css */
+.frame {
+    display: flex;
+    flex-direction: column;
+    width: 428px;
+    align-items: flex-start;
+    gap: 12px;
+    position: relative;
+  }
+  
+  .frame .name {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 16px;
+    padding: 17px;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    flex: 0 0 auto;
+  }
+  
+  .frame .nguy-t-h {
+    position: relative;
+    align-self: stretch;
+    margin-top: -1.00px;
+    font-family: "Montserrat", Helvetica;
+    font-weight: 700;
+    color: var(--foundationredreddark);
+    font-size: 24px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: 29.3px;
+  }
+  
+  .frame .div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    flex: 0 0 auto;
+  }
+  
+  .frame .text-wrapper {
+    position: relative;
+    align-self: stretch;
+    margin-top: -1.00px;
+    font-family: "Montserrat", Helvetica;
+    font-weight: 500;
+    color: var(--foundationredreddark);
+    font-size: 18px;
+    letter-spacing: 0;
+    line-height: 22.0px;
+  }
+  
+  .frame .div-2 {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    flex: 0 0 auto;
+  }
+  
+  .frame .div-3 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+    position: relative;
+    flex: 1;
+    flex-grow: 1;
+    background-color: var(--foundationredorangelight-hover);
+    border-radius: 12px;
+  }
+  
+  .frame .text-wrapper-2 {
+    position: relative;
+    width: fit-content;
+    margin-top: -1.00px;
+    font-family: "Montserrat", Helvetica;
+    font-weight: 400;
+    color: var(--foundationredrednormal);
+    font-size: 18px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .frame .text-wrapper-3 {
+    position: relative;
+    width: fit-content;
+    font-family: "Montserrat", Helvetica;
+    font-weight: 600;
+    color: var(--foundationredrednormal);
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .frame .div-4 {
+    display: flex;
+    width: 397px;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 10px;
+    position: relative;
+    flex: 0 0 auto;
+    margin-right: -3.00px;
+  }
+  
+  .frame .div-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+    position: relative;
+    flex: 1;
+    flex-grow: 1;
+    background-color: var(--foundationredrednormal);
+    border-radius: 12px;
+  }
+  
+  .frame .text-wrapper-4 {
+    position: relative;
+    width: fit-content;
+    margin-top: -1.00px;
+    font-family: "Montserrat", Helvetica;
+    font-weight: 600;
+    color: var(--foundationredredlight);
+    font-size: 18px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .frame .div-wrapper-2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+    position: relative;
+    flex: 1;
+    flex-grow: 1;
+    background-color: var(--foundationredorangelight-hover);
+    border-radius: 12px;
+  }
+  
+  .frame .text-wrapper-5 {
+    position: relative;
+    width: fit-content;
+    margin-top: -1.00px;
+    font-family: "Montserrat", Helvetica;
+    font-weight: 600;
+    color: var(--foundationredrednormal);
+    font-size: 18px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .frame .div-5 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    flex: 0 0 auto;
+  }
+  
+  .frame .story-card {
+    width: 394px;
+    align-items: flex-end;
+    gap: 12px;
+    flex: 0 0 auto;
+    display: flex;
+    position: relative;
+  }
+  
+  .frame .image {
+    position: relative;
+    width: 177px;
+    height: 220px;
+  }
+  
+  .frame .div-wrapper-3 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+  }
+  
+  .frame .text-wrapper-6 {
+    position: relative;
+    flex: 1;
+    font-family: "Montserrat", Helvetica;
+    font-weight: 500;
+    color: var(--foundationredreddarker);
+    font-size: 20px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .frame .div-6 {
+    position: relative;
+    flex: 1;
+    margin-top: -1.00px;
+    font-family: "Montserrat", Helvetica;
+    font-weight: 400;
+    color: var(--foundationredreddarker);
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .frame .span {
+    font-family: "Montserrat", Helvetica;
+    font-weight: 400;
+    color: #4b2423;
+    font-size: 16px;
+    letter-spacing: 0;
+  }
+  
+  .frame .text-wrapper-7 {
+    font-weight: 600;
+  }
+  
+  .frame .story-card-2 {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    flex: 0 0 auto;
+  }
+  
+  .frame .img {
+    position: relative;
+    width: 177px;
+    height: 220px;
+    object-fit: cover;
+  }
+  
+  .frame .group {
+    position: relative;
+    width: 428px;
+    height: 322px;
+  }
+  
+  .frame .overlap-group {
+    position: relative;
+    height: 322px;
+  }
+  
+  .frame .div-wrapper-4 {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+    position: absolute;
+    top: 0;
+    left: 17px;
+    background-color: var(--foundationredorangelight-hover);
+    border-radius: 12px 12px 0px 0px;
+  }
+  
+  .frame .div-7 {
+    display: flex;
+    width: 428px;
+    align-items: center;
+    gap: 17px;
+    padding: 12px 17px;
+    position: absolute;
+    top: 37px;
+    left: 0;
+    background-color: var(--foundationredorangelight-hover);
+    overflow-x: scroll;
+  }
+  
+  .frame .div-7::-webkit-scrollbar {
+    width: 0;
+    display: none;
+  }
+  
+  .frame .story-card-3 {
+    flex-direction: column;
+    width: 121px;
+    height: 261px;
+    align-items: flex-start;
+    gap: 4px;
+    display: flex;
+    position: relative;
+  }
+  
+  .frame .image-2 {
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    height: 150px;
+  }
+  
+  .frame .tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 2px;
+    position: relative;
+    flex: 0 0 auto;
+    background-color: var(--foundationredrednormal);
+    border-radius: 2px;
+  }
+  
+  .frame .text-wrapper-8 {
+    position: relative;
+    width: fit-content;
+    margin-top: -1.00px;
+    font-family: "Montserrat", Helvetica;
+    font-weight: 500;
+    color: var(--foundationredorangelight);
+    font-size: 12px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
 
-    <!-- Carousel Items -->
-    <div class="carousel-inner">
+  .frame .infor, 
+  .frame .infor-2 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px; /* Loại bỏ khoảng cách */
+    width: 177px;
+    height: 220px;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    margin-top: -2px;
+  }
 
-      <!-- Slide 1 -->
-      <div class="item active relative z-10">
-      <section class="d-flex gap-4 align-items-center mx-[17px] my-[12px] text-black rounded-lg"
-          style="max-width: 1000px; min-width: 320px; transition: width 0.3s ease;">
-          
-          <!-- Background Image -->
-          <div class="position-absolute top-0 start-0 w-full h-100 bg-cover bg-center rounded-lg overflow-hidden z-0"
-              style="background-image: url('https://cdn.builder.io/api/v1/image/assets/TEMP/6cb997f442ff8363c94eeeb408cb0060c25e45a10b7e8b7b91ed25ed76201975'); opacity: 0.8; filter: blur(6px); transform: scale(1.1);">
-
-            <!-- Gradient & Blur Overlay -->
-            <div class="position-absolute top-[5px] start-0 w-100 h-100 z-0"
-                style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.0), rgb(0, 0, 0, 0.8)); ">
+  
+  .frame .text-wrapper-9 {
+    position: relative;
+    flex: 1;
+    margin-top: -1.00px;
+    font-family: "Montserrat", Helvetica;
+    font-weight: 500;
+    color: var(--foundationredorangedarker);
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .frame .div-8 {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 4px;
+    position: relative;
+    flex: 0 0 auto;
+  }
+  
+  .frame .rate {
+    display: inline-flex;
+    align-items: flex-end;
+    position: relative;
+    flex: 0 0 auto;
+  }
+  
+  .frame .star {
+    position: relative;
+    width: 16px;
+    height: 16px;
+  }
+  
+  .frame .text-wrapper-10 {
+    position: relative;
+    width: fit-content;
+    margin-top: -1.00px;
+    font-family: "Montserrat", Helvetica;
+    font-weight: 400;
+    color: var(--foundationredrednormal);
+    font-size: 12px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .frame .text-wrapper-11 {
+    position: relative;
+    flex: 1;
+    margin-top: -1.00px;
+    font-family: "Montserrat", Helvetica;
+    font-weight: 400;
+    color: var(--foundationredrednormal);
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: normal;
+  }
+  
+  .frame .image-3 {
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+  }
+  /* Original CSS code */
+  
+  /* Add these new styles */
+  body {
+    font-family: "Montserrat", Helvetica, Arial, sans-serif;
+    color: var(--foundationredreddarker);
+    line-height: 1.5;
+  }
+  
+  .frame {
+    max-width: 428px;
+    margin: 0 auto;
+  }
+  
+  .name h1 {
+    margin-bottom: 16px;
+  }
+  
+  .div-4 {
+    margin-bottom: 18px;
+  }
+  
+  .div-4 button {
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+    transition: background-color 0.3s ease;
+  }
+  
+  .div-4 button:hover {
+    opacity: 0.9;
+  }
+  
+  .story-card,
+  .story-card-2,
+  .story-card-3 {
+    transition: transform 0.3s ease;
+  }
+  
+  .story-card:hover,
+  .story-card-2:hover,
+  .story-card-3:hover {
+    transform: translateY(-5px);
+  }
+  
+  .rate {
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  .rate img {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .div-7 {
+    scrollbar-width: thin;
+    scrollbar-color: var(--foundationredrednormal)
+      var(--foundationredorangelight-hover);
+  }
+  
+  .div-7::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  
+  .div-7::-webkit-scrollbar-thumb {
+    background-color: var(--foundationredrednormal);
+    border-radius: 3px;
+  }
+  
+  .div-7::-webkit-scrollbar-track {
+    background-color: var(--foundationredorangelight-hover);
+  }
+  
+  @media (max-width: 428px) {
+    .frame {
+      width: 100%;
+    }
+  
+    .div-4 {
+      flex-wrap: wrap;
+    }
+  
+    .div-4 button {
+      flex: 1 1 100%;
+      margin-bottom: 10px;
+    }
+  }
+  
+/* styleguide.css */
+:root {
+    --foundationredreddark: rgba(160, 77, 76, 1);
+    --foundationredrednormal: rgba(213, 102, 101, 1);
+    --foundationredredlight: rgba(251, 240, 240, 1);
+    --foundationredreddarker: rgba(75, 36, 35, 1);
+    --foundationredorangelight: rgba(255, 247, 245, 1);
+    --foundationredorangedarker: rgba(89, 59, 55, 1);
+    --foundationredorangelight-hover: rgba(255, 242, 240, 1);
+  }
+  
+</style>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trang cá nhân tác giả</title>
+  </head>
+  <body>
+    <main class="frame">
+      <section class="name">
+        <h1 class="nguy-t-h">NGUYỆT HẠ</h1>
+        <div class="div">
+          <p class="text-wrapper">14 Truyện</p>
+          <div class="div-2">
+            <div class="div-3">
+              <p class="text-wrapper-2">4</p>
+              <p class="text-wrapper-3">Truyện sáng tác</p>
             </div>
-
+            <div class="div-3">
+              <p class="text-wrapper-2">0</p>
+              <p class="text-wrapper-3">Truyện dịch</p>
+            </div>
           </div>
-
-          <!-- Content -->
-          <div class="position-relative rounded-lg overflow-hidden" style="flex: 1; min-width: 150px; max-width: 250px;">
-            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/6cb997f442ff8363c94eeeb408cb0060c25e45a10b7e8b7b91ed25ed76201975"
-                alt="Featured book cover"
-                class="img-fluid w-100 h-100 object-fit-cover z-10" style="aspect-ratio: 0.7;">
+          <div class="div-2">
+            <div class="div-3">
+              <p class="text-wrapper-2">120</p>
+              <p class="text-wrapper-3">Người theo dõi</p>
+            </div>
+            <div class="div-3">
+              <p class="text-wrapper-2">66.6K</p>
+              <p class="text-wrapper-3">Lượt đọc</p>
+            </div>
           </div>
-
-          <article class="d-flex flex-column justify-content-center flex-grow-1 z-10">
-            <div class="d-flex gap-2 align-items-center">
-              <span class="p-[4px] font-medium bg-red-normal text-[16px] text-white font-montserrat rounded-sm">Full</span>
-              <div class="d-flex align-items-center text-[20px] font-medium text-white ">
-                <span>4.5</span>
-                <span class="ms-1 text-[#FFC700]">★</span>
+        </div>
+        <div class="div">
+          <nav class="div-4">
+            <button class="div-wrapper"><span class="text-wrapper-4">Đã duyệt</span></button>
+            <button class="div-wrapper-2"><span class="text-wrapper-5">Chờ duyệt</span></button>
+            <button class="div-wrapper-2"><span class="text-wrapper-5">Nháp</span></button>
+          </nav>
+          <div class="div-5">
+            <article class="story-card">
+              <img
+                class="image"
+                src="https://c.animaapp.com/Bio2gXdc/img/image-7-2@2x.png"
+                alt="Bìa truyện Thiên quan tứ phúc"
+              />
+              <div class="infor">
+                <h2 class="div-wrapper-3"><span class="text-wrapper-6">Thiên quan tứ phúc</span></h2>
+                <p class="div-wrapper-3"><span class="div-6">Số chữ: 24.7K</span></p>
+                <p class="div-wrapper-3">
+                  <span class="div-6">
+                    <span class="span">Trạng thái: </span>
+                    <span class="text-wrapper-7">Đã duyệt</span>
+                  </span>
+                </p>
+                <p class="div-wrapper-3"><span class="div-6">Thể loại: Truyện dịch</span></p>
+                <p class="div-wrapper-3"><span class="div-6">Số chương: 120</span></p>
+                <p class="div-wrapper-3"><span class="div-6">Lượt đọc: 33.3k</span></p>
+                <p class="div-wrapper-3"><span class="div-6">Yêu thích: 12K</span></p>
+                <p class="div-wrapper-3"><span class="div-6">Bình luận: 200</span></p>
               </div>
-            </div>
-
-            <h2 class="mt-2 font-medium text-[20px] text-white">Sổ tay bạch liên hoa lừa người</h2>
-            <p class="mt-2 font-normal text-[14px] text-white">Thể loại: HE, hắc đạo</p>
-          </article>
-        </section>
-      </div>
-
-      <!-- Slide 2 -->
-      <div class="item">
-      <section class="d-flex gap-4 align-items-center mx-[17px] my-[12px] text-black rounded-lg"
-                style="max-width: 1000px; min-width: 320px; transition: width 0.3s ease;">
-          
-          <!-- Background Image -->
-          <div class="position-absolute top-0 start-0 w-100 h-100 bg-cover bg-center rounded-lg overflow-hidden z-0"
-              style="background-image: url('https://cdn.builder.io/api/v1/image/assets/TEMP/6cb997f442ff8363c94eeeb408cb0060c25e45a10b7e8b7b91ed25ed76201975'); opacity: 0.8; filter: blur(6px); transform: scale(1.1);">
-
-            <!-- Gradient & Blur Overlay -->
-            <div class="position-absolute top-0 start-0 w-100 h-100"
-                style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.0), rgb(0, 0, 0, 0.6)); border-radius: inherit;">
-            </div>
-
-          </div>
-
-          <!-- Content -->
-          <div class="position-relative rounded-lg overflow-hidden" style="flex: 1; min-width: 150px; max-width: 250px;">
-            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/6cb997f442ff8363c94eeeb408cb0060c25e45a10b7e8b7b91ed25ed76201975"
-                alt="Featured book cover"
-                class="img-fluid w-100 h-100 object-fit-cover z-10" style="aspect-ratio: 0.7;">
-          </div>
-
-          <article class="d-flex flex-column justify-content-center flex-grow-1 z-10">
-            <div class="d-flex gap-2 align-items-center">
-              <span class="p-[4px] font-medium bg-red-normal text-[16px] text-white font-montserrat rounded-sm">Full</span>
-              <div class="d-flex align-items-center text-[20px] font-medium text-white ">
-                <span>4.5</span>
-                <span class="ms-1 text-[#FFC700]">★</span>
+            </article>
+            <article class="story-card-2">
+              <img
+                class="img"
+                src="https://c.animaapp.com/Bio2gXdc/img/image-7-3@2x.png"
+                alt="Bìa truyện Thiên quan tứ phúc"
+              />
+              <div class="infor">
+                <h2 class="div-wrapper-3"><span class="text-wrapper-6">Thiên quan tứ phúc</span></h2>
+                <p class="div-wrapper-3"><span class="div-6">Số chữ: 24.7K</span></p>
+                <p class="div-wrapper-3">
+                  <span class="div-6">
+                    <span class="span">Trạng thái: </span>
+                    <span class="text-wrapper-7">Đã duyệt</span>
+                  </span>
+                </p>
+                <p class="div-wrapper-3"><span class="div-6">Thể loại: Truyện dịch</span></p>
+                <p class="div-wrapper-3"><span class="div-6">Số chương: 120</span></p>
+                <p class="div-wrapper-3"><span class="div-6">Lượt đọc: 33.3k</span></p>
+                <p class="div-wrapper-3"><span class="div-6">Yêu thích: 12K</span></p>
+                <p class="div-wrapper-3"><span class="div-6">Bình luận: 200</span></p>
               </div>
-            </div>
-
-            <h2 class="mt-2 font-medium text-[20px] text-white">Sổ tay bạch liên hoa lừa người</h2>
-            <p class="mt-2 font-normal text-[14px] text-white">Thể loại: HE, hắc đạo</p>
-          </article>
-        </section>
-      </div>
-
-      <!-- Slide 3 -->
-      <div class="item">
-      <section class="d-flex gap-4 align-items-center mx-[17px] my-[12px] text-black rounded-lg"
-                style="max-width: 1000px; min-width: 320px; transition: width 0.3s ease;">
-          
-          <!-- Background Image -->
-          <div class="position-absolute top-0 start-0 w-100 h-100 bg-cover bg-center rounded-lg overflow-hidden z-0"
-              style="background-image: url('https://cdn.builder.io/api/v1/image/assets/TEMP/6cb997f442ff8363c94eeeb408cb0060c25e45a10b7e8b7b91ed25ed76201975'); opacity: 0.8; filter: blur(6px); transform: scale(1.1);">
-
-            <!-- Gradient & Blur Overlay -->
-            <div class="position-absolute top-0 start-0 w-100 h-100"
-                style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.0), rgb(0, 0, 0, 0.6)); border-radius: inherit;">
-            </div>
-
-          </div>
-
-          <!-- Content -->
-          <div class="position-relative rounded-lg overflow-hidden" style="flex: 1; min-width: 150px; max-width: 250px;">
-            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/6cb997f442ff8363c94eeeb408cb0060c25e45a10b7e8b7b91ed25ed76201975"
-                alt="Featured book cover"
-                class="img-fluid w-100 h-100 object-fit-cover z-10" style="aspect-ratio: 0.7;">
-          </div>
-
-          <article class="d-flex flex-column justify-content-center flex-grow-1 z-10">
-            <div class="d-flex gap-2 align-items-center">
-              <span class="p-[4px] font-medium bg-red-normal text-[16px] text-white font-montserrat rounded-sm">Full</span>
-              <div class="d-flex align-items-center text-[20px] font-medium text-white ">
-                <span>4.5</span>
-                <span class="ms-1 text-[#FFC700]">★</span>
+            </article>
+            <article class="story-card-2">
+              <img
+                class="img"
+                src="https://c.animaapp.com/Bio2gXdc/img/image@2x.png"
+                alt="Bìa truyện Thiên quan tứ phúc"
+              />
+              <div class="infor">
+                <h2 class="div-wrapper-3"><span class="text-wrapper-6">Thiên quan tứ phúc</span></h2>
+                <p class="div-wrapper-3"><span class="div-6">Số chữ: 24.7K</span></p>
+                <p class="div-wrapper-3">
+                  <span class="div-6">
+                    <span class="span">Trạng thái: </span>
+                    <span class="text-wrapper-7">Đã duyệt</span>
+                  </span>
+                </p>
+                <p class="div-wrapper-3"><span class="div-6">Thể loại: Truyện dịch</span></p>
+                <p class="div-wrapper-3"><span class="div-6">Số chương: 120</span></p>
+                <p class="div-wrapper-3"><span class="div-6">Lượt đọc: 33.3k</span></p>
+                <p class="div-wrapper-3"><span class="div-6">Yêu thích: 12K</span></p>
+                <p class="div-wrapper-3"><span class="div-6">Bình luận: 200</span></p>
               </div>
-            </div>
-
-            <h2 class="mt-2 font-medium text-[20px] text-white">Sổ tay bạch liên hoa lừa người</h2>
-            <p class="mt-2 font-normal text-[14px] text-white">Thể loại: HE, hắc đạo</p>
-          </article>
-        </section>
-      </div>
-
-      <!-- Slide 4 -->
-      <div class="item">
-      <section class="d-flex gap-4 align-items-center mx-[17px] my-[12px] text-black rounded-lg"
-                style="max-width: 1000px; min-width: 320px; transition: width 0.3s ease;">
-          
-          <!-- Background Image -->
-          <div class="position-absolute top-0 start-0 w-100 h-100 bg-cover bg-center rounded-lg overflow-hidden z-0"
-              style="background-image: url('https://cdn.builder.io/api/v1/image/assets/TEMP/6cb997f442ff8363c94eeeb408cb0060c25e45a10b7e8b7b91ed25ed76201975'); opacity: 0.8; filter: blur(6px); transform: scale(1.1);">
-
-            <!-- Gradient & Blur Overlay -->
-            <div class="position-absolute top-0 start-0 w-100 h-100"
-                style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.0), rgb(0, 0, 0, 0.6)); border-radius: inherit;">
-            </div>
-
+            </article>
           </div>
-
-          <!-- Content -->
-          <div class="position-relative rounded-lg overflow-hidden" style="flex: 1; min-width: 150px; max-width: 250px;">
-            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/6cb997f442ff8363c94eeeb408cb0060c25e45a10b7e8b7b91ed25ed76201975"
-                alt="Featured book cover"
-                class="img-fluid w-100 h-100 object-fit-cover z-10" style="aspect-ratio: 0.7;">
-          </div>
-
-          <article class="d-flex flex-column justify-content-center flex-grow-1 z-10">
-            <div class="d-flex gap-2 align-items-center">
-              <span class="p-[4px] font-medium bg-red-normal text-[16px] text-white font-montserrat rounded-sm">Full</span>
-              <div class="d-flex align-items-center text-[20px] font-medium text-white ">
-                <span>4.5</span>
-                <span class="ms-1 text-[#FFC700]">★</span>
+        </div>
+      </section>
+      <section class="group">
+        <div class="overlap-group">
+          <h2 class="div-wrapper-4"><span class="text-wrapper-5">Truyện đề cử</span></h2>
+          <div class="div-7">
+            <article class="story-card-3">
+              <img
+                class="image-2"
+                src="https://c.animaapp.com/Bio2gXdc/img/image-7-8@2x.png"
+                alt="Bìa truyện Thiên Quan Tứ Phúc"
+              />
+              <div class="tag"><span class="text-wrapper-8">Full</span></div>
+              <div class="infor-2">
+                <h3 class="div-wrapper-3"><span class="text-wrapper-9">Thiên Quan Tứ Phúc</span></h3>
+                <div class="div-8">
+                  <div class="rate" aria-label="Đánh giá 4 sao">
+                    <img class="star" src="https://c.animaapp.com/Bio2gXdc/img/star-28.svg" alt="Sao đầy" />
+                    <img class="star" src="https://c.animaapp.com/Bio2gXdc/img/star-28.svg" alt="Sao đầy" />
+                    <img class="star" src="https://c.animaapp.com/Bio2gXdc/img/star-28.svg" alt="Sao đầy" />
+                    <img class="star" src="https://c.animaapp.com/Bio2gXdc/img/star-28.svg" alt="Sao đầy" />
+                    <img class="star" src="https://c.animaapp.com/Bio2gXdc/img/star-29.svg" alt="Sao rỗng" />
+                  </div>
+                  <span class="text-wrapper-10">4</span>
+                </div>
+                <p class="div-wrapper-3"><span class="text-wrapper-11">Số chữ: 24.7K</span></p>
               </div>
-            </div>
-
-            <h2 class="mt-2 font-medium text-[20px] text-white">Sổ tay bạch liên hoa lừa người</h2>
-            <p class="mt-2 font-normal text-[14px] text-white">Thể loại: HE, hắc đạo</p>
-          </article>
-        </section>
-      </div>
-
-      <!-- Slide 5 -->
-      <div class="item">
-      <section class="d-flex gap-4 align-items-center mx-[17px] my-[12px] text-black rounded-lg"
-                style="max-width: 1000px; min-width: 320px; transition: width 0.3s ease;">
-          
-          <!-- Background Image -->
-          <div class="position-absolute top-0 start-0 w-100 h-100 bg-cover bg-center rounded-lg overflow-hidden z-0"
-              style="background-image: url('https://cdn.builder.io/api/v1/image/assets/TEMP/6cb997f442ff8363c94eeeb408cb0060c25e45a10b7e8b7b91ed25ed76201975'); opacity: 0.8; filter: blur(6px); transform: scale(1.1);">
-
-            <!-- Gradient & Blur Overlay -->
-            <div class="position-absolute top-0 start-0 w-100 h-100"
-                style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.0), rgb(0, 0, 0, 0.6)); border-radius: inherit;">
-            </div>
-
-          </div>
-
-          <!-- Content -->
-          <div class="position-relative rounded-lg overflow-hidden" style="flex: 1; min-width: 150px; max-width: 250px;">
-            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/6cb997f442ff8363c94eeeb408cb0060c25e45a10b7e8b7b91ed25ed76201975"
-                alt="Featured book cover"
-                class="img-fluid w-100 h-100 object-fit-cover z-10" style="aspect-ratio: 0.7;">
-          </div>
-
-          <article class="d-flex flex-column justify-content-center flex-grow-1 z-10">
-            <div class="d-flex gap-2 align-items-center">
-              <span class="p-[4px] font-medium bg-red-normal text-[16px] text-white font-montserrat rounded-sm">Full</span>
-              <div class="d-flex align-items-center text-[20px] font-medium text-white ">
-                <span>4.5</span>
-                <span class="ms-1 text-[#FFC700]">★</span>
+            </article>
+            <article class="story-card-3">
+              <img
+                class="image-3"
+                src="https://c.animaapp.com/Bio2gXdc/img/image-7-5@2x.png"
+                alt="Bìa truyện Thỉnh Hạ"
+              />
+              <div class="tag"><span class="text-wrapper-8">Full</span></div>
+              <div class="infor-2">
+                <h3 class="div-wrapper-3"><span class="text-wrapper-9">Thỉnh Hạ</span></h3>
+                <div class="div-8">
+                  <div class="rate" aria-label="Đánh giá 4 sao">
+                    <img class="star" src="https://c.animaapp.com/Bio2gXdc/img/star-28.svg" alt="Sao đầy" />
+                    <img class="star" src="https://c.animaapp.com/Bio2gXdc/img/star-28.svg" alt="Sao đầy" />
+                    <img class="star" src="https://c.animaapp.com/Bio2gXdc/img/star-28.svg" alt="Sao đầy" />
+                    <img class="star" src="https://c.animaapp.com/Bio2gXdc/img/star-28.svg" alt="Sao đầy" />
+                    <img class="star" src="https://c.animaapp.com/Bio2gXdc/img/star-29.svg" alt="Sao rỗng" />
+                  </div>
+                  <span class="text-wrapper-10">4</span>
+                </div>
+                <p class="div-wrapper-3"><span class="text-wrapper-11">Chương 6</span></p>
               </div>
-            </div>
-
-            <h2 class="mt-2 font-medium text-[20px] text-white">Sổ tay bạch liên hoa lừa người</h2>
-            <p class="mt-2 font-normal text-[14px] text-white">Thể loại: HE, hắc đạo</p>
-          </article>
-        </section>
-      </div>
-
-    </div>
-
-    <!-- Controls -->
-    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-      <span class="glyphicon glyphicon-chevron-left"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" data-slide="next">
-      <span class="glyphicon glyphicon-chevron-right"></span>
-      <span class="sr-only">Next</span>
-    </a>
-
-  </div>
-
-  <section class="p-0 w-full bg-white z-50 rounded-tr-[20px] rounded-tl-[20px]">
-    <!-- Section Title -->
-    <h2 class="pt-[10px] px-[10px] ml-[17px] mt-[17px] text-[18px] font-semibold text-red-normal bg-orange-light-hover rounded-tr-[12px] rounded-tl-[12px] inline-block">
-      Truyện đề cử
-    </h2>
-
-    <!-- Grid Container for Books -->
-    <div class="mt-[-2px] grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-7 gap-4 p-4 bg-red-50 rounded-xl">
-      
-      <!-- Book 1 -->
-      <article class="flex flex-col bg-white shadow-md rounded-lg overflow-hidden">
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/c15eb5496bb8e85fb322900632e2ea4133bb697a11272de14372a2225b57bd1a"
-          alt="Book cover - Thiên Quan Tứ Phúc"
-          class="object-cover w-full aspect-[0.75]"
-        />
-        <div class="p-3 flex flex-col">
-          <span class="text-xs font-medium text-white bg-red-normal rounded-sm px-1 py-0.5 w-fit">
-            Full
-          </span>
-          <h3 class="mt-2 text-[16px] font-semibold text-orange-darker">
-            Thiên Quan Tứ Phúc
-          </h3>
-          <div class="flex items-center mt-1">
-            <div class="flex text-yellow-400 text-sm">
-              ★ ★ ★ ★ ☆
-            </div>
-            <span class="ml-1 text-xs text-gray-600">4</span>
-          </div>
-          <p class="mt-1 text-sm text-normal">Chương 120</p>
-        </div>
-      </article>
-
-      <!-- Book 2 -->
-      <article class="flex flex-col bg-white shadow-md rounded-lg overflow-hidden">
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/0cdb9317354c02cf878aee48b596d87025591fbecea5ddba25f5c4208e0e289c"
-          alt="Book cover - Thỉnh Hạ"
-          class="object-cover w-full aspect-[0.75]"
-        />
-        <div class="p-3 flex flex-col">
-          <span class="text-xs font-medium text-white bg-red-normal rounded-sm px-1 py-0.5 w-fit">
-            Full
-          </span>
-          <h3 class="mt-2 text-[16px] font-semibold text-orange-darker">
-            Thỉnh Hạ
-          </h3>
-          <div class="flex items-center mt-1">
-            <div class="flex text-yellow-400 text-sm">
-              ★ ★ ★ ★ ☆
-            </div>
-            <span class="ml-1 text-xs text-gray-600">4</span>
-          </div>
-          <p class="mt-1 text-sm text-normal">Chương 6</p>
-        </div>
-      </article>
-
-      <!-- Book 3 -->
-      <article class="flex flex-col bg-white shadow-md rounded-lg overflow-hidden">
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/c15eb5496bb8e85fb322900632e2ea4133bb697a11272de14372a2225b57bd1a"
-          alt="Book cover - Hậu Cung Chân Hoàn Truyện"
-          class="object-cover w-full aspect-[0.75]"
-        />
-        <div class="p-3 flex flex-col">
-          <span class="text-xs font-medium text-white bg-red-normal rounded-sm px-1 py-0.5 w-fit">
-            Full
-          </span>
-          <h3 class="mt-2 text-base font-semibold text-orange-darker">
-            Hậu Cung Chân Hoàn Truyện
-          </h3>
-          <div class="flex items-center mt-1">
-            <div class="flex text-yellow-400 text-sm">
-              ★ ★ ★ ★ ☆
-            </div>
-            <span class="ml-1 text-xs text-gray-600">4</span>
-          </div>
-          <p class="mt-1 text-sm text-normal">Chương 45</p>
-        </div>
-      </article>
-
-      <!-- Book 4 -->
-      <article class="flex flex-col bg-white shadow-md rounded-lg overflow-hidden">
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/c15eb5496bb8e85fb322900632e2ea4133bb697a11272de14372a2225b57bd1a"
-          alt="Book cover - Truyện 4"
-          class="object-cover w-full aspect-[0.75]"
-        />
-        <div class="p-3 flex flex-col">
-          <span class="text-xs font-medium text-white bg-red-normal rounded-sm px-1 py-0.5 w-fit">
-            Full
-          </span>
-          <h3 class="mt-2 text-base font-semibold text-orange-darker">
-            Truyện 4
-          </h3>
-          <div class="flex items-center mt-1">
-            <div class="flex text-yellow-400 text-sm">
-              ★ ★ ★ ☆ ☆
-            </div>
-            <span class="ml-1 text-xs text-gray-600">3</span>
-          </div>
-          <p class="mt-1 text-sm text-normal">Chương 20</p>
-        </div>
-      </article>
-
-      <!-- Book 5 -->
-      <article class="flex flex-col bg-white shadow-md rounded-lg overflow-hidden">
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/c15eb5496bb8e85fb322900632e2ea4133bb697a11272de14372a2225b57bd1a"
-          alt="Book cover - Truyện 5"
-          class="object-cover w-full aspect-[0.75]"
-        />
-        <div class="p-3 flex flex-col">
-          <span class="text-xs font-medium text-white bg-red-normal rounded-sm px-1 py-0.5 w-fit">  
-            Full
-          </span>
-          <h3 class="mt-2 text-base font-semibold text-orange-darker">
-            Truyện 5
-          </h3>
-          <div class="flex items-center mt-1">
-            <div class="flex text-yellow-400 text-sm">
-              ★ ★ ★ ★ ★
-            </div>
-            <span class="ml-1 text-xs text-gray-600">5</span>
-          </div>
-          <p class="mt-1 text-sm text-normal">Chương 100</p>
-        </div>
-      </article>
-
-      <!-- Book 6 -->
-      <article class="flex flex-col bg-white shadow-md rounded-lg overflow-hidden">
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/c15eb5496bb8e85fb322900632e2ea4133bb697a11272de14372a2225b57bd1a"
-          alt="Book cover - Truyện 6"
-          class="object-cover w-full aspect-[0.75]"
-        />
-        <div class="p-3 flex flex-col">
-          <span class="text-xs font-medium text-white bg-red-normal rounded-sm px-1 py-0.5 w-fit">
-            Full
-          </span>
-          <h3 class="mt-2 text-base font-semibold text-orange-darker">
-            Truyện 6
-          </h3>
-          <div class="flex items-center mt-1">
-            <div class="flex text-yellow-400 text-sm">
-              ★ ★ ★ ★ ☆
-            </div>
-            <span class="ml-1 text-xs text-gray-600">4</span>
-          </div>
-          <p class="mt-1 text-sm text-normal">Chương 70</p>
-        </div>
-      </article>
-
-      <!-- Book 7 -->
-      <article class="flex flex-col bg-white shadow-md rounded-lg overflow-hidden">
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/c15eb5496bb8e85fb322900632e2ea4133bb697a11272de14372a2225b57bd1a"
-          alt="Book cover - Truyện 7"
-          class="object-cover w-full aspect-[0.75]"
-        />
-        <div class="p-3 flex flex-col">
-          <span class="text-xs font-medium text-white bg-red-normal rounded-sm px-1 py-0.5 w-fit">
-            Full
-          </span>
-          <h3 class="mt-2 text-base font-semibold text-orange-darker">
-            Truyện 7
-          </h3>
-          <div class="flex items-center mt-1">
-            <div class="flex text-yellow-400 text-sm">
-              ★ ★ ★ ★ ☆
-            </div>
-            <span class="ml-1 text-xs text-gray-600">4</span>
-          </div>
-          <p class="mt-1 text-sm text-normal">Chương 85</p>
-        </div>
-      </article>
-
-    </div>
-  </section>
-
-  <section class="flex flex-col pr-3.5 pl-4 mt-3 w-full">
-    <h2 class="p-2.5 ml-4 text-lg font-semibold text-black bg-red-50 rounded-tr-xl rounded-tl-xl inline-block">
-      Mới cập nhật
-    </h2>
-
-    <div class="flex flex-col mt-3 w-full">
-      <article class="flex gap-3 items-end w-full">
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/70123c7c239ebee31f002c0ecab392aa4d7d73bd7c93847b54030d562514fdae"
-          alt="Book cover"
-          class="object-contain shrink-0 rounded-lg aspect-[0.81] w-[121px]"
-        />
-        <div class="flex flex-col flex-1 shrink basis-0 min-w-60">
-          <span
-            class="gap-2.5 self-start p-0.5 text-base font-medium text-black whitespace-nowrap bg-red-400 rounded-sm"
-            >Full</span
-          >
-          <h3
-            class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-xl font-medium text-orange-darker"
-          >
-            Thiên quan tứ phúc
-          </h3>
-          <div class="flex gap-1 items-start self-start mt-2">
-            <div class="flex items-end" aria-label="Rating: 4 stars">
-              <span class="flex shrink-0 w-4 h-4">★</span>
-              <span class="flex shrink-0 w-4 h-4">★</span>
-              <span class="flex shrink-0 w-4 h-4">★</span>
-              <span class="flex shrink-0 w-4 h-4">★</span>
-              <span class="flex shrink-0 w-4 h-4">★</span>
-            </div>
-            <span class="text-xs text-black">4</span>
-          </div>
-          <div
-            class="flex gap-2.5 justify-center items-center mt-2 w-full text-black"
-          >
-            <p class="flex-1 shrink self-stretch my-auto text-base basis-0">
-              Chương 120
-            </p>
-            <time class="self-stretch my-auto text-xs">10 tiếng trước</time>
-          </div>
-          <div
-            class="flex gap-2.5 justify-center items-center mt-2 w-full text-black"
-          >
-            <p class="flex-1 shrink self-stretch my-auto text-base basis-0">
-              Chương 120
-            </p>
-            <time class="self-stretch my-auto text-xs">2 ngày trước</time>
+            </article>
+            <article class="story-card-3">
+              <img
+                class="image-3"
+                src="https://c.animaapp.com/Bio2gXdc/img/image-7-6@2x.png"
+                alt="Bìa truyện Mùa Hạ Năm Ấy"
+              />
+              <div class="tag"><span class="text-wrapper-8">Full</span></div>
+              <div class="infor-2">
+                <h3 class="div-wrapper-3"><span class="text-wrapper-9">Mùa Hạ Năm Ấy</span></h3>
+                <div class="div-8">
+                  <div class="rate" aria-label="Đánh giá 4 sao">
+                    <img class="star" src="https://c.animaapp.com/Bio2gXdc/img/star-28.svg" alt="Sao đầy" />
+                    <img class="star" src="https://c.animaapp.com/Bio2gXdc/img/star-28.svg" alt="Sao đầy" />
+                    <img class="star" src="https://c.animaapp.com/Bio2gXdc/img/star-28.svg" alt="Sao đầy" />
+                    <img class="star" src="https://c.animaapp.com/Bio2gXdc/img/star-28.svg" alt="Sao đầy" />
+                    <img class="star" src="https://c.animaapp.com/Bio2gXdc/img/star-29.svg" alt="Sao rỗng" />
+                  </div>
+                  <span class="text-wrapper-10">4</span>
+                </div>
+                <p class="div-wrapper-3"><span class="text-wrapper-11">Chương 12</span></p>
+              </div>
+            </article>
+            <article class="story-card-3">
+              <img
+                class="image-2"
+                src="https://c.animaapp.com/Bio2gXdc/img/image-7-8@2x.png"
+                alt="Bìa truyện Thiên quan tứ phúc"
+              />
+              <div class="tag"><span class="text-wrapper-8">Full</span></div>
+              <div class="infor-2">
+                <h3 class="div-wrapper-3"><span class="text-wrapper-9">Thiên quan tứ phúc</span></h3>
+                <div class="div-8">
+                  <div class="rate" aria-label="Đánh giá 4 sao">
+                    <img class="star" src="https://c.animaapp.com/Bio2gXdc/img/star-28.svg" alt="Sao đầy" />
+                    <img class="star" src="https://c.animaapp.com/Bio2gXdc/img/star-28.svg" alt="Sao đầy" />
+                    <img class="star" src="https://c.animaapp.com/Bio2gXdc/img/star-28.svg" alt="Sao đầy" />
+                    <img class="star" src="https://c.animaapp.com/Bio2gXdc/img/star-28.svg" alt="Sao đầy" />
+                    <img class="star" src="https://c.animaapp.com/Bio2gXdc/img/star-29.svg" alt="Sao rỗng" />
+                  </div>
+                  <span class="text-wrapper-10">4</span>
+                </div>
+                <p class="div-wrapper-3"><span class="text-wrapper-11">Số chữ: 24.7K</span></p>
+              </div>
+            </article>
+            <article class="story-card-3">
+              <img
+                class="image-2"
+                src="https://c.animaapp.com/Bio2gXdc/img/image-7-8@2x.png"
+                alt="Bìa truyện Thiên quan tứ phúc"
+              />
+              <div class="tag"><span class="text-wrapper-8">Full</span></div>
+              <div class="infor-2">
+                <h3 class="div-wrapper-3"><span class="text-wrapper-9">Thiên quan tứ phúc</span></h3>
+                <div class="div-8">
+                  <div class="rate" aria-label="Đánh giá 4 sao">
+                    <img class="star" src="https://c.animaapp.com/Bio2gXdc/img/star-28.svg" alt="Sao đầy" />
+                    <img class="star" src="https://c.animaapp.com/Bio2gXdc/img/star-28.svg" alt="Sao đầy" />
+                    <img class="star" src="https://c.animaapp.com/Bio2gXdc/img/star-28.svg" alt="Sao đầy" />
+                    <img class="star" src="https://c.animaapp.com/Bio2gXdc/img/star-28.svg" alt="Sao đầy" />
+                    <img class="star" src="https://c.animaapp.com/Bio2gXdc/img/star-29.svg" alt="Sao rỗng" />
+                  </div>
+                  <span class="text-wrapper-10">4</span>
+                </div>
+                <p class="div-wrapper-3"><span class="text-wrapper-11">Số chữ: 24.7K</span></p>
+              </div>
+            </article>
           </div>
         </div>
-      </article>
-
-      <!-- Additional recently updated books -->
-      <!-- Following the same pattern -->
-    </div>
-
-    <nav
-      class="flex gap-0.5 items-center self-center mt-5 text-base font-medium text-center text-black whitespace-nowrap"
-      aria-label="Pagination"
-    >
-      <button
-        class="self-stretch px-0.5 my-auto text-black bg-red-400 rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
-        aria-current="page"
-      >
-        1
-      </button>
-      <button
-        class="self-stretch px-0.5 my-auto bg-red-50 rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
-      >
-        2
-      </button>
-      <button
-        class="self-stretch px-0.5 my-auto bg-red-50 rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
-      >
-        3
-      </button>
-      <span
-        class="self-stretch px-0.5 my-auto bg-red-50 rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
-        >...</span
-      >
-      <button
-        class="self-stretch px-0.5 my-auto bg-red-50 rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
-      >
-        10
-      </button>
-      <button
-        class="self-stretch px-0.5 my-auto bg-red-50 rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
-      >
-        20
-      </button>
-      <button
-        class="self-stretch px-0.5 my-auto bg-red-50 rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
-      >
-        30
-      </button>
-      <span
-        class="self-stretch px-0.5 my-auto bg-red-50 rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
-        >...</span
-      >
-      <button
-        class="self-stretch px-0.5 my-auto bg-red-50 rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
-        aria-label="Next page"
-      >
-        &gt;
-      </button>
-    </nav>
-  </section>
-
-  <section class="flex flex-col py-4 pr-3.5 pl-4 w-full bg-white">
-    <h2
-      class="gap-2.5 self-start p-2.5 text-lg font-semibold text-black bg-red-50 rounded-xl"
-    >
-      Nổi bật
-    </h2>
-
-    <nav
-      class="flex gap-2.5 justify-center items-start mt-3 w-full text-lg font-semibold text-black whitespace-nowrap"
-      aria-label="Time period filters"
-    >
-      <button
-        class="gap-2.5 self-stretch p-2.5 text-black bg-red-400 rounded-xl"
-        aria-current="true"
-      >
-        Ngày
-      </button>
-      <button class="gap-2.5 self-stretch p-2.5 bg-red-50 rounded-xl">
-        Tuần
-      </button>
-      <button class="gap-2.5 self-stretch p-2.5 bg-red-50 rounded-xl">
-        Tháng
-      </button>
-      <button class="gap-2.5 self-stretch p-2.5 bg-red-50 rounded-xl">
-        Năm
-      </button>
-    </nav>
-
-    <div class="flex flex-col mt-3 w-full">
-      <!-- Popular books list -->
-      <article class="flex gap-3 items-center self-center w-full max-w-[394px]">
-        <span
-          class="gap-2.5 self-stretch px-0.5 my-auto w-6 h-6 text-base font-medium text-center text-black whitespace-nowrap rounded-sm border border-solid border-[color:var(--Foundation-Red-Normal,#D56665)]"
-          >1</span
-        >
-        <img
-          loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/f0d6d9582b00b42a2e7eb5e8f58f8647a70a3296b33d2e8b1e3e9bc724fd8082"
-          alt="Book cover"
-          class="object-contain shrink-0 self-stretch my-auto rounded-lg aspect-[0.81] w-[84px]"
-        />
-        <div
-          class="flex flex-col flex-1 shrink self-stretch my-auto basis-0 min-w-60"
-        >
-          <h3
-            class="flex-1 shrink gap-2.5 self-stretch w-full text-xl font-medium text-black"
-          >
-            Thiên quan tứ phúc
-          </h3>
-          <p
-            class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-base text-black"
-          >
-            Thể loại: HE, hắc đạo
-          </p>
-          <div class="flex gap-1 items-start self-start mt-2">
-            <div class="flex items-end" aria-label="Rating: 4 stars">
-              <span class="flex shrink-0 w-4 h-4">★</span>
-              <span class="flex shrink-0 w-4 h-4">★</span>
-              <span class="flex shrink-0 w-4 h-4">★</span>
-              <span class="flex shrink-0 w-4 h-4">★</span>
-              <span class="flex shrink-0 w-4 h-4">★</span>
-            </div>
-            <span class="text-xs text-black">4</span>
-          </div>
-          <p
-            class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-base text-black"
-          >
-            Chương 120
-          </p>
-        </div>
-      </article>
-
-      <!-- Additional popular books following the same pattern -->
-    </div>
-  </section>
-</main>
-
-<?php get_footer(); ?>
+      </section>
+    </main>
+  </body>
+</html>
