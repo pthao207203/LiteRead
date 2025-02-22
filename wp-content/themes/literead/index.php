@@ -226,9 +226,9 @@
       </div>
     </div>
 
-    <section class="flex flex-col lg:flex-row gap-6 mt-[12px] lg:mt-[24px] w-full bg-orange-light">
+    <section class="flex flex-col lg:flex-row gap-6 mt-[12px] lg:mt-[24px] w-full lg:bg-orange-light">
       <!-- Mới cập nhật (8/12) -->
-      <div class="w-full lg:w-8/12 bg-white">
+      <div class="w-full lg:w-8/12 bg-white pb-[12px] lg:pb-[24px]">
         <h2
           class="gap-2.5 self-start p-[10px] lg:px-[20px] mx-[17px] lg:mx-[34px] text-[18px] lg:text-[2.25rem] font-semibold text-red-normal bg-red-light rounded-[12px] inline-block"
         >
@@ -529,13 +529,13 @@
       </div>
 
       <!-- 🌟 Nổi bật (4/12) -->
-      <div class="w-full lg:w-4/12 bg-red-light bg-white px-[17px] lg:px-[34px] ">
+      <div class="w-full lg:w-4/12 bg-red-light bg-white px-[17px] lg:px-[34px] mt-[12px] lg:mt-[0]">
           <h2
             class="bg-red-light rounded-[12px] inline-block self-start p-[10px] lg:px-[20px] text-[18px] lg:text-[2.25rem] font-semibold text-red-normal "
           >Nổi bật</h2>
         
 
-        <div class="flex gap-2.5 justify-center items-start mt-[24px] w-full text-lg font-semibold text-red-normal whitespace-nowrap" role="tablist">
+        <div class="flex gap-2.5 justify-center items-start mt-[12px] lg:mt-[24px] w-full text-lg font-semibold text-red-normal whitespace-nowrap" role="tablist">
         <button
           class="gap-2.5 self-stretch py-[10px] px-[8px] text-red-light bg-red-normal rounded-[12px] text-[18px] lg:text-[1.75rem] font-semibold"
           role="tab"
@@ -563,9 +563,9 @@
         </button>
       </div>
 
-      <div class="mt-[24px] w-full" role="tabpanel">
+      <div class="mt-[12px] lg:mt-[24px] w-full" role="tabpanel">
         <!-- Trending Stories -->
-        <article class="flex gap-3 items-center w-full mb-[24px]">
+        <article class="flex gap-3 items-center w-full mb-[12px] lg:mb-[24px]">
           <span
             class="gap-2.5 self-stretch  my-auto w-[30px] h-[30px] text-[16px] lg:text-[2rem] font-medium text-center text-red-normal whitespace-nowrap rounded-[2px] border" style="border-color: #D56665 !important;"
             >1</span
@@ -607,7 +607,7 @@
           </div>
         </article>
         
-        <article class="flex gap-3 items-center w-full mb-[24px]">
+        <article class="flex gap-3 items-center w-full mb-[12px] lg:mb-[24px]">
           <span
             class="gap-2.5 self-stretch  my-auto w-[30px] h-[30px] text-[16px] lg:text-[2rem] font-medium text-center text-red-normal whitespace-nowrap rounded-[2px] border" style="border-color: #D56665 !important;"
             >2</span
@@ -648,7 +648,7 @@
             </p>
           </div>
         </article>
-        <article class="flex gap-3 items-center w-full mb-[24px]">
+        <article class="flex gap-3 items-center w-full mb-[12px] lg:mb-[24px]">
           <span
             class="gap-2.5 self-stretch  my-auto w-[30px] h-[30px] text-[16px] lg:text-[2rem] font-medium text-center text-red-normal whitespace-nowrap rounded-[2px] border" style="border-color: #D56665 !important;"
             >3</span
