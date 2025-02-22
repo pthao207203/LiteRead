@@ -81,7 +81,7 @@
   <section class="relative z-10 pt-[17px] lg:pt-[34px] mt-0 w-full bg-white rounded-[20px]">
     <div class="flex flex-col w-full rounded-none">
       <!-- Tiêu đề -->
-      <h2 class="gap-2.5 self-start p-[10px] lg:p-[20px] ml-[17px] lg:ml-[34px] mb-[-3px] text-[18px] lg:text-[2.25rem] font-semibold text-red-normal bg-red-light rounded-tl-[12px] rounded-tr-[12px]">
+      <h2 class="gap-2.5 self-start p-[10px] lg:px-[20px] ml-[17px] lg:ml-[34px] mb-[-3px] text-[18px] lg:text-[2.25rem] font-semibold text-red-normal bg-red-light rounded-tl-[12px] rounded-tr-[12px]">
         Truyện đề cử
       </h2>
 
@@ -98,11 +98,11 @@
             </h3>
             <div class="flex gap-1 items-start self-start mt-[4px] ">
               <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
               </div>
               <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[6px]">4</span>
             </div>
@@ -121,11 +121,11 @@
             </h3>
             <div class="flex gap-1 items-start self-start mt-[4px] ">
               <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
               </div>
               <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[6px]">4</span>
             </div>
@@ -143,11 +143,11 @@
             </h3>
             <div class="flex gap-1 items-start self-start mt-[4px] ">
               <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
               </div>
               <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[6px]">4</span>
             </div>
@@ -165,11 +165,11 @@
             </h3>
             <div class="flex gap-1 items-start self-start mt-[4px] ">
               <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
               </div>
               <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[6px]">4</span>
             </div>
@@ -187,11 +187,11 @@
             </h3>
             <div class="flex gap-1 items-start self-start mt-[4px] ">
               <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
               </div>
               <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[6px]">4</span>
             </div>
@@ -209,11 +209,11 @@
             </h3>
             <div class="flex gap-1 items-start self-start mt-[4px] ">
               <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
               </div>
               <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[6px]">4</span>
             </div>
@@ -226,372 +226,464 @@
       </div>
     </div>
 
+    <section class="flex flex-col lg:flex-row gap-6 mt-[12px] lg:mt-[24px] w-full bg-orange-light">
+      <!-- Mới cập nhật (8/12) -->
+      <div class="w-full lg:w-8/12 bg-white">
+        <h2
+          class="gap-2.5 self-start p-[10px] lg:px-[20px] mx-[17px] lg:mx-[34px] text-[18px] lg:text-[2.25rem] font-semibold text-red-normal bg-red-light rounded-[12px] inline-block"
+        >
+          Mới cập nhật
+        </h2>
 
-
-    <section class="flex flex-col px-[17px] mt-[12px] w-full">
-      <h2
-        class="gap-2.5 self-start p-[10px] text-[18px] font-semibold text-red-normal bg-red-light rounded-xl"
-      >
-        Mới cập nhật
-      </h2>
-
-      <div class="flex flex-col mt-[12px] w-full" role="list">
-        <!-- Updated Story Cards -->
-        <article class="flex gap-3 items-end w-full " role="listitem">
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/70123c7c239ebee31f002c0ecab392aa4d7d73bd7c93847b54030d562514fdae"
-            alt="Story thumbnail"
-            class="object-contain shrink-0 rounded-lg aspect-[0.81] w-[121px]"
-          />
-          <div class="flex flex-col flex-1 shrink basis-0 min-w-60">
-            <span
-              class="gap-2.5 self-start px-[2px] text-[16px] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]"
-              >Full</span
-            >
-            <h3
-              class="flex-1 shrink gap-2.5 self-stretch mt-[8px] w-full text-[20px] font-medium basis-0 text-orange-darker"
-            >
-              Thiên quan tứ phúc
-            </h3>
-            <div class="flex gap-1 items-start self-start mt-[8px] mb-[-4px]">
-              <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
+        <div class="grid grid-cols-1 lg:grid-cols-2 mx-[17px] lg:mx-[34px] gap-6" role="list">
+          <!-- 🔄 Story Card 1 -->
+          <article class="flex gap-3 mt-[12px] lg:mt-[24px] items-end w-full lg:max-w-[38rem]" role="listitem">
+            <img
+              loading="lazy"
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/70123c7c239ebee31f002c0ecab392aa4d7d73bd7c93847b54030d562514fdae"
+              alt="Story thumbnail"
+              class="object-contain shrink-0 rounded-lg aspect-[0.81] w-[121px] lg:w-[12,5rem]"
+            />
+            <div class="flex flex-col flex-1 shrink basis-0 min-w-60">
+              <span
+                class="gap-2.5 self-start px-[2px] text-[12px] lg:text-[1.5rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]"
+                >Full</span
+              >
+              <h3
+                class="flex-1 shrink gap-2.5 self-stretch mt-[8px] w-full text-[16px] lg:text-[2rem] font-medium basis-0 text-orange-darker"
+              >
+                Thiên quan tứ phúc
+              </h3>
+              <div class="flex gap-1 items-start self-start mt-[4px] ">
+                <div class="flex items-start" aria-label="Rating: 4 out of 5">
+                  <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                  <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                  <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                  <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                  <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                </div>
+                <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[6px]">4</span>
               </div>
-              <span class="text-[12px] text-regular text-red-normal mt-[-1px]">4</span>
-            </div>
-            <div class="flex justify-between items-center mt-[8px] mb-[-4px] w-full">
-              <p class="text-[16px] text-red-normal text-regular">
-                Chương 20
-              </p>
-              <p class="text-[12px] text-red-normal text-regular">
-                10 tiếng trước
-              </p>
-            </div>
-
-            <div class="flex justify-between items-center mt-[8px] mb-[-4px] w-full">
-              <p class="text-[16px] text-red-normal text-regular">
-                Chương 19
-              </p>
-              <p class="text-[12px] text-red-normal text-regular">
-                2 ngày trước
-              </p>
-            </div>
-          </div>
-        </article>
-
-        <article class="flex gap-3 mt-[12px] items-end w-full " role="listitem">
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/70123c7c239ebee31f002c0ecab392aa4d7d73bd7c93847b54030d562514fdae"
-            alt="Story thumbnail"
-            class="object-contain shrink-0 rounded-lg aspect-[0.81] w-[121px]"
-          />
-          <div class="flex flex-col flex-1 shrink basis-0 min-w-60">
-            <span
-              class="gap-2.5 self-start px-[2px] text-[16px] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]"
-              >Full</span
-            >
-            <h3
-              class="flex-1 shrink gap-2.5 self-stretch mt-[8px] w-full text-[20px] font-medium basis-0 text-orange-darker"
-            >
-              Thiên quan tứ phúc
-            </h3>
-            <div class="flex gap-1 items-start self-start mt-[8px] mb-[-4px]">
-              <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
+              <div class="flex justify-between items-center mt-[8px] mb-[-4px] w-full">
+                <p class="text-[14px] lg:text-[1.75rem] text-red-normal text-regular">
+                  Chương 20
+                </p>
+                <p class="text-[12px] lg:text-[1.5rem] text-red-normal text-regular">
+                  10 tiếng trước
+                </p>
               </div>
-              <span class="text-[12px] text-regular text-red-normal mt-[-1px]">4</span>
-            </div>
-            <div class="flex justify-between items-center mt-[8px] mb-[-4px] w-full">
-              <p class="text-[16px] text-red-normal text-regular">
-                Chương 20
-              </p>
-              <p class="text-[12px] text-red-normal text-regular">
-                10 tiếng trước
-              </p>
-            </div>
 
-            <div class="flex justify-between items-center mt-[8px] mb-[-4px] w-full">
-              <p class="text-[16px] text-red-normal text-regular">
-                Chương 19
-              </p>
-              <p class="text-[12px] text-red-normal text-regular">
-                2 ngày trước
-              </p>
-            </div>
-          </div>
-        </article>
-
-        <article class="flex gap-3 mt-[18px] items-end w-full " role="listitem">
-          <img
-            loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/70123c7c239ebee31f002c0ecab392aa4d7d73bd7c93847b54030d562514fdae"
-            alt="Story thumbnail"
-            class="object-contain shrink-0 rounded-lg aspect-[0.81] w-[121px]"
-          />
-          <div class="flex flex-col flex-1 shrink basis-0 min-w-60">
-            <span
-              class="gap-2.5 self-start px-[2px] text-[16px] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]"
-              >Full</span
-            >
-            <h3
-              class="flex-1 shrink gap-2.5 self-stretch mt-[8px] w-full text-[20px] font-medium basis-0 text-orange-darker"
-            >
-              Thiên quan tứ phúc
-            </h3>
-            <div class="flex gap-1 items-start self-start mt-[8px] mb-[-4px]">
-              <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
+              <div class="flex justify-between items-center mt-[8px] mb-[-4px] w-full">
+                <p class="text-[14px] lg:text-[1.75rem] text-red-normal text-regular">
+                  Chương 19
+                </p>
+                <p class="text-[12px] lg:text-[1.5rem] text-red-normal text-regular">
+                  2 ngày trước
+                </p>
               </div>
-              <span class="text-[12px] text-regular text-red-normal mt-[-1px]">4</span>
             </div>
-            <div class="flex justify-between items-center mt-[8px] mb-[-4px] w-full">
-              <p class="text-[16px] text-red-normal text-regular">
-                Chương 20
-              </p>
-              <p class="text-[12px] text-red-normal text-regular">
-                10 tiếng trước
-              </p>
-            </div>
+          </article>
 
-            <div class="flex justify-between items-center mt-[8px] mb-[-4px] w-full">
-              <p class="text-[16px] text-red-normal text-regular">
-                Chương 19
-              </p>
-              <p class="text-[12px] text-red-normal text-regular">
-                2 ngày trước
-              </p>
-            </div>
-          </div>
-        </article>
+          <!-- 🔄 Story Card 2 -->
+          <article class="flex gap-3 mt-[12px] lg:mt-[24px] items-end w-full lg:max-w-[38rem]" role="listitem">
+            <img
+              loading="lazy"
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/70123c7c239ebee31f002c0ecab392aa4d7d73bd7c93847b54030d562514fdae"
+              alt="Story thumbnail"
+              class="object-contain shrink-0 rounded-lg aspect-[0.81] w-[121px] lg:w-[12,5rem"
+            />
+            <div class="flex flex-col flex-1 shrink basis-0 min-w-60">
+              <span
+                class="gap-2.5 self-start px-[2px] text-[12px] lg:text-[1.5rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]"
+                >Full</span
+              >
+              <h3
+                class="flex-1 shrink gap-2.5 self-stretch mt-[8px] w-full text-[16px] lg:text-[2rem] font-medium basis-0 text-orange-darker"
+              >
+                Thiên quan tứ phúc
+              </h3>
+              <div class="flex gap-1 items-start self-start mt-[4px] ">
+                <div class="flex items-start" aria-label="Rating: 4 out of 5">
+                  <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                  <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                  <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                  <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                  <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                </div>
+                <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[6px]">4</span>
+              </div>
+              <div class="flex justify-between items-center mt-[8px] mb-[-4px] w-full">
+                <p class="text-[14px] lg:text-[1.75rem] text-red-normal text-regular">
+                  Chương 20
+                </p>
+                <p class="text-[12px] lg:text-[1.5rem] text-red-normal text-regular">
+                  10 tiếng trước
+                </p>
+              </div>
 
+              <div class="flex justify-between items-center mt-[8px] mb-[-4px] w-full">
+                <p class="text-[14px] lg:text-[1.75rem] text-red-normal text-regular">
+                  Chương 19
+                </p>
+                <p class="text-[12px] lg:text-[1.5rem] text-red-normal text-regular">
+                  2 ngày trước
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <article class="flex gap-3 mt-[12px] lg:mt-[24px] items-end w-full lg:max-w-[38rem]" role="listitem">
+            <img
+              loading="lazy"
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/70123c7c239ebee31f002c0ecab392aa4d7d73bd7c93847b54030d562514fdae"
+              alt="Story thumbnail"
+              class="object-contain shrink-0 rounded-lg aspect-[0.81] w-[121px] lg:w-[12,5rem]"
+            />
+            <div class="flex flex-col flex-1 shrink basis-0 min-w-60">
+              <span
+                class="gap-2.5 self-start px-[2px] text-[12px] lg:text-[1.5rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]"
+                >Full</span
+              >
+              <h3
+                class="flex-1 shrink gap-2.5 self-stretch mt-[8px] w-full text-[16px] lg:text-[2rem] font-medium basis-0 text-orange-darker"
+              >
+                Thiên quan tứ phúc
+              </h3>
+              <div class="flex gap-1 items-start self-start mt-[4px] ">
+                <div class="flex items-start" aria-label="Rating: 4 out of 5">
+                  <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                  <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                  <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                  <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                  <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                </div>
+                <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[6px]">4</span>
+              </div>
+              <div class="flex justify-between items-center mt-[8px] mb-[-4px] w-full">
+                <p class="text-[14px] lg:text-[1.75rem] text-red-normal text-regular">
+                  Chương 20
+                </p>
+                <p class="text-[12px] lg:text-[1.5rem] text-red-normal text-regular">
+                  10 tiếng trước
+                </p>
+              </div>
+
+              <div class="flex justify-between items-center mt-[8px] mb-[-4px] w-full">
+                <p class="text-[14px] lg:text-[1.75rem] text-red-normal text-regular">
+                  Chương 19
+                </p>
+                <p class="text-[12px] lg:text-[1.5rem] text-red-normal text-regular">
+                  2 ngày trước
+                </p>
+              </div>
+            </div>
+          </article>
+          <article class="flex gap-3 mt-[12px] lg:mt-[24px] items-end w-full lg:max-w-[38rem]" role="listitem">
+            <img
+              loading="lazy"
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/70123c7c239ebee31f002c0ecab392aa4d7d73bd7c93847b54030d562514fdae"
+              alt="Story thumbnail"
+              class="object-contain shrink-0 rounded-lg aspect-[0.81] w-[121px] lg:w-[12,5rem]"
+            />
+            <div class="flex flex-col flex-1 shrink basis-0 min-w-60">
+              <span
+                class="gap-2.5 self-start px-[2px] text-[12px] lg:text-[1.5rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]"
+                >Full</span
+              >
+              <h3
+                class="flex-1 shrink gap-2.5 self-stretch mt-[8px] w-full text-[16px] lg:text-[2rem] font-medium basis-0 text-orange-darker"
+              >
+                Thiên quan tứ phúc
+              </h3>
+              <div class="flex gap-1 items-start self-start mt-[4px] ">
+                <div class="flex items-start" aria-label="Rating: 4 out of 5">
+                  <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                  <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                  <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                  <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                  <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                </div>
+                <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[6px]">4</span>
+              </div>
+              <div class="flex justify-between items-center mt-[8px] mb-[-4px] w-full">
+                <p class="text-[14px] lg:text-[1.75rem] text-red-normal text-regular">
+                  Chương 20
+                </p>
+                <p class="text-[12px] lg:text-[1.5rem] text-red-normal text-regular">
+                  10 tiếng trước
+                </p>
+              </div>
+
+              <div class="flex justify-between items-center mt-[8px] mb-[-4px] w-full">
+                <p class="text-[14px] lg:text-[1.75rem] text-red-normal text-regular">
+                  Chương 19
+                </p>
+                <p class="text-[12px] lg:text-[1.5rem] text-red-normal text-regular">
+                  2 ngày trước
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <article class="flex gap-3 mt-[12px] lg:mt-[24px] items-end w-full lg:max-w-[38rem]" role="listitem">
+            <img
+              loading="lazy"
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/70123c7c239ebee31f002c0ecab392aa4d7d73bd7c93847b54030d562514fdae"
+              alt="Story thumbnail"
+              class="object-contain shrink-0 rounded-lg aspect-[0.81] w-[121px] lg:w-[12,5rem]"
+            />
+            <div class="flex flex-col flex-1 shrink basis-0 min-w-60">
+              <span
+                class="gap-2.5 self-start px-[2px] text-[12px] lg:text-[1.5rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]"
+                >Full</span
+              >
+              <h3
+                class="flex-1 shrink gap-2.5 self-stretch mt-[8px] w-full text-[16px] lg:text-[2rem] font-medium basis-0 text-orange-darker"
+              >
+                Thiên quan tứ phúc
+              </h3>
+              <div class="flex gap-1 items-start self-start mt-[4px] ">
+                <div class="flex items-start" aria-label="Rating: 4 out of 5">
+                  <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                  <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                  <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                  <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                  <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                </div>
+                <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[6px]">4</span>
+              </div>
+              <div class="flex justify-between items-center mt-[8px] mb-[-4px] w-full">
+                <p class="text-[14px] lg:text-[1.75rem] text-red-normal text-regular">
+                  Chương 20
+                </p>
+                <p class="text-[12px] lg:text-[1.5rem] text-red-normal text-regular">
+                  10 tiếng trước
+                </p>
+              </div>
+
+              <div class="flex justify-between items-center mt-[8px] mb-[-4px] w-full">
+                <p class="text-[14px] lg:text-[1.75rem] text-red-normal text-regular">
+                  Chương 19
+                </p>
+                <p class="text-[12px] lg:text-[1.5rem] text-red-normal text-regular">
+                  2 ngày trước
+                </p>
+              </div>
+            </div>
+          </article>
+
+
+          <!-- Thêm nhiều Story Card khác tại đây nếu cần -->
+        </div>
         <!-- Pagination -->
         <nav
-          class="flex gap-0.5 items-center self-center mt-5 text-base font-medium text-center text-red-normal whitespace-nowrap"
+          class="flex gap-[4px] lg:gap-[8px] self-center justify-center mt-5 text-base font-medium text-center text-red-normal whitespace-nowrap"
           aria-label="Pagination"
         >
           <button
-            class="self-stretch px-[2px] my-auto text-red-light text-medium text-[16px] bg-red-normal rounded-[8px] aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
+            class="self-stretch px-[2px] my-auto text-red-light text-medium text-[16px] lg:text-[2rem] bg-red-normal rounded-[8px] aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
             aria-current="page"
           >
             1
           </button>
           <button
-            class="self-stretch px-[2px] my-auto bg-red-light text-medium text-[16px] text-red-normal rounded-[8px] aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
+            class="self-stretch px-[2px] my-auto bg-red-light text-medium text-[16px] lg:text-[2rem] text-red-normal rounded-[8px] aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
           >
             2
           </button>
           <button
-            class="self-stretch px-[2px] my-auto bg-red-light text-medium text-[16px] text-red-normal rounded-[8px] aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
+            class="self-stretch px-[2px] my-auto bg-red-light text-medium text-[16px] lg:text-[2rem] text-red-normal rounded-[8px] aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
           >
             3
           </button>
           <span
-            class="self-stretch px-[2px] my-auto bg-red-light text-medium text-[16px] text-red-normal rounded-[8px] aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
+            class="self-stretch px-[2px] my-auto bg-red-light text-medium text-[16px] lg:text-[2rem] text-red-normal rounded-[8px] aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
             >...</span
           >
           <button
-            class="self-stretch px-[2px] my-auto bg-red-light text-medium text-[16px] text-red-normal rounded-[8px] aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
+            class="self-stretch px-[2px] my-auto bg-red-light text-medium text-[16px] lg:text-[2rem] text-red-normal rounded-[8px] aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
           >
             10
           </button>
           <button
-            class="self-stretch px-[2px] my-auto bg-red-light text-medium text-[16px] text-red-normal rounded-[8px] aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
+            class="self-stretch px-[2px] my-auto bg-red-light text-medium text-[16px] lg:text-[2rem] text-red-normal rounded-[8px] aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
           >
             20
           </button>
           <button
-            class="self-stretch px-[2px] my-auto bg-red-light text-medium text-[16px] text-red-normal rounded-[8px] aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
+            class="self-stretch px-[2px] my-auto bg-red-light text-medium text-[16px] lg:text-[2rem] text-red-normal rounded-[8px] aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
           >
             30
           </button>
           <span
-            class="self-stretch px-[2px] my-auto bg-red-light text-medium text-[16px] text-red-normal rounded-[8px] aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
+            class="self-stretch px-[2px] my-auto bg-red-light text-medium text-[16px] lg:text-[2rem] text-red-normal rounded-[8px] aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
             >...</span
           >
           <button
-            class="self-stretch px-[2px] my-auto bg-red-light text-medium text-[16px] text-red-normal rounded-[8px] aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
+            class="self-stretch px-[2px] my-auto bg-red-light text-medium text-[16px] lg:text-[2rem] text-red-normal rounded-[8px] aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
             aria-label="Next page"
           >
             >
           </button>
         </nav>
       </div>
-    </section>
 
-    <section class="flex flex-col p-[17px] w-full bg-white">
-      <h2
-        class="gap-2.5 self-start p-[10px] text-[18px] font-semibold text-red-normal bg-red-light rounded-xl"
-      >
-        Nổi bật
-      </h2>
+      <!-- 🌟 Nổi bật (4/12) -->
+      <div class="w-full lg:w-4/12 bg-red-light bg-white px-[17px] lg:px-[34px] ">
+          <h2
+            class="bg-red-light rounded-[12px] inline-block self-start p-[10px] lg:px-[20px] text-[18px] lg:text-[2.25rem] font-semibold text-red-normal "
+          >Nổi bật</h2>
+        
 
-      <div
-        class="flex gap-2.5 justify-center items-start mt-3 w-full text-lg font-semibold text-red-normal whitespace-nowrap"
-        role="tablist"
-      >
+        <div class="flex gap-2.5 justify-center items-start mt-[24px] w-full text-lg font-semibold text-red-normal whitespace-nowrap" role="tablist">
         <button
-          class="gap-2.5 self-stretch py-[10px] px-[8px] text-red-light bg-red-normal rounded-[12px] text-[18px] font-semibold"
+          class="gap-2.5 self-stretch py-[10px] px-[8px] text-red-light bg-red-normal rounded-[12px] text-[18px] lg:text-[1.75rem] font-semibold"
           role="tab"
           aria-selected="true"
         >
           Ngày
         </button>
         <button
-          class="gap-2.5 self-stretch py-[10px] px-[8px] bg-red-light rounded-[12px] text-[18px] font-semibold"
+          class="gap-2.5 self-stretch py-[10px] px-[8px] bg-red-light rounded-[12px] text-[18px] lg:text-[1.75rem] font-semibold"
           role="tab"
         >
           Tuần
         </button>
         <button
-          class="gap-2.5 self-stretch py-[10px] px-[8px] bg-red-light rounded-[12px] text-[18px] font-semibold"
+          class="gap-2.5 self-stretch py-[10px] px-[8px] bg-red-light rounded-[12px] text-[18px] lg:text-[1.75rem] font-semibold"
           role="tab"
         >
           Tháng
         </button>
         <button
-          class="gap-2.5 self-stretch py-[10px] px-[8px] bg-red-light rounded-[12px] text-[18px] font-semibold"
+          class="gap-2.5 self-stretch py-[10px] px-[8px] bg-red-light rounded-[12px] text-[18px] lg:text-[1.75rem] font-semibold"
           role="tab"
         >
           Năm
         </button>
       </div>
 
-      <div class="mt-3 w-full" role="tabpanel">
+      <div class="mt-[24px] w-full" role="tabpanel">
         <!-- Trending Stories -->
-        <article class="flex gap-3 items-center w-full mb-5">
+        <article class="flex gap-3 items-center w-full mb-[24px]">
           <span
-            class="gap-2.5 self-stretch  my-auto w-[1.5rem] h-[1.5rem] text-[16px] font-medium text-center text-red-normal whitespace-nowrap rounded-[2px] border" style="border-color: #D56665 !important;"
+            class="gap-2.5 self-stretch  my-auto w-[30px] h-[30px] text-[16px] lg:text-[2rem] font-medium text-center text-red-normal whitespace-nowrap rounded-[2px] border" style="border-color: #D56665 !important;"
             >1</span
           >
           <img
             loading="lazy"
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/cb5b10fca047125b9225596f15a42d2b2fb7a3a9bcb118b51677934c02dbee35"
             alt="Trending story thumbnail"
-            class="object-contain shrink-0 self-stretch my-auto rounded-lg aspect-[0.81] w-[84px]"
+            class="object-contain shrink-0 self-stretch my-auto rounded-lg aspect-[0.81] w-[84px] lg:w-[10rem]"
           />
           <div
             class="flex flex-col flex-1 shrink self-stretch my-auto basis-0 min-w-60"
           >
             <h3
-              class="flex-1 shrink gap-2.5 self-stretch w-full text-[20px] font-medium basis-0 text-orange-darker"
+              class="flex-1 shrink gap-2.5 self-stretch w-full text-[16px] lg:text-[1.75rem] font-medium basis-0 text-orange-darker"
             >
               Thiên quan tứ phúc
             </h3>
             <p
-              class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[16px] text-regular text-red-normal basis-0"
+              class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[16px] lg:text-[1.75rem] text-regular text-red-normal basis-0"
             >
               Thể loại: HE, hắc đạo
             </p>
-            <div class="flex gap-1 items-start self-start mt-[4px] mb-[-4px]">
+            <div class="flex gap-1 items-start self-start mt-[4px] ">
               <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.25rem] lg:h-[1.75rem] text-[16px] lg:text-[1.5rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.25rem] lg:h-[1.75rem] text-[16px] lg:text-[1.5rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.25rem] lg:h-[1.75rem] text-[16px] lg:text-[1.5rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.25rem] lg:h-[1.75rem] text-[16px] lg:text-[1.5rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.25rem] lg:h-[1.75rem] text-[16px] lg:text-[1.5rem]">★</span>
               </div>
-              <span class="text-[12px] text-regular text-red-normal mt-[-1px]">4</span>
+              <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal">4</span>
             </div>
             <p
-              class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[16px] text-red-normal basis-0"
+              class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[16px] lg:text-[1.25rem] text-red-normal basis-0"
             >
               Số chữ: 24.7K
             </p>
           </div>
         </article>
         
-        <article class="flex gap-3 items-center w-full mb-5">
+        <article class="flex gap-3 items-center w-full mb-[24px]">
           <span
-            class="gap-2.5 self-stretch  my-auto w-[1.5rem] h-[1.5rem] text-[16px] font-medium text-center text-red-normal whitespace-nowrap rounded-[2px] border" style="border-color: #D56665 !important;"
+            class="gap-2.5 self-stretch  my-auto w-[30px] h-[30px] text-[16px] lg:text-[2rem] font-medium text-center text-red-normal whitespace-nowrap rounded-[2px] border" style="border-color: #D56665 !important;"
             >2</span
           >
           <img
             loading="lazy"
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/cb5b10fca047125b9225596f15a42d2b2fb7a3a9bcb118b51677934c02dbee35"
             alt="Trending story thumbnail"
-            class="object-contain shrink-0 self-stretch my-auto rounded-lg aspect-[0.81] w-[84px]"
+            class="object-contain shrink-0 self-stretch my-auto rounded-lg aspect-[0.81] w-[84px] lg:w-[10rem]"
           />
           <div
             class="flex flex-col flex-1 shrink self-stretch my-auto basis-0 min-w-60"
           >
             <h3
-              class="flex-1 shrink gap-2.5 self-stretch w-full text-[20px] font-medium basis-0 text-orange-darker"
+              class="flex-1 shrink gap-2.5 self-stretch w-full text-[16px] lg:text-[1.75rem] font-medium basis-0 text-orange-darker"
             >
               Thiên quan tứ phúc
             </h3>
             <p
-              class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[16px] text-regular text-red-normal basis-0"
+              class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[16px] lg:text-[1.75rem] text-regular text-red-normal basis-0"
             >
               Thể loại: HE, hắc đạo
             </p>
-            <div class="flex gap-1 items-start self-start mt-[4px] mb-[-4px]">
+            <div class="flex gap-1 items-start self-start mt-[4px] ">
               <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.25rem] lg:h-[1.75rem] text-[16px] lg:text-[1.5rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.25rem] lg:h-[1.75rem] text-[16px] lg:text-[1.5rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.25rem] lg:h-[1.75rem] text-[16px] lg:text-[1.5rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.25rem] lg:h-[1.75rem] text-[16px] lg:text-[1.5rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.25rem] lg:h-[1.75rem] text-[16px] lg:text-[1.5rem]">★</span>
               </div>
-              <span class="text-[12px] text-regular text-red-normal mt-[-1px]">4</span>
+              <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal">4</span>
             </div>
             <p
-              class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[16px] text-red-normal basis-0"
+              class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[16px] lg:text-[1.25rem] text-red-normal basis-0"
             >
               Số chữ: 24.7K
             </p>
           </div>
         </article>
-
-        <article class="flex gap-3 items-center w-full mb-5">
+        <article class="flex gap-3 items-center w-full mb-[24px]">
           <span
-            class="gap-2.5 self-stretch  my-auto w-[1.5rem] h-[1.5rem] text-[16px] font-medium text-center text-red-normal whitespace-nowrap rounded-[2px] border" style="border-color: #D56665 !important;"
+            class="gap-2.5 self-stretch  my-auto w-[30px] h-[30px] text-[16px] lg:text-[2rem] font-medium text-center text-red-normal whitespace-nowrap rounded-[2px] border" style="border-color: #D56665 !important;"
             >3</span
           >
           <img
             loading="lazy"
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/cb5b10fca047125b9225596f15a42d2b2fb7a3a9bcb118b51677934c02dbee35"
             alt="Trending story thumbnail"
-            class="object-contain shrink-0 self-stretch my-auto rounded-lg aspect-[0.81] w-[84px]"
+            class="object-contain shrink-0 self-stretch my-auto rounded-lg aspect-[0.81] w-[84px] lg:w-[10rem]"
           />
           <div
             class="flex flex-col flex-1 shrink self-stretch my-auto basis-0 min-w-60"
           >
             <h3
-              class="flex-1 shrink gap-2.5 self-stretch w-full text-[20px] font-medium basis-0 text-orange-darker"
+              class="flex-1 shrink gap-2.5 self-stretch w-full text-[16px] lg:text-[1.75rem] font-medium basis-0 text-orange-darker"
             >
               Thiên quan tứ phúc
             </h3>
             <p
-              class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[16px] text-regular text-red-normal basis-0"
+              class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[16px] lg:text-[1.75rem] text-regular text-red-normal basis-0"
             >
               Thể loại: HE, hắc đạo
             </p>
-            <div class="flex gap-1 items-start self-start mt-[4px] mb-[-4px]">
+            <div class="flex gap-1 items-start self-start mt-[4px] ">
               <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] text-[16px] mt-[-4px]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.25rem] lg:h-[1.75rem] text-[16px] lg:text-[1.5rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.25rem] lg:h-[1.75rem] text-[16px] lg:text-[1.5rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.25rem] lg:h-[1.75rem] text-[16px] lg:text-[1.5rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.25rem] lg:h-[1.75rem] text-[16px] lg:text-[1.5rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.25rem] lg:h-[1.75rem] text-[16px] lg:text-[1.5rem]">★</span>
               </div>
-              <span class="text-[12px] text-regular text-red-normal mt-[-1px]">4</span>
+              <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal">4</span>
             </div>
             <p
-              class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[16px] text-red-normal basis-0"
+              class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[16px] lg:text-[1.25rem] text-red-normal basis-0"
             >
               Số chữ: 24.7K
             </p>
@@ -599,7 +691,9 @@
         </article>
         <!-- Additional trending stories would follow the same pattern -->
       </div>
+      </div>
     </section>
+
   </section>
 </main>
 
