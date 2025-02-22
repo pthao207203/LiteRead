@@ -17,33 +17,33 @@
         loading="lazy"
         src="https://cdn.builder.io/api/v1/image/assets/TEMP/246d716fd47fc915ccad0ade280ccb7d51e92f3338d35e99184b60d3b64433bb"
         alt="Book cover"
-        class="object-contain shrink-0 rounded-lg aspect-[0.64] h-[246px] md:h-[300px] lg:h-[400px]"
+        class="object-contain shrink-0 rounded-lg aspect-[0.64] h-[25rem] lg:h-[30rem]"
       />
       <div class="flex flex-col min-w-60 w-full">
         <div
           class="flex gap-2 justify-center items-center self-start whitespace-nowrap"
         >
           <span
-            class="gap-2.5 self-stretch p-1 my-auto text-[16px] lg:text-[32px] font-medium text-red-light bg-red-normal rounded-[2px]"
+            class="gap-2.5 self-stretch p-1 my-auto text-[16px] lg:text-[2rem] font-medium text-red-light bg-red-normal rounded-[2px]"
             >Full</span
           >
           <div
-            class="flex gap-1 items-center self-stretch my-auto text-[18px] lg:text-[36px] font-semibold text-white"
+            class="flex gap-1 items-center self-stretch my-auto text-[18px] lg:text-[2.25rem] font-semibold text-white"
           >
             <span>4.5</span>
             <span class="ms-1 text-[#FFC700]">★</span>
           </div>
         </div>
         <h2
-          class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[18px] lg:text-[36px] font-medium text-white basis-0"
+          class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[18px] lg:text-[2.25rem] font-medium text-white basis-0"
         >
           Sổ tay bạch liên hoa lừa người
         </h2>
-        <p class="gap-2.5 self-start mt-2 text-[14px] lg:text-[28px] font-regular text-white">
+        <p class="gap-2.5 self-start mt-2 text-[14px] lg:text-[1.75rem] font-regular text-white">
           Thể loại: HE, hắc đạo
         </p>
         <p
-          class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[12px] lg:text-[24px] font-regular text-white basis-0 clamp-3-lines lg:min-h-[110px] lg:max-h-[110px]"
+          class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[12px] lg:text-[1.5rem] font-regular text-white basis-0 clamp-3-lines lg:min-h-[110px] lg:max-h-[110px]"
         >
           Chiều cuối hạ, cơn mưa bất chợt đổ xuống khu phố nhỏ, từng giọt nước
           rơi lộp độp trên mái tôn cũ kỹ, tạo nên bản nhạc quen thuộc mà An vẫn
@@ -81,32 +81,32 @@
   <section class="relative z-10 pt-[17px] lg:pt-[34px] mt-0 w-full bg-white rounded-[20px]">
     <div class="flex flex-col w-full rounded-none">
       <!-- Tiêu đề -->
-      <h2 class="gap-2.5 self-start p-[10px] lg:p-[20px] ml-[17px] lg:ml-[34px] mb-[-3px] text-[18px] lg:text-[36px] font-semibold text-red-normal bg-red-light rounded-tl-[12px] rounded-tr-[12px]">
+      <h2 class="gap-2.5 self-start p-[10px] lg:p-[20px] ml-[17px] lg:ml-[34px] mb-[-3px] text-[18px] lg:text-[2.25rem] font-semibold text-red-normal bg-red-light rounded-tl-[12px] rounded-tr-[12px]">
         Truyện đề cử
       </h2>
 
       <!-- Wrapper cuộn ngang + Grid cho màn hình lớn -->
-      <div class="flex overflow-x-auto lg:grid lg:grid-cols-6 gap-[17px] lg:gap-[46px] items-center p-[17px] lg:p-[34px] bg-red-light scrollbar-thin scrollbar-thumb-red-normal scrollbar-track-red-light lg:overflow-x-hidden" role="list">
+      <div class="flex overflow-x-auto lg:grid lg:grid-cols-6 gap-[17px] lg:gap-[46px] items-center p-[17px] pt-[14px] lg:p-[34px] lg:pt-[28px] bg-red-light scrollbar-thin scrollbar-thumb-red-normal scrollbar-track-red-light lg:overflow-x-hidden" role="list">
         
         <!-- Story Cards (6 items) -->
         <article class="flex flex-col self-stretch my-auto min-h-[261px] w-[121px] shrink-0 lg:w-auto" role="listitem">
           <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/c15eb5496bb8e85fb322900632e2ea4133bb697a11272de14372a2225b57bd1a" alt="Thiên Quan Tứ Phúc book cover" class="object-contain rounded-lg aspect-[0.81] w-[121px] lg:w-full" />
-          <span class="gap-2.5 self-start px-[2px] mt-[4px] lg:my-[8px] text-[12px] lg:text-[24px] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Full</span>
+          <span class="gap-2.5 self-start px-[2px] mt-[4px] lg:my-[8px] text-[12px] lg:text-[1.5rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Full</span>
           <div class="flex flex-col mt-[4px] w-full">
-            <h3 class="flex-1 shrink gap-2.5 self-stretch w-full text-[16px] lg:text-[32px] font-medium basis-0 text-orange-darker break-words">
+            <h3 class="flex-1 shrink gap-2.5 self-stretch w-full text-[16px] lg:text-[2rem] font-medium basis-0 text-orange-darker break-words">
               Thiên Quan Tứ Phúc
             </h3>
             <div class="flex gap-1 items-start self-start mt-[4px] ">
               <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
               </div>
-              <span class="text-[12px] lg:text-[24px] text-regular text-red-normal lg:mt-[6px]">4</span>
+              <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[6px]">4</span>
             </div>
-            <p class="flex-1 shrink gap-2.5 self-stretch mt-1 w-full text-[14px] lg:text-[28px] text-regular text-red-normal basis-0">
+            <p class="flex-1 shrink gap-2.5 self-stretch mt-1 w-full text-[14px] lg:text-[1.75rem] text-regular text-red-normal basis-0">
               Chương 120
             </p>
           </div>
@@ -114,110 +114,110 @@
 
         <article class="flex flex-col self-stretch my-auto min-h-[261px] w-[121px] shrink-0 lg:w-auto" role="listitem">
           <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/c15eb5496bb8e85fb322900632e2ea4133bb697a11272de14372a2225b57bd1a" alt="Thiên Quan Tứ Phúc book cover" class="object-contain rounded-lg aspect-[0.81] w-[121px] lg:w-full" />
-          <span class="gap-2.5 self-start px-[2px] mt-[4px] lg:my-[8px] text-[12px] lg:text-[24px] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Full</span>
+          <span class="gap-2.5 self-start px-[2px] mt-[4px] lg:my-[8px] text-[12px] lg:text-[1.5rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Full</span>
           <div class="flex flex-col mt-[4px] w-full">
-            <h3 class="flex-1 shrink gap-2.5 self-stretch w-full text-[16px] lg:text-[32px] font-medium basis-0 text-orange-darker break-words">
+            <h3 class="flex-1 shrink gap-2.5 self-stretch w-full text-[16px] lg:text-[2rem] font-medium basis-0 text-orange-darker break-words">
               Thiên Quan Tứ Phúc
             </h3>
             <div class="flex gap-1 items-start self-start mt-[4px] ">
               <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
               </div>
-              <span class="text-[12px] lg:text-[24px] text-regular text-red-normal lg:mt-[6px]">4</span>
+              <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[6px]">4</span>
             </div>
-            <p class="flex-1 shrink gap-2.5 self-stretch mt-1 w-full text-[14px] lg:text-[28px] text-regular text-red-normal basis-0">
+            <p class="flex-1 shrink gap-2.5 self-stretch mt-1 w-full text-[14px] lg:text-[1.75rem] text-regular text-red-normal basis-0">
               Chương 120
             </p>
           </div>
         </article>
         <article class="flex flex-col self-stretch my-auto min-h-[261px] w-[121px] shrink-0 lg:w-auto" role="listitem">
           <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/c15eb5496bb8e85fb322900632e2ea4133bb697a11272de14372a2225b57bd1a" alt="Thiên Quan Tứ Phúc book cover" class="object-contain rounded-lg aspect-[0.81] w-[121px] lg:w-full" />
-          <span class="gap-2.5 self-start px-[2px] mt-[4px] lg:my-[8px] text-[12px] lg:text-[24px] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Full</span>
+          <span class="gap-2.5 self-start px-[2px] mt-[4px] lg:my-[8px] text-[12px] lg:text-[1.5rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Full</span>
           <div class="flex flex-col mt-[4px] w-full">
-            <h3 class="flex-1 shrink gap-2.5 self-stretch w-full text-[16px] lg:text-[32px] font-medium basis-0 text-orange-darker break-words">
+            <h3 class="flex-1 shrink gap-2.5 self-stretch w-full text-[16px] lg:text-[2rem] font-medium basis-0 text-orange-darker break-words">
               Thiên Quan Tứ Phúc
             </h3>
             <div class="flex gap-1 items-start self-start mt-[4px] ">
               <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
               </div>
-              <span class="text-[12px] lg:text-[24px] text-regular text-red-normal lg:mt-[6px]">4</span>
+              <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[6px]">4</span>
             </div>
-            <p class="flex-1 shrink gap-2.5 self-stretch mt-1 w-full text-[14px] lg:text-[28px] text-regular text-red-normal basis-0">
+            <p class="flex-1 shrink gap-2.5 self-stretch mt-1 w-full text-[14px] lg:text-[1.75rem] text-regular text-red-normal basis-0">
               Chương 120
             </p>
           </div>
         </article>
         <article class="flex flex-col self-stretch my-auto min-h-[261px] w-[121px] shrink-0 lg:w-auto" role="listitem">
           <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/c15eb5496bb8e85fb322900632e2ea4133bb697a11272de14372a2225b57bd1a" alt="Thiên Quan Tứ Phúc book cover" class="object-contain rounded-lg aspect-[0.81] w-[121px] lg:w-full" />
-          <span class="gap-2.5 self-start px-[2px] mt-[4px] lg:my-[8px] text-[12px] lg:text-[24px] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Full</span>
+          <span class="gap-2.5 self-start px-[2px] mt-[4px] lg:my-[8px] text-[12px] lg:text-[1.5rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Full</span>
           <div class="flex flex-col mt-[4px] w-full">
-            <h3 class="flex-1 shrink gap-2.5 self-stretch w-full text-[16px] lg:text-[32px] font-medium basis-0 text-orange-darker break-words">
+            <h3 class="flex-1 shrink gap-2.5 self-stretch w-full text-[16px] lg:text-[2rem] font-medium basis-0 text-orange-darker break-words">
               Thiên Quan Tứ Phúc
             </h3>
             <div class="flex gap-1 items-start self-start mt-[4px] ">
               <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
               </div>
-              <span class="text-[12px] lg:text-[24px] text-regular text-red-normal lg:mt-[6px]">4</span>
+              <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[6px]">4</span>
             </div>
-            <p class="flex-1 shrink gap-2.5 self-stretch mt-1 w-full text-[14px] lg:text-[28px] text-regular text-red-normal basis-0">
+            <p class="flex-1 shrink gap-2.5 self-stretch mt-1 w-full text-[14px] lg:text-[1.75rem] text-regular text-red-normal basis-0">
               Chương 120
             </p>
           </div>
         </article>
         <article class="flex flex-col self-stretch my-auto min-h-[261px] w-[121px] shrink-0 lg:w-auto" role="listitem">
           <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/c15eb5496bb8e85fb322900632e2ea4133bb697a11272de14372a2225b57bd1a" alt="Thiên Quan Tứ Phúc book cover" class="object-contain rounded-lg aspect-[0.81] w-[121px] lg:w-full" />
-          <span class="gap-2.5 self-start px-[2px] mt-[4px] lg:my-[8px] text-[12px] lg:text-[24px] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Full</span>
+          <span class="gap-2.5 self-start px-[2px] mt-[4px] lg:my-[8px] text-[12px] lg:text-[1.5rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Full</span>
           <div class="flex flex-col mt-[4px] w-full">
-            <h3 class="flex-1 shrink gap-2.5 self-stretch w-full text-[16px] lg:text-[32px] font-medium basis-0 text-orange-darker break-words">
+            <h3 class="flex-1 shrink gap-2.5 self-stretch w-full text-[16px] lg:text-[2rem] font-medium basis-0 text-orange-darker break-words">
               Thiên Quan Tứ Phúc
             </h3>
             <div class="flex gap-1 items-start self-start mt-[4px] ">
               <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
               </div>
-              <span class="text-[12px] lg:text-[24px] text-regular text-red-normal lg:mt-[6px]">4</span>
+              <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[6px]">4</span>
             </div>
-            <p class="flex-1 shrink gap-2.5 self-stretch mt-1 w-full text-[14px] lg:text-[28px] text-regular text-red-normal basis-0">
+            <p class="flex-1 shrink gap-2.5 self-stretch mt-1 w-full text-[14px] lg:text-[1.75rem] text-regular text-red-normal basis-0">
               Chương 120
             </p>
           </div>
         </article>
         <article class="flex flex-col self-stretch my-auto min-h-[261px] w-[121px] shrink-0 lg:w-auto" role="listitem">
           <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/c15eb5496bb8e85fb322900632e2ea4133bb697a11272de14372a2225b57bd1a" alt="Thiên Quan Tứ Phúc book cover" class="object-contain rounded-lg aspect-[0.81] w-[121px] lg:w-full" />
-          <span class="gap-2.5 self-start px-[2px] mt-[4px] lg:my-[8px] text-[12px] lg:text-[24px] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Full</span>
+          <span class="gap-2.5 self-start px-[2px] mt-[4px] lg:my-[8px] text-[12px] lg:text-[1.5rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Full</span>
           <div class="flex flex-col mt-[4px] w-full">
-            <h3 class="flex-1 shrink gap-2.5 self-stretch w-full text-[16px] lg:text-[32px] font-medium basis-0 text-orange-darker break-words">
+            <h3 class="flex-1 shrink gap-2.5 self-stretch w-full text-[16px] lg:text-[2rem] font-medium basis-0 text-orange-darker break-words">
               Thiên Quan Tứ Phúc
             </h3>
             <div class="flex gap-1 items-start self-start mt-[4px] ">
               <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
-                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[32px]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
+                <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[32px] lg:h-[32px] text-[16px] lg:text-[2rem]">★</span>
               </div>
-              <span class="text-[12px] lg:text-[24px] text-regular text-red-normal lg:mt-[6px]">4</span>
+              <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[6px]">4</span>
             </div>
-            <p class="flex-1 shrink gap-2.5 self-stretch mt-1 w-full text-[14px] lg:text-[28px] text-regular text-red-normal basis-0">
+            <p class="flex-1 shrink gap-2.5 self-stretch mt-1 w-full text-[14px] lg:text-[1.75rem] text-regular text-red-normal basis-0">
               Chương 120
             </p>
           </div>
@@ -474,7 +474,7 @@
         <!-- Trending Stories -->
         <article class="flex gap-3 items-center w-full mb-5">
           <span
-            class="gap-2.5 self-stretch  my-auto w-[24px] h-[24px] text-[16px] font-medium text-center text-red-normal whitespace-nowrap rounded-[2px] border" style="border-color: #D56665 !important;"
+            class="gap-2.5 self-stretch  my-auto w-[1.5rem] h-[1.5rem] text-[16px] font-medium text-center text-red-normal whitespace-nowrap rounded-[2px] border" style="border-color: #D56665 !important;"
             >1</span
           >
           <img
@@ -516,7 +516,7 @@
         
         <article class="flex gap-3 items-center w-full mb-5">
           <span
-            class="gap-2.5 self-stretch  my-auto w-[24px] h-[24px] text-[16px] font-medium text-center text-red-normal whitespace-nowrap rounded-[2px] border" style="border-color: #D56665 !important;"
+            class="gap-2.5 self-stretch  my-auto w-[1.5rem] h-[1.5rem] text-[16px] font-medium text-center text-red-normal whitespace-nowrap rounded-[2px] border" style="border-color: #D56665 !important;"
             >2</span
           >
           <img
@@ -558,7 +558,7 @@
 
         <article class="flex gap-3 items-center w-full mb-5">
           <span
-            class="gap-2.5 self-stretch  my-auto w-[24px] h-[24px] text-[16px] font-medium text-center text-red-normal whitespace-nowrap rounded-[2px] border" style="border-color: #D56665 !important;"
+            class="gap-2.5 self-stretch  my-auto w-[1.5rem] h-[1.5rem] text-[16px] font-medium text-center text-red-normal whitespace-nowrap rounded-[2px] border" style="border-color: #D56665 !important;"
             >3</span
           >
           <img

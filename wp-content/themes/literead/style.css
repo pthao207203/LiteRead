@@ -20,6 +20,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1;
+  font-size: calc(100vw / 1440 * 16);
 }
 
 body {
