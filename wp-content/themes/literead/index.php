@@ -43,7 +43,7 @@
           Thể loại: HE, hắc đạo
         </p>
         <p
-          class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[12px] lg:text-[24px] font-regular text-white basis-0 clamp-3-lines lg:min-h-[110px]"
+          class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[12px] lg:text-[24px] font-regular text-white basis-0 clamp-3-lines lg:min-h-[110px] lg:max-h-[110px]"
         >
           Chiều cuối hạ, cơn mưa bất chợt đổ xuống khu phố nhỏ, từng giọt nước
           rơi lộp độp trên mái tôn cũ kỹ, tạo nên bản nhạc quen thuộc mà An vẫn
