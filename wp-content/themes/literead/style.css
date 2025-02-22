@@ -13,8 +13,25 @@ Tags: responsive, custom-background, custom-logo
 This theme is designed for WordPress.
 */
 
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+html {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1;
+}
 
 body {
   font-family: "Montserrat", sans-serif !important;
+}
+
+.clamp-3-lines {
+  display: -webkit-box; /* Kích hoạt box layout */
+  -webkit-box-orient: vertical; /* Hướng box dọc */
+  -webkit-line-clamp: 3; /* Giới hạn 3 dòng */
+  overflow: hidden; /* Ẩn phần dư */
+  text-overflow: ellipsis; /* Thêm dấu "..." */
+  white-space: normal; /* Cho phép xuống dòng */
+  min-height: 55px; /* Đảm bảo phần tử có chiều cao */
 }
