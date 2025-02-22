@@ -477,7 +477,7 @@
         </div>
         <!-- Pagination -->
         <nav
-          class="flex gap-[4px] lg:gap-[8px] self-center justify-center mt-5 text-base font-medium text-center text-red-normal whitespace-nowrap"
+          class="flex gap-[4px] lg:gap-[8px] self-center justify-center mt-5 text-base font-regular text-center text-red-normal whitespace-nowrap"
           aria-label="Pagination"
         >
           <button
