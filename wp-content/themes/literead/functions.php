@@ -1,5 +1,11 @@
 <?php
 // Theme setup
+
+function theme_enqueue_styles() {
+  wp_enqueue_style('my-style', get_stylesheet_directory_uri() . '/style.css');
+}
+add_action('wp_enqueue_scripts', 'theme_enqueue_styles');
+
 function metruyen_theme_setup() {
     add_theme_support('post-thumbnails'); // Featured images
     add_theme_support('title-tag');       // Dynamic titles
