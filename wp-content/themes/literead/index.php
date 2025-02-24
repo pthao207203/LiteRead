@@ -226,16 +226,16 @@
       </div>
     </div>
 
-    <section class="flex flex-col lg:flex-row gap-6 mt-[12px] lg:mt-[24px] w-full lg:bg-orange-light">
+    <section class="flex flex-col lg:flex-row gap-[2px] lg:gap-[12px] mt-[17px] lg:mt-[34px] w-full bg-orange-light">
       <!-- Mới cập nhật (8/12) -->
-      <div class="w-full lg:w-8/12 bg-white pb-[12px] lg:pb-[24px]">
+      <div class="w-full lg:w-8/12 bg-white pb-[17px] lg:pb-[34px]">
         <h2
           class="gap-2.5 self-start p-[10px] lg:px-[20px] mx-[17px] lg:mx-[34px] text-[18px] lg:text-[2.25rem] font-semibold text-red-normal bg-red-light rounded-[12px] inline-block"
         >
           Mới cập nhật
         </h2>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 mx-[17px] lg:mx-[34px] gap-6" role="list">
+        <div class="grid grid-cols-1 md:grid-cols-2 mx-[17px] lg:mx-[34px] gap-6" role="list">
           <!-- 🔄 Story Card 1 -->
           <article class="flex gap-3 mt-[12px] lg:mt-[24px] items-end w-full lg:max-w-[38rem]" role="listitem">
             <img
@@ -529,7 +529,7 @@
       </div>
 
       <!-- 🌟 Nổi bật (4/12) -->
-      <div class="w-full lg:w-4/12 bg-red-light bg-white px-[17px] lg:px-[34px] mt-[12px] lg:mt-[0]">
+      <div class="w-full lg:w-4/12 bg-red-light bg-white px-[17px] lg:px-[34px] pt-[12px] lg:pt-[0]">
           <h2
             class="bg-red-light rounded-[12px] inline-block self-start p-[10px] lg:px-[20px] text-[18px] lg:text-[2.25rem] font-semibold text-red-normal "
           >Nổi bật</h2>
@@ -563,7 +563,7 @@
         </button>
       </div>
 
-      <div class="mt-[12px] lg:mt-[24px] w-full" role="tabpanel">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 mt-[12px] lg:mt-[24px] w-full" role="tabpanel">
         <!-- Trending Stories -->
         <article class="flex gap-3 items-center w-full mb-[12px] lg:mb-[24px]">
           <span
