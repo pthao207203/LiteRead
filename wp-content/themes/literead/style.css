@@ -31,6 +31,7 @@ body {
   display: -webkit-box; /* Kích hoạt box layout */
   -webkit-box-orient: vertical; /* Hướng box dọc */
   -webkit-line-clamp: 3; /* Giới hạn 3 dòng */
+  line-clamp: 3;
   overflow: hidden; /* Ẩn phần dư */
   text-overflow: ellipsis; /* Thêm dấu "..." */
   white-space: normal; /* Cho phép xuống dòng */
