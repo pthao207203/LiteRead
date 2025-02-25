@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="./style.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -46,7 +46,7 @@
                         'dark-active': '#602E2D',
                         darker: '#4B2423',
                       },
-                    }
+                    },
                 },
             },
         }
@@ -56,24 +56,39 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <!-- === Header === -->
-<header class="flex overflow-hidden gap-5 justify-between px-4 py-1.5 w-full bg-red-100 "
-  >
-    <h1 class="text-2xl text-black self-stretch my-auto text-red-normal">LiteRead</h1>
-    <div class="flex gap-2.5 items-center self-start">
-      <button
-        class="flex gap-2.5 items-center self-stretch p-2 my-auto w-10 rounded-[90px]"
-        aria-label="Search"
+<header>
+  <nav class="overflow-hidden w-full bg-red-100">
+    <div
+      class="flex justify-between items-center px-4 py-1.5 w-full bg-red-100"
+    >
+      <h1
+        class="flex-1 shrink self-stretch my-auto text-2xl text-red-400 basis-0"
       >
-        <span class="flex self-stretch my-auto w-6 min-h-6"></span>
-      </button>
-      <button class="self-stretch my-auto w-[30px]" aria-label="Menu">
-        <span class="flex w-full bg-red-400 min-h-0.5 rounded-[99px]"></span>
-        <span
-          class="flex mt-1.5 w-full bg-red-400 min-h-0.5 rounded-[99px]"
-        ></span>
-        <span
-          class="flex mt-1.5 w-full bg-red-400 min-h-0.5 rounded-[99px]"
-        ></span>
-      </button>
+        LiteRead
+      </h1>
+      <div class="flex gap-2.5 items-center self-stretch my-auto">
+        <button
+          class="flex shrink-0 self-stretch my-auto w-6 h-6"
+          aria-label="Search"
+        >
+          <span class="sr-only">Search</span>
+        </button>
+        <button
+          class="flex shrink-0 self-stretch my-auto w-6 h-6"
+          aria-label="User profile"
+        >
+          <span class="sr-only">Profile</span>
+        </button>
+        <button class="self-stretch my-auto w-[30px]" aria-label="Menu">
+          <div class="flex w-full bg-red-400 min-h-0.5 rounded-[99px]"></div>
+          <div
+            class="flex mt-1.5 w-full bg-red-400 min-h-0.5 rounded-[99px]"
+          ></div>
+          <div
+            class="flex mt-1.5 w-full bg-red-400 min-h-0.5 rounded-[99px]"
+          ></div>
+        </button>
+      </div>
     </div>
+  </nav>
 </header>
