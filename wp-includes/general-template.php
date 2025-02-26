@@ -1,4 +1,10 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+  define( 'ABSPATH', dirname( __DIR__ ) . '/' );
+}
+if ( ! defined( 'WPINC' ) ) {
+  define( 'WPINC', 'wp-includes' );
+}
 /**
  * General template tags that can go anywhere in a template.
  *

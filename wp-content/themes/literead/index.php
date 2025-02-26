@@ -1,4 +1,7 @@
-<?php get_header(); ?>
+<?php
+/* Template Name: Home */
+get_header(); 
+?>
 
 <main class="overflow-hidden mx-auto w-full bg-stone-200">
 
@@ -43,7 +46,7 @@
           Thể loại: HE, hắc đạo
         </p>
         <p
-          class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[12px] lg:text-[1.25rem] font-regular text-white basis-0 lg:min-h-[5.75rem] lg:max-h-[5.75rem]"
+          class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[12px] lg:text-[1.25rem] font-regular text-white basis-0 min-h-[5.75rem] max-h-[5.75rem]"
           style="line-clamp: 3; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3;"
         >
           Chiều cuối hạ, cơn mưa bất chợt đổ xuống khu phố nhỏ, từng giọt nước
