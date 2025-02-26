@@ -62,7 +62,7 @@
             <span class="px-2.5 py-1 text-[0.875rem] md:text-[1.5rem] font-normal text-[#593B37] bg-orange-light-active rounded-lg">Thế thân</span>
             </div>
             <div
-              class="flex flex-wrap gap-4 items-start mt-2.5 text-[1.125rem] md:text-[1.875rem] font-normal text-orange-light max-md:max-w-full"
+              class="flex flex-wrap gap-4 items-center justify-center mt-2.5 text-[1.125rem] md:text-[1.875rem] font-normal text-orange-light max-md:max-w-full"
             >
               <a href="#first-chapter" class=" self-stretch px-[1rem] py-[0.5rem] md:px-[1.25rem] md:py-[0.625rem] bg-red-normal rounded-xl">
                 Chương đầu
@@ -70,6 +70,22 @@
               <a href="#last-chapter" class="self-stretch px-[1rem] py-[0.5rem] md:px-[1.25rem] md:py-[0.625rem] bg-red-normal rounded-xl">
                 Chương cuối
               </a>
+              <button id="toggle-btn">
+                <img id="toggle-img" 
+                    src="https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png" 
+                      class="md:w-[3.5625rem] w-[2.625rem] h-[2.625rem] md:h-[3.5625rem] object-fill shrink "
+                    alt="Toggle Button"/>
+              </button>
+
+              <script>
+                document.getElementById("toggle-btn").addEventListener("click", function() {
+                  const img = document.getElementById("toggle-img");
+                  const img1 = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png";
+                  const img2 = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/tkn6hjhe.png";
+
+                  img.src = img.src === img1 ? img2 : img1;
+                });
+              </script>
             </div>
         </div>
         </div>
