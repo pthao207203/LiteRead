@@ -278,7 +278,7 @@
     </div>
   
     <!-- 🌟 Nổi bật (4/12) -->
-    <aside class="w-full md:w-4/12 box-border bg-red-light bg-white p-4 md:p-8 max-md:mt-4"aria-labelledby="hot-list">
+    <aside class="w-full md:w-4/12 box-border bg-red-light bg-white p-4 md:p-8 max-md:mt-4 flex flex-col items-center  mx-auto"aria-labelledby="hot-list">
       <h2 id="host-list"
         class="gap-2.5 self-start p-2.5 text-[1.125rem] md:text-[1.875rem] font-medium text-red-normal bg-orange-light-hover rounded-xl"
       >Nổi bật</h2>
@@ -313,7 +313,7 @@
 
       <div class="flex flex-col items-center mt-[12px] md:mt-[24px] w-full" role="tabpanel">
         <!-- Trending Stories -->
-        <article class="flex gap-3 items-center w-full mb-[12px] md:mb-[24px]">
+        <article class="flex gap-3 w-full mb-[12px] md:mb-[24px]">
         <span
             class="gap-2.5 self-center my-auto w-[2rem] h-[2rem] text-[1rem] md:text-[1.25rem] p-0.5 font-medium text-center text-red-normal whitespace-nowrap rounded-[2px] border" style="border-color: #D56665 !important;"
             >1</span
@@ -322,7 +322,7 @@
             loading="lazy"
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/cb5b10fca047125b9225596f15a42d2b2fb7a3a9bcb118b51677934c02dbee35"
             alt="Trending story thumbnail"
-            class="object-contain shrink-0 self-stretch my-auto rounded-lg aspect-[0.81] w-[84px] md:w-[8rem]"
+            class="object-contain shrink-0 self-start items-start my-auto rounded-lg aspect-[0.81] w-[84px] md:w-[8rem]"
           />
           <div
             class="flex flex-col flex-1 shrink self-stretch my-auto basis-0 min-w-60"
