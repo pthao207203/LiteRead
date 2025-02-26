@@ -1,4 +1,7 @@
-<?php get_header(); ?>
+<?php
+/* Template Name: Home */
+get_header(); 
+?>
 
 <main class="overflow-hidden mx-auto w-full bg-stone-200">
 
