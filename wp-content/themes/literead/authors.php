@@ -8,31 +8,31 @@ get_header();
   <section class="px-[17px] lg:px-[34px] py-[17px] lg:py-[34px] w-full max-md:max-w-full">
     <header>
       <h1
-        class="font-bold leading-none text-pink-800 text-[20px] lg:text-[2rem] uppercase max-md:max-w-full"
+        class="font-bold leading-none text-red-dark text-[20px] lg:text-[2rem] uppercase max-md:max-w-full"
       >
         Nguyệt hạ
       </h1>
       <p
-        class="mt-[12px] lg:mt-[24px] text-3xl font-medium leading-none text-pink-800 text-[18px] lg:text-[1.875rem] max-md:max-w-full"
+        class="mt-[12px] lg:mt-[24px] text-3xl font-medium leading-none text-red-dark text-[18px] lg:text-[1.875rem] max-md:max-w-full"
       >
         14 Truyện
       </p>
 
       <nav
-        class="flex flex-wrap gap-[10px] items-start mt-[12px] lg:mt-[24px] w-full font-medium text-red-400 max-md:max-w-full"
+        class="flex flex-wrap gap-[10px] items-start mt-[12px] lg:mt-[24px] w-full font-medium text-red-normal max-md:max-w-full"
         aria-label="Story filters"
       >
         <button
-          class="gap-2.5 self-stretch p-2.5 text-red-50 bg-red-400 text-[16px] lg:text-[1.75rem] rounded-xl"
+          class="gap-2.5 self-stretch p-2.5 text-orange-light bg-red-normal text-[16px] lg:text-[1.75rem] rounded-xl"
           aria-current="page"
         >
           Mới nhất
         </button>
-        <button class="gap-2.5 self-stretch p-2.5 bg-red-50 text-[16px] lg:text-[1.75rem] rounded-xl">
+        <button class="gap-2.5 self-stretch p-2.5 bg-orange-light-hover text-[16px] lg:text-[1.75rem] rounded-xl">
           Đánh giá
         </button>
         <button
-          class="gap-2.5 self-stretch p-2.5 bg-red-50 text-[16px] lg:text-[1.75rem] rounded-xl min-w-60"
+          class="gap-2.5 self-stretch p-2.5 bg-orange-light-hover text-[16px] lg:text-[1.75rem] rounded-xl min-w-60"
         >
           Xem nhiều nhất
         </button>
@@ -52,12 +52,12 @@ get_header();
           />
           <div class="flex flex-col flex-1 shrink basis-0 min-w-60">
             <span
-              class="gap-2.5 self-start px-[2px] font-medium text-[10px] lg:text-[1.25rem] text-red-50 whitespace-nowrap bg-red-400 rounded-sm"
+              class="gap-2.5 self-start px-[2px] font-medium text-[10px] lg:text-[1.25rem] text-orange-light whitespace-nowrap bg-red-normal rounded-sm"
             >
               Full
             </span>
             <h2
-              class="flex-1 shrink gap-2.5 self-stretch mt-[1rem] w-full text-[16px] lg:text-[1.75rem] font-medium basis-0 text-stone-700"
+              class="flex-1 shrink gap-2.5 self-stretch mt-[1rem] w-full text-[16px] lg:text-[1.75rem] font-medium basis-0 text-orange-darker"
             >
               Thiên quan tứ phúc
             </h2>
@@ -72,7 +72,7 @@ get_header();
               <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[6px]">4</span>
             </div>
             <div
-              class="flex gap-2.5 justify-center items-center mt-[1rem] w-full text-pink-800"
+              class="flex gap-2.5 justify-center items-center mt-[1rem] w-full text-red-dark"
             >
               <span class="flex-1 shrink self-stretch my-auto text-[14px] lg:text-[1.5rem] basis-0">
                 Chương 120
@@ -80,7 +80,7 @@ get_header();
               <time class="self-stretch my-auto text-[10px] lg:text-[1.25rem]"> 10 tiếng trước </time>
             </div>
             <div
-              class="flex gap-2.5 justify-center items-center mt-[1rem] w-full text-pink-800"
+              class="flex gap-2.5 justify-center items-center mt-[1rem] w-full text-red-dark"
             >
               <span class="flex-1 shrink self-stretch my-auto text-[14px] lg:text-[1.5rem] basis-0">
                 Chương 119
@@ -100,12 +100,12 @@ get_header();
           />
           <div class="flex flex-col flex-1 shrink basis-0 min-w-60">
             <span
-              class="gap-2.5 self-start px-[2px] font-medium text-[10px] lg:text-[1.25rem] text-red-50 whitespace-nowrap bg-red-400 rounded-sm"
+              class="gap-2.5 self-start px-[2px] font-medium text-[10px] lg:text-[1.25rem] text-orange-light whitespace-nowrap bg-red-normal rounded-sm"
             >
               Full
             </span>
             <h2
-              class="flex-1 shrink gap-2.5 self-stretch mt-[1rem] w-full text-[16px] lg:text-[1.75rem] font-medium basis-0 text-stone-700"
+              class="flex-1 shrink gap-2.5 self-stretch mt-[1rem] w-full text-[16px] lg:text-[1.75rem] font-medium basis-0 text-orange-darker"
             >
               Thiên quan tứ phúc
             </h2>
@@ -120,7 +120,7 @@ get_header();
               <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[6px]">4</span>
             </div>
             <div
-              class="flex gap-2.5 justify-center items-center mt-[1rem] w-full text-pink-800"
+              class="flex gap-2.5 justify-center items-center mt-[1rem] w-full text-red-dark"
             >
               <span class="flex-1 shrink self-stretch my-auto text-[14px] lg:text-[1.5rem] basis-0">
                 Chương 120
@@ -128,7 +128,7 @@ get_header();
               <time class="self-stretch my-auto text-[10px] lg:text-[1.25rem]"> 10 tiếng trước </time>
             </div>
             <div
-              class="flex gap-2.5 justify-center items-center mt-[1rem] w-full text-pink-800"
+              class="flex gap-2.5 justify-center items-center mt-[1rem] w-full text-red-dark"
             >
               <span class="flex-1 shrink self-stretch my-auto text-[14px] lg:text-[1.5rem] basis-0">
                 Chương 119
@@ -147,12 +147,12 @@ get_header();
           />
           <div class="flex flex-col flex-1 shrink basis-0 min-w-60">
             <span
-              class="gap-2.5 self-start px-[2px] font-medium text-[10px] lg:text-[1.25rem] text-red-50 whitespace-nowrap bg-red-400 rounded-sm"
+              class="gap-2.5 self-start px-[2px] font-medium text-[10px] lg:text-[1.25rem] text-orange-light whitespace-nowrap bg-red-normal rounded-sm"
             >
               Full
             </span>
             <h2
-              class="flex-1 shrink gap-2.5 self-stretch mt-[1rem] w-full text-[16px] lg:text-[1.75rem] font-medium basis-0 text-stone-700"
+              class="flex-1 shrink gap-2.5 self-stretch mt-[1rem] w-full text-[16px] lg:text-[1.75rem] font-medium basis-0 text-orange-darker"
             >
               Thiên quan tứ phúc
             </h2>
@@ -167,7 +167,7 @@ get_header();
               <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[6px]">4</span>
             </div>
             <div
-              class="flex gap-2.5 justify-center items-center mt-[1rem] w-full text-pink-800"
+              class="flex gap-2.5 justify-center items-center mt-[1rem] w-full text-red-dark"
             >
               <span class="flex-1 shrink self-stretch my-auto text-[14px] lg:text-[1.5rem] basis-0">
                 Chương 120
@@ -175,7 +175,7 @@ get_header();
               <time class="self-stretch my-auto text-[10px] lg:text-[1.25rem]"> 10 tiếng trước </time>
             </div>
             <div
-              class="flex gap-2.5 justify-center items-center mt-[1rem] w-full text-pink-800"
+              class="flex gap-2.5 justify-center items-center mt-[1rem] w-full text-red-dark"
             >
               <span class="flex-1 shrink self-stretch my-auto text-[14px] lg:text-[1.5rem] basis-0">
                 Chương 119
@@ -194,12 +194,12 @@ get_header();
           />
           <div class="flex flex-col flex-1 shrink basis-0 min-w-60">
             <span
-              class="gap-2.5 self-start px-[2px] font-medium text-[10px] lg:text-[1.25rem] text-red-50 whitespace-nowrap bg-red-400 rounded-sm"
+              class="gap-2.5 self-start px-[2px] font-medium text-[10px] lg:text-[1.25rem] text-orange-light whitespace-nowrap bg-red-normal rounded-sm"
             >
               Full
             </span>
             <h2
-              class="flex-1 shrink gap-2.5 self-stretch mt-[1rem] w-full text-[16px] lg:text-[1.75rem] font-medium basis-0 text-stone-700"
+              class="flex-1 shrink gap-2.5 self-stretch mt-[1rem] w-full text-[16px] lg:text-[1.75rem] font-medium basis-0 text-orange-darker"
             >
               Thiên quan tứ phúc
             </h2>
@@ -214,7 +214,7 @@ get_header();
               <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[6px]">4</span>
             </div>
             <div
-              class="flex gap-2.5 justify-center items-center mt-[1rem] w-full text-pink-800"
+              class="flex gap-2.5 justify-center items-center mt-[1rem] w-full text-red-dark"
             >
               <span class="flex-1 shrink self-stretch my-auto text-[14px] lg:text-[1.5rem] basis-0">
                 Chương 120
@@ -222,7 +222,7 @@ get_header();
               <time class="self-stretch my-auto text-[10px] lg:text-[1.25rem]"> 10 tiếng trước </time>
             </div>
             <div
-              class="flex gap-2.5 justify-center items-center mt-[1rem] w-full text-pink-800"
+              class="flex gap-2.5 justify-center items-center mt-[1rem] w-full text-red-dark"
             >
               <span class="flex-1 shrink self-stretch my-auto text-[14px] lg:text-[1.5rem] basis-0">
                 Chương 119
@@ -241,12 +241,12 @@ get_header();
           />
           <div class="flex flex-col flex-1 shrink basis-0 min-w-60">
             <span
-              class="gap-2.5 self-start px-[2px] font-medium text-[10px] lg:text-[1.25rem] text-red-50 whitespace-nowrap bg-red-400 rounded-sm"
+              class="gap-2.5 self-start px-[2px] font-medium text-[10px] lg:text-[1.25rem] text-orange-light whitespace-nowrap bg-red-normal rounded-sm"
             >
               Full
             </span>
             <h2
-              class="flex-1 shrink gap-2.5 self-stretch mt-[1rem] w-full text-[16px] lg:text-[1.75rem] font-medium basis-0 text-stone-700"
+              class="flex-1 shrink gap-2.5 self-stretch mt-[1rem] w-full text-[16px] lg:text-[1.75rem] font-medium basis-0 text-orange-darker"
             >
               Thiên quan tứ phúc
             </h2>
@@ -261,7 +261,7 @@ get_header();
               <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[6px]">4</span>
             </div>
             <div
-              class="flex gap-2.5 justify-center items-center mt-[1rem] w-full text-pink-800"
+              class="flex gap-2.5 justify-center items-center mt-[1rem] w-full text-red-dark"
             >
               <span class="flex-1 shrink self-stretch my-auto text-[14px] lg:text-[1.5rem] basis-0">
                 Chương 120
@@ -269,7 +269,7 @@ get_header();
               <time class="self-stretch my-auto text-[10px] lg:text-[1.25rem]"> 10 tiếng trước </time>
             </div>
             <div
-              class="flex gap-2.5 justify-center items-center mt-[1rem] w-full text-pink-800"
+              class="flex gap-2.5 justify-center items-center mt-[1rem] w-full text-red-dark"
             >
               <span class="flex-1 shrink self-stretch my-auto text-[14px] lg:text-[1.5rem] basis-0">
                 Chương 119

@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="./style.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Moul&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -62,7 +63,7 @@
       class="flex justify-between items-center px-4 py-1.5 w-full bg-red-100"
     >
       <h1
-        class="flex-1 shrink self-stretch my-auto text-2xl text-red-400 basis-0"
+        class="flex-1 shrink self-stretch my-auto text-[1.5rem] md:text-[2rem] text-[#D66766] font-[Moul] basis-0"
       >
         LiteRead
       </h1>
@@ -80,12 +81,12 @@
           <span class="sr-only">Profile</span>
         </button>
         <button class="self-stretch my-auto w-[30px]" aria-label="Menu">
-          <div class="flex w-full bg-red-400 min-h-0.5 rounded-[99px]"></div>
+          <div class="flex w-full bg-red-normal min-h-0.5 rounded-[99px]"></div>
           <div
-            class="flex mt-1.5 w-full bg-red-400 min-h-0.5 rounded-[99px]"
+            class="flex mt-1.5 w-full bg-red-normal min-h-0.5 rounded-[99px]"
           ></div>
           <div
-            class="flex mt-1.5 w-full bg-red-400 min-h-0.5 rounded-[99px]"
+            class="flex mt-1.5 w-full bg-red-normal min-h-0.5 rounded-[99px]"
           ></div>
         </button>
       </div>
