@@ -81,12 +81,12 @@
           <span class="sr-only">Profile</span>
         </button>
         <button class="self-stretch my-auto w-[30px]" aria-label="Menu">
-          <div class="flex w-full bg-red-400 min-h-0.5 rounded-[99px]"></div>
+          <div class="flex w-full bg-red-normal min-h-0.5 rounded-[99px]"></div>
           <div
-            class="flex mt-1.5 w-full bg-red-400 min-h-0.5 rounded-[99px]"
+            class="flex mt-1.5 w-full bg-red-normal min-h-0.5 rounded-[99px]"
           ></div>
           <div
-            class="flex mt-1.5 w-full bg-red-400 min-h-0.5 rounded-[99px]"
+            class="flex mt-1.5 w-full bg-red-normal min-h-0.5 rounded-[99px]"
           ></div>
         </button>
       </div>

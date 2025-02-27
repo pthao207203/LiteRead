@@ -227,7 +227,7 @@
     </h2>
 
     <!-- Grid Container for Books -->
-    <div class="mt-[-2px] grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-7 gap-4 p-4 bg-red-50 rounded-xl">
+    <div class="mt-[-2px] grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-7 gap-4 p-4 bg-orange-light-hover rounded-xl">
       
       <!-- Book 1 -->
       <article class="flex flex-col bg-white shadow-md rounded-lg overflow-hidden">
@@ -408,7 +408,7 @@
   </section>
 
   <section class="flex flex-col pr-3.5 pl-4 mt-3 w-full">
-    <h2 class="p-2.5 ml-4 text-lg font-semibold text-black bg-red-50 rounded-tr-xl rounded-tl-xl inline-block">
+    <h2 class="p-2.5 ml-4 text-lg font-semibold text-black bg-orange-light-hover rounded-tr-xl rounded-tl-xl inline-block">
       Mới cập nhật
     </h2>
 
@@ -422,7 +422,7 @@
         />
         <div class="flex flex-col flex-1 shrink basis-0 min-w-60">
           <span
-            class="gap-2.5 self-start p-0.5 text-base font-medium text-black whitespace-nowrap bg-red-400 rounded-sm"
+            class="gap-2.5 self-start p-0.5 text-base font-medium text-black whitespace-nowrap bg-red-normal rounded-sm"
             >Full</span
           >
           <h3
@@ -468,46 +468,46 @@
       aria-label="Pagination"
     >
       <button
-        class="self-stretch px-0.5 my-auto text-black bg-red-400 rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
+        class="self-stretch px-0.5 my-auto text-black bg-red-normal rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
         aria-current="page"
       >
         1
       </button>
       <button
-        class="self-stretch px-0.5 my-auto bg-red-50 rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
+        class="self-stretch px-0.5 my-auto bg-orange-light-hover rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
       >
         2
       </button>
       <button
-        class="self-stretch px-0.5 my-auto bg-red-50 rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
+        class="self-stretch px-0.5 my-auto bg-orange-light-hover rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
       >
         3
       </button>
       <span
-        class="self-stretch px-0.5 my-auto bg-red-50 rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
+        class="self-stretch px-0.5 my-auto bg-orange-light-hover rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
         >...</span
       >
       <button
-        class="self-stretch px-0.5 my-auto bg-red-50 rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
+        class="self-stretch px-0.5 my-auto bg-orange-light-hover rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
       >
         10
       </button>
       <button
-        class="self-stretch px-0.5 my-auto bg-red-50 rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
+        class="self-stretch px-0.5 my-auto bg-orange-light-hover rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
       >
         20
       </button>
       <button
-        class="self-stretch px-0.5 my-auto bg-red-50 rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
+        class="self-stretch px-0.5 my-auto bg-orange-light-hover rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
       >
         30
       </button>
       <span
-        class="self-stretch px-0.5 my-auto bg-red-50 rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
+        class="self-stretch px-0.5 my-auto bg-orange-light-hover rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
         >...</span
       >
       <button
-        class="self-stretch px-0.5 my-auto bg-red-50 rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
+        class="self-stretch px-0.5 my-auto bg-orange-light-hover rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px]"
         aria-label="Next page"
       >
         &gt;
@@ -517,7 +517,7 @@
 
   <section class="flex flex-col py-4 pr-3.5 pl-4 w-full bg-white">
     <h2
-      class="gap-2.5 self-start p-2.5 text-lg font-semibold text-black bg-red-50 rounded-xl"
+      class="gap-2.5 self-start p-2.5 text-lg font-semibold text-black bg-orange-light-hover rounded-xl"
     >
       Nổi bật
     </h2>
@@ -527,18 +527,18 @@
       aria-label="Time period filters"
     >
       <button
-        class="gap-2.5 self-stretch p-2.5 text-black bg-red-400 rounded-xl"
+        class="gap-2.5 self-stretch p-2.5 text-black bg-red-normal rounded-xl"
         aria-current="true"
       >
         Ngày
       </button>
-      <button class="gap-2.5 self-stretch p-2.5 bg-red-50 rounded-xl">
+      <button class="gap-2.5 self-stretch p-2.5 bg-orange-light-hover rounded-xl">
         Tuần
       </button>
-      <button class="gap-2.5 self-stretch p-2.5 bg-red-50 rounded-xl">
+      <button class="gap-2.5 self-stretch p-2.5 bg-orange-light-hover rounded-xl">
         Tháng
       </button>
-      <button class="gap-2.5 self-stretch p-2.5 bg-red-50 rounded-xl">
+      <button class="gap-2.5 self-stretch p-2.5 bg-orange-light-hover rounded-xl">
         Năm
       </button>
     </nav>

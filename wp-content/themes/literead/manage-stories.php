@@ -365,11 +365,11 @@
                     </h3>
                     <div class="flex gap-1 items-start self-start mt-[4px] ">
                     <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
                     </div>
                     <span class="text-[0.75rem] md:text-[1.5rem] text-normal text-red-normal md:mt-1.5">4</span>
                     </div>
@@ -388,11 +388,11 @@
                     </h3>
                     <div class="flex gap-1 items-start self-start mt-[4px] ">
                     <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
                     </div>
                     <span class="text-[0.75rem] md:text-[1.5rem] text-normal text-red-normal md:mt-[6px]">4</span>
                     </div>
@@ -411,11 +411,11 @@
                     </h3>
                     <div class="flex gap-1 items-start self-start mt-[4px] ">
                     <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
                     </div>
                     <span class="text-[0.75rem] md:text-[1.5rem] text-normal text-red-normal md:mt-[6px]">4</span>
                     </div>
@@ -434,11 +434,11 @@
                     </h3>
                     <div class="flex gap-1 items-start self-start mt-[4px] ">
                     <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
                     </div>
                     <span class="text-[0.75rem] md:text-[1.5rem] text-normal text-red-normal md:mt-[6px]">4</span>
                     </div>
@@ -456,11 +456,11 @@
                     </h3>
                     <div class="flex gap-1 items-start self-start mt-[4px] ">
                     <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
                     </div>
                     <span class="text-[0.75rem] md:text-[1.5rem] text-normal text-red-normal md:mt-[6px]">4</span>
                     </div>
@@ -478,11 +478,11 @@
                     </h3>
                     <div class="flex gap-1 items-start self-start mt-[4px] ">
                     <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span class="text-[#FFC700] w-[16px] h-[16px] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
+                        <span class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
                     </div>
                     <span class="text-[0.75rem] md:text-[1.5rem] text-normal text-red-normal md:mt-[6px]">4</span>
                     </div>
