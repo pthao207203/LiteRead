@@ -89,9 +89,44 @@
             class="flex mt-1.5 w-full bg-red-normal min-h-0.5 rounded-[99px]"
           ></div>
         </button>
-           
+            
+        <button
+                id="darkModeToggle"
+                class="p-2 bg-red-normal text-white rounded-md dark:bg-gray-600 dark:text-gray-200"
+            >
+                🌗
+            </button>
       </div>
     </div>
+   
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const darkModeToggle = document.getElementById("darkModeToggle");
+                    const htmlElement = document.documentElement;
+
+                    // Kiểm tra chế độ Dark Mode đã lưu trong localStorage
+                    if (localStorage.getItem("theme") === "dark") {
+                        htmlElement.classList.add("dark");
+                        darkModeToggle.textContent = "🌞";
+                    } else {
+                        htmlElement.classList.remove("dark");
+                        darkModeToggle.textContent = "🌗";
+                    }
+
+                    // Chuyển đổi chế độ khi nhấp vào nút
+                    darkModeToggle.addEventListener("click", () => {
+                        if (htmlElement.classList.contains("dark")) {
+                            htmlElement.classList.remove("dark");
+                            localStorage.setItem("theme", "light");
+                            darkModeToggle.textContent = "🌗";
+                        } else {
+                            htmlElement.classList.add("dark");
+                            localStorage.setItem("theme", "dark");
+                            darkModeToggle.textContent = "🌞";
+                        }
+                    });
+                });
+            </script>
     
 
   </nav>
