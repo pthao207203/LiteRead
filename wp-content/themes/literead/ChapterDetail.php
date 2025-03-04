@@ -271,13 +271,125 @@ get_header();
     setupDropdown("dropdownToggleTop", "dropdownMenuTop");
     setupDropdown("dropdownToggleBottom", "dropdownMenuBottom");
   </script>
+ <section class=" lg:px-[56px] px-[17px] flex flex-col mt-[1.5rem]  bg-white" aria-label="Comment Section">
+        <h2 id="comment" class="gap-2.5 self-start p-2.5 max-sm:text-[1.125rem] md:text-[1.875rem] font-medium text-red-normal bg-orange-light-hover rounded-xl">
+        Bình luận
+        </h2> 
+
+        <div class="flex flex-col mt-6 w-full text-red-darker max-md:max-w-full">
+        <!-- Comment Input -->
+        <textarea
+          id="commentBox"
+          class="p-2.5 w-full bg-orange-light text-red-dark placeholder-red-dark max-sm:text-[1rem] md:text-[1.75rem] resize-none overflow-y-auto block min-h-[3.75rem]"
+          placeholder="Bình luận tại đây..."
+          aria-label="Write your comment"
+        ></textarea>
+        
+        <!-- Comment List -->
+        <div role="feed" aria-label="Comments list">
+          <!-- Comment 1 -->
+          <article
+            class="flex flex-wrap gap-6 items-start py-4 md:py-8 mt-3 w-full border-solid border-t-[0.5px] border-t-[#593B37]/50 border-b-[0.1px] border-b-[#593B37]/50 max-md:max-w-full"
+          >
+            <div
+              class="flex shrink-0 gap-2.5 bg-orange-light aspect-[1/1] h-[50px] w-[50px] max-md:h-[30px] rounded-[99px] max-md:w-[30px]"
+              role="img"
+              aria-label="Midori's avatar"
+            ></div>
+            <div class="flex-1 shrink basis-0  max-md:max-w-full">
+              <header
+                class="flex flex-wrap md:gap-10 gap-1 justify-between items-center w-full max-md:max-w-full"
+              >
+                <h3 class="self-stretch my-auto max-sm:text-[1rem] md:text-[1.75rem] font-medium w-[126px]">
+                  Midori
+                </h3>
+                <time class="self-stretch my-auto max-sm:text-[0.875rem] md:text-[1.5rem] text-right"
+                  >9 giờ trước</time
+                >
+              </header>
+              <p
+                class="md:p-9 p-4 w-full max-sm:text-[1rem] md:text-[1.75rem] bg-orange-light rounded-tr-xl rounded-b-xl max-md:px-5 max-md:max-w-full"
+              >
+                Thấy cmt tưởng não tàn lắm nhưng mà ngược lại. Thấy cũng ổn mà
+              </p>
+            </div>
+          </article>
+
+          <!-- Comment 2 -->
+          <article
+            class="flex flex-wrap gap-6 items-start py-4 md:py-8 mt-2 w-full border-solid border-b-[0.5px] border-b-[#593B37]/50 max-md:max-w-full"
+          >
+            <div
+              class="flex shrink-0 gap-2.5 bg-orange-light aspect-[1/1] h-[50px] w-[50px] max-md:h-[30px] rounded-[99px] max-md:w-[30px]"
+              role="img"
+              aria-label="Midori's avatar"
+            ></div>
+            <div class="flex-1 shrink basis-0  max-md:max-w-full">
+              <header
+                class="flex flex-wrap md:gap-10 gap-1 justify-between items-center w-full max-md:max-w-full"
+              >
+                <h3 class="self-stretch my-auto max-sm:text-[1rem] md:text-[1.75rem] font-medium w-[126px]">
+                  Midori
+                </h3>
+                <time class="self-stretch my-auto max-sm:text-[0.875rem] md:text-[1.5rem] text-right"
+                  >9 giờ trước</time
+                >
+              </header>
+              <p
+                class="p-4 md:p-9 w-full max-sm:text-[1rem] md:text-[1.75rem] bg-orange-light rounded-tr-xl rounded-b-xl max-md:px-5 max-md:max-w-full"
+              >
+                Mạnh dạn đoán tác giả đang học cấp 3 hoặc ĐH
+              </p>
+            </div>
+          </article>
+
+          <!-- Comment 3 -->
+          <article
+            class="flex flex-wrap gap-3 items-start py-4 md:py-8 mt-2 w-full max-md:max-w-full"
+          >
+            <div
+              class="flex shrink-0 gap-2.5 bg-orange-light aspect-[1/1] h-[50px] w-[50px] max-md:h-[30px] rounded-[99px] max-md:w-[30px]"
+              role="img"
+              aria-label="Midori's avatar"
+            ></div>
+            <div class="flex-1 shrink basis-0  max-md:max-w-full">
+              <header
+                class="flex flex-wrap md:gap-10 gap-1 justify-between items-center w-full max-md:max-w-full"
+              >
+                <h3 class="self-stretch my-auto max-sm:text-[1rem] md:text-[1.75rem] font-medium w-[126px]">
+                  Midori
+                </h3>
+                <time class="self-stretch my-auto max-sm:text-[0.875rem] md:text-[1.5rem] text-right"
+                  >9 giờ trước</time
+                >
+              </header>
+              <p
+                class="p-9 w-full max-sm:text-[1rem] md:text-[1.75rem] bg-orange-light rounded-tr-xl rounded-b-xl max-md:px-5 max-md:max-w-full"
+              >
+                Xời nam9 xức sắc, 10 đỉm, tập sau ảnh đá bay nam phụ độc ác ra
+                chuồng gà:))))
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <!-- Pagination -->
+        <nav class="flex gap-1 justify-center items-center self-center font-medium text-center text-red-normal whitespace-nowrap mt-4" aria-label="Pagination">
+        <button aria-label="Page 1" class="self-stretch px-0.5 my-auto text-orange-light max-sm:text-[1.125rem] md:text-[1.875rem] bg-[#D56665] rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center" aria-current="page">1</button>
+        <button aria-label="Page 2" class="self-stretch px-0.5 my-auto bg-[#FFF2F0] max-sm:text-[1rem] md:text-[1.75rem] rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center">2</button>
+        <button aria-label="Page 3" class="self-stretch px-0.5 my-auto bg-[#FFF2F0] max-sm:text-[1rem] md:text-[1.75rem] rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center">3</button>
+        <span class="self-stretch px-0.5 my-auto bg-[#FFF2F0] rounded-lg max-sm:text-[1rem] md:text-[1.75rem] aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center">...</span>
+          <button aria-label="Page 6" class="self-stretch px-0.5 my-auto bg-[#FFF2F0] max-sm:text-[1rem] md:text-[1.75rem] rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center">6 </button>
+          <button aria-label="Next page" class="self-stretch px-0.5 my-auto bg-[#FFF2F0] max-sm:text-[1rem] md:text-[1.75rem] rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center">&gt;</button>
+        </nav>
+        </div>
+      </section>
+
+
+
   <section class="relative z-10 pt-[17px] lg:pt-[34px] mt-0 w-full bg-white rounded-[20px]">
     <div class="flex flex-col w-full rounded-none">
       <!-- Tiêu đề -->
-      <h2 class="gap-2.5 self-start p-[10px] lg:px-[20px] ml-[17px] lg:ml-[34px] mb-[-3px] text-[18px] lg:text-[2.25rem] font-semibold text-red-normal bg-red-light rounded-tl-[12px] rounded-tr-[12px]">
-        Truyện đề cử
-      </h2>
-
       <!-- Wrapper cuộn ngang + Grid cho màn hình lớn -->
       <div class="flex overflow-x-auto lg:grid lg:grid-cols-6 gap-[17px] lg:gap-[46px] items-center p-[17px] pt-[14px] lg:p-[34px] lg:pt-[28px] bg-red-light scrollbar-thin scrollbar-thumb-red-normal scrollbar-track-red-light lg:overflow-x-hidden" role="list">
         
