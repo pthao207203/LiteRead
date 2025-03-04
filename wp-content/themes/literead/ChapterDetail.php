@@ -50,8 +50,8 @@ get_header();
         </svg>
 
         <!-- Dropdown Menu -->
-        <div id="dropdownMenuTop" class="w-[233px] h-[342px] px-[10px] py-[10px] dropdown-hidden absolute mt-[5px] top-full center  bg-orange-light-hover ">
-          <ul class="text-red-darker lg:text-[1.5rem] md:text-[1.5rem] sm:text-[0.875rem]  text-center">
+        <div id="dropdownMenuTop" class="h-[342px] px-[10px] py-[10px] dropdown-hidden absolute mt-[5px] top-full center w-[133px] bg-orange-light-hover ">
+          <ul class="text-red-darker text-[16px] text-center">
             <li class="flex justify-center items-center py-[6px] h-[46px] hover:bg-orange-normal  cursor-pointer">Chương 1</li>
             <li class="flex justify-center items-center py-[6px] h-[46px] hover:bg-orange-normal  cursor-pointer">Chương 2</li>
             <li class="flex justify-center items-center py-[6px] h-[46px] hover:bg-orange-normal  cursor-pointer">Chương 3</li>
@@ -212,8 +212,8 @@ get_header();
         </svg>
 
         <!-- Dropdown Menu -->
-        <div id="dropdownMenuBottom" class="w-[233px] h-[342px] px-[10px] py-[10px] dropdown-hidden absolute mb-[5px] bottom-full center bg-orange-light-hover ">
-          <ul class="text-red-darker lg:text-[1.5rem] text-[0.875rem] text-center">
+        <div id="dropdownMenuBottom" class="h-[342px] px-[10px] py-[10px] dropdown-hidden absolute mt-[5px] top-full center w-[133px] bg-orange-light-hover ">
+          <ul class="text-red-darker text-[16px] text-center">
             <li class="flex justify-center items-center py-[6px] h-[46px] hover:bg-orange-normal  cursor-pointer">Chương 1</li>
             <li class="flex justify-center items-center py-[6px] h-[46px] hover:bg-orange-normal  cursor-pointer">Chương 2</li>
             <li class="flex justify-center items-center py-[6px] h-[46px] hover:bg-orange-normal  cursor-pointer">Chương 3</li>

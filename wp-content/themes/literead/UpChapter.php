@@ -6,10 +6,9 @@ get_header();
   
   <div class="max-md:max-w-full">
     <div class="flex gap-5 max-md:flex-col">
-      <aside class="w-[18rem] md:w-full">
-      </aside>
+      
 
-      <main class="w-[calc(100%-19.25rem)] max-md:w-full">
+      <main class="w-full max-md:w-full">
         <div class="w-full max-md:mt-5 max-md:max-w-full">
         <nav class="flex flex-wrap items-center w-full px-[20px] text-[1.125rem] font-medium  bg-white text-red-darker mb-[2px]" aria-label="Navigation menu">
   
@@ -59,11 +58,11 @@ get_header();
 
             <div class="mt-[1.5rem] w-full font-medium max-md:max-w-full">
               <h3
-                class="font-semibold text-[1.75rem] tracking-wide leading-none max-md:max-w-full"
+                class="font-semibold text-[1.75rem] mb-[1rem] tracking-wide leading-none max-md:max-w-full"
               >
                 Nội dung
               </h3>
-              <textarea id="synopsis text-red-dark" rows="5" class="w-full px-[1rem] py-[0.5rem] mt-[1rem] min-h-[434px] text-red-dark border-1 border-red-normal rounded-[0.5rem] focus:outline-none focus:ring-2 focus:ring-red-normal" placeholder="Nội dung truyện..."></textarea>
+              <textarea id="synopsis" name="synopsis" rows="5" class="literead w-full px-[1rem] py-[0.5rem] mt-[1rem] text-red-dark border-1 rounded-[8px] focus:outline-none focus:ring-2 focus:ring-red-normal" style="border-color: #D56665 important!;" placeholder="Tóm tắt nội dung truyện..."></textarea>
               <p
                 class="mt-[1rem] text-[1.375rem] tracking-wide leading-none max-md:max-w-full"
                 id="wordCount"

@@ -13,7 +13,7 @@ get_header();
         Nguyệt hạ
       </h1>
       <p
-        class="mt-[12px] lg:mt-[24px] text-3xl font-medium leading-none text-red-dark text-[18px] lg:text-[1.875rem] max-md:max-w-full"
+        class="mt-[12px] lg:mt-[24px] font-medium leading-none text-red-dark text-[18px] lg:text-[1.875rem] max-md:max-w-full"
       >
         14 Truyện
       </p>
