@@ -52,6 +52,14 @@
             },
         }
     </script>
+    <script src="https://cdn.tiny.cloud/1/ra8co6ju1rrspizsq3cqhi3e8p7iknltlh2v77d58cbrys8m/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <script >
+      tinymce.init({
+        selector: 'textarea',
+        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+      });
+    </script>
 </head>
 <body <?php body_class(); ?>>
 

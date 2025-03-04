@@ -19,14 +19,12 @@ get_header();
         <label for="password" class="font-semibold">Mật khẩu</label>
         <div class="flex overflow-hidden gap-1.5 items-center px-[8px] py-[12px] mt-[8px] w-full whitespace-nowrap border-b border-solid border-red-dark">
           <input type="password" id="password" placeholder="**********" class="flex-1 shrink self-stretch my-auto opacity-60 basis-0 bg-transparent border-none outline-none" />
-          <button type="button" class="flex shrink-0 self-stretch my-auto w-6 h-6" aria-label="Toggle password visibility"></button>
         </div>
       </div>
       <div class="flex flex-col mt-[12px] w-full tracking-wide leading-none">
         <label for="confirmPassword" class="font-semibold">Nhập lại mật khẩu</label>
         <div class="flex overflow-hidden gap-1.5 items-center px-[8px] py-[12px] mt-[8px] w-full whitespace-nowrap border-b border-solid border-red-dark">
           <input type="password" id="confirmPassword" placeholder="**********" class="flex-1 shrink self-stretch my-auto opacity-60 basis-0 bg-transparent border-none outline-none" />
-          <button type="button" class="flex shrink-0 self-stretch my-auto w-6 h-6" aria-label="Toggle password visibility"></button>
         </div>
       </div>
       <div class="mt-[12px] w-full] text-[16px] font-medium text-center text-stone-500">
