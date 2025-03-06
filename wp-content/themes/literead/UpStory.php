@@ -125,6 +125,7 @@ get_header();
       <label for="synopsis" class="font-semibold text-red-dark mt-[1.25rem]">Văn án</label>
       <div id="synopsis" class="min-h-[200px]">
       </div>
+      <textarea name="synopsis" id="content" style="display:none;"></textarea>
       <p class="mt-[1rem] text-red-dark">Không quá 500 từ.</p>
       <p class="mt-[1rem] text-red-dark">Nghiêm cấm sử dụng từ ngữ thô tục, 18+, phân biệt vùng miền, vấn đề liên quan
         đến chính trị. Nếu chúng tôi phát hiện sẽ từ chối duyệt, gỡ bỏ và có nguy cơ khóa tài khoản.</p>
@@ -186,6 +187,10 @@ get_header();
   <script>
     document.getElementById('storyForm').addEventListener('submit', async function (e) {
       e.preventDefault(); // Ngăn form load lại trang
+
+      var content = quill.root.innerHTML;
+      document.getElementById('content').value = content;
+      console.log('Nội dung gửi đi:', content);
 
       const formData = new FormData(this);
       formData.append('action', 'upload_story'); // Tên action đã khai báo trong PHP

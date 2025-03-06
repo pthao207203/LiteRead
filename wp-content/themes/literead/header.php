@@ -56,35 +56,10 @@
       },
     }
   </script>
-  <style>
-    .placeholder-div {
-      min-height: 100px;
-      /* Đặt chiều cao tối thiểu */
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      position: relative;
-    }
-
-    .placeholder-div:empty::before {
-      content: 'Tóm tắt nội dung truyện...';
-      color: #999;
-      position: absolute;
-      left: 10px;
-      top: 10px;
-      pointer-events: none;
-    }
-
-    /* Khi có nội dung, placeholder sẽ biến mất */
-    .placeholder-div:not(:empty)::before {
-      content: '';
-    }
-  </style>
 </head>
 
 <body <?php body_class(); ?>>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <!-- === Header === -->
   <header>
     <nav class="overflow-hidden w-full bg-red-100">
