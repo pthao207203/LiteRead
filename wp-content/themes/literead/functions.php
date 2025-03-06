@@ -8,11 +8,10 @@ function handle_story_upload()
   global $wpdb;
   $table_name = $wpdb->prefix . 'stories';
 
-  echo $_POST['synopsis'];
   $story_name = sanitize_text_field($_POST['story_name']);
   $author = sanitize_text_field($_POST['author']);
   $status = sanitize_text_field($_POST['status']);
-  $synopsis = wp_kses_post($_POST['synopsis']);
+  $synopsis = sanitize_textarea_field($_POST['synopsis']);
   $genres = isset($_POST['genres']) ? implode(',', array_map('sanitize_text_field', $_POST['genres'])) : '';
 
   $cover_image_url = '';
@@ -37,8 +36,7 @@ function handle_story_upload()
     )
   );
 
-  // echo 'Thêm truyện thành công!';
-  // echo $synopsis;
+  echo 'Thêm truyện thành công!';
   wp_die(); // Kết thúc AJAX request
 }
 
