@@ -1,31 +1,44 @@
 <?php
-// Theme setup
-function metruyen_theme_setup() {
-    add_theme_support('post-thumbnails'); // Featured images
-    add_theme_support('title-tag');       // Dynamic titles
-    register_nav_menus(array(
-        'primary' => __('Primary Menu', 'metruyen'),
-    ));
-}
-add_action('after_setup_theme', 'metruyen_theme_setup');
 
-// Enqueue styles
-function metruyen_enqueue_styles() {
-    wp_enqueue_style('metruyen-style', get_stylesheet_uri());
-}
-add_action('wp_enqueue_scripts', 'metruyen_enqueue_styles');
+add_action('wp_ajax_upload_story', 'handle_story_upload');
+add_action('wp_ajax_nopriv_upload_story', 'handle_story_upload');
 
-// Register Custom Post Type "Truyện"
-function metruyen_register_post_type() {
-    register_post_type('truyen', array(
-        'labels' => array(
-            'name' => __('Truyện'),
-            'singular_name' => __('Truyện')
-        ),
-        'public' => true,
-        'has_archive' => true,
-        'supports' => array('title', 'editor', 'thumbnail', 'excerpt'),
-        'rewrite' => array('slug' => 'truyen'),
-    ));
+function handle_story_upload()
+{
+  global $wpdb;
+  $table_name = $wpdb->prefix . 'stories';
+
+  $story_name = sanitize_text_field($_POST['story_name']);
+  $author = sanitize_text_field($_POST['author']);
+  $status = sanitize_text_field($_POST['status']);
+  $synopsis = sanitize_textarea_field($_POST['synopsis']);
+  $genres = isset($_POST['genres']) ? implode(',', array_map('sanitize_text_field', $_POST['genres'])) : '';
+
+  $cover_image_url = '';
+  if (!empty($_FILES['cover_image']['name'])) {
+    $uploaded_file = $_FILES['cover_image'];
+    $upload = wp_handle_upload($uploaded_file, array('test_form' => false));
+
+    if (!isset($upload['error']) && isset($upload['url'])) {
+      $cover_image_url = $upload['url'];
+    }
+  }
+
+  $wpdb->insert(
+    $table_name,
+    array(
+      'story_name' => $story_name,
+      'author' => $author,
+      'status' => $status,
+      'genres' => $genres,
+      'synopsis' => $synopsis,
+      'cover_image_url' => $cover_image_url,
+    )
+  );
+
+  echo 'Thêm truyện thành công!';
+  wp_die(); // Kết thúc AJAX request
 }
-add_action('init', 'metruyen_register_post_type');
+
+
+?>
