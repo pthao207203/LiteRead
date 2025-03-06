@@ -123,9 +123,8 @@ get_header();
     <!-- Văn án -->
     <div>
       <label for="synopsis" class="font-semibold text-red-dark mt-[1.25rem]">Văn án</label>
-      <textarea id="synopsis" name="synopsis" rows="5"
-        class="literead w-full px-[1rem] py-[0.5rem] mt-[1rem] text-red-dark border-1 rounded-[8px] focus:outline-none focus:ring-2 focus:ring-red-normal"
-        style="border-color: #D56665 important!;" placeholder="Tóm tắt nội dung truyện..."></textarea>
+      <textarea id="synopsis" name="synopsis" rows="5" style="min-height: 200px;"
+        placeholder="Tóm tắt nội dung truyện..."></textarea>
       <p class="mt-[1rem] text-red-dark">Không quá 500 từ.</p>
       <p class="mt-[1rem] text-red-dark">Nghiêm cấm sử dụng từ ngữ thô tục, 18+, phân biệt vùng miền, vấn đề liên quan
         đến chính trị. Nếu chúng tôi phát hiện sẽ từ chối duyệt, gỡ bỏ và có nguy cơ khóa tài khoản.</p>
