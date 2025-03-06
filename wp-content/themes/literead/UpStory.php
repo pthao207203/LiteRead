@@ -6,15 +6,20 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
   $charset_collate = $wpdb->get_charset_collate();
 
   $sql = "CREATE TABLE $table_name (
-      id mediumint(9) NOT NULL AUTO_INCREMENT,
-      story_name TEXT NOT NULL,
-      author TEXT NOT NULL,
-      status TEXT NOT NULL,
-      genres TEXT NOT NULL,
-      synopsis TEXT NOT NULL,
-      cover_image_url TEXT NOT NULL,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
-      PRIMARY KEY  (id)
+    id MEDIUMINT(9) UNSIGNED NOT NULL AUTO_INCREMENT,
+    story_name TEXT NOT NULL,
+    author VARCHAR(255) NOT NULL,
+    editor VARCHAR(255) DEFAULT NULL,
+    cover_image_url TEXT DEFAULT NULL,
+    status TEXT NOT NULL,
+    genres TEXT DEFAULT NULL,
+    synopsis TEXT DEFAULT NULL,
+    view INT UNSIGNED DEFAULT 0,
+    save INT UNSIGNED DEFAULT 0,
+    likes INT UNSIGNED DEFAULT 0,
+    hot INT UNSIGNED DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY  (id)
   ) $charset_collate;";
   require_once ABSPATH . 'wp-admin/includes/upgrade.php';
   dbDelta($sql);
