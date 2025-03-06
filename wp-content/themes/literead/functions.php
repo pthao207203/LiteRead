@@ -36,7 +36,8 @@ function handle_story_upload()
     )
   );
 
-  echo 'Thêm truyện thành công!';
+  // echo 'Thêm truyện thành công!';
+  echo $synopsis;
   wp_die(); // Kết thúc AJAX request
 }
 
