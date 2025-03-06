@@ -29,3 +29,14 @@ function metruyen_register_post_type() {
     ));
 }
 add_action('init', 'metruyen_register_post_type');
+
+function enqueue_custom_script() {
+    wp_enqueue_script(
+        'custom-script',
+        get_template_directory_uri() . '/js/custom-script.js',
+        array(),
+        '1.0',
+        true // Đảm bảo script được tải ở footer
+    );
+}
+add_action('wp_enqueue_scripts', 'enqueue_custom_script');
