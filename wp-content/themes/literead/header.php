@@ -13,7 +13,7 @@
     rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Moul&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
   <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -56,19 +56,30 @@
       },
     }
   </script>
-  <script>
-    var quill = new Quill('#synopsis', {
-      theme: 'snow',
-      modules: {
-        toolbar: [
-          [{ 'header': [1, 2, false] }],
-          ['bold', 'italic', 'underline'],
-          [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-          ['link', 'image']
-        ]
-      }
-    });
-  </script>
+  <style>
+    .placeholder-div {
+      min-height: 100px;
+      /* Đặt chiều cao tối thiểu */
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      position: relative;
+    }
+
+    .placeholder-div:empty::before {
+      content: 'Tóm tắt nội dung truyện...';
+      color: #999;
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      pointer-events: none;
+    }
+
+    /* Khi có nội dung, placeholder sẽ biến mất */
+    .placeholder-div:not(:empty)::before {
+      content: '';
+    }
+  </style>
 </head>
 
 <body <?php body_class(); ?>>
