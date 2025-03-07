@@ -30,7 +30,6 @@ get_header();
             class="flex-1 shrink self-stretch my-auto opacity-60 basis-0"
             value="**********"
           />
-          <button class="flex shrink-0 self-stretch my-auto w-6 h-6" aria-label="Toggle password visibility"></button>
         </div>
         <button class="mt-[8px] text-[16px] font-medium text-right">Quên mật khẩu</button>
       </div>
