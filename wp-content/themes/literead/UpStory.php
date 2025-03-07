@@ -15,6 +15,7 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
     status TEXT NOT NULL,
     genres TEXT DEFAULT NULL,
     synopsis TEXT DEFAULT NULL,
+    rate INT UNSIGNED DEFAULT 5,
     view INT UNSIGNED DEFAULT 0,
     viewDay INT UNSIGNED DEFAULT 0,
     save INT UNSIGNED DEFAULT 0,
