@@ -8,6 +8,7 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
   $sql = "CREATE TABLE $table_name (
     id MEDIUMINT(9) UNSIGNED NOT NULL AUTO_INCREMENT,
     story_name TEXT NOT NULL,
+    slug TEXT NOT NULL,
     author VARCHAR(255) NOT NULL,
     editor VARCHAR(255) DEFAULT NULL,
     cover_image_url TEXT DEFAULT NULL,
@@ -15,6 +16,7 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
     genres TEXT DEFAULT NULL,
     synopsis TEXT DEFAULT NULL,
     view INT UNSIGNED DEFAULT 0,
+    viewDay INT UNSIGNED DEFAULT 0,
     save INT UNSIGNED DEFAULT 0,
     likes INT UNSIGNED DEFAULT 0,
     hot INT UNSIGNED DEFAULT 0,
