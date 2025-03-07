@@ -5,120 +5,14 @@
 <?php get_header(); ?>
 
 <main class="flex flex-col bg-[#FFE5E1]">
-    <div class="w-full max-w-[1828px] max-md:max-w-full">
-        <div class="flex gap-[1.25rem] max-md:flex-col">
-          <!-- Sidebar Navigation -->
-          <aside class="w-2/12 max-md:ml-0 max-md:w-full">
-            <nav
-              class="flex flex-col py-[1.25rem] mx-auto w-full bg-red-normal shadow-lg min-h-[912px] max-md:mt-5"
-            >
-              <ul
-                class="flex-1 w-full text-[0.875rem] md:text-[1.5rem] font-medium leading-none text-orange-light"
-              >
-                <li>
-                  <a
-                    href="#"
-                    class="flex gap-6 items-center px-[1.25rem] py-[1.25rem] w-full border-l-2 border-red-400 min-h-[78px]"
-                  >
-                    <span
-                      class="flex shrink-0 self-stretch my-auto h-[30px] w-[30px]"
-                    ></span>
-                    <span
-                      class="flex-1 shrink gap-[0.625rem] self-stretch my-auto basis-0"
-                    >
-                      Tổng quan
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    class="flex gap-6 items-center px-[1.25rem] py-[1.25rem] w-full border-l-2 border-red-400 min-h-[78px]"
-                  >
-                    <span
-                      class="flex shrink-0 self-stretch my-auto h-[30px] w-[30px]"
-                    ></span>
-                    <span
-                      class="flex-1 shrink gap-[0.625rem] self-stretch my-auto basis-0"
-                    >
-                      Truyện đã lưu
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    class="flex overflow-hidden gap-6 items-center px-[1.25rem] py-[1.25rem] w-full text-red-normal bg-orange-light-hover border-l-2 border-red-400 min-h-[77px]"
-                  >
-                    <img
-                      src="https://cdn.builder.io/api/v1/image/assets/103bf3aa31034bd4a5ed1d2543b64cba/c5eed1176e40482f5d5aacff3a8462e8cfdf03f9f69ce2ad8e4411e84e915ece?placeholderIfAbsent=true"
-                      class="object-contain shrink-0 self-stretch my-auto aspect-square w-[30px]"
-                      alt="Quản lý truyện icon"
-                    />
-                    <span
-                      class="flex-1 shrink gap-[0.625rem] self-stretch my-auto basis-0"
-                    >
-                      Quản lý truyện
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    class="flex gap-6 items-center px-[1.25rem] py-[1.25rem] w-full border-l-2 border-red-400 min-h-[78px]"
-                  >
-                    <span
-                      class="flex shrink-0 self-stretch my-auto h-[30px] w-[30px]"
-                    ></span>
-                    <span
-                      class="flex-1 shrink gap-[0.625rem] self-stretch my-auto basis-0"
-                    >
-                      Ví của tôi
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    class="flex gap-6 items-center px-[1.25rem] py-[1.25rem] w-full border-l-2 border-red-400 min-h-[77px]"
-                  >
-                    <span
-                      class="flex shrink-0 self-stretch my-auto h-[30px] w-[30px]"
-                    ></span>
-                    <span
-                      class="flex-1 shrink gap-[0.625rem] self-stretch my-auto basis-0"
-                    >
-                      Thông báo
-                    </span>
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    class="flex gap-6 items-center px-[1.25rem] py-[1.25rem] w-full border-l-2 border-red-400 min-h-[78px]"
-                  >
-                    <span
-                      class="flex shrink-0 self-stretch my-auto h-[30px] w-[30px]"
-                    ></span>
-                    <span
-                      class="flex-1 shrink gap-[0.625rem] self-stretch my-auto basis-0"
-                    >
-                      Điều khoản
-                    </span>
-                  </a>
-                </li>
-              </ul>
-              <button
-                class="gap-[0.625rem] self-center px-14 py-2.5 mt-7 text-[1rem] md:text-[1.75rem] text-center text-red-normal bg-orange-light-hover rounded-xl min-h-[54px] max-md:px-5"
-              >
-                Đăng xuất
-              </button>
-            </nav>
-          </aside>
+    <div class="w-full max-md:max-w-full">
+        <div class="flex md:gap-[1.25rem] max-md:flex-col">
+          <!-- Sidebar Navigationx -->
+          <?php include "sidebar.php"; ?>
 
           <!-- Main Content Area -->
-          <section class="w-10/12 max-md:ml-0 max-md:w-full">
-            <div class="grow w-full bg-white max-md:mt-5 max-md:max-w-full">
+          <section  id="mainContent" class="md:w-10/12 flex-grow transition-all max-md:ml-0 max-md:w-full">
+            <div class="grow w-full bg-white  max-md:max-w-full">
               <!-- Author Profile Section -->
               <section
                 class="flex flex-col justify-center p-[2.25rem] w-full max-md:px-5 max-md:max-w-full"
