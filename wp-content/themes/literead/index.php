@@ -3,7 +3,7 @@
 get_header();
 
 global $wpdb;
-$stories = $wpdb->get_results("SELECT * FROM wp_stories WHERE hot='1' LIMIT 10");
+$stories = $wpdb->get_results("SELECT * FROM wp_stories WHERE hot='1' LIMIT 6");
 
 ?>
 
@@ -39,7 +39,7 @@ $stories = $wpdb->get_results("SELECT * FROM wp_stories WHERE hot='1' LIMIT 10")
         <p class="gap-2.5 self-start mt-2 text-[14px] lg:text-[1.5rem] font-regular text-white">
           Thể loại: HE, hắc đạo
         </p>
-        <p class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[12px] lg:text-[1.25rem] font-regular text-white basis-0 min-h-[5.75rem] max-h-[5.75rem]"
+        <p class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[12px] lg:text-[1.25rem] font-regular text-white basis-0 min-h-[5.5rem] max-h-[5.5rem]"
           style="line-clamp: 3; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3;">
           Chiều cuối hạ, cơn mưa bất chợt đổ xuống khu phố nhỏ, từng giọt nước
           rơi lộp độp trên mái tôn cũ kỹ, tạo nên bản nhạc quen thuộc mà An vẫn
@@ -82,16 +82,18 @@ $stories = $wpdb->get_results("SELECT * FROM wp_stories WHERE hot='1' LIMIT 10")
         <!-- Story Cards (6 items) -->
         <?php if (!empty($stories)): ?>
           <?php foreach ($stories as $story): ?>
-            <article class="flex flex-col self-stretch my-auto min-h-[261px] w-[121px] shrink-0 lg:w-auto" role="listitem">
+            <article class="flex flex-col self-stretch my-auto w-[121px] shrink-0 lg:w-auto" role="listitem">
               <img loading="lazy" src=<?php echo esc_url($story->cover_image_url); ?> alt=<?php echo esc_html($story->story_name); ?> class="object-cover rounded-lg aspect-[0.81] w-[121px] lg:w-full" />
-              <?php if ($story->status != "Đang tiến hành")
+              <?php if ($story->status != "Hoàn thành")
                 echo '<span
-                class="gap-2.5 self-start px-[2px] mt-[4px] lg:my-[8px] text-[12px] lg:text-[1.5rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]"></span>';
+                class="gap-2.5 self-start px-[2px] mt-[4px] lg:my-[8px] text-[12px] lg:text-[1.5rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Full</span>';
               ?>
               <div class="flex flex-col mt-[4px] w-full">
                 <h3
                   class="flex-1 shrink gap-2.5 self-stretch w-full text-[16px] lg:text-[1.75rem] font-medium basis-0 text-orange-darker break-words">
-                  <?php echo esc_html($story->story_name); ?>
+                  <a href="<?php echo esc_url(home_url('/truyen/' . $story->slug)); ?>">
+                    <?php echo esc_html($story->story_name); ?>
+                  </a>
                 </h3>
                 <div class="flex gap-1 items-start self-start mt-[4px] ">
                   <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[3px]">4</span>
