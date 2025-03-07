@@ -121,11 +121,12 @@ function custom_rewrite_rules()
 {
   add_rewrite_rule(
     '^truyen/([^/]*)/?$', // Mẫu URL
-    'index.php?story_slug=$matches[1]', // Query variable 'story_slug'
+    'index.php?post_type=truyen&name=$matches[1]', // Đúng query cho custom post type
     'top'
   );
 }
 add_action('init', 'custom_rewrite_rules');
+
 
 // Đăng ký Query Variable
 function custom_query_vars($vars)
