@@ -14,7 +14,7 @@ This theme is designed for WordPress.
 */
 
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Moul&display=swap");
 html {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -27,10 +27,15 @@ body {
   font-family: "Montserrat", sans-serif !important;
 }
 
+h1 {
+  font-family: 'Moul', sans-serif;
+}
+
 .clamp-3-lines {
   display: -webkit-box; /* Kích hoạt box layout */
   -webkit-box-orient: vertical; /* Hướng box dọc */
   -webkit-line-clamp: 3; /* Giới hạn 3 dòng */
+  line-clamp: 3;
   overflow: hidden; /* Ẩn phần dư */
   text-overflow: ellipsis; /* Thêm dấu "..." */
   white-space: normal; /* Cho phép xuống dòng */
