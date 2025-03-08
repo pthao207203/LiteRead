@@ -58,15 +58,17 @@
   </script>
 </head>
 
-<body <?php body_class(); ?>>
+<body <?php body_class(); ?> 
+style="font-family: 'Montserrat', sans-serif !important;"
+>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <!-- === Header === -->
 <header class="flex items-center md:px-[2.125rem] md:py-[0.625rem] p-[0.625rem] gap-[1rem] md:gap-[2.875rem] w-full bg-[#FFE5E1]">
   <div class="flex gap-2.5 items-center ">
       <!-- Nút Hamburger mở Sidebar -->
-      <button id="openSidebarBtn" class="w-[30px]" aria-label="Menu">
-        <div class="w-full bg-red-normal h-0.5 rounded-full"></div>
+      <button id="openSidebarBtn" class="w-[30px] max-md:w-[1.8rem]" aria-label="Menu">
+        <div class="w-full bg-red-normal h-[0.125rem] rounded-full"></div>
         <div class="mt-1.5 w-full bg-red-normal h-0.5 rounded-full"></div>
         <div class="mt-1.5 w-full bg-red-normal h-0.5 rounded-full"></div>
       </button>
