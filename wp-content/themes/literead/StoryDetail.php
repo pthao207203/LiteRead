@@ -7,7 +7,7 @@
 <main class="home w-full max-md:max-w-full">
     <!-- Overview -->
     <section class="book-details max-md:p-4 px-14 py-11 " aria-labelledby="book-title">
-    <div class="flex flex-col justify-center items-center mx-auto w-full ">
+    <div class="flex flex-col justify-start items-center mx-auto w-full ">
         <div class="flex flex-col sm:flex-row sm:gap-4 md:gap-6">
         <img
             loading="lazy"
@@ -16,7 +16,7 @@
             alt="Book cover of Sổ tay bạch liên hoa lừa người"
         />
         <div class="flex flex-col items-start mt-3 lg:w-3/4 sm:w-2/3 w-[24.625rem] gap-2.5 justify-end">
-            <h1 id="book-title" class="flex shrink gap-2.5 self-end w-full md:text-[2rem] text-[20px] font-bold leading-7 text-red-normal uppercase">
+            <h1 id="book-title" class="flex shrink gap-2.5 self-end w-full md:text-[2rem] text-[20px] font-bold max-md:leading-9 text-red-normal uppercase">
             Sổ tay bạch liên hoa lừa người
             </h1>
             <div class="flex gap-1 justify-center items-center" aria-label="Book rating">
@@ -62,7 +62,7 @@
             <span class="px-2.5 py-1 text-[14px] md:text-[1.5rem] font-normal text-[#593B37] bg-orange-light-active rounded-lg">Thế thân</span>
             </div>
             <div
-              class="flex flex-wrap gap-4 items-center justify-center mt-2.5 text-[18px] md:text-[1.875rem] font-normal text-orange-light max-md:max-w-full"
+              class="flex flex-wrap gap-4 items-center justify-start mt-2.5 text-[18px] md:text-[1.875rem] font-normal text-orange-light max-md:max-w-full"
             >
               <a href="#first-chapter" class=" self-stretch px-[1rem] py-[0.5rem] md:px-[1.25rem] md:py-[0.625rem] bg-red-normal rounded-xl">
                 Chương đầu
@@ -73,7 +73,7 @@
               <button id="toggle-btn">
                 <img id="toggle-img" 
                     src="https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png" 
-                      class="md:w-[3.5625rem] w-[2.625rem] h-[2.625rem] md:h-[3.5625rem] object-fill shrink "
+                      class="w-[3.5625rem] max-sm:w-[2.625rem] max-sm:h-[2.625rem] h-[3.5625rem] object-fill shrink "
                     alt="Toggle Button"/>
               </button>
 
@@ -330,7 +330,7 @@
         <!-- Trending Stories -->
         <article class="flex gap-3 w-full mb-[12px] md:mb-[24px]">
         <span
-            class="gap-2.5 self-center my-auto w-[2rem] h-[2rem] text-[16px] md:text-[1.25rem] p-0.5 font-medium text-center text-red-normal whitespace-nowrap rounded-[2px] border" style="border-color: #D56665 !important;"
+            class="gap-2.5 self-center my-auto w-[2rem] h-[2rem] text-[12px] md:text-[1.25rem] p-0.5 font-medium text-center text-red-normal whitespace-nowrap rounded-[2px] border" style="border-color: #D56665 !important;"
             >1</span
           >
           <img
@@ -372,7 +372,7 @@
         
         <article class="flex gap-3 items-center w-full mb-[12px] md:mb-[24px]">
           <span
-            class="gap-2.5 self-center my-auto w-[2rem] h-[2rem] p-0.5 text-[16px] md:text-[1.25rem] font-medium text-center text-red-normal whitespace-nowrap rounded-[2px] border" style="border-color: #D56665 !important;"
+            class="gap-2.5 self-center my-auto w-[2rem] h-[2rem] p-0.5 text-[12px] md:text-[1.25rem] font-medium text-center text-red-normal whitespace-nowrap rounded-[2px] border" style="border-color: #D56665 !important;"
             >2</span
           >
           <img
@@ -413,7 +413,7 @@
         </article>
         <article class="flex gap-3 items-center w-full mb-[12px] md:mb-[24px]">
           <span
-            class="gap-2.5 self-center items-center my-auto w-[2rem] h-[2rem] p-0.5 text-[16px] md:text-[1.25rem] font-medium text-center text-red-normal whitespace-nowrap rounded-[2px] border" style="border-color: #D56665 !important;"
+            class="gap-2.5 self-center items-center my-auto w-[2rem] h-[2rem] p-0.5 text-[12px] md:text-[1.25rem] font-medium text-center text-red-normal whitespace-nowrap rounded-[2px] border" style="border-color: #D56665 !important;"
             >3</span
           >
           <img
