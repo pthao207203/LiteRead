@@ -7,13 +7,13 @@ add_action('wp_ajax_nopriv_upload_story', 'handle_story_upload');
 function create_slug($string)
 {
   $string = strtolower($string);
-  $string = preg_replace('/[áàạảãâấầậẩẫăắằặẳẵ]/u', 'a', $string);
-  $string = preg_replace('/[éèẹẻẽêếềệểễ]/u', 'e', $string);
-  $string = preg_replace('/[íìịỉĩ]/u', 'i', $string);
-  $string = preg_replace('/[óòọỏõôốồộổỗơớờợởỡ]/u', 'o', $string);
-  $string = preg_replace('/[úùụủũưứừựửữ]/u', 'u', $string);
-  $string = preg_replace('/[ýỳỵỷỹ]/u', 'y', $string);
-  $string = preg_replace('/[đ]/u', 'd', $string);
+  $string = preg_replace('/[áàạảãâấầậẩẫăắằặẳẵÁÀẠẢÃÂẤẦẬẨẪĂẮẰẶẲẴ]/u', 'a', $string);
+  $string = preg_replace('/[éèẹẻẽêếềệểễÉÈẸẺẼÊẾỀỆỂỄ]/u', 'e', $string);
+  $string = preg_replace('/[íìịỉĩÍÌỊỈĨ]/u', 'i', $string);
+  $string = preg_replace('/[óòọỏõôốồộổỗơớờợởỡÓÒỌỎÕÔỐỒỘỔỖƠỚỜỢỞỠ]/u', 'o', $string);
+  $string = preg_replace('/[úùụủũưứừựửữÚÙỤỦŨƯỨỪỰỬỮ]/u', 'u', $string);
+  $string = preg_replace('/[ýỳỵỷỹÝỲỴỶỸ]/u', 'y', $string);
+  $string = preg_replace('/[đĐ]/u', 'd', $string);
   $string = preg_replace('/[^a-z0-9-\s]/', '', $string);
   $string = preg_replace('/([\s]+)/', '-', $string);
   return trim($string, '-');
@@ -144,6 +144,74 @@ function flush_rewrite_rules_on_activation()
 }
 add_action('after_switch_theme', 'flush_rewrite_rules_on_activation');
 
+// Tạo trang quản lý truyện
+function tao_quanly_custom_post_type()
+{
 
+  /*
+   * Biến $label để chứa các text liên quan đến tên hiển thị của Post Type trong Admin
+   */
+  $label = array(
+    'name' => 'Quản lý truyện', //Tên post type dạng số nhiều
+    'singular_name' => 'Quản lý truyện' //Tên post type dạng số ít
+  );
+
+  /*
+   * Biến $args là những tham số quan trọng trong Post Type
+   */
+  $args = array(
+    'labels' => $label, //Gọi các label trong biến $label ở trên
+    'description' => 'Post type quản lý truyện', //Mô tả của post type
+    'supports' => array(
+      'title',
+      'editor',
+      'excerpt',
+      'author',
+      'thumbnail',
+      'comments',
+      'trackbacks',
+      'revisions',
+      'custom-fields'
+    ), //Các tính năng được hỗ trợ trong post type
+    'taxonomies' => array('category', 'post_tag'), //Các taxonomy được phép sử dụng để phân loại nội dung
+    'hierarchical' => false, //Cho phép phân cấp, nếu là false thì post type này giống như Post, true thì giống như Page
+    'public' => true, //Kích hoạt post type
+    'show_ui' => true, //Hiển thị khung quản trị như Post/Page
+    'show_in_menu' => true, //Hiển thị trên Admin Menu (tay trái)
+    'show_in_nav_menus' => true, //Hiển thị trong Appearance -> Menus
+    'show_in_admin_bar' => true, //Hiển thị trên thanh Admin bar màu đen.
+    'menu_position' => 5, //Thứ tự vị trí hiển thị trong menu (tay trái)
+    'menu_icon' => '', //Đường dẫn tới icon sẽ hiển thị
+    'can_export' => true, //Có thể export nội dung bằng Tools -> Export
+    'has_archive' => true, //Cho phép lưu trữ (month, date, year)
+    'exclude_from_search' => false, //Loại bỏ khỏi kết quả tìm kiếm
+    'publicly_queryable' => true, //Hiển thị các tham số trong query, phải đặt true
+    'capability_type' => 'post', //
+    'rewrite' => array('slug' => 'quan-ly-truyen', 'with_front' => true),
+  );
+
+  register_post_type('quan-ly-truyen', $args); //Tạo post type với slug tên là sanpham và các tham số trong biến $args ở trên
+
+}
+/* Kích hoạt hàm tạo custom post type */
+add_action('init', 'tao_quanly_custom_post_type');
+add_filter('pre_get_posts', 'lay_quanly_custom_post_type');
+function lay_quanly_custom_post_type($query)
+{
+  if (is_home() && $query->is_main_query())
+    $query->set('post_type', array('post', 'quan-ly-truyen'));
+  return $query;
+}
+
+// Thêm Rewrite Rules trong functions.php
+function custom_quanly_rewrite_rules()
+{
+  add_rewrite_rule(
+    '^quan-ly-truyen/([^/]*)/?$', // Mẫu URL
+    'index.php?post_type=quan-ly-truyen&name=$matches[1]', // Đúng query cho custom post type
+    'top'
+  );
+}
+add_action('init', 'custom_quanly_rewrite_rules');
 
 ?>
