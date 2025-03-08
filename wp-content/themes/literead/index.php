@@ -82,13 +82,13 @@ $stories = $wpdb->get_results("SELECT * FROM wp_stories WHERE hot='1' LIMIT 6");
         <!-- Story Cards (6 items) -->
         <?php if (!empty($stories)): ?>
           <?php foreach ($stories as $story): ?>
-            <article class="flex flex-col self-stretch my-auto w-[121px] shrink-0 lg:w-auto" role="listitem">
+            <article class="flex flex-col self-stretch w-[121px] shrink-0 lg:w-auto" role="listitem">
               <img loading="lazy" src=<?php echo esc_url($story->cover_image_url); ?> alt=<?php echo esc_html($story->story_name); ?> class="object-cover rounded-lg aspect-[0.81] w-[121px] lg:w-full" />
-              <?php if ($story->status != "Hoàn thành")
+              <?php if ($story->status == "Hoàn thành")
                 echo '<span
-                class="gap-2.5 self-start px-[2px] mt-[4px] lg:my-[8px] text-[12px] lg:text-[1.5rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Full</span>';
+                class="gap-2.5 self-start px-[4px] mt-[4px] lg:mt-[8px] text-[12px] lg:text-[1.5rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Hoàn thành</span>';
               ?>
-              <div class="flex flex-col mt-[4px] w-full">
+              <div class="flex flex-col mt-[4px] lg:mt-[8px] w-full">
                 <h3
                   class="flex-1 shrink gap-2.5 self-stretch w-full text-[16px] lg:text-[1.75rem] font-medium basis-0 text-orange-darker break-words">
                   <a href="<?php echo esc_url(home_url('/truyen/' . $story->slug)); ?>">
