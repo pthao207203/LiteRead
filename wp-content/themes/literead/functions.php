@@ -18,16 +18,24 @@ function create_slug($string)
   $string = preg_replace('/([\s]+)/', '-', $string);
   return trim($string, '-');
 }
-function handle_story_upload()
+function handle_upload_story()
 {
+  // Kiểm tra nonce để đảm bảo bảo mật
+  if (!isset($_POST['security']) || !wp_verify_nonce($_POST['security'], 'story_upload_nonce')) {
+    wp_die('Lỗi bảo mật. Vui lòng thử lại.');
+  }
+
   global $wpdb;
   $table_name = $wpdb->prefix . 'stories';
 
+  echo $_POST['synopsis'];
+
+  // Lấy nội dung từ POST và giữ nguyên định dạng HTML
   $story_name = sanitize_text_field($_POST['story_name']);
   $slug = create_slug($story_name);
   $author = sanitize_text_field($_POST['author']);
   $status = sanitize_text_field($_POST['status']);
-  $synopsis = sanitize_textarea_field($_POST['synopsis']);
+  $synopsis = isset($_POST['synopsis']) ? wp_kses_post($_POST['synopsis']) : '';
   $genres = isset($_POST['genres']) ? implode(',', array_map('sanitize_text_field', $_POST['genres'])) : '';
 
   $cover_image_url = '';
@@ -39,6 +47,7 @@ function handle_story_upload()
       $cover_image_url = $upload['url'];
     }
   }
+  echo $synopsis;
 
   $wpdb->insert(
     $table_name,
@@ -53,7 +62,28 @@ function handle_story_upload()
     )
   );
 
-  echo 'Thêm truyện thành công!';
+
+  if ($story_name) {
+    // Chuyển hướng về trang chính với thông báo thành công
+    echo 'Thêm truyện thành công!';
+    wp_redirect(home_url('/'));
+    exit;
+  } else {
+    wp_die('Lỗi khi thêm truyện. Vui lòng thử lại.');
+  }
+}
+
+// Đăng ký action xử lý form mà không cần AJAX
+add_action('admin_post_upload_story', 'handle_upload_story');
+add_action('admin_post_nopriv_upload_story', 'handle_upload_story');
+function handle_story_upload()
+{
+
+  echo wp_slash($_POST['synopsis']);
+
+
+
+
   wp_die(); // Kết thúc AJAX request
 }
 
