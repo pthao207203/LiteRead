@@ -27,6 +27,75 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
   require_once ABSPATH . 'wp-admin/includes/upgrade.php';
   dbDelta($sql);
 }
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+  // if (!isset($_POST['security']) || !wp_verify_nonce($_POST['security'], 'story_upload_nonce')) {
+  //   wp_die('Lỗi bảo mật. Vui lòng thử lại.');
+  // }
+
+  global $wpdb;
+  $table_name = $wpdb->prefix . 'stories';
+
+  // echo wp_unslash($_POST['synopsis']);
+
+  // Lấy nội dung từ POST và giữ nguyên định dạng HTML
+  $story_name = sanitize_text_field($_POST['story_name']);
+  $slug = create_slug($story_name);
+  $author = sanitize_text_field($_POST['author']);
+  $status = sanitize_text_field($_POST['status']);
+  $synopsis = isset($_POST['synopsis']) ? wp_unslash($_POST['synopsis']) : '';
+  $genres = isset($_POST['genres']) ? implode(',', array_map('sanitize_text_field', $_POST['genres'])) : '';
+
+  if (empty(trim($story_name))) {
+    $error_story_name = 'Nội dung không được để trống!';
+  } else if (empty(trim($author))) {
+    $error_story_name = '';
+    $error_author = 'Nội dung không được để trống!';
+  } else if (empty(trim($synopsis))) {
+    $error_author = '';
+    $error_synopsis = 'Nội dung không được để trống!';
+  } else if (empty(trim($genres))) {
+    $error_genres = 'Nội dung không được để trống!';
+    $error_synopsis = '';
+  } else {
+    $error_genres = '';
+    $cover_image_url = '';
+    if (!empty($_FILES['cover_image']['name'])) {
+      $uploaded_file = $_FILES['cover_image'];
+      $upload = wp_handle_upload($uploaded_file, array('test_form' => false));
+
+      if (!isset($upload['error']) && isset($upload['url'])) {
+        $cover_image_url = $upload['url'];
+      }
+    }
+    // echo $synopsis;
+
+    $wpdb->insert(
+      $table_name,
+      array(
+        'story_name' => $story_name,
+        'slug' => $slug,
+        'author' => $author,
+        'status' => $status,
+        'genres' => $genres,
+        'synopsis' => $synopsis,
+        'cover_image_url' => $cover_image_url,
+      )
+    );
+
+
+    if ($story_name) {
+      // Chuyển hướng về trang chính với thông báo thành công
+      echo 'Thêm truyện thành công!';
+      wp_redirect(home_url('/'));
+      exit;
+    } else {
+      // wp_die('Lỗi khi thêm truyện. Vui lòng thử lại.');
+      $error_message = 'Lỗi khi lưu dữ liệu, vui lòng thử lại.';
+    }
+
+  }
+}
 ?>
 
 <?php
@@ -72,6 +141,7 @@ get_header();
   <!-- Form Đăng Truyện -->
   <form id="storyForm" class="bg-white px-[17px] py-[17px] md:px-[3.5rem] md:py-[2.125rem] w-full" method="POST"
     enctype="multipart/form-data">
+    <?php wp_nonce_field('story_upload_action', 'story_nonce'); ?>
 
     <!-- Upload Ảnh Bìa -->
     <div class="flex items-end">
@@ -86,15 +156,23 @@ get_header();
     <!-- Tên truyện -->
     <div>
       <label for="story-name" class="mt-[1.25rem] font-semibold text-red-dark">Tên truyện</label>
-      <input id="story-name" name="story_name" type="text" placeholder="Nhập tên truyện..."
+      <input id="story-name" name="story_name" type="text" placeholder="Nhập tên truyện..." value="<?php if (isset($story_name))
+        echo esc_html($story_name); ?>"
         class="w-full mt-[1rem] px-[0.5rem] py-[0.25rem] border-b border-red-dark text-red-dark focus:outline-none" />
+      <?php if (!empty($error_story_name)): ?>
+        <p style="color: red;"><?php echo esc_html($error_story_name); ?></p>
+      <?php endif; ?>
     </div>
 
     <!-- Tác giả -->
     <div>
       <label for="author-name" class="font-semibold text-red-dark mt-[1.25rem]">Tác giả</label>
-      <input id="author-name" name="author" type="text" placeholder="Tên tác giả..."
+      <input id="author-name" name="author" type="text" placeholder="Tên tác giả..." value="<?php if (isset($author))
+        echo esc_html($author); ?>"
         class="w-full mt-[1rem] px-[0.5rem] py-[0.25rem] border-b border-red-dark text-red-dark focus:outline-none" />
+      <?php if (!empty($error_author)): ?>
+        <p style="color: red;"><?php echo esc_html($error_author); ?></p>
+      <?php endif; ?>
     </div>
 
     <!-- Tình trạng -->
@@ -125,15 +203,22 @@ get_header();
         }
         ?>
       </div>
+      <?php if (!empty($error_genres)): ?>
+        <p style="color: red;"><?php echo esc_html($error_genres); ?></p>
+      <?php endif; ?>
 
     </div>
 
     <!-- Văn án -->
     <div>
       <label for="synopsis" class="font-semibold text-red-dark mt-[1.25rem]">Văn án</label>
-      <div id="synopsis" class="min-h-[200px]">
-      </div>
-      <textarea name="synopsis" id="content" style="display:none;"></textarea>
+      <textarea id="synopsis" name="synopsis" class="min-h-[200px]"> <?php if (isset($synopsis))
+        echo esc_html($synopsis); ?>
+      </textarea>
+      <?php if (!empty($error_synopsis)): ?>
+        <p style="color: red;"><?php echo esc_html($error_synopsis); ?></p>
+      <?php endif; ?>
+      <!-- <textarea name="synopsis" id="content"></textarea> -->
       <p class="mt-[1rem] text-red-dark">Không quá 500 từ.</p>
       <p class="mt-[1rem] text-red-dark">Nghiêm cấm sử dụng từ ngữ thô tục, 18+, phân biệt vùng miền, vấn đề liên quan
         đến chính trị. Nếu chúng tôi phát hiện sẽ từ chối duyệt, gỡ bỏ và có nguy cơ khóa tài khoản.</p>
@@ -194,36 +279,36 @@ get_header();
   </script>
   <script>
     document.getElementById('storyForm').addEventListener('submit', async function (e) {
-      e.preventDefault(); // Ngăn form load lại trang
+      // e.preventDefault(); // Ngăn form load lại trang
 
-      var content = quill.root.innerHTML;
+      var content = $('#synopsis').summernote('code');
       document.getElementById('content').value = content;
       console.log('Nội dung gửi đi:', content);
 
-      const formData = new FormData(this);
-      formData.append('action', 'upload_story'); // Tên action đã khai báo trong PHP
-      formData.append('security', '<?php echo wp_create_nonce('story_upload_nonce'); ?>'); // Thêm nonce để bảo mật
+      //   const formData = new FormData(this);
+      //   formData.append('action', 'upload_story'); // Tên action đã khai báo trong PHP
+      //   formData.append('security', '<?php echo wp_create_nonce('story_upload_nonce'); ?>'); // Thêm nonce để bảo mật
 
-      try {
-        const response = await fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
-          method: 'POST',
-          body: formData,
-        });
+      //   try {
+      //     const response = await fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+      //       method: 'POST',
+      //       body: formData,
+      //     });
 
-        const result = await response.text();
-        const resultMessage = document.getElementById('resultMessage');
-        resultMessage.innerHTML = result;
+      //     const result = await response.text();
+      //     const resultMessage = document.getElementById('resultMessage');
+      //     resultMessage.innerHTML = result;
 
-        // Kiểm tra nếu thông báo thành công, chờ 3s rồi chuyển hướng
-        if (result.toLowerCase().includes('thêm truyện thành công')) {
-          setTimeout(() => {
-            window.location.href = '<?php echo home_url('/'); ?>';
-          }, 3000); // 3000ms = 3s
-        }
-      } catch (error) {
-        console.error('Lỗi khi gửi form:', error);
-        document.getElementById('resultMessage').innerHTML = 'Lỗi khi gửi form. Vui lòng thử lại!';
-      }
+      //     // Kiểm tra nếu thông báo thành công, chờ 3s rồi chuyển hướng
+      //     if (result.toLowerCase().includes('thêm truyện thành công')) {
+      //       // setTimeout(() => {
+      //       //   window.location.href = '<?php echo home_url('/'); ?>';
+      //       // }, 3000); // 3000ms = 3s
+      //     }
+      //   } catch (error) {
+      //     console.error('Lỗi khi gửi form:', error);
+      //     document.getElementById('resultMessage').innerHTML = 'Lỗi khi gửi form. Vui lòng thử lại!';
+      //   }
     });
 
 
