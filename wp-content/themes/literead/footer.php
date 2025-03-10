@@ -9,7 +9,7 @@
   $('#synopsis').summernote({
     placeholder: 'Hello stand alone ui',
     tabsize: 2,
-    height: 120,
+    height: 300,
     toolbar: [
       ['style', ['style']],
       ['font', ['bold', 'underline', 'clear']],

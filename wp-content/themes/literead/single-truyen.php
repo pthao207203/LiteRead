@@ -12,14 +12,43 @@ if (isset($segments[2])) {
   $story_slug = $segments[2];
   // echo 'Story Slug: ' . $story_slug; // Kết quả: Story Slug: chu-tien
 }
-$table_name = $wpdb->prefix . 'stories';
+$stories = $wpdb->prefix . 'stories';
 
 $story = $wpdb->get_row(
-  $wpdb->prepare("SELECT * FROM $table_name WHERE slug = %s", $story_slug)
+  $wpdb->prepare("SELECT * FROM $stories WHERE slug = %s", $story_slug)
 );
 
 if ($story) {
   $genres = explode(',', $story->genres);
+
+  $per_page = 10; // Số chương hiển thị mỗi trang
+  $current_page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1; // Lấy trang hiện tại từ URL
+  $offset = ($current_page - 1) * $per_page;
+
+  // Lấy tổng số chương để tính số trang
+  $chapter_name = $wpdb->prefix . 'chapters';
+  $total_chapters = $wpdb->get_var("SELECT COUNT(*) FROM $chapter_name WHERE story_id = $story->id");
+  $total_pages = max(1, ceil($total_chapters / $per_page));
+  $chapters = $wpdb->get_results(
+    $wpdb->prepare("SELECT * FROM $chapter_name WHERE id = %s ORDER BY chapter_number DESC LIMIT %d OFFSET %d", $story->id, $per_page, $offset)
+  );
+
+  $table_name1 = $wpdb->prefix . 'comments';
+
+  if ($wpdb->get_var("SHOW TABLES LIKE '$table_name1'") != $table_name1) {
+    $charset_collate = $wpdb->get_charset_collate();
+
+    $sql = "CREATE TABLE $table_name1 (
+      id MEDIUMINT(9) UNSIGNED NOT NULL AUTO_INCREMENT,
+      story_id TEXT NOT NULL,
+      user_id TEXT NOT NULL,
+      synopsis TEXT DEFAULT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      PRIMARY KEY  (id)
+    ) $charset_collate;";
+    require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+    dbDelta($sql);
+  }
   ?>
 
 
@@ -138,103 +167,51 @@ if ($story) {
           <nav class="flex overflow-x-auto flex-col justify-center mt-3 w-full bg-white text-[#593B37]"
             aria-label="Chapter navigation">
             <ul class="list-none p-0 mx-2">
-              <li
-                class="flex gap-2.5 justify-center items-center py-1.5 w-full border-solid border-b-[0.1px] border-b-[#593B37]/50">
-                <a href="#chapter1"
-                  class="flex-1 shrink self-stretch my-auto text-[16px] md:text-[1.75rem] font-medium basis-0">Chương
-                  1</a>
-                <span class="self-stretch my-auto text-[14px] md:text-[1.5rem] font-normal">10 tiếng
-                  trước</span>
-              </li>
-              <li
-                class="flex gap-2.5 justify-center items-center py-1.5 w-full border-solid border-b-[0.1px] border-b-[#593B37]/50">
-                <a href="#chapter2"
-                  class="flex-1 shrink self-stretch my-auto text-[16px] md:text-[1.75rem] font-medium basis-0">Chương
-                  2</a>
-                <span class="self-stretch my-auto text-[14px] md:text-[1.5rem] font-normal">10 tiếng
-                  trước</span>
-              </li>
-              <li
-                class="flex gap-2.5 justify-center items-center py-1.5 w-full border-solid border-b-[0.1px] border-b-[#593B37]/50">
-                <a href="#chapter3"
-                  class="flex-1 shrink self-stretch my-auto text-[16px] md:text-[1.75rem] font-medium basis-0">Chương
-                  3</a>
-                <span class="self-stretch my-auto text-[14px] md:text-[1.5rem] font-normal">10 tiếng
-                  trước</span>
-              </li>
-              <li
-                class="flex gap-2.5 justify-center items-center py-1.5 w-full border-solid border-b-[0.1px] border-b-[#593B37]/50">
-                <a href="#chapter4"
-                  class="flex-1 shrink self-stretch my-auto text-[16px] md:text-[1.75rem] font-medium basis-0">Chương
-                  4</a>
-                <span class="self-stretch my-auto text-[14px] md:text-[1.5rem] font-normal">10 tiếng
-                  trước</span>
-              </li>
-              <li
-                class="flex gap-2.5 justify-center items-center py-1.5 w-full border-solid border-b-[0.1px] border-b-[#593B37]/50">
-                <a href="#chapter5"
-                  class="flex-1 shrink self-stretch my-auto text-[16px] md:text-[1.75rem] font-medium basis-0">Chương
-                  5</a>
-                <span class="self-stretch my-auto text-[14px] md:text-[1.5rem] font-normal">10 tiếng
-                  trước</span>
-              </li>
-              <li
-                class="flex gap-2.5 justify-center items-center py-1.5 w-full border-solid border-b-[0.1px] border-b-[#593B37]/50">
-                <a href="#chapter6"
-                  class="flex-1 shrink self-stretch my-auto text-[16px] md:text-[1.75rem] font-medium basis-0">Chương
-                  6</a>
-                <span class="self-stretch my-auto text-[14px] md:text-[1.5rem] font-normal">10 tiếng
-                  trước</span>
-              </li>
-              <li
-                class="flex gap-2.5 justify-center items-center py-1.5 w-full border-solid border-b-[0.1px] border-b-[#593B37]/50">
-                <a href="#chapter7"
-                  class="flex-1 shrink self-stretch my-auto text-[16px] md:text-[1.75rem] font-medium basis-0">Chương
-                  7</a>
-                <span class="self-stretch my-auto text-[14px] md:text-[1.5rem] font-normal">10 tiếng
-                  trước</span>
-              </li>
-              <li
-                class="flex gap-2.5 justify-center items-center py-1.5 w-full border-solid border-b-[0.1px] border-b-[#593B37]/50">
-                <a href="#chapter8"
-                  class="flex-1 shrink self-stretch my-auto text-[16px] md:text-[1.75rem] font-medium basis-0">Chương
-                  8</a>
-                <span class="self-stretch my-auto text-[14px] md:text-[1.5rem] font-normal">10 tiếng
-                  trước</span>
-              </li>
-              <li
-                class="flex gap-2.5 justify-center items-center py-1.5 w-full border-solid border-b-[0.1px] border-b-[#593B37]/50">
-                <a href="#chapter9"
-                  class="flex-1 shrink self-stretch my-auto text-[16px] md:text-[1.75rem] font-medium basis-0">Chương
-                  9</a>
-                <span class="self-stretch my-auto text-[14px] md:text-[1.5rem] font-normal">10 tiếng
-                  trước</span>
-              </li>
-              <li class="flex gap-2.5 justify-center items-center py-1.5 w-full">
-                <a href="#chapter10"
-                  class="flex-1 shrink self-stretch my-auto text-[16px] md:text-[1.75rem] font-medium basis-0">Chương
-                  10</a>
-                <span class="self-stretch my-auto text-[14px] md:text-[1.5rem] font-normal">10 tiếng
-                  trước</span>
-              </li>
+              <?php
+              $first = true;
+              foreach ($chapters as $chapter) {
+                if ($first) {
+                  ?>
+                  <li class="flex gap-2.5 justify-center items-center py-1.5 w-full">
+                    <a href="<?php echo home_url("/truyen/$story_slug/chuong-" . $chapter->chapter_number); ?>"
+                      class="flex-1 shrink self-stretch my-auto text-[16px] md:text-[1.75rem] font-medium basis-0">Chương
+                      <?php echo $chapter->chapter_number; ?></a>
+                    <span
+                      class="self-stretch my-auto text-[14px] md:text-[1.5rem] font-normal"><?php echo time_ago($chapter->edited_at); ?></span>
+                  </li>
+                  <?php
+                  $first = false;
+                } else {
+                  ?>
+                  <li
+                    class="flex gap-2.5 justify-center items-center py-1.5 w-full border-solid border-b-[0.1px] border-t-[#593B37]/50">
+                    <a href="<?php echo home_url("/truyen/$story_slug/chuong-" . $chapter->chapter_number); ?>"
+                      class="flex-1 shrink self-stretch my-auto text-[16px] md:text-[1.75rem] font-medium basis-0">Chương
+                      <?php echo $chapter->chapter_number; ?></a></a>
+                    <span
+                      class="self-stretch my-auto text-[14px] md:text-[1.5rem] font-normal"><?php echo time_ago($chapter->edited_at); ?></span>
+                  </li>';
+                  <?php
+                }
+              } ?>
             </ul>
             <nav
               class="flex gap-1 justify-center items-center self-center font-medium text-center text-red-normal whitespace-nowrap mt-4"
               aria-label="Pagination">
-              <button aria-label="Page 1"
-                class="self-stretch px-0.5 my-auto text-orange-light text-[18px] md:text-[1.875rem] bg-[#D56665] rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center"
-                aria-current="page">1</button>
-              <button aria-label="Page 2"
-                class="self-stretch px-0.5 my-auto bg-[#FFF2F0] text-[16px] md:text-[1.75rem] rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center">2</button>
-              <button aria-label="Page 3"
-                class="self-stretch px-0.5 my-auto bg-[#FFF2F0] text-[16px] md:text-[1.75rem] rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center">3</button>
-              <span
-                class="self-stretch px-0.5 my-auto bg-[#FFF2F0] rounded-lg text-[16px] md:text-[1.75rem] aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center">...</span>
-              <button aria-label="Page 6"
-                class="self-stretch px-0.5 my-auto bg-[#FFF2F0] text-[16px] md:text-[1.75rem] rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center">6
-              </button>
-              <button aria-label="Next page"
-                class="self-stretch px-0.5 my-auto bg-[#FFF2F0] text-[16px] md:text-[1.75rem] rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center">&gt;</button>
+              <?php if ($current_page > 1): ?>
+                <a href="?page=<?php echo ($current_page - 1); ?>"
+                  class="px-2 py-1 bg-[#FFF2F0] rounded-lg text-[16px] md:text-[1.75rem]">←</a>
+              <?php endif; ?>
+              <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                <a href="?page=<?php echo $i; ?>"
+                  class="px-0.5 py-1 <?php echo $i == $current_page ? 'bg-[#D56665] text-orange-light' : 'bg-[#FFF2F0]'; ?> rounded-lg text-[16px] md:text-[1.75rem] self-stretch my-auto aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center">
+                  <?php echo $i; ?>
+                </a>
+              <?php endfor; ?>
+              <?php if ($current_page < $total_pages): ?>
+                <a href="?page=<?php echo ($current_page + 1); ?>"
+                  class="px-2 py-1 bg-[#FFF2F0] rounded-lg text-[16px] md:text-[1.75rem]">→</a>
+              <?php endif; ?>
             </nav>
           </nav>
         </section>
@@ -356,18 +333,15 @@ if ($story) {
             role="tab" aria-selected="true">
             Ngày
           </button>
-          <button
-            class="gap-2.5 self-stretch py-2.5 px-2 bg-red-light rounded-[12px] text-[18px]  md:text-[1.5rem]"
+          <button class="gap-2.5 self-stretch py-2.5 px-2 bg-red-light rounded-[12px] text-[18px]  md:text-[1.5rem]"
             role="tab">
             Tuần
           </button>
-          <button
-            class="gap-2.5 self-stretch py-2.5 px-2 bg-red-light rounded-[12px] text-[18px]  md:text-[1.5rem]"
+          <button class="gap-2.5 self-stretch py-2.5 px-2 bg-red-light rounded-[12px] text-[18px]  md:text-[1.5rem]"
             role="tab">
             Tháng
           </button>
-          <button
-            class="gap-2.5 self-stretch py-2.5 px-2 bg-red-light rounded-[12px] text-[18px]  md:text-[1.5rem]"
+          <button class="gap-2.5 self-stretch py-2.5 px-2 bg-red-light rounded-[12px] text-[18px]  md:text-[1.5rem]"
             role="tab">
             Năm
           </button>
@@ -495,6 +469,9 @@ if ($story) {
       </aside>
     </div>
 
+    <?php
+    $stories_hot = $wpdb->get_results("SELECT * FROM wp_stories WHERE hot='1' LIMIT 6");
+    ?>
     <!-- Recommended stories -->
     <section class="relative z-10 mt-0 w-full bg-white rounded-[20px]">
       <div class="flex flex-col w-full rounded-none">
@@ -509,199 +486,38 @@ if ($story) {
           role="list">
 
           <!-- Story Cards (6 items) -->
-          <article class="flex flex-col self-stretch my-auto min-h-[261px] w-[121px] shrink-0 md:w-auto" role="listitem">
-            <img loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/c15eb5496bb8e85fb322900632e2ea4133bb697a11272de14372a2225b57bd1a"
-              alt="Thiên Quan Tứ Phúc book cover" class="object-contain rounded-lg aspect-[0.81] w-[121px] md:w-full" />
-            <span
-              class="gap-2.5 self-start px-[2px] mt-[4px] md:my-[8px] text-[12px] md:text-[1.25rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Full</span>
-            <div class="flex flex-col mt-[4px] w-full">
-              <h3
-                class="flex-1 shrink gap-2.5 self-stretch w-full text-[16px] md:text-[1.75rem] font-medium basis-0 text-orange-darker break-words">
-                Thiên Quan Tứ Phúc
-              </h3>
-              <div class="flex gap-1 items-start self-start mt-[4px] ">
-                <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
+          <?php if (!empty($stories_hot)): ?>
+            <?php foreach ($stories_hot as $story): ?>
+              <article class="flex flex-col self-stretch w-[121px] shrink-0 lg:w-auto" role="listitem">
+                <img loading="lazy" src=<?php echo esc_url($story->cover_image_url); ?> alt=<?php echo esc_html($story->story_name); ?> class="object-cover rounded-lg aspect-[0.81] w-[121px] lg:w-full" />
+                <?php if ($story->status == "Hoàn thành")
+                  echo '<span
+                class="gap-2.5 self-start px-[4px] mt-[4px] lg:mt-[8px] text-[12px] lg:text-[1.5rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Hoàn thành</span>';
+                ?>
+                <div class="flex flex-col mt-[4px] lg:mt-[8px] w-full">
+                  <h3
+                    class="flex-1 shrink gap-2.5 self-stretch w-full text-[16px] lg:text-[1.75rem] font-medium basis-0 text-orange-darker break-words">
+                    <a href="<?php echo esc_url(home_url('/truyen/' . $story->slug)); ?>">
+                      <?php echo esc_html($story->story_name); ?>
+                    </a>
+                  </h3>
+                  <div class="flex gap-1 items-start self-start mt-[4px] ">
+                    <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[3px]">4</span>
+                    <div class="flex items-start" aria-label="Rating: 4 out of 5">
+                      <span
+                        class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                    </div>
+                  </div>
+                  <p
+                    class="flex-1 shrink gap-2.5 self-stretch mt-1 w-full text-[14px] lg:text-[1.5rem] text-regular text-red-normal basis-0">
+                    <?php echo esc_html($story->author); ?>
+                  </p>
                 </div>
-                <span class="text-[12px] md:text-[1.25rem] text-normal text-red-normal md:mt-1.5">4</span>
-              </div>
-              <p
-                class="flex-1 shrink gap-2.5 self-stretch mt-1 w-full text-[14px] md:text-[1.5rem] text-normal text-red-normal basis-0">
-                Chương 120
-              </p>
-            </div>
-          </article>
-
-          <article class="flex flex-col self-stretch my-auto min-h-[261px] w-[121px] shrink-0 md:w-auto" role="listitem">
-            <img loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/c15eb5496bb8e85fb322900632e2ea4133bb697a11272de14372a2225b57bd1a"
-              alt="Thiên Quan Tứ Phúc book cover" class="object-contain rounded-lg aspect-[0.81] w-[121px] md:w-full" />
-            <span
-              class="gap-2.5 self-start px-[2px] mt-[4px] md:my-[8px] text-[12px] md:text-[1.25rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Full</span>
-            <div class="flex flex-col mt-[4px] w-full">
-              <h3
-                class="flex-1 shrink gap-2.5 self-stretch w-full text-[16px] md:text-[1.75rem] font-medium basis-0 text-orange-darker break-words">
-                Thiên Quan Tứ Phúc
-              </h3>
-              <div class="flex gap-1 items-start self-start mt-[4px] ">
-                <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                </div>
-                <span class="text-[12px] md:text-[1.25rem] text-normal text-red-normal md:mt-[6px]">4</span>
-              </div>
-              <p
-                class="flex-1 shrink gap-2.5 self-stretch mt-1 w-full text-[14px] md:text-[1.5rem] text-normal text-red-normal basis-0">
-                Chương 120
-              </p>
-            </div>
-          </article>
-          <article class="flex flex-col self-stretch my-auto min-h-[261px] w-[121px] shrink-0 md:w-auto" role="listitem">
-            <img loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/c15eb5496bb8e85fb322900632e2ea4133bb697a11272de14372a2225b57bd1a"
-              alt="Thiên Quan Tứ Phúc book cover" class="object-contain rounded-lg aspect-[0.81] w-[121px] md:w-full" />
-            <span
-              class="gap-2.5 self-start px-[2px] mt-[4px] md:my-[8px] text-[12px] md:text-[1.25rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Full</span>
-            <div class="flex flex-col mt-[4px] w-full">
-              <h3
-                class="flex-1 shrink gap-2.5 self-stretch w-full text-[16px] md:text-[1.75rem] font-medium basis-0 text-orange-darker break-words">
-                Thiên Quan Tứ Phúc
-              </h3>
-              <div class="flex gap-1 items-start self-start mt-[4px] ">
-                <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                </div>
-                <span class="text-[12px] md:text-[1.25rem] text-normal text-red-normal md:mt-[6px]">4</span>
-              </div>
-              <p
-                class="flex-1 shrink gap-2.5 self-stretch mt-1 w-full text-[14px] md:text-[1.25rem] text-normal text-red-normal basis-0">
-                Chương 120
-              </p>
-            </div>
-          </article>
-          <article class="flex flex-col self-stretch my-auto min-h-[261px] w-[121px] shrink-0 md:w-auto" role="listitem">
-            <img loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/c15eb5496bb8e85fb322900632e2ea4133bb697a11272de14372a2225b57bd1a"
-              alt="Thiên Quan Tứ Phúc book cover" class="object-contain rounded-lg aspect-[0.81] w-[121px] md:w-full" />
-            <span
-              class="gap-2.5 self-start px-[2px] mt-[4px] md:my-[8px] text-[12px] md:text-[1.25rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Full</span>
-            <div class="flex flex-col mt-[4px] w-full">
-              <h3
-                class="flex-1 shrink gap-2.5 self-stretch w-full text-[16px] md:text-[1.75rem] font-medium basis-0 text-orange-darker break-words">
-                Thiên Quan Tứ Phúc
-              </h3>
-              <div class="flex gap-1 items-start self-start mt-[4px] ">
-                <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                </div>
-                <span class="text-[12px] md:text-[1.25rem] text-normal text-red-normal md:mt-[6px]">4</span>
-              </div>
-              <p
-                class="flex-1 shrink gap-2.5 self-stretch mt-1 w-full text-[14px] md:text-[1.5rem] text-normal text-red-normal basis-0">
-                Chương 120
-              </p>
-            </div>
-          </article>
-          <article class="flex flex-col self-stretch my-auto min-h-[261px] w-[121px] shrink-0 md:w-auto" role="listitem">
-            <img loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/c15eb5496bb8e85fb322900632e2ea4133bb697a11272de14372a2225b57bd1a"
-              alt="Thiên Quan Tứ Phúc book cover" class="object-contain rounded-lg aspect-[0.81] w-[121px] md:w-full" />
-            <span
-              class="gap-2.5 self-start px-[2px] mt-[4px] md:my-[8px] text-[12px] md:text-[1.25rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Full</span>
-            <div class="flex flex-col mt-[4px] w-full">
-              <h3
-                class="flex-1 shrink gap-2.5 self-stretch w-full text-[16px] md:text-[1.75rem] font-medium basis-0 text-orange-darker break-words">
-                Thiên Quan Tứ Phúc
-              </h3>
-              <div class="flex gap-1 items-start self-start mt-[4px] ">
-                <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                </div>
-                <span class="text-[12px] md:text-[1.25rem] text-normal text-red-normal md:mt-[6px]">4</span>
-              </div>
-              <p
-                class="flex-1 shrink gap-2.5 self-stretch mt-1 w-full text-[14px] md:text-[1.5rem] text-normal text-red-normal basis-0">
-                Chương 120
-              </p>
-            </div>
-          </article>
-          <article class="flex flex-col self-stretch my-auto min-h-[261px] w-[121px] shrink-0 md:w-auto" role="listitem">
-            <img loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/c15eb5496bb8e85fb322900632e2ea4133bb697a11272de14372a2225b57bd1a"
-              alt="Thiên Quan Tứ Phúc book cover" class="object-contain rounded-lg aspect-[0.81] w-[121px] md:w-full" />
-            <span
-              class="gap-2.5 self-start px-[2px] mt-[4px] md:my-[8px] text-[12px] md:text-[1.25rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Full</span>
-            <div class="flex flex-col mt-[4px] w-full">
-              <h3
-                class="flex-1 shrink gap-2.5 self-stretch w-full text-[16px] md:text-[1.75rem] font-medium basis-0 text-orange-darker break-words">
-                Thiên Quan Tứ Phúc
-              </h3>
-              <div class="flex gap-1 items-start self-start mt-[4px] ">
-                <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                  <span
-                    class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[16px] md:text-[2rem]">★</span>
-                </div>
-                <span class="text-[12px] md:text-[1.25rem] text-normal text-red-normal md:mt-[6px]">4</span>
-              </div>
-              <p
-                class="flex-1 shrink gap-2.5 self-stretch mt-1 w-full text-[14px] md:text-[1.5rem] text-normal text-red-normal basis-0">
-                Chương 120
-              </p>
-            </div>
-          </article>
+              </article>
+            <?php endforeach; ?>
+          <?php else: ?>
+            <p class="text-center text-gray-500">Không có truyện nào để hiển thị.</p>
+          <?php endif; ?>
 
         </div>
       </div>
