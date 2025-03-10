@@ -3,7 +3,92 @@
 get_header();
 
 global $wpdb;
-$stories = $wpdb->get_results("SELECT * FROM wp_stories WHERE hot='1' LIMIT 6");
+$stories_hot = $wpdb->get_results("SELECT * FROM wp_stories WHERE hot='1' LIMIT 6");
+
+$type = $wpdb->prefix . 'type';
+if ($wpdb->get_var("SHOW TABLES LIKE '$type'") != $type) {
+  $charset_collate = $wpdb->get_charset_collate();
+
+  $sql = "CREATE TABLE $type (
+    id MEDIUMINT(9) UNSIGNED NOT NULL AUTO_INCREMENT,
+    type_name TEXT NOT NULL,
+    decription TEXT DEFAULT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY  (id)
+  ) $charset_collate;";
+  require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+  dbDelta($sql);
+
+  $sql = "INSERT INTO $type (`type_name`) VALUES 
+    ('ABO'), ('Mạt thế'), ('Ngọt sủng'), ('Ngược'), ('Ngọt sủng'), ('Ngôn tình'),
+    ('Đam mỹ'), ('Bách hợp'), ('HE'), ('SE'), ('OE'), ('Cổ đại'), ('Dân quốc'),
+    ('Hiện đại'), ('Xuyên không'), ('Trọng sinh'), ('Hệ thống'), ('Nữ cường'),
+    ('Tổng tài'), ('Thế thân'), ('Tu tiên'), ('Nam chủ')";
+
+  $wpdb->query($sql);
+
+}
+
+$stories_view = $wpdb->prefix . 'stories_view_day';
+if ($wpdb->get_var("SHOW TABLES LIKE '$stories_view'") != $stories_view) {
+  $charset_collate = $wpdb->get_charset_collate();
+
+  $sql = "CREATE TABLE $stories_view (
+    story_id MEDIUMINT(9) UNSIGNED NOT NULL,
+    day DATETIME DEFAULT CURRENT_TIMESTAMP,
+    view INT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY  (story_id, day)
+  ) $charset_collate;";
+  require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+  dbDelta($sql);
+}
+
+$stories_like = $wpdb->prefix . 'stories_like_day';
+if ($wpdb->get_var("SHOW TABLES LIKE '$stories_like'") != $stories_like) {
+  $charset_collate = $wpdb->get_charset_collate();
+
+  $sql = "CREATE TABLE $stories_like (
+    story_id MEDIUMINT(9) UNSIGNED NOT NULL,
+    day DATETIME DEFAULT CURRENT_TIMESTAMP,
+    view INT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY  (story_id, day)
+  ) $charset_collate;";
+  require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+  dbDelta($sql);
+}
+
+$stories_view = $wpdb->prefix . 'stories_view_month';
+if ($wpdb->get_var("SHOW TABLES LIKE '$stories_view'") != $stories_view) {
+  $charset_collate = $wpdb->get_charset_collate();
+
+  $sql = "CREATE TABLE $stories_view (
+    story_id MEDIUMINT(9) UNSIGNED NOT NULL,
+    month DATETIME DEFAULT CURRENT_TIMESTAMP,
+    view INT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY  (story_id, month)
+  ) $charset_collate;";
+  require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+  dbDelta($sql);
+}
+
+$stories_like = $wpdb->prefix . 'stories_like_month';
+if ($wpdb->get_var("SHOW TABLES LIKE '$stories_like'") != $stories_like) {
+  $charset_collate = $wpdb->get_charset_collate();
+
+  $sql = "CREATE TABLE $stories_like (
+    story_id MEDIUMINT(9) UNSIGNED NOT NULL,
+    month DATETIME DEFAULT CURRENT_TIMESTAMP,
+    view INT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY  (story_id, month)
+  ) $charset_collate;";
+  require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+  dbDelta($sql);
+}
+
 
 ?>
 
@@ -80,8 +165,8 @@ $stories = $wpdb->get_results("SELECT * FROM wp_stories WHERE hot='1' LIMIT 6");
         role="list">
 
         <!-- Story Cards (6 items) -->
-        <?php if (!empty($stories)): ?>
-          <?php foreach ($stories as $story): ?>
+        <?php if (!empty($stories_hot)): ?>
+          <?php foreach ($stories_hot as $story): ?>
             <article class="flex flex-col self-stretch w-[121px] shrink-0 lg:w-auto" role="listitem">
               <img loading="lazy" src=<?php echo esc_url($story->cover_image_url); ?> alt=<?php echo esc_html($story->story_name); ?> class="object-cover rounded-lg aspect-[0.81] w-[121px] lg:w-full" />
               <?php if ($story->status == "Hoàn thành")

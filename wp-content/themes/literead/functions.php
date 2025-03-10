@@ -1,93 +1,40 @@
 <?php
-
-// Thêm truyện 
-add_action('wp_ajax_upload_story', 'handle_story_upload');
-add_action('wp_ajax_nopriv_upload_story', 'handle_story_upload');
-
-function create_slug($string)
+// function dùng cho toàn bộ page 
+function time_ago($datetime)
 {
-  $string = strtolower($string);
-  $string = preg_replace('/[áàạảãâấầậẩẫăắằặẳẵÁÀẠẢÃÂẤẦẬẨẪĂẮẰẶẲẴ]/u', 'a', $string);
-  $string = preg_replace('/[éèẹẻẽêếềệểễÉÈẸẺẼÊẾỀỆỂỄ]/u', 'e', $string);
-  $string = preg_replace('/[íìịỉĩÍÌỊỈĨ]/u', 'i', $string);
-  $string = preg_replace('/[óòọỏõôốồộổỗơớờợởỡÓÒỌỎÕÔỐỒỘỔỖƠỚỜỢỞỠ]/u', 'o', $string);
-  $string = preg_replace('/[úùụủũưứừựửữÚÙỤỦŨƯỨỪỰỬỮ]/u', 'u', $string);
-  $string = preg_replace('/[ýỳỵỷỹÝỲỴỶỸ]/u', 'y', $string);
-  $string = preg_replace('/[đĐ]/u', 'd', $string);
-  $string = preg_replace('/[^a-z0-9-\s]/', '', $string);
-  $string = preg_replace('/([\s]+)/', '-', $string);
-  return trim($string, '-');
-}
-function handle_upload_story()
-{
-  // Kiểm tra nonce để đảm bảo bảo mật
-  if (!isset($_POST['security']) || !wp_verify_nonce($_POST['security'], 'story_upload_nonce')) {
-    wp_die('Lỗi bảo mật. Vui lòng thử lại.');
-  }
+  date_default_timezone_set('Asia/Ho_Chi_Minh'); // Đặt múi giờ Việt Nam
+  $timestamp = strtotime($datetime);
+  $now = time();
+  $diff = $now - $timestamp;
 
-  global $wpdb;
-  $table_name = $wpdb->prefix . 'stories';
-
-  echo $_POST['synopsis'];
-
-  // Lấy nội dung từ POST và giữ nguyên định dạng HTML
-  $story_name = sanitize_text_field($_POST['story_name']);
-  $slug = create_slug($story_name);
-  $author = sanitize_text_field($_POST['author']);
-  $status = sanitize_text_field($_POST['status']);
-  $synopsis = isset($_POST['synopsis']) ? wp_kses_post($_POST['synopsis']) : '';
-  $genres = isset($_POST['genres']) ? implode(',', array_map('sanitize_text_field', $_POST['genres'])) : '';
-
-  $cover_image_url = '';
-  if (!empty($_FILES['cover_image']['name'])) {
-    $uploaded_file = $_FILES['cover_image'];
-    $upload = wp_handle_upload($uploaded_file, array('test_form' => false));
-
-    if (!isset($upload['error']) && isset($upload['url'])) {
-      $cover_image_url = $upload['url'];
-    }
-  }
-  echo $synopsis;
-
-  $wpdb->insert(
-    $table_name,
-    array(
-      'story_name' => $story_name,
-      'slug' => $slug,
-      'author' => $author,
-      'status' => $status,
-      'genres' => $genres,
-      'synopsis' => $synopsis,
-      'cover_image_url' => $cover_image_url,
-    )
-  );
-
-
-  if ($story_name) {
-    // Chuyển hướng về trang chính với thông báo thành công
-    echo 'Thêm truyện thành công!';
-    wp_redirect(home_url('/'));
-    exit;
+  if ($diff < 60) {
+    return $diff . " giây trước";
+  } elseif ($diff < 3600) {
+    return floor($diff / 60) . " phút trước";
+  } elseif ($diff < 86400) {
+    return floor($diff / 3600) . " tiếng trước";
+  } elseif ($diff < 2592000) { // Dưới 30 ngày
+    return floor($diff / 86400) . " ngày trước";
+  } elseif ($diff < 31536000) { // Dưới 12 tháng
+    return floor($diff / 2592000) . " tháng trước";
   } else {
-    wp_die('Lỗi khi thêm truyện. Vui lòng thử lại.');
+    return floor($diff / 31536000) . " năm trước";
   }
 }
-
-// Đăng ký action xử lý form mà không cần AJAX
-add_action('admin_post_upload_story', 'handle_upload_story');
-add_action('admin_post_nopriv_upload_story', 'handle_upload_story');
-function handle_story_upload()
+// --------------------------------------------------
+// Thêm truyện 
+function generate_unique_slug_truyen($title, $post_type = 'truyen')
 {
+  // Chuyển tiêu đề thành slug cơ bản
+  $slug = sanitize_title($title);
 
-  echo wp_slash($_POST['synopsis']);
+  // Kiểm tra slug có bị trùng không
+  $unique_slug = wp_unique_post_slug($slug, 0, '', $post_type, 0);
 
-
-
-
-  wp_die(); // Kết thúc AJAX request
+  return $unique_slug;
 }
-
-// Chi tiết truyện 
+// --------------------------------------------------
+// Chi tiết truyện, chi tiết chương
 function tao_custom_post_type()
 {
 
@@ -134,6 +81,31 @@ function tao_custom_post_type()
 
   register_post_type('truyen', $args); //Tạo post type với slug tên là sanpham và các tham số trong biến $args ở trên
 
+
+  // Đăng ký CPT "Chương"
+  register_post_type('chuong', array(
+    'labels' => array(
+      'name' => __('Chương', 'textdomain'),
+      'singular_name' => __('Chương', 'textdomain'),
+    ),
+    'public' => true,
+    'has_archive' => false, // Chỉ hiển thị dưới "Truyện"
+    'rewrite' => false, // Không có đường dẫn riêng
+    'supports' => array('title', 'editor'),
+
+    'taxonomies' => array('category', 'post_tag'), //Các taxonomy được phép sử dụng để phân loại nội dung
+    'hierarchical' => false, //Cho phép phân cấp, nếu là false thì post type này giống như Post, true thì giống như Page
+    'show_ui' => true, //Hiển thị khung quản trị như Post/Page
+    'show_in_menu' => true, //Hiển thị trên Admin Menu (tay trái)
+    'show_in_nav_menus' => true, //Hiển thị trong Appearance -> Menus
+    'show_in_admin_bar' => true, //Hiển thị trên thanh Admin bar màu đen.
+    'menu_position' => 5, //Thứ tự vị trí hiển thị trong menu (tay trái)
+    'menu_icon' => '', //Đường dẫn tới icon sẽ hiển thị
+    'can_export' => true, //Có thể export nội dung bằng Tools -> Export
+    'exclude_from_search' => false, //Loại bỏ khỏi kết quả tìm kiếm
+    'publicly_queryable' => true, //Hiển thị các tham số trong query, phải đặt true
+    'capability_type' => 'post' //
+  ));
 }
 /* Kích hoạt hàm tạo custom post type */
 add_action('init', 'tao_custom_post_type');
@@ -150,9 +122,19 @@ function lay_custom_post_type($query)
 function custom_rewrite_rules()
 {
   add_rewrite_rule(
-    '^truyen/([^/]*)/?$', // Mẫu URL
-    'index.php?post_type=truyen&name=$matches[1]', // Đúng query cho custom post type
+    '^truyen/([^/]+)/them-chuong-moi/?$',
+    'index.php?truyen_parent=$matches[1]&literead_add_chapter=1',
     'top'
+  );
+  add_rewrite_rule(
+    '^truyen/([^/]+)/([^/]+)/?$',
+    'index.php?chuong=$matches[2]&truyen_parent=$matches[1]',
+    'normal'
+  );
+  add_rewrite_rule(
+    '^truyen/([^/]*)/?$',
+    'index.php?post_type=truyen&name=$matches[1]',
+    'bottom'
   );
 }
 add_action('init', 'custom_rewrite_rules');
@@ -162,6 +144,9 @@ add_action('init', 'custom_rewrite_rules');
 function custom_query_vars($vars)
 {
   $vars[] = 'story_slug';
+  $vars[] = 'truyen_parent';
+  $vars[] = 'chuong';
+  $vars[] = 'literead_add_chapter';
   return $vars;
 }
 add_filter('query_vars', 'custom_query_vars');
@@ -174,7 +159,37 @@ function flush_rewrite_rules_on_activation()
 }
 add_action('after_switch_theme', 'flush_rewrite_rules_on_activation');
 
-// Tạo trang quản lý truyện
+function load_single_chapter_template($template)
+{
+  global $wp_query;
+
+  if (isset($wp_query->query_vars['literead_add_chapter'])) {
+    $new_template = locate_template(array('UpChapter.php'));
+    if (!empty($new_template)) {
+      return $new_template;
+    }
+  } else
+    if (isset($wp_query->query_vars['chuong'])) {
+      $new_template = locate_template(array('single-chuong.php'));
+
+      if (!empty($new_template)) {
+        return $new_template;
+      }
+    } else
+      if (isset($wp_query->query_vars['story_slug'])) {
+        $new_template = locate_template(array('single-truyen.php'));
+
+        if (!empty($new_template)) {
+          return $new_template;
+        }
+      }
+
+  return $template;
+}
+add_filter('template_include', 'load_single_chapter_template');
+
+// --------------------------------------------------
+// Trang quản lý truyện
 function tao_quanly_custom_post_type()
 {
 
@@ -243,5 +258,38 @@ function custom_quanly_rewrite_rules()
   );
 }
 add_action('init', 'custom_quanly_rewrite_rules');
+
+
+
+// --------------------------------------------------
+// Trang thêm chương mới
+function chapter_custom_rewrite_rules()
+{
+  add_rewrite_rule(
+    '^truyen/([^/]+)/them-chuong-moi/?$',
+    'index.php?truyen_parent=$matches[1]&add_chapter=1',
+    'top'
+  );
+}
+add_action('init', 'chapter_custom_rewrite_rules');
+
+function chapter_add_query_vars($vars)
+{
+  $vars[] = 'truyen_parent';
+  $vars[] = 'add_chapter'; // Đánh dấu đây là trang "Thêm Chương"
+  return $vars;
+}
+add_filter('query_vars', 'chapter_add_query_vars');
+
+
+function handle_add_chapter_page()
+{
+  if (get_query_var('add_chapter') == 1) {
+    include get_template_directory() . '/UpChapter.php';
+    exit; // Dừng WordPress để không tải tiếp các nội dung khác
+  }
+}
+add_action('template_redirect', 'handle_add_chapter_page');
+
 
 ?>

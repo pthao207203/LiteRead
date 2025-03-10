@@ -13,16 +13,29 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
     editor VARCHAR(255) DEFAULT NULL,
     cover_image_url TEXT DEFAULT NULL,
     status TEXT NOT NULL,
-    genres TEXT DEFAULT NULL,
     synopsis TEXT DEFAULT NULL,
     rate INT UNSIGNED DEFAULT 5,
     view INT UNSIGNED DEFAULT 0,
-    viewDay INT UNSIGNED DEFAULT 0,
-    save INT UNSIGNED DEFAULT 0,
     likes INT UNSIGNED DEFAULT 0,
     hot INT UNSIGNED DEFAULT 0,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY  (id)
+  ) $charset_collate;";
+  require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+  dbDelta($sql);
+
+}
+
+$story_type = $wpdb->prefix . 'story_type';
+if ($wpdb->get_var("SHOW TABLES LIKE '$story_type'") != $story_type) {
+  $charset_collate = $wpdb->get_charset_collate();
+
+  $sql = "CREATE TABLE $story_type (
+    story_id MEDIUMINT(9) UNSIGNED NOT NULL,
+    type_id MEDIUMINT(9) UNSIGNED NOT NULL,
+    PRIMARY KEY (story_id, type_id),
+    FOREIGN KEY (story_id) REFERENCES wp_stories(id) ON DELETE CASCADE,
+    FOREIGN KEY (type_id) REFERENCES wp_type(id) ON DELETE CASCADE
   ) $charset_collate;";
   require_once ABSPATH . 'wp-admin/includes/upgrade.php';
   dbDelta($sql);
@@ -40,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
   // Lấy nội dung từ POST và giữ nguyên định dạng HTML
   $story_name = sanitize_text_field($_POST['story_name']);
-  $slug = create_slug($story_name);
+  $slug = generate_unique_slug_truyen($story_name);
   $author = sanitize_text_field($_POST['author']);
   $status = sanitize_text_field($_POST['status']);
   $synopsis = isset($_POST['synopsis']) ? wp_unslash($_POST['synopsis']) : '';
@@ -68,7 +81,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $cover_image_url = $upload['url'];
       }
     }
-    // echo $synopsis;
 
     $wpdb->insert(
       $table_name,
@@ -77,11 +89,26 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         'slug' => $slug,
         'author' => $author,
         'status' => $status,
-        'genres' => $genres,
         'synopsis' => $synopsis,
         'cover_image_url' => $cover_image_url,
       )
     );
+
+    $type_names = array_map('trim', explode(',', $genres));
+
+    $story_id = $wpdb->insert_id;
+    foreach ($type_names as $type_name) {
+      $type_id = $wpdb->get_var($wpdb->prepare(
+        "SELECT id FROM wp_type WHERE type_name = %s",
+        $type_name
+      ));
+
+      // Thêm vào bảng trung gian
+      $wpdb->insert('wp_story_type', [
+        'story_id' => $story_id,
+        'type_id' => $type_id,
+      ]);
+    }
 
 
     if ($story_name) {
@@ -139,8 +166,8 @@ get_header();
 
 
   <!-- Form Đăng Truyện -->
-  <form id="storyForm" class="bg-white px-[17px] py-[17px] md:px-[3.5rem] md:py-[2.125rem] w-full" method="POST"
-    enctype="multipart/form-data">
+  <form id="storyForm" class="bg-white px-[17px] py-[17px] md:px-[3.5rem] md:py-[2.125rem] w-full text-[1.75rem]"
+    method="POST" enctype="multipart/form-data">
     <?php wp_nonce_field('story_upload_action', 'story_nonce'); ?>
 
     <!-- Upload Ảnh Bìa -->
@@ -189,17 +216,17 @@ get_header();
     <!-- Thể loại -->
     <div>
       <label class="font-semibold text-red-dark-hover mt-[1.25rem]">Thể loại</label>
-      <div class="flex flex-wrap gap-[0.5rem] mt-[1rem]">
+      <div class="flex flex-wrap gap-[1rem] mt-[1rem] text-[1.5rem]">
         <?php
-        $genres = ['ABO', 'Mạt thế', 'Ngọt sủng', 'Ngược', 'Ngôn tình', 'Đam mỹ', 'Bách hợp', 'SE', 'OE', 'HE', 'Cổ đại', 'Hiện đại', 'Tu tiên', 'Xuyên không', 'Trọng sinh', 'Hệ thống', 'Nữ cường', 'Tổng tài'];
+        $genres = $wpdb->get_col("SELECT type_name FROM wp_type");
         foreach ($genres as $genre) {
           echo "
-              <label class='genre-label inline-block w-[10rem] py-[1.25rem] text-center cursor-pointer 
-                bg-orange-light-active rounded-lg hover:bg-red-normal hover:text-red-light 
-                transition-colors text-red-dark-hover'>
-                <input type='checkbox' name='genres[]' value='$genre' class='hidden genre-checkbox' />
-                <span class='font-normal'>$genre</span>
-              </label>";
+            <label class='genre-label inline-block py-[1rem] px-[1.25rem] text-center cursor-pointer 
+              bg-orange-light-active rounded-lg hover:bg-red-normal hover:text-red-light 
+              transition-colors text-red-dark-hover'>
+              <input type='checkbox' name='genres[]' value='$genre' class='hidden genre-checkbox' />
+              <span class='font-normal'>$genre</span>
+            </label>";
         }
         ?>
       </div>
@@ -219,8 +246,9 @@ get_header();
         <p style="color: red;"><?php echo esc_html($error_synopsis); ?></p>
       <?php endif; ?>
       <!-- <textarea name="synopsis" id="content"></textarea> -->
-      <p class="mt-[1rem] text-red-dark">Không quá 500 từ.</p>
-      <p class="mt-[1rem] text-red-dark">Nghiêm cấm sử dụng từ ngữ thô tục, 18+, phân biệt vùng miền, vấn đề liên quan
+      <p class="mt-[1rem] text-[1.375rem] text-red-dark">Không quá 500 từ.</p>
+      <p class="mt-[1rem] text-[1.375rem] text-red-dark">Nghiêm cấm sử dụng từ ngữ thô tục, 18+, phân biệt vùng miền,
+        vấn đề liên quan
         đến chính trị. Nếu chúng tôi phát hiện sẽ từ chối duyệt, gỡ bỏ và có nguy cơ khóa tài khoản.</p>
     </div>
 

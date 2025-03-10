@@ -1,41 +1,89 @@
 <?php
 /* Template Name: Signup */
-get_header(); 
+get_header();
+
+global $wpdb;
+$users_literead = $wpdb->prefix . 'users_literead';
+if ($wpdb->get_var("SHOW TABLES LIKE '$users_literead'") != $users_literead) {
+  $charset_collate = $wpdb->get_charset_collate();
+
+  $sql = "CREATE TABLE $users_literead (
+    id MEDIUMINT(9) UNSIGNED NOT NULL AUTO_INCREMENT,
+    user_name TEXT NOT NULL,
+    full_name TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    email TEXT NOT NULL,
+    slug TEXT NOT NULL,
+    avatar_image_url TEXT DEFAULT NULL,
+    status TEXT NOT NULL,
+    type INT UNSIGNED DEFAULT 0,
+    likes INT UNSIGNED DEFAULT 0,
+    sum_coin INT UNSIGNED DEFAULT 0,
+    coin UNSIGNED DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    edited_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY  (id)
+  ) $charset_collate;";
+  require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+  dbDelta($sql);
+}
+
+$users_likes = $wpdb->prefix . 'users_likes';
+if ($wpdb->get_var("SHOW TABLES LIKE '$users_likes'") != $users_likes) {
+  $charset_collate = $wpdb->get_charset_collate();
+
+  $sql = "CREATE TABLE $users_likes (
+    story_id MEDIUMINT(9) UNSIGNED NOT NULL,
+    user_id MEDIUMINT(9) UNSIGNED NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY  (id)
+  ) $charset_collate;";
+  require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+  dbDelta($sql);
+}
+
 ?>
 <div class="flex overflow-hidden flex-col mx-auto w-full bg-white max-w-[480px]">
-  
-  
-  <div class="flex overflow-hidden flex-col w-full bg-red-100">
-   
-  <div class="flex flex-col px-[17px] pt-[17px] w-full text-[18px] text-red-dark bg-white min-h-[779px]">
-    <form>
-      <div class="flex flex-col w-full tracking-wide leading-none">
-        <label for="emailOrPhone" class="font-semibold">Email hoặc số điện thoại</label>
-        <div class="flex overflow-hidden flex-col justify-center px-[8px] py-[12px] mt-[8px] w-full whitespace-nowrap border-b border-solid border-red-dark">
-          <input type="text" id="emailOrPhone" placeholder="123@gmail.com" class="opacity-60 bg-transparent border-none outline-none" />
-        </div>
-      </div>
-      <div class="flex flex-col mt-[12px] w-full tracking-wide leading-none">
-        <label for="password" class="font-semibold">Mật khẩu</label>
-        <div class="flex overflow-hidden gap-1.5 items-center px-[8px] py-[12px] mt-[8px] w-full whitespace-nowrap border-b border-solid border-red-dark">
-          <input type="password" id="password" placeholder="**********" class="flex-1 shrink self-stretch my-auto opacity-60 basis-0 bg-transparent border-none outline-none" />
-        </div>
-      </div>
-      <div class="flex flex-col mt-[12px] w-full tracking-wide leading-none">
-        <label for="confirmPassword" class="font-semibold">Nhập lại mật khẩu</label>
-        <div class="flex overflow-hidden gap-1.5 items-center px-[8px] py-[12px] mt-[8px] w-full whitespace-nowrap border-b border-solid border-red-dark">
-          <input type="password" id="confirmPassword" placeholder="**********" class="flex-1 shrink self-stretch my-auto opacity-60 basis-0 bg-transparent border-none outline-none" />
-        </div>
-      </div>
-      <div class="mt-[12px] w-full] text-[16px] font-medium text-center text-stone-500">
-        <span class="text-red-dark ">Bạn đã có tài khoản?</span>
-        <a href="#" class="font-semibold text-red-dark-hover">Đăng nhập</a>
-      </div>
-      <button type="submit" class="gap-2.5 self-stretch py-[16px] mt-[12px] w-full font-medium text-center text-orange-light bg-red-normal rounded-[8px] hover:bg-red-light hover:text-red-normal transition-colors duration-300 ">
-        Đăng ký
-      </button>
-    </form>
-  </div>
-</div>
 
-<?php get_footer(); ?>
+
+  <div class="flex overflow-hidden flex-col w-full bg-red-100">
+
+    <div class="flex flex-col px-[17px] pt-[17px] w-full text-[18px] text-red-dark bg-white min-h-[779px]">
+      <form>
+        <div class="flex flex-col w-full tracking-wide leading-none">
+          <label for="emailOrPhone" class="font-semibold">Email hoặc số điện thoại</label>
+          <div
+            class="flex overflow-hidden flex-col justify-center px-[8px] py-[12px] mt-[8px] w-full whitespace-nowrap border-b border-solid border-red-dark">
+            <input type="text" id="emailOrPhone" placeholder="123@gmail.com"
+              class="opacity-60 bg-transparent border-none outline-none" />
+          </div>
+        </div>
+        <div class="flex flex-col mt-[12px] w-full tracking-wide leading-none">
+          <label for="password" class="font-semibold">Mật khẩu</label>
+          <div
+            class="flex overflow-hidden gap-1.5 items-center px-[8px] py-[12px] mt-[8px] w-full whitespace-nowrap border-b border-solid border-red-dark">
+            <input type="password" id="password" placeholder="**********"
+              class="flex-1 shrink self-stretch my-auto opacity-60 basis-0 bg-transparent border-none outline-none" />
+          </div>
+        </div>
+        <div class="flex flex-col mt-[12px] w-full tracking-wide leading-none">
+          <label for="confirmPassword" class="font-semibold">Nhập lại mật khẩu</label>
+          <div
+            class="flex overflow-hidden gap-1.5 items-center px-[8px] py-[12px] mt-[8px] w-full whitespace-nowrap border-b border-solid border-red-dark">
+            <input type="password" id="confirmPassword" placeholder="**********"
+              class="flex-1 shrink self-stretch my-auto opacity-60 basis-0 bg-transparent border-none outline-none" />
+          </div>
+        </div>
+        <div class="mt-[12px] w-full] text-[16px] font-medium text-center text-stone-500">
+          <span class="text-red-dark ">Bạn đã có tài khoản?</span>
+          <a href="#" class="font-semibold text-red-dark-hover">Đăng nhập</a>
+        </div>
+        <button type="submit"
+          class="gap-2.5 self-stretch py-[16px] mt-[12px] w-full font-medium text-center text-orange-light bg-red-normal rounded-[8px] hover:bg-red-light hover:text-red-normal transition-colors duration-300 ">
+          Đăng ký
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <?php get_footer(); ?>
