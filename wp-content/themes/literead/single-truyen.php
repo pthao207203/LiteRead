@@ -3,15 +3,7 @@ get_header();
 // echo 'Đây là single-truyen.php';
 
 global $wpdb;
-$story_slug = get_query_var('story_slug');
-$current_url = home_url($wp->request);
-// echo $current_url; // Trả về toàn bộ URL: http://localhost/literead/story/chu-tien
-
-$segments = explode('/', trim(parse_url($current_url, PHP_URL_PATH), '/'));
-if (isset($segments[2])) {
-  $story_slug = $segments[2];
-  // echo 'Story Slug: ' . $story_slug; // Kết quả: Story Slug: chu-tien
-}
+$story_slug = get_query_var('name');
 $stories = $wpdb->prefix . 'stories';
 
 $story = $wpdb->get_row(
@@ -19,7 +11,6 @@ $story = $wpdb->get_row(
 );
 
 if ($story) {
-  $genres = explode(',', $story->genres);
 
   $per_page = 10; // Số chương hiển thị mỗi trang
   $current_page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1; // Lấy trang hiện tại từ URL
@@ -28,9 +19,9 @@ if ($story) {
   // Lấy tổng số chương để tính số trang
   $chapter_name = $wpdb->prefix . 'chapters';
   $total_chapters = $wpdb->get_var("SELECT COUNT(*) FROM $chapter_name WHERE story_id = $story->id");
-  $total_pages = max(1, ceil($total_chapters / $per_page));
+  $total_pages = ceil($total_chapters / $per_page);
   $chapters = $wpdb->get_results(
-    $wpdb->prepare("SELECT * FROM $chapter_name WHERE id = %s ORDER BY chapter_number DESC LIMIT %d OFFSET %d", $story->id, $per_page, $offset)
+    $wpdb->prepare("SELECT * FROM $chapter_name WHERE story_id = %s ORDER BY chapter_number ASC LIMIT %d OFFSET %d", $story->id, $per_page, $offset)
   );
 
   $table_name1 = $wpdb->prefix . 'comments';
@@ -49,6 +40,27 @@ if ($story) {
     require_once ABSPATH . 'wp-admin/includes/upgrade.php';
     dbDelta($sql);
   }
+  $genres = $wpdb->get_col($wpdb->prepare(
+    "SELECT t.type_name 
+     FROM wp_story_type st 
+     INNER JOIN wp_type t ON st.type_id = t.id 
+     WHERE st.story_id = %d",
+    $story->id
+  ));
+
+
+
+  $first_chapter = $wpdb->get_var($wpdb->prepare(
+    "SELECT MIN(chapter_number) FROM $chapter_name WHERE story_id = %d",
+    $story->id
+  ));
+  $last_chapter = $wpdb->get_var($wpdb->prepare(
+    "SELECT MAX(chapter_number) FROM $chapter_name WHERE story_id = %d",
+    $story->id
+  ));
+  $previous_chapter_url = $first_chapter ? site_url("/truyen/$story_slug/chuong-$first_chapter") : '#';
+  $last_chapter_url = $last_chapter ? site_url("/truyen/$story_slug/chuong-$last_chapter") : '#';
+
   ?>
 
 
@@ -97,21 +109,25 @@ if ($story) {
             </dl>
             <div class="flex flex-wrap gap-2.5 items-center self-stretch mt-2.5 w-full" aria-label="Book categories">
               <?php
-              foreach ($genres as $genre) {
-                echo '<span class="px-2.5 py-1 text-[14px] md:text-[1.5rem] font-normal text-[#593B37] bg-orange-light-active rounded-lg">'
-                  . esc_html(trim($genre)) .
-                  '</span>';
+              if (!empty($genres)) {
+                foreach ($genres as $genre) {
+                  echo '<span class="px-2.5 py-1 text-[14px] md:text-[1.5rem] font-normal text-[#593B37] bg-orange-light-active rounded-lg">'
+                    . esc_html(trim($genre)) .
+                    '</span> ';
+                }
+              } else {
+                echo '<p>Không có thể loại nào</p>';
               }
               ?>
             </div>
             <div
               class="flex flex-wrap gap-4 items-center justify-start mt-2.5 text-[18px] md:text-[1.875rem] font-normal text-orange-light max-md:max-w-full">
-              <a href="#first-chapter"
-                class=" self-stretch px-[1rem] py-[0.5rem] md:px-[1.25rem] md:py-[0.625rem] bg-red-normal rounded-xl">
+              <a href="<?php echo esc_url($previous_chapter_url); ?>" aria-label="Previous chapter"
+                class=" self-stretch px-[1rem] py-[0.5rem] md:px-[1.25rem] md:py-[0.625rem] bg-red-normal rounded-xl hover:no-underline hover:text-red-light-hover">
                 Chương đầu
               </a>
-              <a href="#last-chapter"
-                class="self-stretch px-[1rem] py-[0.5rem] md:px-[1.25rem] md:py-[0.625rem] bg-red-normal rounded-xl">
+              <a href="<?php echo esc_url($last_chapter_url); ?>" aria-label="Last chapter"
+                class="self-stretch px-[1rem] py-[0.5rem] md:px-[1.25rem] md:py-[0.625rem] bg-red-normal rounded-xl hover:no-underline hover:text-red-light-hover">
                 Chương cuối
               </a>
               <button id="toggle-btn">
@@ -164,7 +180,7 @@ if ($story) {
             class="gap-2.5 self-start p-2.5 text-[18px] md:text-[1.875rem] font-medium text-red-normal bg-orange-light-hover rounded-xl">
             Chương truyện
           </h2>
-          <nav class="flex overflow-x-auto flex-col justify-center mt-3 w-full bg-white text-[#593B37]"
+          <nav class="flex overflow-x-auto flex-col justify-center mt-3 w-full bg-white text-orange-darker"
             aria-label="Chapter navigation">
             <ul class="list-none p-0 mx-2">
               <?php
@@ -174,7 +190,7 @@ if ($story) {
                   ?>
                   <li class="flex gap-2.5 justify-center items-center py-1.5 w-full">
                     <a href="<?php echo home_url("/truyen/$story_slug/chuong-" . $chapter->chapter_number); ?>"
-                      class="flex-1 shrink self-stretch my-auto text-[16px] md:text-[1.75rem] font-medium basis-0">Chương
+                      class="flex-1 shrink self-stretch my-auto text-[16px] md:text-[1.75rem] font-medium basis-0 hover:no-underline hover:text-orange-dark">Chương
                       <?php echo $chapter->chapter_number; ?></a>
                     <span
                       class="self-stretch my-auto text-[14px] md:text-[1.5rem] font-normal"><?php echo time_ago($chapter->edited_at); ?></span>
@@ -184,13 +200,13 @@ if ($story) {
                 } else {
                   ?>
                   <li
-                    class="flex gap-2.5 justify-center items-center py-1.5 w-full border-solid border-b-[0.1px] border-t-[#593B37]/50">
+                    class="flex gap-2.5 justify-center items-center py-1.5 w-full border-solid border-t-[0.1px] border-t-[#593B37]/50">
                     <a href="<?php echo home_url("/truyen/$story_slug/chuong-" . $chapter->chapter_number); ?>"
-                      class="flex-1 shrink self-stretch my-auto text-[16px] md:text-[1.75rem] font-medium basis-0">Chương
+                      class="flex-1 shrink self-stretch my-auto text-[16px] md:text-[1.75rem] font-medium basis-0 hover:no-underline hover:text-orange-dark">Chương
                       <?php echo $chapter->chapter_number; ?></a></a>
                     <span
                       class="self-stretch my-auto text-[14px] md:text-[1.5rem] font-normal"><?php echo time_ago($chapter->edited_at); ?></span>
-                  </li>';
+                  </li>
                   <?php
                 }
               } ?>
@@ -200,17 +216,17 @@ if ($story) {
               aria-label="Pagination">
               <?php if ($current_page > 1): ?>
                 <a href="?page=<?php echo ($current_page - 1); ?>"
-                  class="px-2 py-1 bg-[#FFF2F0] rounded-lg text-[16px] md:text-[1.75rem]">←</a>
+                  class="px-2 py-1 bg-[#FFF2F0] rounded-lg text-[16px] md:text-[1.75rem] hover:no-underline hover:text-red-normal-hover">←</a>
               <?php endif; ?>
               <?php for ($i = 1; $i <= $total_pages; $i++): ?>
                 <a href="?page=<?php echo $i; ?>"
-                  class="px-0.5 py-1 <?php echo $i == $current_page ? 'bg-[#D56665] text-orange-light' : 'bg-[#FFF2F0]'; ?> rounded-lg text-[16px] md:text-[1.75rem] self-stretch my-auto aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center">
+                  class="px-0.5 py-1 <?php echo $i == $current_page ? 'bg-[#D56665] text-orange-light hover:no-underline hover:text-orange-light' : 'bg-[#FFF2F0]'; ?> rounded-lg text-[16px] md:text-[1.75rem] self-stretch my-auto aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center">
                   <?php echo $i; ?>
                 </a>
               <?php endfor; ?>
               <?php if ($current_page < $total_pages): ?>
                 <a href="?page=<?php echo ($current_page + 1); ?>"
-                  class="px-2 py-1 bg-[#FFF2F0] rounded-lg text-[16px] md:text-[1.75rem]">→</a>
+                  class="px-2 py-1 bg-[#FFF2F0] rounded-lg text-[16px] md:text-[1.75rem] hover:no-underline hover:text-red-normal-hover">→</a>
               <?php endif; ?>
             </nav>
           </nav>
@@ -497,7 +513,8 @@ if ($story) {
                 <div class="flex flex-col mt-[4px] lg:mt-[8px] w-full">
                   <h3
                     class="flex-1 shrink gap-2.5 self-stretch w-full text-[16px] lg:text-[1.75rem] font-medium basis-0 text-orange-darker break-words">
-                    <a href="<?php echo esc_url(home_url('/truyen/' . $story->slug)); ?>">
+                    <a href="<?php echo esc_url(home_url('/truyen/' . $story->slug)); ?>"
+                      class="hover:no-underline hover:text-orange-dark">
                       <?php echo esc_html($story->story_name); ?>
                     </a>
                   </h3>
