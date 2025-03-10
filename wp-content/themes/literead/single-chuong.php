@@ -369,7 +369,8 @@ $next_chapter_url = $next_chapter_number ? site_url("/truyen/$story_slug/chuong-
               <div class="flex flex-col mt-[4px] lg:mt-[8px] w-full">
                 <h3
                   class="flex-1 shrink gap-2.5 self-stretch w-full text-[16px] lg:text-[1.75rem] font-medium basis-0 text-orange-darker break-words">
-                  <a href="<?php echo esc_url(home_url('/truyen/' . $story->slug)); ?>">
+                  <a href="<?php echo esc_url(home_url('/truyen/' . $story->slug)); ?>"
+                    class="hover:no-underline hover:text-orange-dark">
                     <?php echo esc_html($story->story_name); ?>
                   </a>
                 </h3>
