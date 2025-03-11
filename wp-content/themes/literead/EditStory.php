@@ -1,45 +1,16 @@
 <?php
 global $wpdb;
-$table_name = $wpdb->prefix . 'stories';
+$story_slug = get_query_var('truyen_parent');
+$chapter_number = get_query_var("chuong");
+$stories = $wpdb->prefix . 'stories';
 
-if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
-  $charset_collate = $wpdb->get_charset_collate();
+$story = $wpdb->get_row(
+  $wpdb->prepare("SELECT * FROM $stories WHERE slug = %s", $story_slug)
+);
 
-  $sql = "CREATE TABLE $table_name (
-    id MEDIUMINT(9) UNSIGNED NOT NULL AUTO_INCREMENT,
-    story_name TEXT NOT NULL,
-    slug TEXT NOT NULL,
-    author VARCHAR(255) NOT NULL,
-    editor VARCHAR(255) DEFAULT NULL,
-    cover_image_url TEXT DEFAULT NULL,
-    status TEXT NOT NULL,
-    synopsis TEXT DEFAULT NULL,
-    rate INT UNSIGNED DEFAULT 5,
-    view INT UNSIGNED DEFAULT 0,
-    likes INT UNSIGNED DEFAULT 0,
-    hot INT UNSIGNED DEFAULT 0,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY  (id)
-  ) $charset_collate;";
-  require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-  dbDelta($sql);
-
-}
-
-$story_type = $wpdb->prefix . 'story_type';
-if ($wpdb->get_var("SHOW TABLES LIKE '$story_type'") != $story_type) {
-  $charset_collate = $wpdb->get_charset_collate();
-
-  $sql = "CREATE TABLE $story_type (
-    story_id MEDIUMINT(9) UNSIGNED NOT NULL,
-    type_id MEDIUMINT(9) UNSIGNED NOT NULL,
-    PRIMARY KEY (story_id, type_id),
-    FOREIGN KEY (story_id) REFERENCES wp_stories(id) ON DELETE CASCADE,
-    FOREIGN KEY (type_id) REFERENCES wp_type(id) ON DELETE CASCADE
-  ) $charset_collate;";
-  require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-  dbDelta($sql);
-}
+$chapter = $wpdb->get_row(
+  $wpdb->prepare("SELECT * FROM $chapters WHERE story_id = %s AND chapter_number = %d", $story->id, $chapter_number)
+);
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
   // if (!isset($_POST['security']) || !wp_verify_nonce($_POST['security'], 'story_upload_nonce')) {

@@ -1,5 +1,16 @@
 <?php
 // function dùng cho toàn bộ page 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+add_action('admin_menu', function () {
+  add_submenu_page('tools.php', 'Rewrite Rules', 'Rewrite Rules', 'manage_options', 'rewrite_rules', function () {
+    global $wp_rewrite;
+    echo '<pre>';
+    print_r($wp_rewrite->rules);
+    echo '</pre>';
+  });
+});
 function time_ago($datetime)
 {
   date_default_timezone_set('Asia/Ho_Chi_Minh'); // Đặt múi giờ Việt Nam
@@ -118,76 +129,6 @@ function lay_custom_post_type($query)
   return $query;
 }
 
-// Thêm Rewrite Rules trong functions.php
-function custom_rewrite_rules()
-{
-  add_rewrite_rule(
-    '^truyen/([^/]+)/them-chuong-moi/?$',
-    'index.php?truyen_parent=$matches[1]&literead_add_chapter=1',
-    'top'
-  );
-  add_rewrite_rule(
-    '^truyen/([^/]+)/([^/]+)/?$',
-    'index.php?chuong=$matches[2]&truyen_parent=$matches[1]',
-    'normal'
-  );
-  add_rewrite_rule(
-    '^truyen/([^/]*)/?$',
-    'index.php?post_type=truyen&name=$matches[1]',
-    'bottom'
-  );
-}
-add_action('init', 'custom_rewrite_rules');
-
-
-// Đăng ký Query Variable
-function custom_query_vars($vars)
-{
-  $vars[] = 'story_slug';
-  $vars[] = 'truyen_parent';
-  $vars[] = 'chuong';
-  $vars[] = 'literead_add_chapter';
-  return $vars;
-}
-add_filter('query_vars', 'custom_query_vars');
-
-// Làm mới Rewrite Rules khi kích hoạt theme
-function flush_rewrite_rules_on_activation()
-{
-  custom_rewrite_rules();
-  flush_rewrite_rules();
-}
-add_action('after_switch_theme', 'flush_rewrite_rules_on_activation');
-
-function load_single_chapter_template($template)
-{
-  global $wp_query;
-
-  if (isset($wp_query->query_vars['literead_add_chapter'])) {
-    $new_template = locate_template(array('UpChapter.php'));
-    if (!empty($new_template)) {
-      return $new_template;
-    }
-  } else
-    if (isset($wp_query->query_vars['chuong'])) {
-      $new_template = locate_template(array('single-chuong.php'));
-
-      if (!empty($new_template)) {
-        return $new_template;
-      }
-    } else
-      if (isset($wp_query->query_vars['story_slug'])) {
-        $new_template = locate_template(array('single-truyen.php'));
-
-        if (!empty($new_template)) {
-          return $new_template;
-        }
-      }
-
-  return $template;
-}
-add_filter('template_include', 'load_single_chapter_template');
-
 // --------------------------------------------------
 // Trang quản lý truyện
 function tao_quanly_custom_post_type()
@@ -248,25 +189,12 @@ function lay_quanly_custom_post_type($query)
   return $query;
 }
 
-// Thêm Rewrite Rules trong functions.php
-function custom_quanly_rewrite_rules()
-{
-  add_rewrite_rule(
-    '^quan-ly-truyen/([^/]*)/?$', // Mẫu URL
-    'index.php?post_type=quan-ly-truyen&name=$matches[1]', // Đúng query cho custom post type
-    'top'
-  );
-}
-add_action('init', 'custom_quanly_rewrite_rules');
-
-
-
 // --------------------------------------------------
 // Trang thêm chương mới
 function chapter_custom_rewrite_rules()
 {
   add_rewrite_rule(
-    '^truyen/([^/]+)/them-chuong-moi/?$',
+    '^quan-ly-truyen/([^/]+)/them-chuong-moi/?$',
     'index.php?truyen_parent=$matches[1]&add_chapter=1',
     'top'
   );
@@ -290,6 +218,102 @@ function handle_add_chapter_page()
   }
 }
 add_action('template_redirect', 'handle_add_chapter_page');
+
+// --------------------------------------------------
+// Chung
+// Thêm Rewrite Rules trong functions.php
+function custom_rewrite_rules()
+{
+  // add_rewrite_rule(
+  //   '^quan-ly-truyen/?$',
+  //   'index.php?post_type=quan-ly-truyen&literead_all_story=1',
+  //   'top' // Đưa lên đầu danh sách rules
+  // );
+  add_rewrite_rule(
+    '^truyen/([^/]+)/([^/]+)/?$',
+    'index.php?chuong=$matches[2]&truyen_parent=$matches[1]',
+    'normal'
+  );
+  add_rewrite_rule(
+    '^truyen/([^/]*)/?$',
+    'index.php?post_type=truyen&name=$matches[1]',
+    'bottom'
+  );
+
+  //Trang cá nhân 
+  add_rewrite_rule(
+    '^quan-ly-truyen/([^/]+)/([^/]+)/?$',
+    'index.php?post_type=quan-ly-truyen&chuong=$matches[2]&truyen=$matches[1]',
+    'normal'
+  );
+  add_rewrite_rule(
+    '^quan-ly-truyen/([^/]*)/?$',
+    'index.php?post_type=quan-ly-truyen&name=$matches[1]',
+    'normal'
+  );
+
+  add_rewrite_rule(
+    '^quan-ly-truyen/truyen/([^/]+)/them-chuong-moi/?$',
+    'index.php?post_type=quan-ly-truyen&truyen_parent=$matches[1]&literead_add_chapter=1',
+    'top'
+  );
+}
+add_action('init', 'custom_rewrite_rules');
+
+
+// Đăng ký Query Variable
+function custom_query_vars($vars)
+{
+  $vars[] = 'story_slug';
+  $vars[] = 'truyen_parent';
+  $vars[] = 'chuong';
+  $vars[] = 'literead_add_chapter';
+
+  $vars[] = 'literead_all_story';
+  return $vars;
+}
+add_filter('query_vars', 'custom_query_vars');
+
+// Làm mới Rewrite Rules khi kích hoạt theme
+function flush_rewrite_rules_on_activation()
+{
+  custom_rewrite_rules();
+  flush_rewrite_rules();
+}
+add_action('after_switch_theme', 'flush_rewrite_rules_on_activation');
+
+flush_rewrite_rules();
+
+add_action('template_redirect', function () {
+  global $wp_query;
+  echo "<script>console.error('Debug Error: " . json_encode($wp_query->query_vars) . "');</script>";
+  //[GET] /quan-ly-truyen
+  if (is_post_type_archive('quan-ly-truyen')) {
+    include(get_template_directory() . '/quan-ly.php');
+    exit;
+  }
+  //[GET] /quan-ly-truyen/{ten-truyen}/{ten-chuong}
+  if (isset($wp_query->query_vars['chuong']) && isset($wp_query->query_vars['truyen'])) {
+    include(get_template_directory() . '/EditChapter.php');
+    exit;
+  }
+  //[GET] /quan-ly-truyen/{ten-truyen}
+  if (isset($wp_query->query_vars['post_type']) && $wp_query->query_vars['post_type'] == 'quan-ly-truyen') {
+
+    include(get_template_directory() . '/quan-ly-truyen.php');
+    exit;
+  }
+  //[GET] /quan-ly-truyen/{ten-truyen}
+  if (isset($wp_query->query_vars['chuong']) && isset($wp_query->query_vars['truyen_parent'])) {
+    include(get_template_directory() . '/single-chuong.php');
+    exit;
+  }
+});
+
+// global $wp_rewrite;
+// echo '<pre>';
+// print_r($wp_rewrite->wp_rewrite_rules());
+// echo '</pre>';
 
 
 ?>

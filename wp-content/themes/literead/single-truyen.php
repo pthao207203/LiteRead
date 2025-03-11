@@ -86,9 +86,7 @@ if ($story) {
             <dl class="w-full text-[16px] md:text-[1.75rem]">
               <div class="flex gap-2.5 self-stretch text-[16px] md:text-[1.75rem]">
                 <dt class="font-semibold text-[#593B37]">Tác giả:</dt>
-                <a>
-                  <dd class="font-normal text-[#593B37]"><?php echo esc_html($story->author); ?></dd>
-                </a>
+                <dd class="font-normal text-[#593B37]"><?php echo esc_html($story->author); ?></dd>
               </div>
               <div class="flex gap-2.5 self-stretch text-[16px] md:text-[1.75rem] mt-2.5">
                 <dt class="font-semibold text-[#593B37]">Nhóm dịch:</dt>
