@@ -55,15 +55,15 @@ $next_chapter_url = $next_chapter_number ? site_url("/truyen/$story_slug/chuong-
 
 ?>
 
-<div class="flex flex-col pt-[1.0625rem] w-full">
+<div class="flex flex-col pt-[17px] w-full">
   <!-- Title -->
-  <h1 class="lg:text-[1.875rem] text-[1.125rem] lg:px-[3.5rem] px-[1.0625rem] font-semibold text-red-darker text-left">
+  <h1 class="lg:text-[1.875rem] text-[18px] lg:px-[56px] px-[17px] font-semibold text-red-darker text-left ">
     <span class="font-bold uppercase">
       <?php echo esc_attr($story->story_name); ?> - CHƯƠNG <?php echo esc_attr($chapter->chapter_number); ?>
     </span>
   </h1>
   <!--Bộ điều hướng 1 (Trên) -->
-  <div class="flex self-center lg:mt-[2.25rem] mt-[1.125rem] min-h-6">
+  <div class="flex self-center lg:mt-[2.25rem] mt-[18px] min-h-6">
     <!-- Mũi tên trái -->
     <div
       class="flex justify-center items-center bg-red-normal p-[10px] w-[50px] h-[44px] lg:w-[3.125rem] lg:h-[3.063rem] cursor-pointer rounded-l-[8px] lg:rounded-l-[0.5rem] <?php echo $disable_previous ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'; ?>">
@@ -81,7 +81,7 @@ $next_chapter_url = $next_chapter_number ? site_url("/truyen/$story_slug/chuong-
 
     <!-- Dropdown Chương -->
     <div id="dropdownToggleTop"
-      class="flex justify-center items-center lg:text-[1.5rem] md:text-[0.875rem] sm:text-[0.875rem]  w-[128px] h-[44px] lg:w-[10.875rem] lg:h-[3.063rem] bg-orange-light-hover text-red-darker border-t border-b border-solid border-red-normal relative cursor-pointer">
+      class="flex justify-center items-center lg:text-[1.5rem] text-[14px]  w-[128px] h-[44px] lg:w-[10.875rem] lg:h-[3.063rem] bg-orange-light-hover text-red-darker border-t border-b border-solid border-red-normal relative cursor-pointer">
       <span class="mr-[10px]">Chương <?php echo esc_attr($chapter->chapter_number); ?></span>
       <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none"
         class="transition-transform duration-200">
@@ -130,9 +130,9 @@ $next_chapter_url = $next_chapter_number ? site_url("/truyen/$story_slug/chuong-
     </div>
   </div>
 
-  <!-- Chapter Content -->
-  <div class="flex flex-col lg:mt-[2.25rem] mt-[1.125rem] w-full  ">
-    <h2 class="font-medium text-center text-red-darkerlg:text-[1.875rem] text-[1.125rem] ">
+  <!-- Chapter Content -->t-[1.875rem] text-[1.125rem] ">
+  <div class="flex flex-col mt-[18px] w-full lg:mt-[2.25rem]">
+    <h2 class="font-medium text-center text-red-darker lg:text-[1.875rem] text-[18px] ">
       <?php if ($chapter->chapter_name)
         echo esc_attr($chapter->chapter_number);
       else
@@ -140,13 +140,11 @@ $next_chapter_url = $next_chapter_number ? site_url("/truyen/$story_slug/chuong-
     </h2>
 
     <div
-      class="lg:text-[1.75rem] text-[1rem] lg:mt-[2.25rem] mt-[1.125rem] lg:px-[3.5rem] px-[1.0625rem] leading-relaxed text-red-darker space-y-4">
+      class="lg:text-[1.75rem] text-[16px] lg:mt-[2.25rem] mt-[18px] lg:px-[56px] px-[17px] leading-relaxed text-red-darker space-y-4 ">
       <?php echo wpautop(wp_kses_post(htmlspecialchars_decode($chapter->synopsis, ENT_QUOTES))); ?>
     </div>
 
-
-
-    <div class="flex self-center lg:mt-[2.25rem] mt-[1.125rem] min-h-6">
+    <div class="flex self-center lg:mt-[2.25rem] mt-[18px] min-h-6">
       <!-- Mũi tên trái -->
       <div
         class="flex justify-center items-center bg-red-normal p-[10px] w-[50px] h-[44px] lg:w-[3.125rem] lg:h-[3.063rem] cursor-pointer rounded-l-[8px] lg:rounded-l-[0.5rem] <?php echo $disable_previous ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'; ?>">
@@ -160,11 +158,9 @@ $next_chapter_url = $next_chapter_number ? site_url("/truyen/$story_slug/chuong-
 
       </div>
 
-
-
       <!-- Dropdown Chương -->
       <div id="dropdownToggleBottom"
-        class="flex justify-center items-center lg:text-[1.5rem] md:text-[0.875rem] sm:text-[0.875rem]  w-[128px] h-[44px] lg:w-[10.875rem] lg:h-[3.063rem] bg-orange-light-hover text-red-darker border-t border-b border-solid border-red-normal relative cursor-pointer">
+        class="flex justify-center items-center lg:text-[1.5rem] text-[14px] w-[128px] h-[44px] lg:w-[10.875rem] lg:h-[3.063rem] bg-orange-light-hover text-red-darker border-t border-b border-solid border-red-normal relative cursor-pointer">
         <span class="mr-[10px]">Chương <?php echo esc_attr($chapter->chapter_number); ?></span>
         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none"
           class="transition-transform duration-200">
@@ -249,7 +245,7 @@ $next_chapter_url = $next_chapter_number ? site_url("/truyen/$story_slug/chuong-
     setupDropdown("dropdownToggleTop", "dropdownMenuTop");
     setupDropdown("dropdownToggleBottom", "dropdownMenuBottom");
   </script>
-  <section class=" lg:px-[3.5rem] px-[1.0625rem]flex flex-col mt-[1.5rem]  bg-white" aria-label="Comment Section">
+  <section class=" lg:px-[3.5rem] px-[17px] flex flex-col mt-[1.5rem]  bg-white" aria-label="Comment Section">
     <h2 id="comment"
       class="gap-2.5 self-start p-2.5 text-[18px] lg:text-[1.875rem] font-medium text-red-normal bg-orange-light-hover rounded-xl">
       Bình luận

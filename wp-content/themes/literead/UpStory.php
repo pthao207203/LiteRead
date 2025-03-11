@@ -74,11 +74,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $error_genres = '';
     $cover_image_url = '';
     if (!empty($_FILES['cover_image']['name'])) {
-
       if (!function_exists('wp_handle_upload')) {
         require_once ABSPATH . 'wp-admin/includes/file.php';
     }
-    
       $uploaded_file = $_FILES['cover_image'];
       $upload = wp_handle_upload($uploaded_file, array('test_form' => false));
 
@@ -171,7 +169,7 @@ get_header();
 
 
   <!-- Form Đăng Truyện -->
-  <form id="storyForm" class="bg-white px-[1.0625rem] py-[1.0625rem] lg:px-[3.5rem] lg:py-[2.125rem] w-full text-[1.75rem] max-md:text-[1rem]"
+  <form id="storyForm" class="bg-white px-[17px] py-[17px] lg:px-[3.5rem] lg:py-[2.125rem] w-full text-[1.75rem]"
     method="POST" enctype="multipart/form-data">
     <?php wp_nonce_field('story_upload_action', 'story_nonce'); ?>
 
@@ -187,10 +185,10 @@ get_header();
 
     <!-- Tên truyện -->
     <div>
-      <label for="story-name" class="mt-[1.25rem] max-md:mt-[0.625rem] font-semibold text-red-dark">Tên truyện</label>
+      <label for="story-name" class="mt-[1.25rem] font-semibold text-red-dark">Tên truyện</label>
       <input id="story-name" name="story_name" type="text" placeholder="Nhập tên truyện..." value="<?php if (isset($story_name))
         echo esc_html($story_name); ?>"
-        class="w-full mt-[1rem] max-md:mt-[0.5rem] px-[0.5rem] py-[0.25rem] border-b border-red-dark text-red-dark focus:outline-none" />
+        class="w-full mt-[1rem] px-[0.5rem] py-[0.25rem] border-b border-red-dark text-red-dark focus:outline-none" />
       <?php if (!empty($error_story_name)): ?>
         <p style="color: red;"><?php echo esc_html($error_story_name); ?></p>
       <?php endif; ?>
@@ -198,10 +196,10 @@ get_header();
 
     <!-- Tác giả -->
     <div>
-      <label for="author-name" class="font-semibold text-red-dark mt-[1.25rem] max-md:mt-[0.625rem] ">Tác giả</label>
+      <label for="author-name" class="font-semibold text-red-dark mt-[1.25rem]">Tác giả</label>
       <input id="author-name" name="author" type="text" placeholder="Tên tác giả..." value="<?php if (isset($author))
         echo esc_html($author); ?>"
-        class="w-full mt-[1rem]  max-md:mt-[0.5rem] px-[0.5rem] py-[0.25rem] border-b border-red-dark text-red-dark focus:outline-none" />
+        class="w-full mt-[1rem] px-[0.5rem] py-[0.25rem] border-b border-red-dark text-red-dark focus:outline-none" />
       <?php if (!empty($error_author)): ?>
         <p style="color: red;"><?php echo esc_html($error_author); ?></p>
       <?php endif; ?>
@@ -209,9 +207,9 @@ get_header();
 
     <!-- Tình trạng -->
     <div>
-      <label for="status" class="font-semibold text-red-dark mt-[1.25rem] max-md:mt-[0.625rem] ">Tình trạng</label>
+      <label for="status" class="font-semibold text-red-dark mt-[1.25rem]">Tình trạng</label>
       <select id="status" name="status"
-        class="w-full mt-[1rem]  max-md:mt-[0.5rem] px-[0.5rem] py-[0.25rem] border-b border-red-dark text-red-dark focus:outline-none">
+        class="w-full mt-[1rem] px-[0.5rem] py-[0.25rem] border-b border-red-dark text-red-dark focus:outline-none">
         <option value="Đang tiến hành">Đang tiến hành</option>
         <option value="Hoàn thành">Hoàn thành</option>
         <option value="Tạm ngừng">Tạm ngừng</option>
@@ -220,8 +218,8 @@ get_header();
 
     <!-- Thể loại -->
     <div>
-      <label class="font-semibold text-red-dark-hover mt-[1.25rem] max-md:mt-[0.625rem] ">Thể loại</label>
-      <div class="flex flex-wrap gap-[1rem] mt-[1rem]  max-md:mt-[0.5rem]  text-[1.5rem] max-md:text-[0.875rem]">
+      <label class="font-semibold text-red-dark-hover mt-[1.25rem]">Thể loại</label>
+      <div class="flex flex-wrap gap-[1rem] mt-[1rem] text-[1.5rem]">
         <?php
         $genres = $wpdb->get_col("SELECT type_name FROM wp_type");
         foreach ($genres as $genre) {
@@ -243,7 +241,7 @@ get_header();
 
     <!-- Văn án -->
     <div>
-      <label for="synopsis" class="font-semibold text-red-dark mt-[1.25rem] max-md:mt-[0.625rem] ">Văn án</label>
+      <label for="synopsis" class="font-semibold text-red-dark mt-[1.25rem]">Văn án</label>
       <textarea id="synopsis" name="synopsis" class="min-h-[200px]"> <?php if (isset($synopsis))
         echo esc_html($synopsis); ?>
       </textarea>
@@ -251,8 +249,8 @@ get_header();
         <p style="color: red;"><?php echo esc_html($error_synopsis); ?></p>
       <?php endif; ?>
       <!-- <textarea name="synopsis" id="content"></textarea> -->
-      <p class="mt-[1rem]  max-md:mt-[0.5rem] text-[1.375rem] text-red-dark">Không quá 500 từ.</p>
-      <p class="mt-[1rem]  max-md:mt-[0.5rem] text-[1.375rem] text-red-dark">Nghiêm cấm sử dụng từ ngữ thô tục, 18+, phân biệt vùng miền,
+      <p class="mt-[1rem] text-[1.375rem] text-red-dark">Không quá 500 từ.</p>
+      <p class="mt-[1rem] text-[1.375rem] text-red-dark">Nghiêm cấm sử dụng từ ngữ thô tục, 18+, phân biệt vùng miền,
         vấn đề liên quan
         đến chính trị. Nếu chúng tôi phát hiện sẽ từ chối duyệt, gỡ bỏ và có nguy cơ khóa tài khoản.</p>
     </div>
@@ -261,13 +259,11 @@ get_header();
       <div id="resultMessage" class="text-red-normal"></div>
     </div>
 
-    <!-- Nút hành động -->
-    <div class="flex justify-end mt-[1rem] ">
+    <div class="flex justify-end mt-[1rem]">
       <button type="submit" name="upStory"
         class="ml-[0.75rem] px-[1.25rem] py-[1.25rem] bg-red-normal text-orange-light rounded-[0.75rem]">Đăng
         nháp</button>
     </div>
-
   </form>
 
 
