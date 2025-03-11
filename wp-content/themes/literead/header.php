@@ -71,7 +71,7 @@
       </button>
     </div>
 
-    <h1 class="flex-1 shrink self-stretch my-auto text-[1.5rem] md:text-[2rem] text-[#D66766] font-[Moul] basis-0">
+    <h1 class="flex-1 shrink self-stretch my-auto text-[24px] md:text-[2rem] text-[#D66766] font-[Moul] basis-0">
       LiteRead
     </h1>
 

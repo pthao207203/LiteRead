@@ -118,10 +118,10 @@
                         alt="Thiên quan tứ phúc book cover"
                       />
                       <div
-                        class="flex flex-col justify-center items-start w-80 "
+                        class="flex flex-col justify-center items-start w-80 text-[1rem] md:text-[1.75rem]"
                       >
                         <h3
-                          class="gap-[0.625rem] self-stretch w-full text-[1rem] md:text-[1.75rem] font-medium"
+                          class="gap-[0.625rem] self-stretch w-full text-[1.25rem] md:text-[2rem] font-medium"
                         >
                           Thiên quan tứ phúc
                         </h3>
