@@ -74,6 +74,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $error_genres = '';
     $cover_image_url = '';
     if (!empty($_FILES['cover_image']['name'])) {
+      if (!function_exists('wp_handle_upload')) {
+        require_once ABSPATH . 'wp-admin/includes/file.php';
+    }
       $uploaded_file = $_FILES['cover_image'];
       $upload = wp_handle_upload($uploaded_file, array('test_form' => false));
 
@@ -166,7 +169,7 @@ get_header();
 
 
   <!-- Form Đăng Truyện -->
-  <form id="storyForm" class="bg-white px-[17px] py-[17px] md:px-[3.5rem] md:py-[2.125rem] w-full text-[1.75rem]"
+  <form id="storyForm" class="bg-white px-[17px] py-[17px] lg:px-[3.5rem] lg:py-[2.125rem] w-full text-[1.75rem]"
     method="POST" enctype="multipart/form-data">
     <?php wp_nonce_field('story_upload_action', 'story_nonce'); ?>
 
@@ -256,13 +259,11 @@ get_header();
       <div id="resultMessage" class="text-red-normal"></div>
     </div>
 
-    <!-- Nút hành động -->
     <div class="flex justify-end mt-[1rem]">
       <button type="submit" name="upStory"
         class="ml-[0.75rem] px-[1.25rem] py-[1.25rem] bg-red-normal text-orange-light rounded-[0.75rem]">Đăng
         nháp</button>
     </div>
-
   </form>
 
 

@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
       <main class="w-full max-md:w-full">
-        <div class="w-full max-md:mt-5 max-md:max-w-full">
+        <div class="w-full max-md:mt-[1.25rem] max-md:max-w-full">
           <nav
             class="flex flex-wrap items-center w-full px-[20px] text-[1.125rem] font-medium  bg-white text-red-darker mb-[2px]"
             aria-label="Navigation menu">
@@ -105,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     stroke-linejoin="round" />
                 </svg>
               </div>
-            </div>
+            </div> 
 
             <!-- 📝 Đăng truyện -->
             <div class="flex items-center self-stretch px-[12px] py-[10px] mr-0 ">
@@ -124,10 +124,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <div class="flex items-center self-stretch px-[12px] py-[10px] mr-0 ">
               <a href="#" class="self-stretch mr-[12px]" tabindex="0">Đăng chương</a>
 
-          </nav>
+          </nav> 
 
           <form id="chapterForm" method="POST" enctype="multipart/form-data"
-            class="px-[3.5rem] py-[2.125rem] max-w-full w-[1520px] text-3xl text-red-dark bg-white">
+            class="px-[3.5rem] py-[2.125rem] max-md:p-[1.0625rem] max-w-full w-[1520px] text-[1.75rem] max-md:text-[1rem] text-red-dark bg-white">
             <div class="w-full tracking-wide leading-none max-md:max-w-full">
               <h2 class="font-semibold text-[1.75rem] max-md:max-w-full">Tên truyện</h2>
               <div
@@ -159,7 +159,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                   class="max-md:max-w-full w-full text-red-dark bg-transparent outline-none" />
               </div>
             </div>
-
             <div class="mt-[1.75rem] w-full max-md:max-w-full">
               <h3 class="font-semibold text-[1.75rem] mb-[1rem] tracking-wide leading-none max-md:max-w-full">
                 Nội dung
