@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
       <main class="w-full max-md:w-full">
-       < <div class="w-full max-md:mt-[1.25rem] max-md:max-w-full">
+        <div class="w-full max-md:mt-[1.25rem] max-md:max-w-full">
           <nav
             class="flex flex-wrap items-center w-full px-[20px] text-[1.125rem] font-medium  bg-white text-red-darker mb-[2px]"
             aria-label="Navigation menu">
@@ -159,7 +159,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                   class="max-md:max-w-full w-full text-red-dark bg-transparent outline-none" />
               </div>
             </div>
-
             <div class="mt-[1.75rem] w-full max-md:max-w-full">
               <h3 class="font-semibold text-[1.75rem] mb-[1rem] tracking-wide leading-none max-md:max-w-full">
                 Nội dung
