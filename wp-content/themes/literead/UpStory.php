@@ -1,213 +1,279 @@
 <?php
-/* Template Name: UpStory */
-get_header(); 
+global $wpdb;
+$table_name = $wpdb->prefix . 'stories';
+
+if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
+  $charset_collate = $wpdb->get_charset_collate();
+
+  $sql = "CREATE TABLE $table_name (
+    id MEDIUMINT(9) UNSIGNED NOT NULL AUTO_INCREMENT,
+    story_name TEXT NOT NULL,
+    slug TEXT NOT NULL,
+    author VARCHAR(255) NOT NULL,
+    editor VARCHAR(255) DEFAULT NULL,
+    cover_image_url TEXT DEFAULT NULL,
+    status TEXT NOT NULL,
+    synopsis TEXT DEFAULT NULL,
+    rate INT UNSIGNED DEFAULT 5,
+    view INT UNSIGNED DEFAULT 0,
+    likes INT UNSIGNED DEFAULT 0,
+    hot INT UNSIGNED DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY  (id)
+  ) $charset_collate;";
+  require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+  dbDelta($sql);
+
+}
+
+$story_type = $wpdb->prefix . 'story_type';
+if ($wpdb->get_var("SHOW TABLES LIKE '$story_type'") != $story_type) {
+  $charset_collate = $wpdb->get_charset_collate();
+
+  $sql = "CREATE TABLE $story_type (
+    story_id MEDIUMINT(9) UNSIGNED NOT NULL,
+    type_id MEDIUMINT(9) UNSIGNED NOT NULL,
+    PRIMARY KEY (story_id, type_id),
+    FOREIGN KEY (story_id) REFERENCES wp_stories(id) ON DELETE CASCADE,
+    FOREIGN KEY (type_id) REFERENCES wp_type(id) ON DELETE CASCADE
+  ) $charset_collate;";
+  require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+  dbDelta($sql);
+}
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+  // if (!isset($_POST['security']) || !wp_verify_nonce($_POST['security'], 'story_upload_nonce')) {
+  //   wp_die('Lỗi bảo mật. Vui lòng thử lại.');
+  // }
+
+  global $wpdb;
+  $table_name = $wpdb->prefix . 'stories';
+
+  // echo wp_unslash($_POST['synopsis']);
+
+  // Lấy nội dung từ POST và giữ nguyên định dạng HTML
+  $story_name = sanitize_text_field($_POST['story_name']);
+  $slug = generate_unique_slug_truyen($story_name);
+  $author = sanitize_text_field($_POST['author']);
+  $status = sanitize_text_field($_POST['status']);
+  $synopsis = isset($_POST['synopsis']) ? wp_unslash($_POST['synopsis']) : '';
+  $genres = isset($_POST['genres']) ? implode(',', array_map('sanitize_text_field', $_POST['genres'])) : '';
+
+  if (empty(trim($story_name))) {
+    $error_story_name = 'Nội dung không được để trống!';
+  } else if (empty(trim($author))) {
+    $error_story_name = '';
+    $error_author = 'Nội dung không được để trống!';
+  } else if (empty(trim($synopsis))) {
+    $error_author = '';
+    $error_synopsis = 'Nội dung không được để trống!';
+  } else if (empty(trim($genres))) {
+    $error_genres = 'Nội dung không được để trống!';
+    $error_synopsis = '';
+  } else {
+    $error_genres = '';
+    $cover_image_url = '';
+    if (!empty($_FILES['cover_image']['name'])) {
+
+      if (!function_exists('wp_handle_upload')) {
+        require_once ABSPATH . 'wp-admin/includes/file.php';
+    }
+    
+      $uploaded_file = $_FILES['cover_image'];
+      $upload = wp_handle_upload($uploaded_file, array('test_form' => false));
+
+      if (!isset($upload['error']) && isset($upload['url'])) {
+        $cover_image_url = $upload['url'];
+      }
+    }
+
+    $wpdb->insert(
+      $table_name,
+      array(
+        'story_name' => $story_name,
+        'slug' => $slug,
+        'author' => $author,
+        'status' => $status,
+        'synopsis' => $synopsis,
+        'cover_image_url' => $cover_image_url,
+      )
+    );
+
+    $type_names = array_map('trim', explode(',', $genres));
+
+    $story_id = $wpdb->insert_id;
+    foreach ($type_names as $type_name) {
+      $type_id = $wpdb->get_var($wpdb->prepare(
+        "SELECT id FROM wp_type WHERE type_name = %s",
+        $type_name
+      ));
+
+      // Thêm vào bảng trung gian
+      $wpdb->insert('wp_story_type', [
+        'story_id' => $story_id,
+        'type_id' => $type_id,
+      ]);
+    }
+
+
+    if ($story_name) {
+      // Chuyển hướng về trang chính với thông báo thành công
+      echo 'Thêm truyện thành công!';
+      wp_redirect(home_url('/'));
+      exit;
+    } else {
+      // wp_die('Lỗi khi thêm truyện. Vui lòng thử lại.');
+      $error_message = 'Lỗi khi lưu dữ liệu, vui lòng thử lại.';
+    }
+
+  }
+}
 ?>
 
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Author Page</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    /* Reset body margin */
-    body {
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      background-color: #FFE5E1;
-    }
+<?php
+/* Template Name: UpStory */
+get_header();
+?>
 
-    /* Sidebar */
-    .sidebar {
-      width: 18rem;
-      height: 912px;
-      background-color: #1f2937; /* Màu xám đậm */
-      color: white;
-      position: fixed;
-      top: 60px; /* Đẩy xuống dưới header */
-      left: 0;
-      transition: transform 0.3s ease;
-    }
+<!-- 💡 Nội dung chính -->
+<div class="w-full p-0 flex-1">
 
-    /* Mặc định ẩn sidebar ở màn hình nhỏ */
-    .sidebar-hidden {
-      transform: translateX(-100%);
-    }
+  <!-- Nội dung bên dưới Header -->
+  <nav
+    class="flex flex-wrap items-center w-full px-[20px] text-[1.125rem] font-medium  bg-white text-red-darker mb-[2px]"
+    aria-label="Navigation menu">
 
-    /* Luôn hiển thị sidebar ở màn hình lớn */
-    @media (min-width: 768px) {
-      .sidebar {
-        transform: translateX(0);
-      }
-
-      #menuToggle {
-        display: none; /* Ẩn nút menu ở màn hình lớn */
-      }
-    }
-
-    /* Main Content */
-    .main-content {
-      margin-left: 19.25rem;
-      width: calc(100%-19.25rem);
-      padding: 0;
-      margin-top: 0px;
-      flex: 1;
-    }
-
-    @media (max-width: 767px) {
-      .main-content {
-        margin-left: 0;
-        width: 100%;
-      }
-    }
-
-
-   
-    /* Sidebar Link Hover */
-    .sidebar a:hover {
-      color: #fbbf24;
-    }
-
-    /* Nút Menu */
-    #menuToggle {
-      position: fixed;
-      top: 70px;
-      left: 10px;
-      background-color: #f87171;
-      color: white;
-      padding: 10px;
-      border-radius: 5px;
-      cursor: pointer;
-      z-index: 20;
-    }
-  </style>
-</head>
-
-<body>
-  <!-- 📋 Sidebar -->
-  <aside id="sidebar" class="sidebar sidebar-hidden md:sidebar">
-    <h2 class="text-2xl font-bold p-4">📋 Menu</h2>
-    <ul class="space-y-4 px-4">
-      <li><a href="#" class="hover:text-yellow-400">🏠 Trang chủ</a></li>
-      <li><a href="#" class="hover:text-yellow-400">📖 Thể loại</a></li>
-      <li><a href="#" class="hover:text-yellow-400">⭐ Yêu thích</a></li>
-      <li><a href="#" class="hover:text-yellow-400">⚙️ Cài đặt</a></li>
-    </ul>
-  </aside>
-
-  <!-- Nút Toggle Sidebar -->
-  <button id="menuToggle">📂 Menu</button>
-
-  <!-- 💡 Nội dung chính -->
-  <div class="main-content ">
-
-    <!-- Nội dung bên dưới Header -->
-    <nav class="flex flex-wrap items-center w-full px-[20px] text-[1.125rem] font-medium  bg-white text-red-darker mb-[2px]" aria-label="Navigation menu">
-  
-  <!-- 📚 Truyện của tôi -->
-  <div class="flex items-center self-stretch px-[12px] py-[10px] mr-0 ">  
-    <a href="#" class="self-stretch mr-[12px]" tabindex="0">Truyện của tôi</a>
-    <!-- ➡️ Mũi tên SVG -->
-    <div class="flex items-center justify-center w-5 h-5" aria-hidden="true">
-      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 20 20" fill="none">
-        <path d="M7.42499 16.5999L12.8583 11.1666C13.5 10.5249 13.5 9.4749 12.8583 8.83324L7.42499 3.3999" stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+    <!-- 📚 Truyện của tôi -->
+    <div class="flex items-center self-stretch px-[12px] py-[10px] mr-0 ">
+      <a href="#" class="self-stretch mr-[12px]" tabindex="0">Truyện của tôi</a>
+      <!-- ➡️ Mũi tên SVG -->
+      <div class="flex items-center justify-center w-5 h-5" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 20 20" fill="none">
+          <path d="M7.42499 16.5999L12.8583 11.1666C13.5 10.5249 13.5 9.4749 12.8583 8.83324L7.42499 3.3999"
+            stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
     </div>
-  </div>
 
-  <!-- 📝 Đăng truyện -->
-  <div class="flex items-center self-stretch px-[12px] py-[10px] mr-0 ">  
-    <a href="#" class="self-stretch mr-[12px]" tabindex="0">Đăng truyện</a>
-    <!-- ➡️ Mũi tên SVG -->
-    <div class="flex items-center justify-center w-5 h-5" aria-hidden="true">
-      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 20 20" fill="none">
-        <path d="M7.42499 16.5999L12.8583 11.1666C13.5 10.5249 13.5 9.4749 12.8583 8.83324L7.42499 3.3999" stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+    <!-- 📝 Đăng truyện -->
+    <div class="flex items-center self-stretch px-[12px] py-[10px] mr-0 ">
+      <a href="#" class="self-stretch mr-[12px]" tabindex="0">Đăng truyện</a>
+      <!-- ➡️ Mũi tên SVG -->
+      <div class="flex items-center justify-center w-5 h-5" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 20 20" fill="none">
+          <path d="M7.42499 16.5999L12.8583 11.1666C13.5 10.5249 13.5 9.4749 12.8583 8.83324L7.42499 3.3999"
+            stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
     </div>
-  </div>
 
-</nav>
+  </nav>
 
 
-      <!-- Form Đăng Truyện -->
-      <form class="bg-white px-[3.5rem] py-[2.125rem] w-full">
+  <!-- Form Đăng Truyện -->
+  <form id="storyForm" class="bg-white px-[1.0625rem] py-[1.0625rem] lg:px-[3.5rem] lg:py-[2.125rem] w-full text-[1.75rem] max-md:text-[1rem]"
+    method="POST" enctype="multipart/form-data">
+    <?php wp_nonce_field('story_upload_action', 'story_nonce'); ?>
 
-        <!-- Upload Ảnh Bìa -->
-        <div class="flex items-end">
-          <img id="previewImage" src="https://via.placeholder.com/150" alt="Ảnh bìa" class="w-[13.25rem] h-[20.75rem] object-cover border">
-          <input type="file" id="coverUpload" class="hidden" accept="image/*">
-          <button type="button" id="uploadBtn" class="px-[1.25rem] py-[1.25rem] ml-[0.75rem] text-[1.75rem] bg-red-light-hover text-red-normal rounded-[0.75rem]">Chọn tệp</button>
-        </div>
+    <!-- Upload Ảnh Bìa -->
+    <div class="flex items-end">
+      <img id="previewImage" src="https://via.placeholder.com/150" alt="Ảnh bìa"
+        class="w-[13.25rem] aspect-[0.67] object-cover border">
+      <input type="file" id="coverUpload" name="cover_image" class="hidden" accept="image/*">
+      <button type="button" id="uploadBtn"
+        class="px-[1.25rem] py-[1.25rem] ml-[0.75rem] text-[1.75rem] bg-red-light-hover text-red-normal rounded-[0.75rem]">Chọn
+        tệp</button>
+    </div>
 
-        <!-- Tên truyện -->
-        <div>
-          <label for="story-name" class="mt-[1.25rem] font-semibold text-red-dark">Tên truyện</label>
-          <input id="story-name text-red-dark" type="text" placeholder="Nhập tên truyện..." class="w-full mt-[1rem] px-[0.5rem] py-[0.25rem] border-b border-red-dark text-red-dark  focus:outline-none" />
-        </div>
+    <!-- Tên truyện -->
+    <div>
+      <label for="story-name" class="mt-[1.25rem] max-md:mt-[0.625rem] font-semibold text-red-dark">Tên truyện</label>
+      <input id="story-name" name="story_name" type="text" placeholder="Nhập tên truyện..." value="<?php if (isset($story_name))
+        echo esc_html($story_name); ?>"
+        class="w-full mt-[1rem] max-md:mt-[0.5rem] px-[0.5rem] py-[0.25rem] border-b border-red-dark text-red-dark focus:outline-none" />
+      <?php if (!empty($error_story_name)): ?>
+        <p style="color: red;"><?php echo esc_html($error_story_name); ?></p>
+      <?php endif; ?>
+    </div>
 
-        <!-- Tác giả -->
-        <div>
-          <label for="author-name" class="font-semibold text-red-dark mt-[1.25rem] ">Tác giả</label>
-          <input id="author-name" type="text" placeholder="Tên tác giả..." class="w-full mt-[1rem] px-[0.5rem] py-[0.25rem] border-b border-red-dark text-red-dark  focus:outline-none" />
-        </div>
+    <!-- Tác giả -->
+    <div>
+      <label for="author-name" class="font-semibold text-red-dark mt-[1.25rem] max-md:mt-[0.625rem] ">Tác giả</label>
+      <input id="author-name" name="author" type="text" placeholder="Tên tác giả..." value="<?php if (isset($author))
+        echo esc_html($author); ?>"
+        class="w-full mt-[1rem]  max-md:mt-[0.5rem] px-[0.5rem] py-[0.25rem] border-b border-red-dark text-red-dark focus:outline-none" />
+      <?php if (!empty($error_author)): ?>
+        <p style="color: red;"><?php echo esc_html($error_author); ?></p>
+      <?php endif; ?>
+    </div>
 
-        <!-- Tình trạng -->
-        <div>
-          <label for="status" class="font-semibold text-red-dark mt-[1.25rem] ">Tình trạng</label>
-          <select id="status" class="w-full mt-[1rem] px-[0.5rem] py-[0.25rem] border-b border-red-dark text-red-dark focus:outline-none">
-     
-            <option>Đang tiến hành</option>
-            <option>Hoàn thành</option>
-            <option>Tạm ngừng</option>
+    <!-- Tình trạng -->
+    <div>
+      <label for="status" class="font-semibold text-red-dark mt-[1.25rem] max-md:mt-[0.625rem] ">Tình trạng</label>
+      <select id="status" name="status"
+        class="w-full mt-[1rem]  max-md:mt-[0.5rem] px-[0.5rem] py-[0.25rem] border-b border-red-dark text-red-dark focus:outline-none">
+        <option value="Đang tiến hành">Đang tiến hành</option>
+        <option value="Hoàn thành">Hoàn thành</option>
+        <option value="Tạm ngừng">Tạm ngừng</option>
+      </select>
+    </div>
 
-          </select>
-        </div>
-
-        <!-- Thể loại -->
-        <div>
-    <label class="font-semibold text-red-dark mt-[1.25rem]">Thể loại</label>
-    <div class="flex flex-wrap gap-[0.5rem] mt-[1rem]">
+    <!-- Thể loại -->
+    <div>
+      <label class="font-semibold text-red-dark-hover mt-[1.25rem] max-md:mt-[0.625rem] ">Thể loại</label>
+      <div class="flex flex-wrap gap-[1rem] mt-[1rem]  max-md:mt-[0.5rem]  text-[1.5rem] max-md:text-[0.875rem]">
         <?php
-            $genres = ['ABO', 'Mạt thế', 'Ngọt sủng', 'Ngược', 'Ngôn tình', 'Đam mỹ', 'Bách hợp', 'SE', 'OE', 'HE', 'Cổ đại', 'Hiện đại', 'Tu tiên', 'Xuyên không', 'Trọng sinh', 'Hệ thống', 'Nữ cường', 'Tổng tài'];
-            foreach($genres as $genre) {
-                echo "<button type='button' class='w-[10rem] py-[1.25rem] text-red-dark-hover bg-orange-light-active rounded-lg hover:bg-red-normal hover:text-red-light  genre-btn' data-selected='false'>$genre</button>";
-            }
+        $genres = $wpdb->get_col("SELECT type_name FROM wp_type");
+        foreach ($genres as $genre) {
+          echo "
+            <label class='genre-label inline-block py-[1rem] px-[1.25rem] text-center cursor-pointer 
+              bg-orange-light-active rounded-lg hover:bg-red-normal hover:text-red-light 
+              transition-colors text-red-dark-hover'>
+              <input type='checkbox' name='genres[]' value='$genre' class='hidden genre-checkbox' />
+              <span class='font-normal'>$genre</span>
+            </label>";
+        }
         ?>
+      </div>
+      <?php if (!empty($error_genres)): ?>
+        <p style="color: red;"><?php echo esc_html($error_genres); ?></p>
+      <?php endif; ?>
+
     </div>
-</div>
 
-
-        <!-- Văn án -->
-        <div>
-          <label for="synopsis" class="font-semibold text-red-dark mt-[1.25rem]">Văn án</label>
-          <textarea id="synopsis text-red-dark" rows="5" class="w-full px-[1rem] py-[0.5rem] mt-[1rem] text-red-dark border-1 border-red-normal rounded-[8px] focus:outline-none focus:ring-2 focus:ring-red-normal" placeholder="Tóm tắt nội dung truyện..."></textarea>
-          <p class="mt-[1rem] tex text-red-dark">Không quá 500 từ.</p>
-          <p class="mt-[1rem] tex text-red-dark">Nghiêm cấm sử dụng từ ngữ thô tục, 18+, phân biệt vùng miền, vấn đề liên quan đến chính trị. Nếu chúng tôi phát hiện sẽ từ chối duyệt, gỡ bỏ và có nguy cơ khóa tài khoản.</p>
-        </div>
-
-        <!-- Nút hành động -->
-        <div class="flex justify-end mt-[1rem] ">
-          <button type="button" class="px-[1.25rem] py-[1.25rem] text-[#6C8299] bg-[#E9EBF8] rounded-[0.75rem]">Đăng nháp</button>
-          <button type="submit" class="ml-[0.75rem] px-[1.25rem] py-[1.25rem] bg-red-normal text-orange-light rounded-[0.75rem]">Gửi duyệt</button>
-        </div>
-
-      </form>
+    <!-- Văn án -->
+    <div>
+      <label for="synopsis" class="font-semibold text-red-dark mt-[1.25rem] max-md:mt-[0.625rem] ">Văn án</label>
+      <textarea id="synopsis" name="synopsis" class="min-h-[200px]"> <?php if (isset($synopsis))
+        echo esc_html($synopsis); ?>
+      </textarea>
+      <?php if (!empty($error_synopsis)): ?>
+        <p style="color: red;"><?php echo esc_html($error_synopsis); ?></p>
+      <?php endif; ?>
+      <!-- <textarea name="synopsis" id="content"></textarea> -->
+      <p class="mt-[1rem]  max-md:mt-[0.5rem] text-[1.375rem] text-red-dark">Không quá 500 từ.</p>
+      <p class="mt-[1rem]  max-md:mt-[0.5rem] text-[1.375rem] text-red-dark">Nghiêm cấm sử dụng từ ngữ thô tục, 18+, phân biệt vùng miền,
+        vấn đề liên quan
+        đến chính trị. Nếu chúng tôi phát hiện sẽ từ chối duyệt, gỡ bỏ và có nguy cơ khóa tài khoản.</p>
     </div>
+
+    <div class="flex justify-end mt-[1rem]">
+      <div id="resultMessage" class="text-red-normal"></div>
+    </div>
+
+    <!-- Nút hành động -->
+    <div class="flex justify-end mt-[1rem] ">
+      <button type="submit" name="upStory"
+        class="ml-[0.75rem] px-[1.25rem] py-[1.25rem] bg-red-normal text-orange-light rounded-[0.75rem]">Đăng
+        nháp</button>
+    </div>
+
+  </form>
+
 
 
   <!-- ✅ JavaScript -->
   <script>
-    // Sidebar Toggle cho màn hình nhỏ
-    const sidebar = document.getElementById("sidebar");
-    const menuToggle = document.getElementById("menuToggle");
-
-    menuToggle.addEventListener("click", () => {
-      sidebar.classList.toggle("sidebar-hidden");
-    });
-
     // Upload Ảnh Bìa
     const uploadBtn = document.getElementById("uploadBtn");
     const coverUpload = document.getElementById("coverUpload");
@@ -224,28 +290,62 @@ get_header();
       }
     });
   </script>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const genreButtons = document.querySelectorAll(".genre-btn");
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const genreLabels = document.querySelectorAll(".genre-label");
 
-    genreButtons.forEach(button => {
-      button.addEventListener("click", function () {
-        const isSelected = this.getAttribute("data-selected") === "true";
+      genreLabels.forEach(label => {
+        label.addEventListener("click", function () {
+          const checkbox = this.querySelector(".genre-checkbox");
+          checkbox.checked = !checkbox.checked;
 
-        if (isSelected) {
-          this.classList.remove("bg-red-200", "text-white");
-          this.classList.add("bg-orange-light-active", "text-red-dark-hover");
-          this.setAttribute("data-selected", "false");
-        } else {
-          this.classList.add("bg-red-normal", "text-red-light");
-          this.classList.remove("bg-orange-light-active", "text-red-dark-hover");
-          this.setAttribute("data-selected", "true");
-        }
+          if (checkbox.checked) {
+            this.classList.add("bg-red-normal", "text-red-light");
+            this.classList.remove("bg-orange-light-active", "text-red-dark-hover");
+          } else {
+            this.classList.remove("bg-red-normal", "text-red-light");
+            this.classList.add("bg-orange-light-active", "text-red-dark-hover");
+          }
+        });
       });
     });
-  });
-</script>
-</body>
-</html>
+  </script>
+  <script>
+    document.getElementById('storyForm').addEventListener('submit', async function (e) {
+      // e.preventDefault(); // Ngăn form load lại trang
+
+      var content = $('#synopsis').summernote('code');
+      document.getElementById('content').value = content;
+      console.log('Nội dung gửi đi:', content);
+
+      //   const formData = new FormData(this);
+      //   formData.append('action', 'upload_story'); // Tên action đã khai báo trong PHP
+      //   formData.append('security', '<?php echo wp_create_nonce('story_upload_nonce'); ?>'); // Thêm nonce để bảo mật
+
+      //   try {
+      //     const response = await fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+      //       method: 'POST',
+      //       body: formData,
+      //     });
+
+      //     const result = await response.text();
+      //     const resultMessage = document.getElementById('resultMessage');
+      //     resultMessage.innerHTML = result;
+
+      //     // Kiểm tra nếu thông báo thành công, chờ 3s rồi chuyển hướng
+      //     if (result.toLowerCase().includes('thêm truyện thành công')) {
+      //       // setTimeout(() => {
+      //       //   window.location.href = '<?php echo home_url('/'); ?>';
+      //       // }, 3000); // 3000ms = 3s
+      //     }
+      //   } catch (error) {
+      //     console.error('Lỗi khi gửi form:', error);
+      //     document.getElementById('resultMessage').innerHTML = 'Lỗi khi gửi form. Vui lòng thử lại!';
+      //   }
+    });
+
+
+  </script>
+</div>
 
 <?php get_footer(); ?>
