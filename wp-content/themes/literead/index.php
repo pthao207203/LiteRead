@@ -7,8 +7,12 @@ $stories = $wpdb->get_results("SELECT * FROM wp_stories WHERE hot='1' LIMIT 6");
 
 ?>
 
-<main class="overflow-hidden mx-auto w-full bg-stone-200">
-
+<main class="flex flex-col bg-[#FFE5E1]">
+    <div class="w-full max-md:max-w-full">
+        <div class="flex gap-[1.25rem] max-md:flex-col">
+          <!-- Sidebar Navigation -->
+        <?php get_sidebar(); ?>
+        <div class="flex flex-col">
   <section class="flex relative flex-col w-full min-h-[246px] mb-[-20px] md:flex-row md:min-h-[300px] lg:min-h-[400px]">
     <img loading="lazy"
       src="https://cdn.builder.io/api/v1/image/assets/TEMP/9cd925cf87475432037a5d161cd9740a8bf77af205181197162397c1c41f9ae2"
@@ -597,6 +601,9 @@ $stories = $wpdb->get_results("SELECT * FROM wp_stories WHERE hot='1' LIMIT 6");
     </section>
 
   </section>
+        </div>
+        </div>
+        </div>
 </main>
 
 

@@ -1,5 +1,6 @@
-<aside id="sidebar" class="w-auto overflow-y-auto max-md:absolute max-md:w-auto font-medium max-sm:text-[1rem] md:text-[1.5rem] transition-all duration-300 ease-in-out
-       max-md:hidden bg-[#FFE5E1] md:block">
+<?php $isHome = is_front_page() || is_home(); ?>
+<aside id="sidebar" class=" w-auto overflow-y-auto max-md:w-auto font-medium max-sm:text-[1rem] md:text-[1.5rem] transition-all duration-300 ease-in-out
+       max-md:hidden bg-[#FFE5E1] md:block <?= $isHome ? 'absolute z-50' : 'md:relative absolute'?>">
   <nav class="flex flex-col justify-between py-[1.25rem] min-h-[calc(100vh-7.5rem)] bg-red-normal shadow-lg mx-auto">
     <ul class="flex flex-col flex-1 w-full font-medium leading-none text-orange-light">
       <li>

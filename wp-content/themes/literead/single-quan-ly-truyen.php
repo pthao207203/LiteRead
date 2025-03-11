@@ -60,15 +60,15 @@ if ($story) {
           <!-- <section class="flex p-[1rem] ml-[2.5rem] mr-[2.5rem] mt-[1.25rem] bg-white rounded-2xl shadow-lg max-md:w-full">
 
           </section> -->
-          <section class=" ml-10 mr-12 px-0 py-4 1.5rem">
+          <section class=" ml-[2.5rem] mr-[3rem] px-0 py-[1rem]">
           <article
-                      class="flex  grow shrink gap-6 items-start mb-[1.5rem] p-[1.25rem] bg-white rounded-2xl shadow-lg  max-md:max-w-full"
-                    >
-            <div class="overflow-hidden rounded-md w-[16.625rem] h-[23.25rem]">
+            class="flex  grow shrink gap-[1.5rem] max-sm:gap-[0.75rem] items-start mb-[1.5rem] p-[1.25rem] max-sm:p-[0.625rem] bg-white rounded-2xl shadow-md  max-md:max-w-full"
+          >
+            <div class="rounded-md lg:w-[16.625rem] lg:h-[23.25rem] max-sm:w-1/2">
               <img src=<?php echo esc_url($story->cover_image_url); ?> alt=<?php echo esc_html($story->story_name); ?>
-                alt="Story cover" class="object-cover w-[16.625rem] h-[23.25rem]" />
+                alt="Story cover" class="object-cover rounded-lg lg:w-[16.625rem] lg:h-[23.25rem]" />
             </div>
-            <div class="ml-6 max-md:mt-5">
+            <div class="w-auto max-sm:w-1/2">
               <h1 class="mb-2 text-[20px] md:text-[2rem] font-medium text-red-darker"><?php echo esc_html($story->story_name) ?></h1>
               <p class="mb-2 text-[16px] md:text-[1.75rem] text-red-darker">Số chữ: 24.7K</p>
               <p class="mb-2 text-[16px] md:text-[1.75rem] text-red-darker">
@@ -89,7 +89,7 @@ if ($story) {
               Sửa
             </button>
             <div
-              class="flex-1 shrink basis-0 text-ellipsis text-[16px] md:text-[1.75rem] font-normal text-red-darker [&>p]:mb-4 mt-[0.75rem] border-1 border-solid border-red-normal border-w-1 rounded-2xl py-[1.25rem] px-[0.625rem]">
+              class="flex-1 shrink basis-0 text-ellipsis text-[16px] md:text-[1.75rem] font-normal text-red-darker [&>p]:mb-4 mt-[0.75rem] border-1 border-solid border-red-normal/50 border-w-1 rounded-2xl py-[1.25rem] px-[0.625rem]">
               <?php echo wpautop(wp_kses_post(htmlspecialchars_decode($story->synopsis, ENT_QUOTES))); ?>
             </div>
             <div>
