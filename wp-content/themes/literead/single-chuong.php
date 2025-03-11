@@ -1,5 +1,6 @@
 <?php
 get_header();
+global $wpdb;
 
 $chapter_slug = get_query_var('chuong'); // Lấy slug truyện từ URL
 if (preg_match('/chuong-(\d+)/', $chapter_slug, $matches)) {
