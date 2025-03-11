@@ -114,7 +114,7 @@ if ($story) {
               </button>
             </a>
             <div
-              class="flex-1 shrink basis-0 text-ellipsis max-sm:text-[1rem] md:text-[1.75rem] font-normal text-[#593B37] [&>p]:mb-4 mt-[12px]">
+              class="flex-1 shrink basis-0 text-ellipsis text-[16px] md:text-[1.75rem] font-normal text-red-darker [&>p]:mb-4 mt-[0.75rem] border-1 border-solid border-red-normal/50 border-w-1 rounded-2xl py-[1.25rem] px-[0.625rem]">
               <?php echo wpautop(wp_kses_post(htmlspecialchars_decode($story->synopsis, ENT_QUOTES))); ?>
             </div>
             <div>
