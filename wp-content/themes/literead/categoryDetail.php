@@ -30,41 +30,64 @@ if (!empty($category_name)) {
     </header>
 
     <div class="mt-[12px] lg:mt-[24px] w-full max-md:max-w-full">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[12px] lg:gap-[24px] w-full">
-        <?php if (!empty($stories)): ?>
-          <?php foreach ($stories as $story): ?>
-            <article class="flex flex-wrap grow shrink gap-3 items-end min-w-60 w-full">
-              <img src="<?php echo esc_url($story->cover_image_url); ?>" alt="Story cover" class="object-cover shrink-0 rounded-lg aspect-[0.81] w-[121px] lg:w-[12.5rem]" />
-              <div class="flex flex-col flex-1 shrink basis-0 min-w-60">
-                <span class="gap-2.5 self-start px-[2px] font-medium text-[10px] lg:text-[1.25rem] text-orange-light whitespace-nowrap bg-red-normal rounded-sm">
-                  <?php echo esc_html($story->status); ?>
-                </span>
-                <h2 class="flex-1 shrink gap-2.5 self-stretch mt-[1rem] w-full text-[16px] lg:text-[1.75rem] font-medium basis-0 text-orange-darker">
-                  <?php echo esc_html($story->story_name); ?>
-                </h2>
-                <div class="flex gap-1 items-start self-start mt-[4px] mb-[-5px]">
-                  <div class="flex items-start" aria-label="Rating">
-                    <?php for ($i = 0; $i < $story->rate; $i++): ?>
-                      <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
-                    <?php endfor; ?>
-                  </div>
-                  <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[6px]"><?php echo esc_html($story->rate); ?></span>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[12px] lg:gap-[24px] w-full">
+            <?php if (!empty($stories)): ?>
+            <?php foreach ($stories as $story): 
+                $chapter_lastest = $wpdb->get_results(
+                    $wpdb->prepare(
+                      "SELECT * FROM wp_chapters WHERE story_id = %s ORDER BY chapter_number DESC LIMIT 2",
+                      $story->id
+                    )
+                );
+            ?>
+                <article class="flex flex-wrap grow shrink gap-3 items-end min-w-60 w-full">
+                <img src="<?php echo esc_url($story->cover_image_url); ?>" alt="Story cover" class="object-cover shrink-0 rounded-lg aspect-[0.81] w-[121px] lg:w-[12.5rem]" />
+                <div class="flex flex-col flex-1 shrink basis-0 min-w-60">
+                    <span class="gap-2.5 self-start px-[2px] font-medium text-[10px] lg:text-[1.25rem] text-orange-light whitespace-nowrap bg-red-normal rounded-sm">
+                    <?php echo esc_html($story->status); ?>
+                    </span>
+                    <h2 class="flex-1 shrink gap-2.5 self-stretch mt-[1rem] w-full text-[16px] lg:text-[1.75rem] font-medium basis-0 text-orange-darker">
+                    <?php echo esc_html($story->story_name); ?>
+                    </h2>
+                    <div class="flex gap-1 items-start self-start mt-[4px] mb-[-5px]">
+                    <div class="flex items-start" aria-label="Rating">
+                        <?php for ($i = 0; $i < $story->rate; $i++): ?>
+                        <span class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                        <?php endfor; ?>
+                    </div>
+                    <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[6px]"><?php echo esc_html($story->rate); ?></span>
+                    </div>
+
+                    <!-- Hiển thị danh sách chương mới nhất theo từng truyện -->
+                    <div class="mt-[8px] lg:mt-[12px] w-full">
+                    <?php 
+                    if (!empty($chapter_lastest)) {
+                        foreach ($chapter_lastest as $chapter) { 
+                        // Chỉ hiển thị chương nếu nó thuộc về truyện này
+                        if ($chapter->story_id == $story->id) {
+                            echo "
+                            <div class='flex justify-between items-center mt-[8px] mb-[-4px] w-full'>
+                                <p class='text-[14px] lg:text-[1.5rem] text-red-normal font-medium'>
+                                Chương " . esc_html($chapter->chapter_number) . " - " . esc_html($chapter->chapter_name) . "
+                                </p>
+                                <p class='text-[12px] lg:text-[1.25rem] text-red-normal font-light'>
+                                " . esc_html(time_ago($chapter->created_at)) . "
+                                </p>
+                            </div>";
+                        }
+                        }
+                    } else {
+                        echo "<p class='text-[14px] lg:text-[1.5rem] text-gray-500'>Chưa có chương mới</p>";
+                    }
+                    ?>
+                    </div>
                 </div>
-                <div class="flex gap-2.5 justify-center items-center mt-[1rem] w-full text-red-dark">
-                  <span class="flex-1 shrink self-stretch my-auto text-[14px] lg:text-[1.5rem] basis-0">
-                    Chương <?php echo esc_html($story->latest_chapter ?? 'N/A'); ?>
-                  </span>
-                  <time class="self-stretch my-auto text-[10px] lg:text-[1.25rem]">
-                    <?php echo human_time_diff(strtotime($story->created_at), current_time('timestamp')) . ' trước'; ?>
-                  </time>
-                </div>
-              </div>
-            </article>
-          <?php endforeach; ?>
-        <?php else: ?>
-          <p class="text-lg text-gray-600">Không có truyện nào thuộc thể loại này.</p>
-        <?php endif; ?>
-      </div>
+                </article>
+            <?php endforeach; ?>
+            <?php else: ?>
+            <p class="text-lg text-gray-600">Không có truyện nào thuộc thể loại này.</p>
+            <?php endif; ?>
+        </div>
     </div>
   </section>
 
