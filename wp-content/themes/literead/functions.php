@@ -33,6 +33,7 @@ function time_ago($datetime)
   }
 }
 // --------------------------------------------------
+
 // Thêm truyện 
 function generate_unique_slug_truyen($title, $post_type = 'truyen')
 {
