@@ -410,5 +410,4 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$stories_like'") != $stories_like) {
   </div>
 </main>
 
-
 <?php get_footer(); ?>
