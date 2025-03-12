@@ -107,7 +107,7 @@ if ($story) {
             <button class="px-3 py-3.5 text-3xl font-medium text-[#D56665] bg-[#FFF2F0] rounded-xl max-sm:text-2xl"> Giới
               thiệu
             </button>
-            <a href="<?php echo home_url("/quan-ly-truyen/$story_slug/them-chuong-moi"); ?>">
+            <a href="<?php echo home_url("/quan-ly-truyen/$story_slug/chinh-sua-truyen"); ?>">
               <button
                 class="px-3 py-3.5 ml-2 text-3xl font-medium text-[#FBF6E3] bg-[#D56665] rounded-xl max-sm:text-2xl">
                 Sửa
@@ -122,9 +122,11 @@ if ($story) {
                 Danh sách chương
               </button>
               <div class="flex gap-3 mt-4 mb-6">
-                <button class="px-3 py-3.5 text-3xl font-medium text-[#FBF6E3] bg-[#D56665] rounded-xl max-sm:text-2xl">
-                  Chương mới
-                </button>
+                <a href="<?php echo home_url("/quan-ly-truyen/$story_slug/them-chuong-moi"); ?>">
+                  <button class="px-3 py-3.5 text-3xl font-medium text-[#FBF6E3] bg-[#D56665] rounded-xl max-sm:text-2xl">
+                    Chương mới
+                  </button>
+                </a>
                 <button
                   class="flex items-center text-3xl px-3 py-3.5 font-medium text-[#FBF6E3] bg-[#D56665] rounded-xl max-sm:text-2xl">
                   <svg width="20" height="20" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg"
