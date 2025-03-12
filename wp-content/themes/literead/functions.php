@@ -129,6 +129,59 @@ function lay_custom_post_type($query)
   return $query;
 }
 
+add_action('wp_ajax_update_view', 'update_view_function');
+add_action('wp_ajax_nopriv_update_view', 'update_view_function');
+
+function update_view_function()
+{
+  global $wpdb;
+
+  $story_table = $wpdb->prefix . "stories";  // Lấy đúng tiền tố của bảng
+  $chapter_table = $wpdb->prefix . "chapters";
+
+  // Kiểm tra xem bảng có tồn tại không
+  $check_story_table = $wpdb->get_var("SHOW TABLES LIKE '$story_table'");
+  $check_chapter_table = $wpdb->get_var("SHOW TABLES LIKE '$chapter_table'");
+
+  if (!$check_story_table || !$check_chapter_table) {
+    wp_send_json_error([
+      "message" => "One or more tables do not exist",
+      "story_table_exists" => $check_story_table ? "Yes" : "No",
+      "chapter_table_exists" => $check_chapter_table ? "Yes" : "No"
+    ]);
+    return;
+  }
+
+  $story_id = isset($_POST['story_id']) ? intval($_POST['story_id']) : 0;
+  $chapter_id = isset($_POST['chapter_id']) ? intval($_POST['chapter_id']) : 0;
+
+  // Cập nhật views nếu bảng tồn tại
+  $update_story = $wpdb->query($wpdb->prepare(
+    "UPDATE $story_table SET view = view + 1 WHERE id = %d",
+    $story_id
+  ));
+  $error_story = $wpdb->last_error;
+
+  $update_chapter = $wpdb->query($wpdb->prepare(
+    "UPDATE $chapter_table SET view = view + 1 WHERE id = %d",
+    $chapter_id
+  ));
+  $error_chapter = $wpdb->last_error;
+
+  // Trả về debug JSON
+  wp_send_json([
+    "status" => "debug",
+    "story_table_exists" => $check_story_table ? "Yes" : "No",
+    "chapter_table_exists" => $check_chapter_table ? "Yes" : "No",
+    "update_story" => $update_story,
+    "update_chapter" => $update_chapter,
+    "error_story" => $error_story,
+    "error_chapter" => $error_chapter
+  ]);
+
+}
+
+
 // --------------------------------------------------
 // Trang quản lý truyện
 function tao_quanly_custom_post_type()

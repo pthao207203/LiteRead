@@ -131,7 +131,7 @@ $next_chapter_url = $next_chapter_number ? site_url("/truyen/$story_slug/chuong-
     </div>
   </div>
 
-  <!-- Chapter Content -->t-[1.875rem] text-[1.125rem] ">
+  <!-- Chapter Content -->
   <div class="flex flex-col mt-[18px] w-full lg:mt-[2.25rem]">
     <h2 class="font-medium text-center text-red-darker lg:text-[1.875rem] text-[18px] ">
       <?php if ($chapter->chapter_name)
@@ -400,7 +400,31 @@ $next_chapter_url = $next_chapter_number ? site_url("/truyen/$story_slug/chuong-
     </section>
 
   </section>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      setTimeout(() => {
+        const story_id = <?php echo json_encode(intval($story->id)); ?>;
+        const chapter_id = <?php echo json_encode(intval($chapter->id)); ?>;
+        console.log("Story ID:", story_id, "Chapter ID:", chapter_id); // Debug giá trị
 
+        if (!story_id || !chapter_id) {
+          console.error("Lỗi: Không tìm thấy story_id hoặc chapter_id!");
+          return;
+        }
+        fetch('/LiteRead/wp-admin/admin-ajax.php?action=update_view', {
+          method: 'POST',
+          body: new URLSearchParams({ story_id, chapter_id }),
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        })
+          .then(response => response.json())
+          .then(data => console.log("Update Response:", data))
+          .catch(error => console.error("Fetch Error:", error));
+      }, 1000);
+
+
+    });
+
+  </script>
 </div>
 
 <?php get_footer(); ?>
