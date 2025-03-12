@@ -242,6 +242,12 @@ function custom_rewrite_rules()
 
   //Trang cá nhân 
   add_rewrite_rule(
+    '^quan-ly-truyen/truyen/([^/]+)/chinh-sua-truyen/?$',
+    'index.php?post_type=quan-ly-truyen&truyen_parent=$matches[1]&literead_edit_chapter=1',
+    'top'
+  );
+
+  add_rewrite_rule(
     '^quan-ly-truyen/([^/]+)/([^/]+)/?$',
     'index.php?post_type=quan-ly-truyen&chuong=$matches[2]&truyen=$matches[1]',
     'normal'
@@ -257,6 +263,7 @@ function custom_rewrite_rules()
     'index.php?post_type=quan-ly-truyen&truyen_parent=$matches[1]&literead_add_chapter=1',
     'top'
   );
+
 }
 add_action('init', 'custom_rewrite_rules');
 
@@ -268,7 +275,7 @@ function custom_query_vars($vars)
   $vars[] = 'truyen_parent';
   $vars[] = 'chuong';
   $vars[] = 'literead_add_chapter';
-
+  $vars[] = 'literead_edit_chapter';
   $vars[] = 'literead_all_story';
   return $vars;
 }
@@ -292,6 +299,11 @@ add_action('template_redirect', function () {
     include(get_template_directory() . '/quan-ly.php');
     exit;
   }
+  //[GET] /quan-ly-truyen/{ten-truyen}/chinh-sua-truyen
+  if (isset($wp_query->query_vars['chuong']) && $wp_query->query_vars['chuong'] == 'chinh-sua-truyen') {
+    include(get_template_directory() . '/EditStory.php');
+    exit;
+  }
   //[GET] /quan-ly-truyen/{ten-truyen}/{ten-chuong}
   if (isset($wp_query->query_vars['chuong']) && isset($wp_query->query_vars['truyen'])) {
     include(get_template_directory() . '/EditChapter.php');
@@ -299,7 +311,6 @@ add_action('template_redirect', function () {
   }
   //[GET] /quan-ly-truyen/{ten-truyen}
   if (isset($wp_query->query_vars['post_type']) && $wp_query->query_vars['post_type'] == 'quan-ly-truyen') {
-
     include(get_template_directory() . '/quan-ly-truyen.php');
     exit;
   }

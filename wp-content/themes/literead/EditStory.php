@@ -1,16 +1,18 @@
 <?php
 global $wpdb;
-$story_slug = get_query_var('truyen_parent');
-$chapter_number = get_query_var("chuong");
+$story_slug = get_query_var('truyen');
 $stories = $wpdb->prefix . 'stories';
-
+// echo "1";
 $story = $wpdb->get_row(
   $wpdb->prepare("SELECT * FROM $stories WHERE slug = %s", $story_slug)
 );
 
-$chapter = $wpdb->get_row(
-  $wpdb->prepare("SELECT * FROM $chapters WHERE story_id = %s AND chapter_number = %d", $story->id, $chapter_number)
-);
+
+$story_name = $story->story_name;
+$author = $story->author;
+$status = $story->status;
+$synopsis = $story->synopsis;
+$cover_image_url = $story->cover_image_url;
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
   // if (!isset($_POST['security']) || !wp_verify_nonce($_POST['security'], 'story_upload_nonce')) {
@@ -84,9 +86,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($story_name) {
       // Chuyển hướng về trang chính với thông báo thành công
-      echo 'Thêm truyện thành công!';
-      wp_redirect(home_url('/'));
-      exit;
+      $success_submit = 'Chỉnh sửa thành công!';
+      echo '<script>
+        setTimeout(function() {
+            window.location.href = "' . home_url('/quan-ly-truyen/' . $story_slug) . '";
+        }, 3000);
+      </script>';
     } else {
       // wp_die('Lỗi khi thêm truyện. Vui lòng thử lại.');
       $error_message = 'Lỗi khi lưu dữ liệu, vui lòng thử lại.';
@@ -121,9 +126,9 @@ get_header();
       </div>
     </div>
 
-    <!-- 📝 Đăng truyện -->
+    <!-- 📝 Tên truyện -->
     <div class="flex items-center self-stretch px-[12px] py-[10px] mr-0 ">
-      <a href="#" class="self-stretch mr-[12px]" tabindex="0">Đăng truyện</a>
+      <a href="#" class="self-stretch mr-[12px]" tabindex="0"><?php echo esc_html($story->story_name) ?></a>
       <!-- ➡️ Mũi tên SVG -->
       <div class="flex items-center justify-center w-5 h-5" aria-hidden="true">
         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 20 20" fill="none">
@@ -133,6 +138,17 @@ get_header();
       </div>
     </div>
 
+    <!-- 📝 Chỉnh sửa -->
+    <div class="flex items-center self-stretch px-[12px] py-[10px] mr-0 ">
+      <a href="#" class="self-stretch mr-[12px]" tabindex="0">Chỉnh sửa</a>
+      <!-- ➡️ Mũi tên SVG -->
+      <div class="flex items-center justify-center w-5 h-5" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 20 20" fill="none">
+          <path d="M7.42499 16.5999L12.8583 11.1666C13.5 10.5249 13.5 9.4749 12.8583 8.83324L7.42499 3.3999"
+            stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </div>
+    </div>
   </nav>
 
 
@@ -143,7 +159,7 @@ get_header();
 
     <!-- Upload Ảnh Bìa -->
     <div class="flex items-end">
-      <img id="previewImage" src="https://via.placeholder.com/150" alt="Ảnh bìa"
+      <img id="previewImage" src="<?php echo $cover_image_url; ?>" alt="Ảnh bìa"
         class="w-[13.25rem] aspect-[0.67] object-cover border">
       <input type="file" id="coverUpload" name="cover_image" class="hidden" accept="image/*">
       <button type="button" id="uploadBtn"
@@ -155,8 +171,10 @@ get_header();
     <div>
       <label for="story-name" class="mt-[1.25rem] font-semibold text-red-dark">Tên truyện</label>
       <input id="story-name" name="story_name" type="text" placeholder="Nhập tên truyện..." value="<?php if (isset($story_name))
-        echo esc_html($story_name); ?>"
-        class="w-full mt-[1rem] px-[0.5rem] py-[0.25rem] border-b border-red-dark text-red-dark focus:outline-none" />
+        echo esc_html($story_name);
+      else
+        echo $story->story_name ?>"
+          class="w-full mt-[1rem] px-[0.5rem] py-[0.25rem] border-b border-red-dark text-red-dark focus:outline-none" />
       <?php if (!empty($error_story_name)) {
         echo '<p style="color: red;"><?php echo esc_html($error_story_name); ?></p>';
       } ?>
@@ -166,8 +184,10 @@ get_header();
     <div>
       <label for="author-name" class="font-semibold text-red-dark mt-[1.25rem]">Tác giả</label>
       <input id="author-name" name="author" type="text" placeholder="Tên tác giả..." value="<?php if (isset($author))
-        echo esc_html($author); ?>"
-        class="w-full mt-[1rem] px-[0.5rem] py-[0.25rem] border-b border-red-dark text-red-dark focus:outline-none" />
+        echo esc_html($author);
+      else
+        echo $story->author ?>"
+          class="w-full mt-[1rem] px-[0.5rem] py-[0.25rem] border-b border-red-dark text-red-dark focus:outline-none" />
       <?php if (!empty($error_author)): ?>
         <p style="color: red;"><?php echo esc_html($error_author); ?></p>
       <?php endif; ?>
@@ -178,9 +198,10 @@ get_header();
       <label for="status" class="font-semibold text-red-dark mt-[1.25rem]">Tình trạng</label>
       <select id="status" name="status"
         class="w-full mt-[1rem] px-[0.5rem] py-[0.25rem] border-b border-red-dark text-red-dark focus:outline-none">
-        <option value="Đang tiến hành">Đang tiến hành</option>
-        <option value="Hoàn thành">Hoàn thành</option>
-        <option value="Tạm ngừng">Tạm ngừng</option>
+        <option value="Đang tiến hành" <?php echo ($story->status == "Đang tiến hành") ? 'selected' : ''; ?>>Đang tiến
+          hành</option>
+        <option value="Hoàn thành" <?php echo ($story->status == "Hoàn thành") ? 'selected' : ''; ?>>Hoàn thành</option>
+        <option value="Tạm ngừng" <?php echo ($story->status == "Tạm ngừng") ? 'selected' : ''; ?>>Tạm ngừng</option>
       </select>
     </div>
 
@@ -190,14 +211,23 @@ get_header();
       <div class="flex flex-wrap gap-[1rem] mt-[1rem] text-[1.5rem]">
         <?php
         $genres = $wpdb->get_col("SELECT type_name FROM wp_type");
+        $genres_checked = $wpdb->get_col($wpdb->prepare(
+          "SELECT t.type_name 
+           FROM wp_story_type st 
+           INNER JOIN wp_type t ON st.type_id = t.id 
+           WHERE st.story_id = %d",
+          $story->id
+        ));
         foreach ($genres as $genre) {
-          echo "
-            <label class='genre-label inline-block py-[1rem] px-[1.25rem] text-center cursor-pointer 
+          $checked = in_array($genre, $genres_checked) ? 'checked' : '';
+          ?>
+          <label class='genre-label inline-block py-[1rem] px-[1.25rem] text-center cursor-pointer 
               bg-orange-light-active rounded-lg hover:bg-red-normal hover:text-red-light 
               transition-colors text-red-dark-hover'>
-              <input type='checkbox' name='genres[]' value='$genre' class='hidden genre-checkbox' />
-              <span class='font-normal'>$genre</span>
-            </label>";
+            <input type='checkbox' name='genres[]' value='<?php echo $genre; ?>' class='hidden genre-checkbox' <?php echo $checked; ?> />
+            <span class='font-normal'><?php echo $genre; ?></span>
+          </label>
+          <?php
         }
         ?>
       </div>
@@ -211,8 +241,10 @@ get_header();
     <div>
       <label for="synopsis" class="font-semibold text-red-dark mt-[1.25rem]">Văn án</label>
       <textarea id="synopsis" name="synopsis" class="min-h-[200px]"> <?php if (isset($synopsis))
-        echo esc_html($synopsis); ?>
-      </textarea>
+        echo esc_html($synopsis);
+      else
+        echo esc_html($story->synopsis) ?>
+                                                          </textarea>
       <?php if (!empty($error_synopsis)): ?>
         <p style="color: red;"><?php echo esc_html($error_synopsis); ?></p>
       <?php endif; ?>
@@ -223,15 +255,13 @@ get_header();
         đến chính trị. Nếu chúng tôi phát hiện sẽ từ chối duyệt, gỡ bỏ và có nguy cơ khóa tài khoản.</p>
     </div>
 
-    <div class="flex justify-end mt-[1rem]">
-      <div id="resultMessage" class="text-red-normal"></div>
-    </div>
-
+    <?php if (isset($success_submit))
+      echo "<div class='flex justify-end mt-[1rem]'><p class='mt-[1rem] text-[1.375rem] text-red-dark'>$success_submit</p></div>"; ?>
     <!-- Nút hành động -->
     <div class="flex justify-end mt-[1rem]">
-      <button type="submit" name="upStory"
-        class="ml-[0.75rem] px-[1.25rem] py-[1.25rem] bg-red-normal text-orange-light rounded-[0.75rem]">Đăng
-        nháp</button>
+      <button type="submit" name="editStory"
+        class="ml-[0.75rem] px-[1.25rem] py-[1.25rem] bg-red-normal text-orange-light rounded-[0.75rem]">Chỉnh
+        sửa</button>
     </div>
 
   </form>
@@ -261,21 +291,30 @@ get_header();
       const genreLabels = document.querySelectorAll(".genre-label");
 
       genreLabels.forEach(label => {
+        const checkbox = label.querySelector(".genre-checkbox");
+
+        // Kiểm tra nếu checkbox đã được checked từ server, cập nhật giao diện ngay khi tải trang
+        if (checkbox.checked) {
+          label.classList.add("bg-red-normal", "text-red-light");
+          label.classList.remove("bg-orange-light-active", "text-red-dark-hover");
+        }
+
+        // Lắng nghe sự kiện click để toggle trạng thái checkbox
         label.addEventListener("click", function () {
-          const checkbox = this.querySelector(".genre-checkbox");
           checkbox.checked = !checkbox.checked;
 
           if (checkbox.checked) {
-            this.classList.add("bg-red-normal", "text-red-light");
-            this.classList.remove("bg-orange-light-active", "text-red-dark-hover");
+            label.classList.add("bg-red-normal", "text-red-light");
+            label.classList.remove("bg-orange-light-active", "text-red-dark-hover");
           } else {
-            this.classList.remove("bg-red-normal", "text-red-light");
-            this.classList.add("bg-orange-light-active", "text-red-dark-hover");
+            label.classList.remove("bg-red-normal", "text-red-light");
+            label.classList.add("bg-orange-light-active", "text-red-dark-hover");
           }
         });
       });
     });
   </script>
+
   <script>
     document.getElementById('storyForm').addEventListener('submit', async function (e) {
       // e.preventDefault(); // Ngăn form load lại trang
