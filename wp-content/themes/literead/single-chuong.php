@@ -411,7 +411,8 @@ $next_chapter_url = $next_chapter_number ? site_url("/truyen/$story_slug/chuong-
           console.error("Lỗi: Không tìm thấy story_id hoặc chapter_id!");
           return;
         }
-        fetch('/LiteRead/wp-admin/admin-ajax.php?action=update_view', {
+        var ajaxurl = "<?php echo admin_url('admin-ajax.php'); ?>"
+        fetch(ajaxurl, {
           method: 'POST',
           body: new URLSearchParams({ story_id, chapter_id }),
           headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
