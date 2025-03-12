@@ -58,14 +58,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   } else {
     $error_synopsis = '';
 
-    $wpdb->insert(
+    $wpdb->update(
       $chapters,
       array(
         'chapter_number' => $chapter_number,
         'chapter_name' => $chapter_name,
         'synopsis' => $synopsis,
         'count' => $word_count
-      )
+      ),
+      array('id' => $chapter->id)
     );
 
     echo '<script>window.location.href="' . home_url("/quan-ly-truyen/$story_slug/") . '";</script>';

@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       }
     }
 
-    $wpdb->insert(
+    $wpdb->update(
       $table_name,
       array(
         'story_name' => $story_name,
@@ -64,6 +64,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         'status' => $status,
         'synopsis' => $synopsis,
         'cover_image_url' => $cover_image_url,
+      ),
+      array(
+        'id' => $story->id
       )
     );
 
@@ -244,7 +247,7 @@ get_header();
         echo esc_html($synopsis);
       else
         echo esc_html($story->synopsis) ?>
-                                                          </textarea>
+                                                                </textarea>
       <?php if (!empty($error_synopsis)): ?>
         <p style="color: red;"><?php echo esc_html($error_synopsis); ?></p>
       <?php endif; ?>

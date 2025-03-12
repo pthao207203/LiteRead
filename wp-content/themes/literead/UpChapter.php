@@ -75,6 +75,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       )
     );
 
+    $wpdb->update(
+      'wp_stories', // Tên bảng chứa stories
+      array('edited_at' => current_time('mysql')), // Cập nhật thời gian hiện tại
+      array('id' => $story) // Điều kiện cập nhật đúng story
+    );
+
     echo '<script>window.location.href="' . home_url('/') . '";</script>';
     exit;
 
@@ -107,7 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     stroke-linejoin="round" />
                 </svg>
               </div>
-            </div> 
+            </div>
 
             <!-- 📝 Đăng truyện -->
             <div class="flex items-center self-stretch px-[12px] py-[10px] mr-0 ">
@@ -126,7 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <div class="flex items-center self-stretch px-[12px] py-[10px] mr-0 ">
               <a href="#" class="self-stretch mr-[12px]" tabindex="0">Đăng chương</a>
 
-          </nav> 
+          </nav>
 
           <form id="chapterForm" method="POST" enctype="multipart/form-data"
             class="px-[3.5rem] py-[2.125rem] max-md:p-[1.0625rem] max-w-full w-[1520px] text-[1.75rem] max-md:text-[1rem] text-red-dark bg-white">
