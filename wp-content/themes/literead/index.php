@@ -246,7 +246,7 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$stories_like'") != $stories_like) {
                     <!-- 🔄 Story Card 1 -->
                     <article class="flex gap-3 mt-[12px] lg:mt-[24px] items-end w-full lg:max-w-[38rem]" role="listitem">
                       <img loading="lazy" src=<?php echo esc_url($story->cover_image_url); ?> alt=<?php echo esc_html($story->story_name); ?>
-                        class="object-contain shrink-0 rounded-lg aspect-[0.81] w-[121px] lg:w-[12,5rem]" />
+                        class="object-cover shrink-0 rounded-lg aspect-[0.81] w-[121px] lg:w-[12,5rem]" />
                       <div class="flex flex-col flex-1 shrink basis-0 min-w-60">
                         <?php if ($story->status == "Hoàn thành")
                           echo "<span
@@ -356,10 +356,8 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$stories_like'") != $stories_like) {
                       <span
                         class="gap-2.5 self-stretch my-auto w-[2rem] h-[2rem] text-[16px] lg:text-[1.25rem] font-medium text-center text-red-normal whitespace-nowrap rounded-[2px] border"
                         style="border-color: #D56665 !important;">1</span>
-                      <img loading="lazy"
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/cb5b10fca047125b9225596f15a42d2b2fb7a3a9bcb118b51677934c02dbee35"
-                        alt="Trending story thumbnail"
-                        class="object-contain shrink-0 self-stretch my-auto rounded-lg aspect-[0.81] w-[84px] lg:w-[10rem]" />
+                      <img loading="lazy" src=<?php echo esc_url($story->cover_image_url); ?> alt=<?php echo esc_html($story->story_name); ?>
+                        class="object-cover shrink-0 self-stretch my-auto rounded-lg aspect-[0.81] w-[84px] lg:w-[10rem]" />
                       <div class="flex flex-col flex-1 shrink self-stretch my-auto basis-0 min-w-60">
                         <h3
                           class="flex-1 shrink gap-2.5 self-stretch w-full text-[16px] lg:text-[1.75rem] font-medium basis-0 text-orange-darker">
@@ -386,13 +384,7 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$stories_like'") != $stories_like) {
                         </div>
                         <p
                           class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[16px] lg:text-[1.25rem] text-red-normal basis-0">
-                          Số chữ: <?php $total_words = $wpdb->get_var(
-                            $wpdb->prepare(
-                              "SELECT SUM(count) FROM wp_chapters WHERE story_id = %s",
-                              $story->id
-                            )
-                          );
-                          echo $total_words; ?>
+                          Lượt xem: <?php echo $story->view; ?>
                         </p>
                       </div>
                     </article>
