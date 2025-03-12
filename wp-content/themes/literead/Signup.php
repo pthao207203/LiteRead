@@ -5,11 +5,42 @@ get_header();
 global $wpdb;
 $users_literead = $wpdb->prefix . 'users_literead';
 
+// Kiểm tra nếu đang xác nhận token
+if (isset($_GET['token'])) {
+  $token = sanitize_text_field($_GET['token']);
+
+  // Kiểm tra token có hợp lệ không
+  $user = $wpdb->get_row($wpdb->prepare(
+      "SELECT * FROM $users_literead WHERE token = %s",
+      $token
+  ));
+
+  if ($user) {
+      // Kích hoạt tài khoản
+      $wpdb->update(
+          $users_literead,
+          ["status" => "active", "token" => NULL],
+          ["id" => $user->id],
+          ["%s", "%s"],
+          ["%d"]
+      );
+
+      echo "<h2 style='color: green; text-align:center;'>Xác nhận thành công! Tài khoản của bạn đã được kích hoạt.</h2>";
+      get_footer();
+      exit;
+  } else {
+      echo "<h2 style='color: red; text-align:center;'>Token không hợp lệ hoặc đã được sử dụng.</h2>";
+      get_footer();
+      exit;
+  }
+}
+
 if ($wpdb->get_var("SHOW TABLES LIKE '$users_literead'") != $users_literead) {
   $charset_collate = $wpdb->get_charset_collate();
 
   $sql = "CREATE TABLE $users_literead (
     id MEDIUMINT(9) UNSIGNED NOT NULL AUTO_INCREMENT,
+    token VARCHAR(20) DEFAULT NULL,
     user_name VARCHAR(255) NOT NULL,
     full_name VARCHAR(255) NOT NULL,
     phone VARCHAR(20) NOT NULL,
@@ -47,44 +78,47 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$users_likes'") != $users_likes) {
 
 // Xử lý form đăng ký
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["signup"])) {
-    $email = sanitize_email($_POST["emailOrPhone"]);
-    $password = sanitize_text_field($_POST["password"]);
-    $confirmPassword = sanitize_text_field($_POST["confirmPassword"]);
+  $email = sanitize_email($_POST["emailOrPhone"]);
+  $password = sanitize_text_field($_POST["password"]);
+  $confirmPassword = sanitize_text_field($_POST["confirmPassword"]);
 
-    // Kiểm tra mật khẩu trùng khớp
-    if ($password !== $confirmPassword) {
-        $error_pw="Mật khẩu nhập lại không khớp!";
+  if ($password !== $confirmPassword) {
+      $error_pw = "Mật khẩu nhập lại không khớp!";
+  } else {
+      // Kiểm tra email đã tồn tại chưa
+      $existing_user = $wpdb->get_var($wpdb->prepare(
+          "SELECT COUNT(*) FROM $users_literead WHERE email = %s",
+          $email
+      ));
 
-    } else {
-        // Kiểm tra email đã tồn tại chưa
-        $existing_user = $wpdb->get_var($wpdb->prepare(
-            "SELECT COUNT(*) FROM $users_literead WHERE email = %s",
-            $email
-        ));
-
-        if ($existing_user > 0) {
+      if ($existing_user > 0) {
           $error_user = "Email này đã được sử dụng!";
-        } else {
-            // Bổ sung lưu password vào bảng nếu chưa có cột password thì cần thêm vào
-            $hashed_password = wp_hash_password($password);
+      } else {
+          // Tạo token đăng ký 20 ký tự
+          $token = wp_generate_password(20, false);
+          $activation_link = home_url("/signup/?token=" . $token);
 
-            $wpdb->insert(
-                $users_literead,
-                [
-                    "user_name" => $email,
-                    "full_name" => '',
-                    "phone" => '',
-                    "email" => $email,
-                    "slug" => sanitize_title($email),
-                    "status" => 'active',
-                    "created_at" => current_time('mysql'),
-                ],
-                ["%s", "%s", "%s", "%s", "%s", "%s", "%s"]
-            );
+          // Mã hóa mật khẩu
+          $hashed_password = wp_hash_password($password);
 
-            echo "<script>('Đăng ký thành công!');</script>";
+          // Thêm dữ liệu vào bảng
+          $wpdb->insert(
+              $users_literead,
+              [
+                  "user_name" => $email,
+                  "full_name" => '',
+                  "phone" => '',
+                  "email" => $email,
+                  "slug" => sanitize_title($email),
+                  "token" => $token,
+                  "status" => 'pending',
+                  "created_at" => current_time('mysql'),
+              ],
+              ["%s", "%s", "%s", "%s", "%s", "%s", "%s"]
+          );
         }
-    }
+      }
+  
 }
 ?>
 
