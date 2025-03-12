@@ -4,7 +4,7 @@ get_header();
 
 global $wpdb;
 $stories = $wpdb->prefix . 'stories';
-$stories_hot = $wpdb->get_results("SELECT * FROM $stories WHERE hot='1' LIMIT 10");
+$stories_hot = $wpdb->get_results("SELECT * FROM $stories WHERE hot='1' LIMIT 6");
 
 $per_page = 6; // Số chương hiển thị mỗi trang
 $current_page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1; // Lấy trang hiện tại từ URL
@@ -245,9 +245,7 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$stories_like'") != $stories_like) {
                     ?>
                     <!-- 🔄 Story Card 1 -->
                     <article class="flex gap-3 mt-[12px] lg:mt-[24px] items-end w-full lg:max-w-[38rem]" role="listitem">
-                      <img loading="lazy"
-                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/70123c7c239ebee31f002c0ecab392aa4d7d73bd7c93847b54030d562514fdae"
-                        alt="Story thumbnail"
+                      <img loading="lazy" src=<?php echo esc_url($story->cover_image_url); ?> alt=<?php echo esc_html($story->story_name); ?>
                         class="object-contain shrink-0 rounded-lg aspect-[0.81] w-[121px] lg:w-[12,5rem]" />
                       <div class="flex flex-col flex-1 shrink basis-0 min-w-60">
                         <?php if ($story->status == "Hoàn thành")
