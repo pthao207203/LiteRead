@@ -34,10 +34,13 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
 get_header();
 ?>
 
-<!-- 💡 Nội dung chính -->
-<div class="w-full p-0 flex-1">
-
-  <!-- Nội dung bên dưới Header -->
+<main class="flex flex-col bg-[#FFE5E1]">
+    <div class="w-full max-md:max-w-full">
+    <div class="flex max-md:flex-col">
+      <!-- Sidebar Navigationx -->
+      <?php get_sidebar(); ?>
+      <section  id="mainContent" class="md:w-10/12 md:ml-[1.25rem] flex-grow transition-all max-md:ml-0 max-md:w-full">
+  <div class="w-full bg-white  max-md:max-w-full">
   <nav
     class="flex flex-wrap items-center w-full px-[20px] text-[1.125rem] font-medium  bg-white text-red-darker mb-[2px]"
     aria-label="Navigation menu">
@@ -151,8 +154,11 @@ get_header();
     </div>
 
   </form>
-
-
+  </div>
+  </section>
+</div>
+    </div>
+</main>
 
   <!-- ✅ JavaScript -->
   <script>
@@ -171,8 +177,6 @@ get_header();
         reader.readAsDataURL(file);
       }
     });
-  </script>
-  <script>
     document.addEventListener("DOMContentLoaded", function () {
       const genreLabels = document.querySelectorAll(".genre-label");
 
@@ -191,8 +195,7 @@ get_header();
         });
       });
     });
-  </script>
-  <script>
+
     document.getElementById('storyForm').addEventListener('submit', async function (e) {
       e.preventDefault(); // Ngăn form load lại trang
 
@@ -227,7 +230,5 @@ get_header();
     });
 
 
-  </script>
-</div>
-
+</script>
 <?php get_footer(); ?>

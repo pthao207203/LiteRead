@@ -23,10 +23,10 @@ if ($story) {
   ?>
 <main class="flex flex-col bg-[#FFE5E1]">
     <div class="w-full max-md:max-w-full">
-        <div class="flex gap-[1.25rem] max-md:flex-col">
-          <!-- Sidebar Navigation -->
-        <?php get_sidebar(); ?>
-        <section id="mainContent" class="w-10/12 flex-grow transition-all max-md:ml-0 max-md:w-full bg-white gap-[0.75rem]">
+    <div class="flex max-md:flex-col">
+          <!-- Sidebar Navigationx -->
+          <?php get_sidebar(); ?>
+          <section  id="mainContent" class="md:w-10/12 md:ml-[1.25rem] flex-grow transition-all max-md:ml-0 max-md:w-full bg-white">
           <nav
             class="flex flex-wrap items-center w-full px-[20px] text-[1.125rem] font-medium  bg-white text-red-darker mb-[2px] max-sm:hidden "
             aria-label="Navigation menu">

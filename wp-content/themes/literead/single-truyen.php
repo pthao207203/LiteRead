@@ -21,9 +21,12 @@ $story = $wpdb->get_row(
 if ($story) {
   $genres = explode(',', $story->genres);
   ?>
-
-
-  <main class="home w-full max-md:max-w-full">
+<main class="flex flex-col">
+    <div class="w-full max-md:max-w-full">
+    <div class="flex max-md:flex-col">
+      <!-- Sidebar Navigationx -->
+      <?php get_sidebar(); ?>
+      <div  id="mainContent" class="md:w-10/12 flex-grow transition-all max-md:ml-0 max-md:w-full">
     <!-- Overview -->
     <section class="book-details max-md:p-4 px-14 py-11 " aria-labelledby="book-title">
       <div class="flex flex-col justify-start items-start max-sm:items-center mx-auto w-full ">
@@ -706,7 +709,9 @@ if ($story) {
         </div>
       </div>
     </section>
-
+      </div>
+    </div>
+    </div>
   </main>
 
 

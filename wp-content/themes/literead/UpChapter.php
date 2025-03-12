@@ -2,14 +2,13 @@
 /* Template Name: UpChapter */
 get_header(); 
 ?>
-<div class="pb-7 bg-orange-light-active rounded-xl">
-  
-  <div class="max-md:max-w-full">
-    <div class="flex gap-5 max-md:flex-col">
-      
-
-      <main class="w-full max-md:w-full">
-        <div class="w-full max-md:mt-5 max-md:max-w-full">
+<main class="flex flex-col bg-[#FFE5E1]">
+    <div class="w-full max-md:max-w-full">
+        <div class="flex max-md:flex-col">
+          <!-- Sidebar Navigationx -->
+          <?php get_sidebar(); ?>
+          <section  id="mainContent" class="md:w-10/12 md:ml-[1.25rem] flex-grow transition-all max-md:ml-0 max-md:w-full">
+          <div class="w-full bg-white  max-md:max-w-full">
         <nav class="flex flex-wrap items-center w-full px-[20px] text-[1.125rem] font-medium  bg-white text-red-darker mb-[2px]" aria-label="Navigation menu">
   
   <!-- 📚 Truyện của tôi -->
@@ -88,10 +87,10 @@ get_header();
             </div>
           </section>
         </div>
-      </main>
+          </section>
     </div>
   </div>
-</div>
+</main>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {

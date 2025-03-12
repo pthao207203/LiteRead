@@ -6,11 +6,11 @@ get_header();
 
 <main class="flex flex-col bg-[#FFE5E1]">
     <div class="w-full max-md:max-w-full">
-        <div class="flex gap-[1.25rem] max-md:flex-col">
+        <div class="flex max-md:flex-col">
           <!-- Sidebar Navigation -->
         <?php get_sidebar(); ?>
 
-        <section  id="mainContent" class="md:w-10/12 flex-grow transition-all max-md:ml-0 max-md:w-full bg-white gap-[0.75rem]">
+        <section  id="mainContent" class="md:w-10/12 md:ml-[1.25rem] flex-grow transition-all max-md:ml-0 max-md:w-full bg-white gap-[0.75rem]">
         <div class="flex flex-col justify-center p-[2.25rem] grow w-full bg-white  max-md:max-w-full">
             <header>
             <h1
