@@ -1,39 +1,10 @@
 <?php
 /* Template Name: Signup */
+ob_start();
 get_header();
 
 global $wpdb;
 $users_literead = $wpdb->prefix . 'users_literead';
-
-// Kiểm tra nếu đang xác nhận token
-if (isset($_GET['token'])) {
-  $token = sanitize_text_field($_GET['token']);
-
-  // Kiểm tra token có hợp lệ không
-  $user = $wpdb->get_row($wpdb->prepare(
-      "SELECT * FROM $users_literead WHERE token = %s",
-      $token
-  ));
-
-  if ($user) {
-      // Kích hoạt tài khoản
-      $wpdb->update(
-          $users_literead,
-          ["status" => "active", "token" => NULL],
-          ["id" => $user->id],
-          ["%s", "%s"],
-          ["%d"]
-      );
-
-      echo "<h2 style='color: green; text-align:center;'>Xác nhận thành công! Tài khoản của bạn đã được kích hoạt.</h2>";
-      get_footer();
-      exit;
-  } else {
-      echo "<h2 style='color: red; text-align:center;'>Token không hợp lệ hoặc đã được sử dụng.</h2>";
-      get_footer();
-      exit;
-  }
-}
 
 if ($wpdb->get_var("SHOW TABLES LIKE '$users_literead'") != $users_literead) {
   $charset_collate = $wpdb->get_charset_collate();
@@ -115,10 +86,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["signup"])) {
                   "created_at" => current_time('mysql'),
               ],
               ["%s", "%s", "%s", "%s", "%s", "%s", "%s"]
-          );
+          ); 
+          setcookie("signup_token", $token, time() + (7 * 24 * 60 * 60), "/", "", false, true);
+          wp_redirect(home_url('/'));
         }
       }
-  
 }
 ?>
 

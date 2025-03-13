@@ -182,7 +182,6 @@ function update_view_function()
 
 }
 
-
 // --------------------------------------------------
 // Trang quản lý truyện
 function tao_quanly_custom_post_type()
