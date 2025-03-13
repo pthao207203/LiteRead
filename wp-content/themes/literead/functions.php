@@ -1,5 +1,7 @@
 <?php
 // function dùng cho toàn bộ page 
+add_filter('show_admin_bar', '__return_false');
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
