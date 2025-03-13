@@ -67,7 +67,7 @@ if ($story) {
       <div class="flex max-md:flex-col">
         <!-- Sidebar Navigationx -->
         <?php get_sidebar(); ?>
-        <div id="mainContent" class="md:w-10/12 flex-grow transition-all max-md:ml-0 max-md:w-full">
+        <div id="mainContent" class="md:w-10/12 md:ml-[1.25rem] flex-grow transition-all max-md:ml-0 max-md:w-full">
           <!-- Overview -->
           <section class="book-details max-md:p-4 px-14 py-11 " aria-labelledby="book-title">
             <div class="flex flex-col justify-start items-start max-sm:items-center mx-auto w-full ">
