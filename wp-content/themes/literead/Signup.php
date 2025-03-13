@@ -54,43 +54,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["signup"])) {
   $confirmPassword = sanitize_text_field($_POST["confirmPassword"]);
 
   if ($password !== $confirmPassword) {
-      $error_pw = "Mật khẩu nhập lại không khớp!";
+    $error_pw = "Mật khẩu nhập lại không khớp!";
   } else {
-      // Kiểm tra email đã tồn tại chưa
-      $existing_user = $wpdb->get_var($wpdb->prepare(
-          "SELECT COUNT(*) FROM $users_literead WHERE email = %s",
-          $email
-      ));
+    // Kiểm tra email đã tồn tại chưa
+    $existing_user = $wpdb->get_var($wpdb->prepare(
+      "SELECT COUNT(*) FROM $users_literead WHERE email = %s",
+      $email
+    ));
 
-      if ($existing_user > 0) {
-          $error_user = "Email này đã được sử dụng!";
-      } else {
-          // Tạo token đăng ký 20 ký tự
-          $token = wp_generate_password(20, false);
-          $activation_link = home_url("/signup/?token=" . $token);
+    if ($existing_user > 0) {
+      $error_user = "Email này đã được sử dụng!";
+    } else {
+      // Tạo token đăng ký 20 ký tự
+      $token = wp_generate_password(20, false);
+      $activation_link = home_url("/signup/?token=" . $token);
 
-          // Mã hóa mật khẩu
-          $hashed_password = wp_hash_password($password);
+      // Mã hóa mật khẩu
+      $hashed_password = wp_hash_password($password);
 
-          // Thêm dữ liệu vào bảng
-          $wpdb->insert(
-              $users_literead,
-              [
-                  "user_name" => $email,
-                  "full_name" => '',
-                  "phone" => '',
-                  "email" => $email,
-                  "slug" => sanitize_title($email),
-                  "token" => $token,
-                  "status" => 'pending',
-                  "created_at" => current_time('mysql'),
-              ],
-              ["%s", "%s", "%s", "%s", "%s", "%s", "%s"]
-          ); 
-          setcookie("signup_token", $token, time() + (7 * 24 * 60 * 60), "/", "", false, true);
-          wp_redirect(home_url('/'));
-        }
-      }
+      // Thêm dữ liệu vào bảng
+      $wpdb->insert(
+        $users_literead,
+        [
+          "user_name" => $email,
+          "full_name" => '',
+          "phone" => '',
+          "email" => $email,
+          "slug" => sanitize_title($email),
+          "token" => $token,
+          "status" => 'pending',
+          "created_at" => current_time('mysql'),
+        ],
+        ["%s", "%s", "%s", "%s", "%s", "%s", "%s"]
+      );
+      setcookie("signup_token", $token, time() + (7 * 24 * 60 * 60), "/", "", false, true);
+      wp_redirect(home_url('/'));
+    }
+  }
 }
 ?>
 
@@ -100,18 +100,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["signup"])) {
       <form method="POST">
         <div class="flex flex-col w-full tracking-wide leading-none">
           <label for="emailOrPhone" class="font-semibold">Email hoặc số điện thoại</label>
-          <div class="flex overflow-hidden flex-col justify-center px-[8px] py-[12px] mt-[8px] w-full border-b border-solid border-red-dark">
+          <div
+            class="flex overflow-hidden flex-col justify-center px-[8px] py-[12px] mt-[8px] w-full border-b border-solid border-red-dark">
             <input type="text" id="emailOrPhone" name="emailOrPhone" placeholder="123@gmail.com"
               class="opacity-60 bg-transparent border-none outline-none" required />
           </div>
           <?php if (!empty($error_user)): ?>
-        <p style="color: red;"><?php echo esc_html($error_user); ?></p>
-      <?php endif; ?>
+            <p style="color: red;"><?php echo esc_html($error_user); ?></p>
+          <?php endif; ?>
         </div>
 
         <div class="flex flex-col mt-[12px] w-full tracking-wide leading-none">
           <label for="password" class="font-semibold">Mật khẩu</label>
-          <div class="flex overflow-hidden gap-1.5 items-center px-[8px] py-[12px] mt-[8px] w-full border-b border-solid border-red-dark">
+          <div
+            class="flex overflow-hidden gap-1.5 items-center px-[8px] py-[12px] mt-[8px] w-full border-b border-solid border-red-dark">
             <input type="password" id="password" name="password" placeholder="**********"
               class="flex-1 opacity-60 bg-transparent border-none outline-none" required />
           </div>
@@ -119,13 +121,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["signup"])) {
 
         <div class="flex flex-col mt-[12px] w-full tracking-wide leading-none">
           <label for="confirmPassword" class="font-semibold">Nhập lại mật khẩu</label>
-          <div class="flex overflow-hidden gap-1.5 items-center px-[8px] py-[12px] mt-[8px] w-full border-b border-solid border-red-dark">
+          <div
+            class="flex overflow-hidden gap-1.5 items-center px-[8px] py-[12px] mt-[8px] w-full border-b border-solid border-red-dark">
             <input type="password" id="confirmPassword" name="confirmPassword" placeholder="**********"
               class="flex-1 opacity-60 bg-transparent border-none outline-none" required />
           </div>
           <?php if (!empty($error_pw)): ?>
-        <p style="color: red;"><?php echo esc_html($error_pw); ?></p>
-      <?php endif; ?>
+            <p style="color: red;"><?php echo esc_html($error_pw); ?></p>
+          <?php endif; ?>
         </div>
 
         <div class="mt-[12px] w-full text-[16px] font-medium text-center text-stone-500">
