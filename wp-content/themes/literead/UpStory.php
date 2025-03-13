@@ -1,4 +1,21 @@
 <?php
+
+// Kiểm tra nếu user chưa đăng nhập
+if (!isset($_COOKIE['signup_token'])) {
+  echo "<script>alert('Bạn cần đăng nhập để xem trang này!'); window.location.href='/wp-login.php';</script>";
+  wp_redirect(home_url('/dang-ky'));
+  exit();
+}
+
+// Lấy thông tin từ bảng wp_users_literead
+$users_literead = $wpdb->prefix . "users_literead";
+$user_info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $users_literead WHERE token = %s", $_COOKIE['signup_token']));
+
+if (!isset($_COOKIE['signup_token'])) {
+  echo "<script>alert('Không tìm thấy thông tin người dùng. Vui lòng liên hệ với quản trị viên!');</script>";
+  wp_redirect(home_url('/'));
+}
+
 global $wpdb;
 $table_name = $wpdb->prefix . 'stories';
 
@@ -59,6 +76,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $status = sanitize_text_field($_POST['status']);
   $synopsis = isset($_POST['synopsis']) ? wp_unslash($_POST['synopsis']) : '';
   $genres = isset($_POST['genres']) ? implode(',', array_map('sanitize_text_field', $_POST['genres'])) : '';
+  $editor = $user_info->id;
 
   if (empty(trim($story_name))) {
     $error_story_name = 'Nội dung không được để trống!';
@@ -91,6 +109,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       array(
         'story_name' => $story_name,
         'slug' => $slug,
+        'editor' => $editor,
         'author' => $author,
         'status' => $status,
         'synopsis' => $synopsis,
