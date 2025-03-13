@@ -4,10 +4,10 @@ get_header();
 ?>
 <main class="flex flex-col bg-[#FFE5E1]">
   <div class="w-full max-md:max-w-full">
-    <div class="flex gap-[1.25rem] max-md:flex-col">
+    <div class="flex max-md:flex-col">
       <!-- Sidebar Navigation -->
       <?php get_sidebar(); ?>
-      <section id="mainContent" class="md:w-10/12 bg-white flex-grow transition-all max-md:ml-0 max-md:w-full">
+      <section id="mainContent" class="md:w-10/12 md:ml-[1.25rem] bg-white flex-grow transition-all max-md:ml-0 max-md:w-full">
         <header
           class="flex flex-col justify-center p-[2.125rem] w-full max-md:p-[1.0625rem]">
           <div class="flex items-start self-start gap-[0.5rem] text-[1.875rem] max-md:text-[1.125rem] font-medium">

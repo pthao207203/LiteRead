@@ -55,7 +55,12 @@ $previous_chapter_url = $previous_chapter_number ? site_url("/truyen/$story_slug
 $next_chapter_url = $next_chapter_number ? site_url("/truyen/$story_slug/chuong-$next_chapter_number") : '#';
 
 ?>
-
+<main class="flex flex-col">
+    <div class="w-full max-md:max-w-full">
+    <div class="flex max-md:flex-col">
+      <!-- Sidebar Navigationx -->
+      <?php get_sidebar(); ?>
+      <div  id="mainContent" class="md:w-10/12 flex-grow transition-all max-md:ml-0 max-md:w-full">
 <div class="flex flex-col pt-[17px] w-full">
   <!-- Title -->
   <h1 class="lg:text-[1.875rem] text-[18px] lg:px-[56px] px-[17px] font-semibold text-red-darker text-left ">
@@ -384,5 +389,9 @@ $next_chapter_url = $next_chapter_number ? site_url("/truyen/$story_slug/chuong-
 
   </script>
 </div>
+      </div>
+    </div>
+    </div>
+</main>
 
 <?php get_footer(); ?>
