@@ -1,7 +1,7 @@
 <?php
 /* Template Name: storyposting */
 get_header();
-$isHome = is_front_page() || is_home();
+$isHome = is_front_page();
 $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
 
 $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
@@ -13,7 +13,8 @@ echo '<script>console.log(' . $screen_width . ')</script>';
     <div class="flex max-md:flex-col">
       <!-- Sidebar Navigationx -->
       <?php get_sidebar(); ?>
-      <div id="mainContent" class="transition-all w-full <?= ($isHome || $isSingleTruyen) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+      <div id="mainContent"
+        class="transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
         <section class="px-[3.5rem] py-[2.125rem] max-w-full w-[1520px] bg-white">
           <header class="flex flex-wrap gap-6 items-end w-full font-medium text-pink-800 max-md:max-w-full">
             <div class="relative">

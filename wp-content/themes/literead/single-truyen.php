@@ -70,11 +70,11 @@ if ($story) {
         <div id="mainContent" class="md:w-10/12 md:ml-[1.25rem] flex-grow transition-all max-md:ml-0 max-md:w-full">
           <!-- Overview -->
           <section class="book-details max-md:p-4 px-14 py-11 " aria-labelledby="book-title">
-            <div class="flex flex-col justify-start items-start max-sm:items-center mx-auto w-full ">
-              <div class="flex flex-col sm:flex-row sm:gap-4 md:gap-6">
+            <div class="flex flex-col justify-start items-start max-sm:items-center mx-auto w-full max-md:max-w-full">
+              <div class="flex flex-col sm:flex-row sm:gap-4 md:gap-6 items-center justify-center text-center">
                 <img loading="lazy" src=<?php echo esc_url($story->cover_image_url); ?> alt=<?php echo esc_html($story->story_name); ?>
                   class="object-cover lg:w-1/4 sm:w-1/3 w-[24.625rem] shrink-0  rounded-lg aspect-[0.64]" />
-                <div class="flex flex-col items-start mt-3 lg:w-3/4 w-[24.625rem] sm:w-full gap-2.5 justify-end">
+                <div class="flex flex-col items-start mt-3 lg:w-3/4 w-full gap-2.5 justify-end">
                   <h1 id="book-title"
                     class="flex shrink gap-2.5 self-end w-full md:text-[2rem] text-[20px] font-bold max-md:leading-9 text-red-normal uppercase">
                     <?php echo esc_html($story->story_name); ?>
