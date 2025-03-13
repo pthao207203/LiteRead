@@ -1,13 +1,13 @@
 <?php
 /* Template Name: Manage Stories */
 session_start();
-if (isset($_COOKIE['screen_width'])) {
-  $isMobile = intval($_COOKIE['screen_width']) < 768;
-}
 
-echo "<script>
-        console.log(" . $_COOKIE['screen_width'] . ");
-    </script>";
+$isHome = is_front_page();
+$isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
+
+$screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
+$isMobile = $screen_width < 768;
+echo '<script>console.log(' . $screen_width . ')</script>';
 ?>
 <?php get_header(); ?>
 

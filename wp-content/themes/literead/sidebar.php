@@ -1,5 +1,5 @@
 <?php
-$isHome = is_front_page() || is_home();
+$isHome = is_front_page();
 $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
 if (!$isHome && !$isSingleTruyen) {
   $current_path = trim(parse_url(home_url($wp->request), PHP_URL_PATH), '/');
