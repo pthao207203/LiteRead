@@ -9,7 +9,7 @@
           <!-- Sidebar Navigationx -->
           <?php get_sidebar(); ?>
           <section  id="mainContent" class="md:w-10/12 md:ml-[1.25rem] flex-grow transition-all max-md:ml-0 max-md:w-full">
-            <div class="w-full bg-white  max-md:max-w-full">
+            <div class="grow w-full bg-white  max-md:max-w-full">
           <!-- Author Profile Section -->
           <section class="flex flex-col justify-center p-[2.25rem] w-full max-md:px-5 max-md:max-w-full">
             <h2
