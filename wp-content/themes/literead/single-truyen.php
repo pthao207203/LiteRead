@@ -62,9 +62,9 @@ if ($story) {
   $last_chapter_url = $last_chapter ? site_url("/truyen/$story_slug/chuong-$last_chapter") : '#';
 
   ?>
-  <main class="flex flex-col relative mt-[4.425rem]">
+  <main class="flex flex-col relative mt-[4.425rem] ">
     <div class="w-full max-md:max-w-full">
-      <div class="flex max-md:flex-col">
+      <div class="flex max-md:flex-col bg-white">
         <!-- Sidebar Navigationx -->
         <?php get_sidebar(); ?>
         <div id="mainContent" class="md:w-10/12 md:ml-[1.25rem] flex-grow transition-all max-md:ml-0 max-md:w-full">
@@ -154,7 +154,7 @@ if ($story) {
             </div>
           </section>
 
-          <div class="h-[0.5rem] bg-[#FFE5E1]" role="separator">
+          <div class="h-[0.5rem] bg-[#FFE5E1] ml-[-2rem]" role="separator">
           </div>
 
           <div class="flex lg:flex-row flex-col w-full max-md:max-w-full">
@@ -347,23 +347,24 @@ if ($story) {
             </aside>
           </div>
 
-          <?php
-          $stories_hot = $wpdb->get_results("SELECT * FROM wp_stories WHERE hot='1' LIMIT 6");
-          ?>
-          <!-- Recommended stories -->
-          <section class="relative z-10 mt-0 w-full bg-white rounded-[20px]">
-            <div class="flex flex-col w-full rounded-none">
-              <!-- Tiêu đề
+
+        </div>
+      </div>
+      <?php
+      $stories_hot = $wpdb->get_results("SELECT * FROM wp_stories WHERE hot='1' LIMIT 6");
+      ?>
+      <!-- Recommended stories -->
+      <section class="relative z-10 mt-0 w-full bg-white rounded-[20px]">
+        <div class="flex flex-col w-full rounded-none">
+          <!-- Tiêu đề
       <h2 class="gap-2.5 self-start p-[10px] md:px-[20px] ml-[17px] md:ml-[34px] mb-[-3px] text-[18px]  md:text-[2.25rem] font-semibold text-red-normal bg-red-light rounded-tl-[12px] rounded-tr-[12px]">
         Truyện đề cử
       </h2> -->
 
-              <!-- Wrapper cuộn ngang + Grid cho màn hình lớn -->
-              <?php include "de-cu.php"; ?>
-            </div>
-          </section>
+          <!-- Wrapper cuộn ngang + Grid cho màn hình lớn -->
+          <?php include "de-cu.php"; ?>
         </div>
-      </div>
+      </section>
     </div>
   </main>
 

@@ -88,27 +88,37 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
   }
 }
+$isHome = is_front_page() || is_home();
+$isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
 
+$screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
+$isMobile = $screen_width < 768;
+echo '<script>console.log(' . $screen_width . ')</script>';
 ?>
-<main class="flex flex-col bg-[#FFE5E1]">
-    <div class="w-full max-md:max-w-full">
-        <div class="flex max-md:flex-col">
-          <!-- Sidebar Navigationx -->
-          <?php get_sidebar(); ?>
-          <section  id="mainContent" class="md:w-10/12 md:ml-[1.25rem] flex-grow transition-all max-md:ml-0 max-md:w-full">
-          <div class="w-full bg-white  max-md:max-w-full">
-        <nav class="flex flex-wrap items-center w-full px-[20px] text-[1.125rem] font-medium  bg-white text-red-darker mb-[2px]" aria-label="Navigation menu">
-  
-  <!-- 📚 Truyện của tôi -->
-  <div class="flex items-center self-stretch px-[12px] py-[10px] mr-0 ">  
-    <a href="#" class="self-stretch mr-[12px]" tabindex="0">Truyện của tôi</a>
-    <!-- ➡️ Mũi tên SVG -->
-    <div class="flex items-center justify-center w-5 h-5" aria-hidden="true">
-      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 20 20" fill="none">
-        <path d="M7.42499 16.5999L12.8583 11.1666C13.5 10.5249 13.5 9.4749 12.8583 8.83324L7.42499 3.3999" stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </div>
-  </div>
+<main class="relative flex flex-col mt-[4.425rem]">
+  <div class="w-full max-md:max-w-full">
+    <div class="flex max-md:flex-col">
+      <!-- Sidebar Navigationx -->
+      <?php get_sidebar(); ?>
+      <section id="mainContent"
+        class="transition-all w-full <?= ($isHome || $isSingleTruyen) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+        <div class="w-full bg-white  max-md:max-w-full">
+          <nav
+            class="flex flex-wrap items-center w-full px-[20px] text-[1.125rem] font-medium  bg-white text-red-darker mb-[2px]"
+            aria-label="Navigation menu">
+
+            <!-- 📚 Truyện của tôi -->
+            <div class="flex items-center self-stretch px-[12px] py-[10px] mr-0 ">
+              <a href="#" class="self-stretch mr-[12px]" tabindex="0">Truyện của tôi</a>
+              <!-- ➡️ Mũi tên SVG -->
+              <div class="flex items-center justify-center w-5 h-5" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 20 20" fill="none">
+                  <path d="M7.42499 16.5999L12.8583 11.1666C13.5 10.5249 13.5 9.4749 12.8583 8.83324L7.42499 3.3999"
+                    stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                    stroke-linejoin="round" />
+                </svg>
+              </div>
+            </div>
 
             <!-- 📝 Đăng truyện -->
             <div class="flex items-center self-stretch px-[12px] py-[10px] mr-0 ">
@@ -187,7 +197,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </div>
           </form>
         </div>
-          </section>
+      </section>
     </div>
   </div>
 </main>

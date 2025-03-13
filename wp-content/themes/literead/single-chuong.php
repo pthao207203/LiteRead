@@ -55,7 +55,7 @@ $previous_chapter_url = $previous_chapter_number ? site_url("/truyen/$story_slug
 $next_chapter_url = $next_chapter_number ? site_url("/truyen/$story_slug/chuong-$next_chapter_number") : '#';
 
 ?>
-<main class="flex flex-col relative mt-[4.425rem]">
+<main class="flex flex-col relative mt-[4.425rem] bg-white">
   <div class="w-full max-md:max-w-full">
     <div class="flex max-md:flex-col">
       <!-- Sidebar Navigationx -->
@@ -370,14 +370,6 @@ $next_chapter_url = $next_chapter_number ? site_url("/truyen/$story_slug/chuong-
               <!-- Wrapper cuộn ngang + Grid cho màn hình lớn -->
               <?php include "de-cu.php"; ?>
             </div>
-
-            <section class="flex flex-col lg:flex-row gap-6 mt-[12px] lg:mt-[24px] w-full lg:bg-orange-light">
-
-
-
-
-            </section>
-
           </section>
           <script>
             var ajaxurl = "<?php echo admin_url('admin-ajax.php'); ?>"

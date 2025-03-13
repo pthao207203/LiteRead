@@ -1,15 +1,22 @@
 <?php
 $isHome = is_front_page() || is_home();
 $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
+if (!$isHome && !$isSingleTruyen) {
+  $current_path = trim(parse_url(home_url($wp->request), PHP_URL_PATH), '/');
+  $slug_parts = explode('/', $current_path);
+  $current_slug = $slug_parts[1];
+}
+// echo $current_slug;
 ?>
 <aside id="sidebar"
   class="z-[60] w-auto overflow-y-auto max-md:w-auto font-medium max-sm:text-[1rem] md:text-[1.5rem] transition-all duration-200 ease-in-out
-       max-md:hidden bg-[#FFE5E1] md:block <?= ($isHome || $isSingleTruyen) ? 'hidden absolute' : 'md:relative absolute' ?>">
-  <nav class="flex flex-col justify-between py-[1.25rem] min-h-[calc(100vh-7.5rem)] bg-red-normal shadow-lg mx-auto">
+       max-md:hidden bg-[#FFE5E1] md:block <?= ($isHome || $isSingleTruyen) ? 'hidden absolute' : 'md:fixed top-[4.425rem] left-0 ' ?>">
+  <nav class="flex flex-col justify-between py-[1.25rem] min-h-[calc(100vh-4.425rem)] bg-red-normal shadow-lg mx-auto">
     <ul class="flex flex-col flex-1 w-full font-medium leading-none text-orange-light">
       <li>
-        <button data-id="<?= home_url('/tong-quan'); ?>" onclick="handleSidebarClick(this)" class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
-           hover:bg-orange-light hover:text-red-normal">
+        <button data-id="<?= home_url('/tong-quan'); ?>" onclick="handleSidebarClick(this)"
+          class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
+           hover:bg-orange-light hover:text-red-normal <?= ($current_slug === 'tong-quan') ? 'bg-orange-light text-red-normal' : '' ?>">
           <div>
             <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"
               class="w-[1.875rem] h-[1.875rem] transition-all hover:stroke-red-normal active:stroke-red-normal ">
@@ -28,8 +35,9 @@ $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Ki�
         </button>
       </li>
       <li>
-        <button data-id="<?= home_url('/truyen-da-luu'); ?>" onclick="handleSidebarClick(this)" class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
-            hover:bg-orange-light hover:text-red-normal">
+        <button data-id="<?= home_url('/truyen-da-thich'); ?>" onclick="handleSidebarClick(this)"
+          class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
+            hover:bg-orange-light hover:text-red-normal <?= ($current_slug === 'truyen-da-luu') ? 'bg-orange-light text-red-normal' : '' ?>">
           <div>
             <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"
               class="w-[1.875rem] h-[1.875rem] transition-all hover:stroke-red-normal active:stroke-red-normal ">
@@ -43,12 +51,13 @@ $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Ki�
                 stroke-linejoin="round"></path>
             </svg>
           </div>
-          <span class="text-[##FFF7F5] max-sm:text-[1rem] md:text-[1.5rem] text-left">Truyện đã lưu</span>
+          <span class="text-[##FFF7F5] max-sm:text-[1rem] md:text-[1.5rem] text-left">Truyện đã thích</span>
         </button>
       </li>
       <li>
-        <button data-id="<?= home_url('/quan-ly-truyen'); ?>" onclick="handleSidebarClick(this)" class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
-       hover:bg-orange-light hover:text-red-normal">
+        <button data-id="<?= home_url('/quan-ly-truyen'); ?>" onclick="handleSidebarClick(this)"
+          class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
+       hover:bg-orange-light hover:text-red-normal <?= ($current_slug === 'quan-ly-truyen') ? 'bg-orange-light text-red-normal' : '' ?>">
           <div>
             <svg width="30" height="30" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg"
               class="w-[1.875rem] h-[1.875rem] transition-all hover:stroke-red-normal active:stroke-red-normal ">
@@ -76,8 +85,9 @@ $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Ki�
         </button>
       </li>
       <li>
-        <button data-id="<?= home_url('/vi-cua-toi'); ?>" onclick="handleSidebarClick(this)" class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
-            hover:bg-orange-light hover:text-red-normal">
+        <button data-id="<?= home_url('/vi-cua-toi'); ?>" onclick="handleSidebarClick(this)"
+          class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
+            hover:bg-orange-light hover:text-red-normal <?= ($current_slug === 'vi-cua-toi') ? 'bg-orange-light text-red-normal' : '' ?>">
           <div>
             <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"
               class="w-[1.875rem] h-[1.875rem] transition-all hover:stroke-red-normal active:stroke-red-normal ">
@@ -98,8 +108,9 @@ $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Ki�
         </button>
       </li>
       <li>
-        <button data-id="<?= home_url('/thong-bao'); ?>" onclick="handleSidebarClick(this)" class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
-            hover:bg-orange-light hover:text-red-normal">
+        <button data-id="<?= home_url('/thong-bao'); ?>" onclick="handleSidebarClick(this)"
+          class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
+            hover:bg-orange-light hover:text-red-normal <?= ($current_slug === 'thong-bao') ? 'bg-orange-light text-red-normal' : '' ?>">
           <div>
             <svg width="30" height="31" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg"
               class="w-[1.875rem] h-[1.875rem] transition-all hover:stroke-red-normal active:stroke-red-normal ">
@@ -119,8 +130,9 @@ $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Ki�
         </button>
       </li>
       <li>
-        <button data-id="<?= home_url('/dieu-khoan'); ?>" onclick="handleSidebarClick(this)" class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
-            hover:bg-orange-light hover:text-red-normal">
+        <button data-id="<?= home_url('/dieu-khoan'); ?>" onclick="handleSidebarClick(this)"
+          class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
+            hover:bg-orange-light hover:text-red-normal <?= ($current_slug === 'dieu-khoan') ? 'bg-orange-light text-red-normal' : '' ?>">
           <div data-svg-wrapper>
             <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"
               class="w-[1.875rem] h-[1.875rem] transition-all hover:stroke-red-normal active:stroke-red-normal">
@@ -230,12 +242,12 @@ $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Ki�
       console.log("Comparing:", buttonPath, "vs", currentPath);
 
       // Nếu buttonPath trùng với currentPath, đặt trạng thái active
-      if (buttonPath === currentPath) {
-        button.classList.add('bg-orange-light', 'text-red-normal');
+      // if (buttonPath === currentPath) {
+      //   button.classList.add('bg-orange-light', 'text-red-normal');
 
-        // Cập nhật LocalStorage với URL thực tế để đồng bộ trạng thái
-        localStorage.setItem('activeSidebarButton', button.getAttribute("data-id"));
-      }
+      //   // Cập nhật LocalStorage với URL thực tế để đồng bộ trạng thái
+      //   localStorage.setItem('activeSidebarButton', button.getAttribute("data-id"));
+      // }
     });
   });
 
