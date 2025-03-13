@@ -42,10 +42,10 @@ if ($story) {
   ?>
   <main class="flex flex-col bg-[#FFE5E1]">
     <div class="w-full max-w-[1828px] max-md:max-w-full">
-      <div class="flex gap-[1.25rem] max-md:flex-col">
+      <div class="flex max-md:flex-col">
         <!-- Sidebar -->
         <?php include "sidebar.php"; ?>
-        <section class="w-10/12 max-md:ml-0 max-md:w-full bg-white gap-[0.75rem]">
+        <section id="mainContent" class="w-10/12 max-md:ml-0 md:ml-[1.25rem] flex-grow max-md:w-full bg-white gap-[0.75rem]">
           <nav
             class="flex flex-wrap items-center w-full px-[20px] text-[1.125rem] font-medium  bg-white text-red-darker mb-[2px]"
             aria-label="Navigation menu">
@@ -74,7 +74,7 @@ if ($story) {
               </div>
             </div>
           </nav>
-          <section class="flex p-4 ml-10 mr-10 mt-5 md-5 bg-white rounded-2xl shadow-md max-md:w-full">
+          <section class="flex p-4 ml-10 mr-10 mt-5 mt-5 bg-white rounded-2xl shadow-md max-md:w-full">
             <div class="overflow-hidden rounded-md w-[16.625rem] h-[23.25rem]">
               <img src=<?php echo esc_url($story->cover_image_url); ?> alt=<?php echo esc_html($story->story_name); ?>
                 alt="Story cover" class="object-cover w-[16.625rem] h-[23.25rem]" />
