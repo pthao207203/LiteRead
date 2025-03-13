@@ -1,9 +1,10 @@
-<?php 
-$isHome = is_front_page() || is_home(); 
+<?php
+$isHome = is_front_page() || is_home();
 $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
 ?>
-<aside id="sidebar" class="z-[60] w-auto overflow-y-auto max-md:w-auto font-medium max-sm:text-[1rem] md:text-[1.5rem] transition-all duration-200 ease-in-out
-       max-md:hidden bg-[#FFE5E1] md:block <?= ($isHome || $isSingleTruyen ) ? 'hidden absolute' : 'md:relative absolute'?>">
+<aside id="sidebar"
+  class="z-[60] w-auto overflow-y-auto max-md:w-auto font-medium max-sm:text-[1rem] md:text-[1.5rem] transition-all duration-200 ease-in-out
+       max-md:hidden bg-[#FFE5E1] md:block <?= ($isHome || $isSingleTruyen) ? 'hidden absolute' : 'md:relative absolute' ?>">
   <nav class="flex flex-col justify-between py-[1.25rem] min-h-[calc(100vh-7.5rem)] bg-red-normal shadow-lg mx-auto">
     <ul class="flex flex-col flex-1 w-full font-medium leading-none text-orange-light">
       <li>
@@ -158,21 +159,21 @@ $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Ki�
       return;
     }
 
-     // Xác định nếu đang ở trang Home hoặc trang Single Truyện
-     const isHomeOrSingleTruyen = window.location.pathname === "/" || 
-                                 window.location.pathname === "/LiteRead/" || 
-                                 window.location.pathname.includes("/truyen/");
+    // Xác định nếu đang ở trang Home hoặc trang Single Truyện
+    const isHomeOrSingleTruyen = window.location.pathname === "/" ||
+      window.location.pathname === "/LiteRead/" ||
+      window.location.pathname.includes("/truyen/");
 
     // Mở/đóng sidebar khi nhấn nút hamburger
     openSidebarBtn.addEventListener("click", () => {
       const isMobile = window.innerWidth < 768;
       if (isHomeOrSingleTruyen) {
         sidebar.classList.toggle("hidden", sidebar.classList.contains("block"));
-    }
+      }
       if (isMobile) {
         sidebar.classList.toggle("max-md:hidden", sidebar.classList.contains("block"));
         sidebar.classList.toggle("block", !sidebar.classList.contains("block"));
-        
+
       } else {
         sidebar.classList.toggle("w-0", sidebar.classList.contains("w-auto"));
         sidebar.classList.toggle("w-auto", !sidebar.classList.contains("w-auto"));
@@ -190,8 +191,8 @@ $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Ki�
     }, { passive: true });
   });
 
-// Xử lý khi nhấn vào button trong sidebar
-function handleSidebarClick(button) {
+  // Xử lý khi nhấn vào button trong sidebar
+  function handleSidebarClick(button) {
     const url = button.getAttribute("data-id"); // Lấy URL từ data-id của button
     console.log("Navigating to:", url);
 
@@ -200,7 +201,7 @@ function handleSidebarClick(button) {
 
     // Xóa trạng thái active khỏi tất cả các nút khác
     document.querySelectorAll('.sidebar-button').forEach(btn => {
-        btn.classList.remove('bg-orange-light', 'text-red-normal');
+      btn.classList.remove('bg-orange-light', 'text-red-normal');
     });
 
     // Đánh dấu nút hiện tại là active
@@ -208,14 +209,14 @@ function handleSidebarClick(button) {
 
     // Chuyển hướng nếu có URL hợp lệ
     if (url) {
-        window.location.href = url;
+      window.location.href = url;
     } else {
-        console.error("Page URL is missing!");
+      console.error("Page URL is missing!");
     }
-}
+  }
 
-// Khi tải lại trang, kiểm tra trạng thái active từ localStorage
-window.addEventListener('load', () => {
+  // Khi tải lại trang, kiểm tra trạng thái active từ localStorage
+  window.addEventListener('load', () => {
     const activeUrl = localStorage.getItem('activeSidebarButton');
 
     // Lấy phần sau home_url của URL hiện tại
@@ -225,18 +226,18 @@ window.addEventListener('load', () => {
     console.log("Active URL from LocalStorage:", activeUrl);
 
     document.querySelectorAll('.sidebar-button').forEach(button => {
-        const buttonPath = button.getAttribute("data-id").replace(baseUrl, "").split("/")[0]; // Tương tự xử lý
-        console.log("Comparing:", buttonPath, "vs", currentPath);
+      const buttonPath = button.getAttribute("data-id").replace(baseUrl, "").split("/")[0]; // Tương tự xử lý
+      console.log("Comparing:", buttonPath, "vs", currentPath);
 
-        // Nếu buttonPath trùng với currentPath, đặt trạng thái active
-        if (buttonPath === currentPath) {
-            button.classList.add('bg-orange-light', 'text-red-normal');
+      // Nếu buttonPath trùng với currentPath, đặt trạng thái active
+      if (buttonPath === currentPath) {
+        button.classList.add('bg-orange-light', 'text-red-normal');
 
-            // Cập nhật LocalStorage với URL thực tế để đồng bộ trạng thái
-            localStorage.setItem('activeSidebarButton', button.getAttribute("data-id"));
-        }
+        // Cập nhật LocalStorage với URL thực tế để đồng bộ trạng thái
+        localStorage.setItem('activeSidebarButton', button.getAttribute("data-id"));
+      }
     });
-});
+  });
 
   document.addEventListener('DOMContentLoaded', () => {
     const openSidebarBtn = document.getElementById("openSidebarBtn");
