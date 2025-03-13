@@ -9,8 +9,8 @@ get_header();
       <?php get_sidebar(); ?>
       <section id="mainContent" class="md:w-10/12 md:ml-[1.25rem] bg-white flex-grow transition-all max-md:ml-0 max-md:w-full">
         <header
-          class="flex flex-col justify-center p-[2.125rem] w-full max-md:p-[1.063rem]">
-          <div class="flex items-start self-start gap-[0.5rem] text-[1.875rem] font-medium">
+          class="flex flex-col justify-center p-[2.125rem] w-full max-md:p-[1.0625rem]">
+          <div class="flex items-start self-start gap-[0.5rem] text-[1.875rem] max-md:text-[1.125rem] font-medium">
             <h1
               class="self-stretch flex items-center justify-center px-[1.25rem] py-[0.625rem] text-red-normal bg-orange-light-hover rounded-[0.75rem]">
               Thông báo
@@ -23,71 +23,73 @@ get_header();
 
           <section class="w-full  max-md:max-w-full">
             <article
-              class=" mt-[1.5rem] text-red-dark p-[2.125rem] w-full max-md:p-[1.063rem] bg-orange-light-hover rounded-[1rem] border-b border-t border-r border-l border-solid border-red-normal max-md:max-w-full">
-              <h2 class="text-[1.75rem] font-semibold leading-none max-md:max-w-full">
+              class=" mt-[1.5rem] max-md:mt-[0.75rem] text-red-dark p-[2.125rem] w-full max-md:p-[1.0625rem] bg-orange-light-hover rounded-[1rem] border-b border-t border-r border-l border-solid border-red-normal max-md:max-w-full">
+              <h2 class="text-[1.75rem] max-md:text-[1rem] font-semibold leading-none max-md:max-w-full">
                 Báo cáo, trả xu đọc truyện ngày 28-02-2025
               </h2>
-              <p class="mt-[1rem] text-[1.25rem] font-medium leading-7 max-md:max-w-full">
+              <p class="mt-[1rem] text-[1.25rem] max-md:text-[0.875rem]  font-medium leading-7 max-md:max-w-full">
                 Bạn vừa nhận được 2.240xu với 224 lượt đọc.<br />
                 Trân trọng, <br />
                 Một xu <br />
               </p>
-              <time class="mt-[1rem] text-[1.375rem] leading-tight block max-md:max-w-full">
+              <time class="mt-[1rem] text-[1.375rem] max-md:text-[0.75rem] leading-tight block max-md:max-w-full">
                 15 ngày trước
               </time>
             </article>
 
             <article
-              class=" mt-[1.5rem] text-red-darker p-[2.125rem] w-full max-md:p-[1.063rem] bg-none rounded-[1rem] border-b border-t border-r border-l border-solid border-red-normal max-md:max-w-full">
-              <h2 class="text-[1.75rem] font-semibold leading-none max-md:max-w-full">
+              class=" mt-[1.5rem] max-md:mt-[0.75rem] text-red-darker p-[2.125rem] w-full max-md:p-[1.0625rem] bg-none rounded-[1rem] border-b border-t border-r border-l border-solid border-red-normal max-md:max-w-full">
+              <h2 class="text-[1.75rem] max-md:text-[1rem] font-semibold leading-none max-md:max-w-full">
                 Thông báo bảo trì.
               </h2>
-              <p class="mt-[1rem] text-[1.25rem] font-medium leading-7 max-md:max-w-full">
+              <p class="mt-[1rem] text-[1.25rem] max-md:text-[0.875rem] font-medium leading-7 max-md:max-w-full">
                 Chúng tôi tiến hành bảo trì nâng cấp hệ thống. Thời gian dự kiến 2h-3h
                 ngày 14/2/2025. Xin cảm ơn.
               </p>
-              <time class="mt-[1rem] text-[1.375rem] leading-tight block max-md:max-w-full">
+              <time class="mt-[1rem] text-[1.375rem] max-md:text-[0.75rem] leading-tight block max-md:max-w-full">
                 15 ngày trước
               </time>
             </article>
 
             <article
-              class=" mt-[1.5rem] text-red-darker p-[2.125rem] w-full max-md:p-[1.063rem] bg-none rounded-[1rem] border-b border-t border-r border-l border-solid border-red-normal max-md:max-w-full">
-              <h2 class="text-[1.75rem] font-semibold leading-none max-md:max-w-full">
+              class=" mt-[1.5rem] max-md:mt-[0.75rem] text-red-darker p-[2.125rem] w-full max-md:p-[1.0625rem] bg-none rounded-[1rem] border-b border-t border-r border-l border-solid border-red-normal max-md:max-w-full">
+              <h2 class="text-[1.75rem] max-md:text-[1rem] font-semibold leading-none max-md:max-w-full">
                 Bạn có cmt mới!
               </h2>
-              <p class="mt-[1rem] text-[1.25rem] font-medium leading-7 max-md:max-w-full">
+              <p class="mt-[1rem] text-[1.25rem] max-md:text-[0.875rem] font-medium leading-7 max-md:max-w-full">
                 Khanh Ngu vừa cmt vào truyện mới của bạn!!
               </p>
-              <time class="mt-[1rem] text-[1.375rem] leading-tight block max-md:max-w-full">
+              <time class="mt-[1rem] text-[1.375rem] max-md:text-[0.75rem] leading-tight block max-md:max-w-full">
                 15 ngày trước
               </time>
             </article>
 
             <article
-              class=" mt-[1.5rem] text-red-darker p-[2.125rem] w-full max-md:p-[1.063rem] bg-none rounded-[1rem] border-b border-t border-r border-l border-solid border-red-normal max-md:max-w-full">
-              <h2 class="text-[1.75rem] font-semibold leading-none max-md:max-w-full">
+              class=" mt-[1.5rem] max-md:mt-[0.75rem] text-red-darker p-[2.125rem] w-full max-md:p-[1.0625rem] bg-none rounded-[1rem] border-b border-t border-r border-l border-solid border-red-normal max-md:max-w-full">
+              <h2 class="text-[1.75rem] max-md:text-[1rem] font-semibold leading-none max-md:max-w-full">
                 Báo cáo, trả xu đọc truyện ngày 28-02-2025
               </h2>
-              <p class="mt-[1rem] text-[1.25rem] font-medium leading-7 max-md:max-w-full">
+              <p class="mt-[1rem] text-[1.25rem] max-md:text-[0.875rem] font-medium leading-7 max-md:max-w-full">
                 Bạn vừa nhận được 2.240xu với 224 lượt đọc.<br />
-                Trân trọng,Mọt xu
+                Trân trọng, <br />
+                Một xu <br />
               </p>
-              <time class="mt-[1rem] text-[1.375rem] leading-tight block max-md:max-w-full">
+              <time class="mt-[1rem] text-[1.375rem] max-md:text-[0.75rem] leading-tight block max-md:max-w-full">
                 15 ngày trước
               </time>
             </article>
 
             <article
-              class=" mt-[1.5rem] text-red-darker p-[2.125rem] w-full max-md:p-[1.063rem] bg-none rounded-[1rem] border-b border-t border-r border-l border-solid border-red-normal max-md:max-w-full">
-              <h2 class="text-[1.75rem] font-semibold leading-none max-md:max-w-full">
+              class=" mt-[1.5rem] max-md:mt-[0.75rem] text-red-darker p-[2.125rem] w-full max-md:p-[1.0625rem] bg-none rounded-[1rem] border-b border-t border-r border-l border-solid border-red-normal max-md:max-w-full">
+              <h2 class="text-[1.75rem] max-md:text-[1rem] font-semibold leading-none max-md:max-w-full">
                 Báo cáo, trả xu đọc truyện ngày 28-02-2025
               </h2>
-              <p class="mt-[1rem] text-[1.25rem] font-medium leading-7 max-md:max-w-full">
+              <p class="mt-[1rem] text-[1.25rem] max-md:text-[0.875rem] font-medium leading-7 max-md:max-w-full">
                 Bạn vừa nhận được 2.240xu với 224 lượt đọc.<br />
-                Trân trọng,Mọt xu
+                Trân trọng, <br />
+                Một xu <br />
               </p>
-              <time class="mt-[1rem] text-[1.375rem] leading-tight block max-md:max-w-full">
+              <time class="mt-[1rem] text-[1.375rem] max-md:text-[0.75rem] leading-tight block max-md:max-w-full">
                 15 ngày trước
               </time>
             </article>

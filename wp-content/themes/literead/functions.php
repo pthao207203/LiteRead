@@ -1,63 +1,52 @@
 <?php
+// function dùng cho toàn bộ page 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+add_action('admin_menu', function () {
+  add_submenu_page('tools.php', 'Rewrite Rules', 'Rewrite Rules', 'manage_options', 'rewrite_rules', function () {
+    global $wp_rewrite;
+    echo '<pre>';
+    print_r($wp_rewrite->rules);
+    echo '</pre>';
+  });
+});
+function time_ago($datetime)
+{
+  date_default_timezone_set('Asia/Ho_Chi_Minh'); // Đặt múi giờ Việt Nam
+  $timestamp = strtotime($datetime);
+  $now = time();
+  $diff = $now - $timestamp;
+
+  if ($diff < 60) {
+    return $diff . " giây trước";
+  } elseif ($diff < 3600) {
+    return floor($diff / 60) . " phút trước";
+  } elseif ($diff < 86400) {
+    return floor($diff / 3600) . " tiếng trước";
+  } elseif ($diff < 2592000) { // Dưới 30 ngày
+    return floor($diff / 86400) . " ngày trước";
+  } elseif ($diff < 31536000) { // Dưới 12 tháng
+    return floor($diff / 2592000) . " tháng trước";
+  } else {
+    return floor($diff / 31536000) . " năm trước";
+  }
+}
+// --------------------------------------------------
 
 // Thêm truyện 
-add_action('wp_ajax_upload_story', 'handle_story_upload');
-add_action('wp_ajax_nopriv_upload_story', 'handle_story_upload');
-
-function create_slug($string)
+function generate_unique_slug_truyen($title, $post_type = 'truyen')
 {
-  $string = strtolower($string);
-  $string = preg_replace('/[áàạảãâấầậẩẫăắằặẳẵÁÀẠẢÃÂẤẦẬẨẪĂẮẰẶẲẴ]/u', 'a', $string);
-  $string = preg_replace('/[éèẹẻẽêếềệểễÉÈẸẺẼÊẾỀỆỂỄ]/u', 'e', $string);
-  $string = preg_replace('/[íìịỉĩÍÌỊỈĨ]/u', 'i', $string);
-  $string = preg_replace('/[óòọỏõôốồộổỗơớờợởỡÓÒỌỎÕÔỐỒỘỔỖƠỚỜỢỞỠ]/u', 'o', $string);
-  $string = preg_replace('/[úùụủũưứừựửữÚÙỤỦŨƯỨỪỰỬỮ]/u', 'u', $string);
-  $string = preg_replace('/[ýỳỵỷỹÝỲỴỶỸ]/u', 'y', $string);
-  $string = preg_replace('/[đĐ]/u', 'd', $string);
-  $string = preg_replace('/[^a-z0-9-\s]/', '', $string);
-  $string = preg_replace('/([\s]+)/', '-', $string);
-  return trim($string, '-');
+  // Chuyển tiêu đề thành slug cơ bản
+  $slug = sanitize_title($title);
+
+  // Kiểm tra slug có bị trùng không
+  $unique_slug = wp_unique_post_slug($slug, 0, '', $post_type, 0);
+
+  return $unique_slug;
 }
-function handle_story_upload()
-{
-  global $wpdb;
-  $table_name = $wpdb->prefix . 'stories';
-
-  $story_name = sanitize_text_field($_POST['story_name']);
-  $slug = create_slug($story_name);
-  $author = sanitize_text_field($_POST['author']);
-  $status = sanitize_text_field($_POST['status']);
-  $synopsis = sanitize_textarea_field($_POST['synopsis']);
-  $genres = isset($_POST['genres']) ? implode(',', array_map('sanitize_text_field', $_POST['genres'])) : '';
-
-  $cover_image_url = '';
-  if (!empty($_FILES['cover_image']['name'])) {
-    $uploaded_file = $_FILES['cover_image'];
-    $upload = wp_handle_upload($uploaded_file, array('test_form' => false));
-
-    if (!isset($upload['error']) && isset($upload['url'])) {
-      $cover_image_url = $upload['url'];
-    }
-  }
-
-  $wpdb->insert(
-    $table_name,
-    array(
-      'story_name' => $story_name,
-      'slug' => $slug,
-      'author' => $author,
-      'status' => $status,
-      'genres' => $genres,
-      'synopsis' => $synopsis,
-      'cover_image_url' => $cover_image_url,
-    )
-  );
-
-  echo 'Thêm truyện thành công!';
-  wp_die(); // Kết thúc AJAX request
-}
-
-// Chi tiết truyện 
+// --------------------------------------------------
+// Chi tiết truyện, chi tiết chương
 function tao_custom_post_type()
 {
 
@@ -104,6 +93,31 @@ function tao_custom_post_type()
 
   register_post_type('truyen', $args); //Tạo post type với slug tên là sanpham và các tham số trong biến $args ở trên
 
+
+  // Đăng ký CPT "Chương"
+  register_post_type('chuong', array(
+    'labels' => array(
+      'name' => __('Chương', 'textdomain'),
+      'singular_name' => __('Chương', 'textdomain'),
+    ),
+    'public' => true,
+    'has_archive' => false, // Chỉ hiển thị dưới "Truyện"
+    'rewrite' => false, // Không có đường dẫn riêng
+    'supports' => array('title', 'editor'),
+
+    'taxonomies' => array('category', 'post_tag'), //Các taxonomy được phép sử dụng để phân loại nội dung
+    'hierarchical' => false, //Cho phép phân cấp, nếu là false thì post type này giống như Post, true thì giống như Page
+    'show_ui' => true, //Hiển thị khung quản trị như Post/Page
+    'show_in_menu' => true, //Hiển thị trên Admin Menu (tay trái)
+    'show_in_nav_menus' => true, //Hiển thị trong Appearance -> Menus
+    'show_in_admin_bar' => true, //Hiển thị trên thanh Admin bar màu đen.
+    'menu_position' => 5, //Thứ tự vị trí hiển thị trong menu (tay trái)
+    'menu_icon' => '', //Đường dẫn tới icon sẽ hiển thị
+    'can_export' => true, //Có thể export nội dung bằng Tools -> Export
+    'exclude_from_search' => false, //Loại bỏ khỏi kết quả tìm kiếm
+    'publicly_queryable' => true, //Hiển thị các tham số trong query, phải đặt true
+    'capability_type' => 'post' //
+  ));
 }
 /* Kích hoạt hàm tạo custom post type */
 add_action('init', 'tao_custom_post_type');
@@ -116,35 +130,61 @@ function lay_custom_post_type($query)
   return $query;
 }
 
-// Thêm Rewrite Rules trong functions.php
-function custom_rewrite_rules()
+add_action('wp_ajax_update_view', 'update_view_function');
+add_action('wp_ajax_nopriv_update_view', 'update_view_function');
+
+function update_view_function()
 {
-  add_rewrite_rule(
-    '^truyen/([^/]*)/?$', // Mẫu URL
-    'index.php?post_type=truyen&name=$matches[1]', // Đúng query cho custom post type
-    'top'
-  );
+  global $wpdb;
+
+  $story_table = $wpdb->prefix . "stories";  // Lấy đúng tiền tố của bảng
+  $chapter_table = $wpdb->prefix . "chapters";
+
+  // Kiểm tra xem bảng có tồn tại không
+  $check_story_table = $wpdb->get_var("SHOW TABLES LIKE '$story_table'");
+  $check_chapter_table = $wpdb->get_var("SHOW TABLES LIKE '$chapter_table'");
+
+  if (!$check_story_table || !$check_chapter_table) {
+    wp_send_json_error([
+      "message" => "One or more tables do not exist",
+      "story_table_exists" => $check_story_table ? "Yes" : "No",
+      "chapter_table_exists" => $check_chapter_table ? "Yes" : "No"
+    ]);
+    return;
+  }
+
+  $story_id = isset($_POST['story_id']) ? intval($_POST['story_id']) : 0;
+  $chapter_id = isset($_POST['chapter_id']) ? intval($_POST['chapter_id']) : 0;
+
+  // Cập nhật views nếu bảng tồn tại
+  $update_story = $wpdb->query($wpdb->prepare(
+    "UPDATE $story_table SET view = view + 1 WHERE id = %d",
+    $story_id
+  ));
+  $error_story = $wpdb->last_error;
+
+  $update_chapter = $wpdb->query($wpdb->prepare(
+    "UPDATE $chapter_table SET view = view + 1 WHERE id = %d",
+    $chapter_id
+  ));
+  $error_chapter = $wpdb->last_error;
+
+  // Trả về debug JSON
+  wp_send_json([
+    "status" => "debug",
+    "story_table_exists" => $check_story_table ? "Yes" : "No",
+    "chapter_table_exists" => $check_chapter_table ? "Yes" : "No",
+    "update_story" => $update_story,
+    "update_chapter" => $update_chapter,
+    "error_story" => $error_story,
+    "error_chapter" => $error_chapter
+  ]);
+
 }
-add_action('init', 'custom_rewrite_rules');
 
 
-// Đăng ký Query Variable
-function custom_query_vars($vars)
-{
-  $vars[] = 'story_slug';
-  return $vars;
-}
-add_filter('query_vars', 'custom_query_vars');
-
-// Làm mới Rewrite Rules khi kích hoạt theme
-function flush_rewrite_rules_on_activation()
-{
-  custom_rewrite_rules();
-  flush_rewrite_rules();
-}
-add_action('after_switch_theme', 'flush_rewrite_rules_on_activation');
-
-// Tạo trang quản lý truyện
+// --------------------------------------------------
+// Trang quản lý truyện
 function tao_quanly_custom_post_type()
 {
 
@@ -203,15 +243,142 @@ function lay_quanly_custom_post_type($query)
   return $query;
 }
 
-// Thêm Rewrite Rules trong functions.php
-function custom_quanly_rewrite_rules()
+// --------------------------------------------------
+// Trang thêm chương mới
+function chapter_custom_rewrite_rules()
 {
   add_rewrite_rule(
-    '^quan-ly-truyen/([^/]*)/?$', // Mẫu URL
-    'index.php?post_type=quan-ly-truyen&name=$matches[1]', // Đúng query cho custom post type
+    '^quan-ly-truyen/([^/]+)/them-chuong-moi/?$',
+    'index.php?truyen_parent=$matches[1]&add_chapter=1',
     'top'
   );
 }
-add_action('init', 'custom_quanly_rewrite_rules');
+add_action('init', 'chapter_custom_rewrite_rules');
+
+function chapter_add_query_vars($vars)
+{
+  $vars[] = 'truyen_parent';
+  $vars[] = 'add_chapter'; // Đánh dấu đây là trang "Thêm Chương"
+  return $vars;
+}
+add_filter('query_vars', 'chapter_add_query_vars');
+
+
+function handle_add_chapter_page()
+{
+  if (get_query_var('add_chapter') == 1) {
+    include get_template_directory() . '/UpChapter.php';
+    exit; // Dừng WordPress để không tải tiếp các nội dung khác
+  }
+}
+add_action('template_redirect', 'handle_add_chapter_page');
+
+// --------------------------------------------------
+// Chung
+// Thêm Rewrite Rules trong functions.php
+function custom_rewrite_rules()
+{
+  // add_rewrite_rule(
+  //   '^quan-ly-truyen/?$',
+  //   'index.php?post_type=quan-ly-truyen&literead_all_story=1',
+  //   'top' // Đưa lên đầu danh sách rules
+  // );
+  add_rewrite_rule(
+    '^truyen/([^/]+)/([^/]+)/?$',
+    'index.php?chuong=$matches[2]&truyen_parent=$matches[1]',
+    'normal'
+  );
+  add_rewrite_rule(
+    '^truyen/([^/]*)/?$',
+    'index.php?post_type=truyen&name=$matches[1]',
+    'bottom'
+  );
+
+  //Trang cá nhân 
+  add_rewrite_rule(
+    '^quan-ly-truyen/truyen/([^/]+)/chinh-sua-truyen/?$',
+    'index.php?post_type=quan-ly-truyen&truyen_parent=$matches[1]&literead_edit_chapter=1',
+    'top'
+  );
+
+  add_rewrite_rule(
+    '^quan-ly-truyen/([^/]+)/([^/]+)/?$',
+    'index.php?post_type=quan-ly-truyen&chuong=$matches[2]&truyen=$matches[1]',
+    'normal'
+  );
+  add_rewrite_rule(
+    '^quan-ly-truyen/([^/]*)/?$',
+    'index.php?post_type=quan-ly-truyen&name=$matches[1]',
+    'normal'
+  );
+
+  add_rewrite_rule(
+    '^quan-ly-truyen/truyen/([^/]+)/them-chuong-moi/?$',
+    'index.php?post_type=quan-ly-truyen&truyen_parent=$matches[1]&literead_add_chapter=1',
+    'top'
+  );
+
+}
+add_action('init', 'custom_rewrite_rules');
+
+
+// Đăng ký Query Variable
+function custom_query_vars($vars)
+{
+  $vars[] = 'story_slug';
+  $vars[] = 'truyen_parent';
+  $vars[] = 'chuong';
+  $vars[] = 'literead_add_chapter';
+  $vars[] = 'literead_edit_chapter';
+  $vars[] = 'literead_all_story';
+  return $vars;
+}
+add_filter('query_vars', 'custom_query_vars');
+
+// Làm mới Rewrite Rules khi kích hoạt theme
+function flush_rewrite_rules_on_activation()
+{
+  custom_rewrite_rules();
+  flush_rewrite_rules();
+}
+add_action('after_switch_theme', 'flush_rewrite_rules_on_activation');
+
+flush_rewrite_rules();
+
+add_action('template_redirect', function () {
+  global $wp_query;
+  echo "<script>console.error('Debug Error: " . json_encode($wp_query->query_vars) . "');</script>";
+  //[GET] /quan-ly-truyen
+  if (is_post_type_archive('quan-ly-truyen')) {
+    include(get_template_directory() . '/quan-ly.php');
+    exit;
+  }
+  //[GET] /quan-ly-truyen/{ten-truyen}/chinh-sua-truyen
+  if (isset($wp_query->query_vars['chuong']) && $wp_query->query_vars['chuong'] == 'chinh-sua-truyen') {
+    include(get_template_directory() . '/EditStory.php');
+    exit;
+  }
+  //[GET] /quan-ly-truyen/{ten-truyen}/{ten-chuong}
+  if (isset($wp_query->query_vars['chuong']) && isset($wp_query->query_vars['truyen'])) {
+    include(get_template_directory() . '/EditChapter.php');
+    exit;
+  }
+  //[GET] /quan-ly-truyen/{ten-truyen}
+  if (isset($wp_query->query_vars['post_type']) && $wp_query->query_vars['post_type'] == 'quan-ly-truyen') {
+    include(get_template_directory() . '/quan-ly-truyen.php');
+    exit;
+  }
+  //[GET] /quan-ly-truyen/{ten-truyen}
+  if (isset($wp_query->query_vars['chuong']) && isset($wp_query->query_vars['truyen_parent'])) {
+    include(get_template_directory() . '/single-chuong.php');
+    exit;
+  }
+});
+
+// global $wp_rewrite;
+// echo '<pre>';
+// print_r($wp_rewrite->wp_rewrite_rules());
+// echo '</pre>';
+
 
 ?>
