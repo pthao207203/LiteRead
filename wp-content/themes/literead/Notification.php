@@ -1,15 +1,22 @@
 <?php
 /* Template Name: Notification */
 get_header();
+if (isset($_COOKIE['screen_width'])) {
+  $isMobile = intval($_COOKIE['screen_width']) < 768;
+}
+
+echo "<script>
+        console.log(" . $_COOKIE['screen_width'] . ");
+    </script>";
 ?>
-<main class="flex flex-col bg-[#FFE5E1]">
+<main class="relative flex flex-col mt-[4.425rem]">
   <div class="w-full max-md:max-w-full">
     <div class="flex max-md:flex-col">
       <!-- Sidebar Navigation -->
       <?php get_sidebar(); ?>
-      <section id="mainContent" class="md:w-10/12 md:ml-[1.25rem] bg-white flex-grow transition-all max-md:ml-0 max-md:w-full">
-        <header
-          class="flex flex-col justify-center p-[2.125rem] w-full max-md:p-[1.0625rem]">
+      <section id="mainContent"
+        class="flex-grow transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+        <header class="flex flex-col justify-center p-[2.125rem] w-full max-md:p-[1.0625rem] bg-white">
           <div class="flex items-start self-start gap-[0.5rem] text-[1.875rem] max-md:text-[1.125rem] font-medium">
             <h1
               class="self-stretch flex items-center justify-center px-[1.25rem] py-[0.625rem] text-red-normal bg-orange-light-hover rounded-[0.75rem]">
@@ -95,9 +102,8 @@ get_header();
             </article>
           </section>
         </header>
+        <?php get_footer(); ?>
       </section>
     </div>
   </div>
 </main>
-
-<?php get_footer(); ?>

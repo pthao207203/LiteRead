@@ -3,9 +3,8 @@
 
 get_header();
 
-
 global $wpdb;
-$story_slug = get_query_var('truyen_parent');
+$story_slug = get_query_var('truyen');
 $chapter_slug = get_query_var('chuong'); // Lấy slug truyện từ URL
 if (preg_match('/chuong-(\d+)/', $chapter_slug, $matches)) {
   $chapter_number = (int) $matches[1];
@@ -17,7 +16,7 @@ $story = $wpdb->get_row(
 );
 
 if (!$story) {
-  echo '<p>Truyện không tồn tại.</p>';
+  echo '<p class="mt-[4.425rem]">Truyện không tồn tại.</p>';
   get_footer();
   exit;
 }
@@ -28,7 +27,7 @@ $chapter = $wpdb->get_row(
 );
 
 if (!$chapter) {
-  echo '<p>Chương không tồn tại.</p>';
+  echo '<p class="mt-[4.425rem]">Chương không tồn tại.</p>';
   get_footer();
   exit;
 }
@@ -76,16 +75,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
   }
 }
+$isHome = is_front_page() || is_home();
+$isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
 
+$screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
+$isMobile = $screen_width < 768;
+echo '<script>console.log(' . $screen_width . ')</script>';
 ?>
-<div class="pb-7 bg-orange-light-active rounded-xl">
-
-  <div class="max-md:max-w-full">
-    <div class="flex gap-5 max-md:flex-col">
-
-
-      <main class="w-full max-md:w-full">
-        <div class="w-full max-md:mt-5 max-md:max-w-full">
+<main class="relative flex flex-col mt-[4.425rem]">
+  <div class="w-full max-md:max-w-full">
+    <div class="flex max-md:flex-col">
+      <!-- Sidebar Navigationx -->
+      <?php get_sidebar(); ?>
+      <section id="mainContent"
+        class="transition-all w-full <?= ($isHome || $isSingleTruyen) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+        <div class="w-full bg-white  max-md:max-w-full">
           <nav
             class="flex flex-wrap items-center w-full px-[20px] text-[1.125rem] font-medium  bg-white text-red-darker mb-[2px]"
             aria-label="Navigation menu">
@@ -187,37 +191,37 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </div>
           </form>
         </div>
-      </main>
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            const textarea = document.querySelector("textarea");
+            const wordCount = document.getElementById("wordCount");
+
+            textarea.addEventListener("input", function () {
+              const words = textarea.value
+                .trim()
+                .split(/\s+/)
+                .filter((word) => word.length > 0);
+              wordCount.textContent = `Số lượng từ: ${words.length}`;
+            });
+          });
+        </script>
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            const textarea = document.getElementById("synopsis");
+            const wordCount = document.getElementById("wordCount");
+
+            textarea.addEventListener("input", function () {
+              const words = textarea.value.trim().split(/\s+/).filter(word => word.length > 0);
+              wordCount.textContent = words.length;
+            });
+          });
+        </script>
+
+
+        <?php get_footer(); ?>
+      </section>
     </div>
   </div>
-</div>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const textarea = document.querySelector("textarea");
-    const wordCount = document.getElementById("wordCount");
-
-    textarea.addEventListener("input", function () {
-      const words = textarea.value
-        .trim()
-        .split(/\s+/)
-        .filter((word) => word.length > 0);
-      wordCount.textContent = `Số lượng từ: ${words.length}`;
-    });
-  });
-</script>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const textarea = document.getElementById("synopsis");
-    const wordCount = document.getElementById("wordCount");
-
-    textarea.addEventListener("input", function () {
-      const words = textarea.value.trim().split(/\s+/).filter(word => word.length > 0);
-      wordCount.textContent = words.length;
-    });
-  });
-</script>
-
-
-<?php get_footer(); ?>
+</main>

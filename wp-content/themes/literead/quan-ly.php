@@ -1,15 +1,24 @@
 <?php
 /* Template Name: Manage Stories */
+session_start();
+if (isset($_COOKIE['screen_width'])) {
+  $isMobile = intval($_COOKIE['screen_width']) < 768;
+}
+
+echo "<script>
+        console.log(" . $_COOKIE['screen_width'] . ");
+    </script>";
 ?>
 <?php get_header(); ?>
 
-<main class="flex flex-col bg-[#FFE5E1]">
-    <div class="w-full max-md:max-w-full">
-        <div class="flex max-md:flex-col">
-          <!-- Sidebar Navigationx -->
-          <?php get_sidebar(); ?>
-          <section  id="mainContent" class="md:w-10/12 md:ml-[1.25rem] flex-grow transition-all max-md:ml-0 max-md:w-full">
-            <div class="grow w-full bg-white  max-md:max-w-full">
+<main class="relative flex flex-col mt-[4.425rem]">
+  <div class="w-full max-md:max-w-full">
+    <div class="flex max-md:flex-col">
+      <!-- Sidebar Navigationx -->
+      <?php get_sidebar(); ?>
+      <section id="mainContent"
+        class="flex-grow transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+        <div class="grow w-full bg-white  max-md:max-w-full">
           <!-- Author Profile Section -->
           <section class="flex flex-col justify-center p-[2.25rem] w-full max-md:px-5 max-md:max-w-full">
             <h2
@@ -201,6 +210,7 @@
               <!-- Wrapper cuộn ngang + Grid cho màn hình lớn -->
               <?php include "de-cu.php"; ?>
             </div>
+            <?php get_footer(); ?>
           </section>
 
         </div>
@@ -208,5 +218,3 @@
     </div>
   </div>
 </main>
-
-<?php get_footer(); ?>
