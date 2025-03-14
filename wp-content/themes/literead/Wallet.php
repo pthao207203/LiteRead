@@ -104,9 +104,8 @@ $transactions = $wpdb->get_results($wpdb->prepare(
     $user_id
 )) ?: [];
 ?>
-
-<main class="flex items-center md:px-[2.125rem] md:py-[0.625rem] p-[0.625rem] gap-[1rem] md:gap-[2.875rem] w-full bg-[#FFE5E1]">
-    <div class="w-full max-md:max-w-full">
+<main class="flex items-center  mx-auto md:px-[2.125rem] md:py-[0.625rem] gap-[1rem] md:gap-[2.875rem] w-full bg-[#FFE5E1]">
+    <div class="w-full ml-[1.2rem] max-md:max-w-full">
         <div class="flex gap-[1.25rem] max-md:flex-col">
             <?php get_sidebar(); ?>
             <div class="flex flex-col flex-grow max-md:ml-0 max-md:w-full">
@@ -148,10 +147,10 @@ $transactions = $wpdb->get_results($wpdb->prepare(
                         <label for="withdrawAmount" class="text-3xl font-semibold tracking-wide leading-none text-[#A04D4C]">Rút xu</label>
                         <div class="flex flex-grow gap-2 items-start w-full">
                             <input type="number" id="withdrawAmount" name="withdrawAmount"
-                                class="flex-1 px-2 py-4 text-3xl text-[#A04D4C] border-b border-[#A04D4C] placeholder-red-300"
+                                class="flex-1 px-2 py-4 text-3xl text-[#A04D4C] border-b border-[#A04D4C] placeholder-[#d89e9d]"
                                 placeholder="Nhập số xu..." required />
                             <button id="withdrawButton" type="submit"
-                                class="ml-2 w-[5.69rem] h-[4.56rem] p-2.5 text-3xl text-white bg-[#D56665] rounded-xl hover:bg-red-400">Rút</button>
+                                class="ml-2 w-[5.69rem] h-[4.56rem] p-2.5 text-3xl text-white bg-[#D56665] rounded-xl hover:bg-[#C05C5D]">Rút</button>
                         </div>
                     </form>
 
@@ -177,7 +176,7 @@ $transactions = $wpdb->get_results($wpdb->prepare(
                     </div>
 
                         <!-- Lịch sử giao dịch -->
-                        <div class="flex flex-col mt-12 max-w-full text-3xl tracking-wide leading-none text-[#A04D4C] w-[708px] max-sm:p-10 max-md:mt-10">
+                        <div class="flex flex-col mt-12 w-full text-3xl tracking-wide leading-none text-[#A04D4C] max-md:mt-10">
                             <div class="font-semibold max-md:text-xl max-sm:text-3xl">Lịch sử biến đổi</div>
                             <div class="grid grid-cols-[20%_20%_20%_40%] gap-4 mt-2 w-full font-medium">
                                 <div class="flex flex-col mt-3">
@@ -205,9 +204,9 @@ $transactions = $wpdb->get_results($wpdb->prepare(
                                     <?php endforeach; ?>
                                 </div>
                                 <div class="flex flex-col mt-3">
-                                    <div class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-xl whitespace-nowrap">Thời gian</div>
+                                    <div class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-xl mr-[3rem] whitespace-nowrap">Thời gian</div>
                                     <?php foreach ($transactions as $transaction): ?>
-                                        <div class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-xl whitespace-nowrap">
+                                        <div class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-xl mr-[3rem] whitespace-nowrap">
                                             <?php echo date('H:i d/m/Y', strtotime($transaction->created_at)); ?>
                                         </div>
                                     <?php endforeach; ?>
