@@ -44,7 +44,7 @@ if ($story) {
 
   $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
   $isMobile = $screen_width < 768;
-  echo '<script>console.log(' . $screen_width . ')</script>';
+  echo '<script> console.log(' . $screen_width . ')</script>';
   ?>
   <main class="relative flex flex-col mt-[4.425rem]">
     <div class="relative w-full max-md:max-w-full">

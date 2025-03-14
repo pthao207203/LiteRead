@@ -181,6 +181,7 @@ if (!$isHome && !$isSingleTruyen) {
       const isMobile = window.innerWidth < 768;
       if (isHomeOrSingleTruyen) {
         sidebar.classList.toggle("hidden", sidebar.classList.contains("block"));
+        
       }
       if (isMobile) {
         sidebar.classList.toggle("max-md:hidden", sidebar.classList.contains("block"));
@@ -190,7 +191,16 @@ if (!$isHome && !$isSingleTruyen) {
         sidebar.classList.toggle("w-0", sidebar.classList.contains("w-auto"));
         sidebar.classList.toggle("w-auto", !sidebar.classList.contains("w-auto"));
         mainContent.classList.toggle("md:ml-0");
-        mainContent.classList.toggle("pl-[19.5rem]");
+      }
+
+      if (!isHomeOrSingleTruyen) {
+        if (sidebar.classList.contains("w-auto")) {
+          mainContent.classList.remove("pl-0");
+          mainContent.classList.add("pl-[19.5rem]");
+        } else {
+          mainContent.classList.remove("pl-[19.5rem]");
+          mainContent.classList.add("pl-0");
+        }
       }
     });
 
