@@ -86,7 +86,7 @@ if (!empty($_POST["action"]) && $_POST["action"] === "withdraw_coins") {
 
         // Xác nhận giao dịch
         $wpdb->query('COMMIT');
-        // Trả về kết quả
+        //Trả về kết quả
         echo json_encode(["status" => 200, "message" => "Rút $withdrawAmount xu thành công!", "new_balance" => $new_balance]);
     } else {
         $wpdb->query('ROLLBACK');
