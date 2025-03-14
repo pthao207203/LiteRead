@@ -1,13 +1,12 @@
 <?php
 /* Template Name: Notification */
 get_header();
-if (isset($_COOKIE['screen_width'])) {
-  $isMobile = intval($_COOKIE['screen_width']) < 768;
-}
+$isHome = is_front_page();
+$isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
 
-echo "<script>
-        console.log(" . $_COOKIE['screen_width'] . ");
-    </script>";
+$screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
+$isMobile = $screen_width < 768;
+echo '<script> console.log(' . $screen_width . ')</script>';
 ?>
 <main class="relative flex flex-col mt-[4.425rem]">
   <div class="w-full max-md:max-w-full">

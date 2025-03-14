@@ -37,7 +37,7 @@ if (!$isHome && !$isSingleTruyen) {
       <li>
         <button data-id="<?= home_url('/truyen-da-thich'); ?>" onclick="handleSidebarClick(this)"
           class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
-            hover:bg-orange-light hover:text-red-normal <?= ($current_slug === 'truyen-da-luu') ? 'bg-orange-light text-red-normal' : '' ?>">
+            hover:bg-orange-light hover:text-red-normal <?= ($current_slug === 'truyen-da-thich') ? 'bg-orange-light text-red-normal' : '' ?>">
           <div>
             <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"
               class="w-[1.875rem] h-[1.875rem] transition-all hover:stroke-red-normal active:stroke-red-normal ">
@@ -181,6 +181,7 @@ if (!$isHome && !$isSingleTruyen) {
       const isMobile = window.innerWidth < 768;
       if (isHomeOrSingleTruyen) {
         sidebar.classList.toggle("hidden", sidebar.classList.contains("block"));
+        
       }
       if (isMobile) {
         sidebar.classList.toggle("max-md:hidden", sidebar.classList.contains("block"));
@@ -190,7 +191,16 @@ if (!$isHome && !$isSingleTruyen) {
         sidebar.classList.toggle("w-0", sidebar.classList.contains("w-auto"));
         sidebar.classList.toggle("w-auto", !sidebar.classList.contains("w-auto"));
         mainContent.classList.toggle("md:ml-0");
-        mainContent.classList.toggle("pl-[19.5rem]");
+      }
+
+      if (!isHomeOrSingleTruyen) {
+        if (sidebar.classList.contains("w-auto")) {
+          mainContent.classList.remove("pl-0");
+          mainContent.classList.add("pl-[19.5rem]");
+        } else {
+          mainContent.classList.remove("pl-[19.5rem]");
+          mainContent.classList.add("pl-0");
+        }
       }
     });
 

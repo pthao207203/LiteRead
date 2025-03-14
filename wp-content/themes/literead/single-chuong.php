@@ -53,14 +53,19 @@ $next_chapter_number = $chapter->chapter_number < $next_chapter ? $chapter->chap
 // Tạo URL cho chương trước và chương sau
 $previous_chapter_url = $previous_chapter_number ? site_url("/truyen/$story_slug/chuong-$previous_chapter_number") : '#';
 $next_chapter_url = $next_chapter_number ? site_url("/truyen/$story_slug/chuong-$next_chapter_number") : '#';
+$isHome = is_front_page();
+$isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
 
+$screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
+$isMobile = $screen_width < 768;
+echo '<script> console.log(' . $screen_width . ')</script>';
 ?>
 <main class="flex flex-col relative mt-[4.425rem] bg-white">
   <div class="w-full max-md:max-w-full">
     <div class="flex max-md:flex-col">
       <!-- Sidebar Navigationx -->
       <?php get_sidebar(); ?>
-      <div id="mainContent" class="md:w-10/12 flex-grow transition-all max-md:ml-0 max-md:w-full">
+      <div id="mainContent" class="md:w-10/12 flex-grow transition-all max-md:ml-0 max-md:w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
         <div class="flex flex-col pt-[17px] w-full">
           <!-- Title -->
           <h1 class="lg:text-[1.875rem] text-[18px] lg:px-[56px] px-[17px] font-semibold text-red-darker text-left ">

@@ -61,13 +61,19 @@ if ($story) {
   $previous_chapter_url = $first_chapter ? site_url("/truyen/$story_slug/chuong-$first_chapter") : '#';
   $last_chapter_url = $last_chapter ? site_url("/truyen/$story_slug/chuong-$last_chapter") : '#';
 
+  $isHome = is_front_page();
+  $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
+
+  $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
+  $isMobile = $screen_width < 768;
+  echo '<script> console.log(' . $screen_width . ')</script>';
   ?>
   <main class="flex flex-col relative mt-[4.425rem] ">
     <div class="w-full max-md:max-w-full">
       <div class="flex max-md:flex-col bg-white">
         <!-- Sidebar Navigationx -->
         <?php get_sidebar(); ?>
-        <div id="mainContent" class="md:w-10/12 md:ml-[1.25rem] flex-grow transition-all max-md:ml-0 max-md:w-full">
+        <div id="mainContent" class="md:w-10/12 md:ml-[1.25rem] flex-grow transition-all max-md:ml-0 max-md:w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
           <!-- Overview -->
           <section class="book-details max-md:p-4 px-14 py-11 " aria-labelledby="book-title">
             <div class="flex flex-col justify-start items-start max-sm:items-center mx-auto w-full max-md:max-w-full">
