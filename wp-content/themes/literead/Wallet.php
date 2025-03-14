@@ -86,7 +86,7 @@ if (!empty($_POST["action"]) && $_POST["action"] === "withdraw_coins") {
 
         // Xác nhận giao dịch
         $wpdb->query('COMMIT');
-
+        // Trả về kết quả
         echo json_encode(["status" => 200, "message" => "Rút $withdrawAmount xu thành công!", "new_balance" => $new_balance]);
     } else {
         $wpdb->query('ROLLBACK');
@@ -95,7 +95,7 @@ if (!empty($_POST["action"]) && $_POST["action"] === "withdraw_coins") {
     wp_die();
 }
 
-// Lấy thông tin ví của người dùng để hiển thị trên UI
+// Lấy thông tin ví của người dùng 
 $user = $wpdb->get_row($wpdb->prepare("SELECT * FROM wp_users_literead WHERE id = %d", $user_id));
 
 // Lấy lịch sử giao dịch
