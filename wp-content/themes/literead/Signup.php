@@ -1,39 +1,10 @@
 <?php
 /* Template Name: Signup */
+ob_start();
 get_header();
 
 global $wpdb;
 $users_literead = $wpdb->prefix . 'users_literead';
-
-// Kiểm tra nếu đang xác nhận token
-if (isset($_GET['token'])) {
-  $token = sanitize_text_field($_GET['token']);
-
-  // Kiểm tra token có hợp lệ không
-  $user = $wpdb->get_row($wpdb->prepare(
-      "SELECT * FROM $users_literead WHERE token = %s",
-      $token
-  ));
-
-  if ($user) {
-      // Kích hoạt tài khoản
-      $wpdb->update(
-          $users_literead,
-          ["status" => "active", "token" => NULL],
-          ["id" => $user->id],
-          ["%s", "%s"],
-          ["%d"]
-      );
-
-      echo "<h2 style='color: green; text-align:center;'>Xác nhận thành công! Tài khoản của bạn đã được kích hoạt.</h2>";
-      get_footer();
-      exit;
-  } else {
-      echo "<h2 style='color: red; text-align:center;'>Token không hợp lệ hoặc đã được sử dụng.</h2>";
-      get_footer();
-      exit;
-  }
-}
 
 if ($wpdb->get_var("SHOW TABLES LIKE '$users_literead'") != $users_literead) {
   $charset_collate = $wpdb->get_charset_collate();
@@ -115,16 +86,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["signup"])) {
                   "created_at" => current_time('mysql'),
               ],
               ["%s", "%s", "%s", "%s", "%s", "%s", "%s"]
-          );
+          ); 
+          setcookie("signup_token", $token, time() + (7 * 24 * 60 * 60), "/", "", false, true);
+          wp_redirect(home_url('/'));
         }
       }
-  
 }
 ?>
 
 <div class="flex overflow-hidden flex-col mx-auto w-full bg-white max-w-[480px]">
-  <div class="flex overflow-hidden flex-col w-full bg-red-100">
-    <div class="flex flex-col px-[17px] pt-[17px] w-full text-[18px] text-red-dark bg-white min-h-[779px]">
+  <div class="flex overflow-hidden flex-col w-full">
+    <div class="flex flex-col px-[1.0625rem] pt-[1.0625rem] mt-[3.5rem] w-full text-[1.5rem] text-red-dark bg-white min-h-[779px]">
       <form method="POST">
         <div class="flex flex-col w-full tracking-wide leading-none">
           <label for="emailOrPhone" class="font-semibold">Email hoặc số điện thoại</label>
@@ -156,7 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["signup"])) {
       <?php endif; ?>
         </div>
 
-        <div class="mt-[12px] w-full text-[16px] font-medium text-center text-stone-500">
+        <div class="mt-[12px] w-full text-[1.5rem] font-medium text-center text-stone-500">
           <span class="text-red-dark">Bạn đã có tài khoản?</span>
           <a href="#" class="font-semibold text-red-dark-hover">Đăng nhập</a>
         </div>

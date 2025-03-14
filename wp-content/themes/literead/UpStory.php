@@ -19,6 +19,7 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
     likes INT UNSIGNED DEFAULT 0,
     hot INT UNSIGNED DEFAULT 0,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    editted_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY  (id)
   ) $charset_collate;";
   require_once ABSPATH . 'wp-admin/includes/upgrade.php';
@@ -76,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (!empty($_FILES['cover_image']['name'])) {
       if (!function_exists('wp_handle_upload')) {
         require_once ABSPATH . 'wp-admin/includes/file.php';
-    }
+      }
       $uploaded_file = $_FILES['cover_image'];
       $upload = wp_handle_upload($uploaded_file, array('test_form' => false));
 

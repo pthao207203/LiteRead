@@ -1,6 +1,7 @@
 <?php
 /* Template Name: Login */
 get_header(); 
+
 ?>
 <div
   class="flex overflow-hidden flex-col mx-auto w-full bg-white max-w-[428px]"
