@@ -99,16 +99,22 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$stories_like'") != $stories_like) {
   require_once ABSPATH . 'wp-admin/includes/upgrade.php';
   dbDelta($sql);
 }
+$isHome = is_front_page();
+$isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
+
+$screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
+$isMobile = $screen_width < 768;
+echo '<script>console.log(' . $screen_width . ')</script>';
 
 
 ?>
 
-<main class="flex flex-col bg-[#FFE5E1]">
+<main class="relative flex flex-col mt-[4.425rem]">
   <div class="w-full max-md:max-w-full">
-    <div class="flex gap-[1.25rem] max-md:flex-col">
+    <div class="flex max-md:flex-col">
       <!-- Sidebar Navigation -->
       <?php get_sidebar(); ?>
-      <div class="flex flex-col">
+      <div id="mainContent" class="flex flex-col <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
         <section
           class="flex relative flex-col w-full min-h-[246px] mb-[-20px] md:flex-row md:min-h-[300px] lg:min-h-[400px]">
           <img loading="lazy"

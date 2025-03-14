@@ -110,22 +110,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["signup"])) {
     <div class="flex flex-col px-[17px] pt-[17px] w-full text-[18px] text-red-dark bg-white min-h-[779px]">
       <form method="POST">
       <div class="flex flex-col w-full tracking-wide leading-none">
-  <label for="emailOrPhone" class="font-semibold">Email</label>
-  <div class="flex overflow-hidden flex-col justify-center px-[8px] py-[12px] mt-[8px] w-full border-b border-solid border-red-dark">
-    <input type="text" id="emailOrPhone" name="emailOrPhone" placeholder="123@gmail.com"
-      class="opacity-60 bg-transparent border-none outline-none" required />
-  </div>
-  <?php if (!empty($error_email)): ?>
-    <p style="color: red;"><?php echo esc_html($error_email); ?></p>
-  <?php endif; ?>
-  <?php if (!empty($error_user)): ?>
-    <p style="color: red;"><?php echo esc_html($error_user); ?></p>
-  <?php endif; ?>
-</div>
-
+        <label for="emailOrPhone" class="font-semibold">Email</label>
+        <div class="flex overflow-hidden flex-col justify-center px-[8px] py-[12px] mt-[8px] w-full border-b border-solid border-red-dark">
+          <input type="text" id="emailOrPhone" name="emailOrPhone" placeholder="123@gmail.com"
+            class="opacity-60 bg-transparent border-none outline-none" required />
+        </div>
+        <?php if (!empty($error_email)): ?>
+          <p style="color: red;"><?php echo esc_html($error_email); ?></p>
+        <?php endif; ?>
+        <?php if (!empty($error_user)): ?>
+          <p style="color: red;"><?php echo esc_html($error_user); ?></p>
+        <?php endif; ?>
+      </div>
         <div class="flex flex-col mt-[12px] w-full tracking-wide leading-none">
           <label for="password" class="font-semibold">Mật khẩu</label>
-          <div class="flex overflow-hidden gap-1.5 items-center px-[8px] py-[12px] mt-[8px] w-full border-b border-solid border-red-dark">
+          <div
+            class="flex overflow-hidden gap-1.5 items-center px-[8px] py-[12px] mt-[8px] w-full border-b border-solid border-red-dark">
             <input type="password" id="password" name="password" placeholder="**********"
               class="flex-1 opacity-60 bg-transparent border-none outline-none" required />
           </div>
@@ -133,13 +133,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["signup"])) {
 
         <div class="flex flex-col mt-[12px] w-full tracking-wide leading-none">
           <label for="confirmPassword" class="font-semibold">Nhập lại mật khẩu</label>
-          <div class="flex overflow-hidden gap-1.5 items-center px-[8px] py-[12px] mt-[8px] w-full border-b border-solid border-red-dark">
+          <div
+            class="flex overflow-hidden gap-1.5 items-center px-[8px] py-[12px] mt-[8px] w-full border-b border-solid border-red-dark">
             <input type="password" id="confirmPassword" name="confirmPassword" placeholder="**********"
               class="flex-1 opacity-60 bg-transparent border-none outline-none" required />
           </div>
           <?php if (!empty($error_pw)): ?>
-        <p style="color: red;"><?php echo esc_html($error_pw); ?></p>
-      <?php endif; ?>
+            <p style="color: red;"><?php echo esc_html($error_pw); ?></p>
+          <?php endif; ?>
         </div>
 
         <div class="mt-[12px] w-full text-[16px] font-medium text-center text-stone-500">
