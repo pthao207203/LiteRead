@@ -1,11 +1,22 @@
-<?php $isHome = is_front_page() || is_home(); ?>
-<aside id="sidebar" class=" w-auto overflow-y-auto max-md:w-auto font-medium max-sm:text-[1rem] md:text-[1.5rem] transition-all duration-300 ease-in-out
-       max-md:hidden bg-[#FFE5E1] md:block <?= $isHome ? 'absolute z-50' : 'md:relative absolute'?>">
-  <nav class="flex flex-col justify-between py-[1.25rem] min-h-[calc(100vh-7.5rem)] bg-red-normal shadow-lg mx-auto">
+<?php
+$isHome = is_front_page();
+$isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
+if (!$isHome && !$isSingleTruyen) {
+  $current_path = trim(parse_url(home_url($wp->request), PHP_URL_PATH), '/');
+  $slug_parts = explode('/', $current_path);
+  $current_slug = $slug_parts[1];
+}
+// echo $current_slug;
+?>
+<aside id="sidebar"
+  class="z-[60] w-auto overflow-y-auto max-md:w-auto font-medium max-sm:text-[1rem] md:text-[1.5rem] transition-all duration-200 ease-in-out
+       max-md:hidden bg-[#FFE5E1] md:block <?= ($isHome || $isSingleTruyen) ? 'hidden absolute' : 'fixed top-[4.425rem] left-0 ' ?>">
+  <nav class="flex flex-col justify-between py-[1.25rem] min-h-[calc(100vh-4.425rem)] bg-red-normal shadow-lg mx-auto">
     <ul class="flex flex-col flex-1 w-full font-medium leading-none text-orange-light">
       <li>
-        <button data-id="trang-chu" onclick="handleSidebarClick(this)" class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
-           hover:bg-orange-light hover:text-red-normal">
+        <button data-id="<?= home_url('/tong-quan'); ?>" onclick="handleSidebarClick(this)"
+          class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
+           hover:bg-orange-light hover:text-red-normal <?= ($current_slug === 'tong-quan') ? 'bg-orange-light text-red-normal' : '' ?>">
           <div>
             <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"
               class="w-[1.875rem] h-[1.875rem] transition-all hover:stroke-red-normal active:stroke-red-normal ">
@@ -24,8 +35,9 @@
         </button>
       </li>
       <li>
-        <button data-id="truyen-da-luu" onclick="handleSidebarClick(this)" class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
-            hover:bg-orange-light hover:text-red-normal">
+        <button data-id="<?= home_url('/truyen-da-thich'); ?>" onclick="handleSidebarClick(this)"
+          class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
+            hover:bg-orange-light hover:text-red-normal <?= ($current_slug === 'truyen-da-thich') ? 'bg-orange-light text-red-normal' : '' ?>">
           <div>
             <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"
               class="w-[1.875rem] h-[1.875rem] transition-all hover:stroke-red-normal active:stroke-red-normal ">
@@ -39,12 +51,13 @@
                 stroke-linejoin="round"></path>
             </svg>
           </div>
-          <span class="text-[##FFF7F5] max-sm:text-[1rem] md:text-[1.5rem] text-left">Truyện đã lưu</span>
+          <span class="text-[##FFF7F5] max-sm:text-[1rem] md:text-[1.5rem] text-left">Truyện đã thích</span>
         </button>
       </li>
       <li>
-        <button data-id="quan-ly-truyen" onclick="handleSidebarClick(this)" class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
-       hover:bg-orange-light hover:text-red-normal">
+        <button data-id="<?= home_url('/quan-ly-truyen'); ?>" onclick="handleSidebarClick(this)"
+          class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
+       hover:bg-orange-light hover:text-red-normal <?= ($current_slug === 'quan-ly-truyen') ? 'bg-orange-light text-red-normal' : '' ?>">
           <div>
             <svg width="30" height="30" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg"
               class="w-[1.875rem] h-[1.875rem] transition-all hover:stroke-red-normal active:stroke-red-normal ">
@@ -72,8 +85,9 @@
         </button>
       </li>
       <li>
-        <button data-id="vi-cua-toi" onclick="handleSidebarClick(this)" class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
-            hover:bg-orange-light hover:text-red-normal">
+        <button data-id="<?= home_url('/vi-cua-toi'); ?>" onclick="handleSidebarClick(this)"
+          class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
+            hover:bg-orange-light hover:text-red-normal <?= ($current_slug === 'vi-cua-toi') ? 'bg-orange-light text-red-normal' : '' ?>">
           <div>
             <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"
               class="w-[1.875rem] h-[1.875rem] transition-all hover:stroke-red-normal active:stroke-red-normal ">
@@ -94,8 +108,9 @@
         </button>
       </li>
       <li>
-        <button data-id="thong-bao" onclick="handleSidebarClick(this)" class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
-            hover:bg-orange-light hover:text-red-normal">
+        <button data-id="<?= home_url('/thong-bao'); ?>" onclick="handleSidebarClick(this)"
+          class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
+            hover:bg-orange-light hover:text-red-normal <?= ($current_slug === 'thong-bao') ? 'bg-orange-light text-red-normal' : '' ?>">
           <div>
             <svg width="30" height="31" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg"
               class="w-[1.875rem] h-[1.875rem] transition-all hover:stroke-red-normal active:stroke-red-normal ">
@@ -115,8 +130,9 @@
         </button>
       </li>
       <li>
-        <button data-id="dieu-khoan" onclick="handleSidebarClick(this)" class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
-            hover:bg-orange-light hover:text-red-normal">
+        <button data-id="<?= home_url('/dieu-khoan'); ?>" onclick="handleSidebarClick(this)"
+          class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
+            hover:bg-orange-light hover:text-red-normal <?= ($current_slug === 'dieu-khoan') ? 'bg-orange-light text-red-normal' : '' ?>">
           <div data-svg-wrapper>
             <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"
               class="w-[1.875rem] h-[1.875rem] transition-all hover:stroke-red-normal active:stroke-red-normal">
@@ -155,15 +171,36 @@
       return;
     }
 
+    // Xác định nếu đang ở trang Home hoặc trang Single Truyện
+    const isHomeOrSingleTruyen = window.location.pathname === "/" ||
+      window.location.pathname === "/LiteRead/" ||
+      window.location.pathname.includes("/truyen/");
+
     // Mở/đóng sidebar khi nhấn nút hamburger
     openSidebarBtn.addEventListener("click", () => {
       const isMobile = window.innerWidth < 768;
+      if (isHomeOrSingleTruyen) {
+        sidebar.classList.toggle("hidden", sidebar.classList.contains("block"));
+        
+      }
       if (isMobile) {
         sidebar.classList.toggle("max-md:hidden", sidebar.classList.contains("block"));
         sidebar.classList.toggle("block", !sidebar.classList.contains("block"));
+
       } else {
         sidebar.classList.toggle("w-0", sidebar.classList.contains("w-auto"));
         sidebar.classList.toggle("w-auto", !sidebar.classList.contains("w-auto"));
+        mainContent.classList.toggle("md:ml-0");
+      }
+
+      if (!isHomeOrSingleTruyen) {
+        if (sidebar.classList.contains("w-auto")) {
+          mainContent.classList.remove("pl-0");
+          mainContent.classList.add("pl-[19.5rem]");
+        } else {
+          mainContent.classList.remove("pl-[19.5rem]");
+          mainContent.classList.add("pl-0");
+        }
       }
     });
 
@@ -179,77 +216,62 @@
 
   // Xử lý khi nhấn vào button trong sidebar
   function handleSidebarClick(button) {
-    const selectedButtonId = button.getAttribute('data-id');
+    const url = button.getAttribute("data-id"); // Lấy URL từ data-id của button
+    console.log("Navigating to:", url);
 
-    // Lưu trạng thái vào LocalStorage
-    localStorage.setItem('activeSidebarButton', selectedButtonId);
+    // Lưu trạng thái active vào localStorage
+    localStorage.setItem('activeSidebarButton', url);
 
-    // Xóa class active khỏi tất cả các nút khác
+    // Xóa trạng thái active khỏi tất cả các nút khác
     document.querySelectorAll('.sidebar-button').forEach(btn => {
       btn.classList.remove('bg-orange-light', 'text-red-normal');
     });
 
-    // Thêm class active vào nút đã chọn
+    // Đánh dấu nút hiện tại là active
     button.classList.add('bg-orange-light', 'text-red-normal');
 
-    // Điều hướng tới trang mới
-    const targetUrl = '<?= site_url("/") ?>' + selectedButtonId;
-    window.location.href = targetUrl;
+    // Chuyển hướng nếu có URL hợp lệ
+    if (url) {
+      window.location.href = url;
+    } else {
+      console.error("Page URL is missing!");
+    }
   }
 
-  // Áp dụng trạng thái active khi tải lại trang
+  // Khi tải lại trang, kiểm tra trạng thái active từ localStorage
   window.addEventListener('load', () => {
-    const activeButtonId = localStorage.getItem('activeSidebarButton');
-    const currentPath = window.location.pathname.replace('<?= site_url("/") ?>', '').toLowerCase();
+    const activeUrl = localStorage.getItem('activeSidebarButton');
+
+    // Lấy phần sau home_url của URL hiện tại
+    const baseUrl = window.location.origin + "/LiteRead/";  // Điều chỉnh nếu home_url khác
+    const currentPath = window.location.href.replace(baseUrl, "").split("/")[0]; // Lấy phần đầu tiên của path
     console.log("Current Path:", currentPath);
+    console.log("Active URL from LocalStorage:", activeUrl);
 
     document.querySelectorAll('.sidebar-button').forEach(button => {
-      button.classList.remove('bg-orange-light', 'text-red-normal');
-      const buttonId = button.getAttribute('data-id').toLowerCase();
+      const buttonPath = button.getAttribute("data-id").replace(baseUrl, "").split("/")[0]; // Tương tự xử lý
+      console.log("Comparing:", buttonPath, "vs", currentPath);
 
-      // Nếu buttonID trùng với đường dẫn hoặc với activeButtonId từ LocalStorage
-      if (buttonId === currentPath || buttonId === activeButtonId) {
-        console.log("Button found:", button);
-        button.classList.add('bg-orange-light', 'text-red-normal');
+      // Nếu buttonPath trùng với currentPath, đặt trạng thái active
+      // if (buttonPath === currentPath) {
+      //   button.classList.add('bg-orange-light', 'text-red-normal');
 
-        // Cập nhật LocalStorage với đường dẫn thực tế để đồng bộ trạng thái
-        localStorage.setItem('activeSidebarButton', buttonId);
-      }
+      //   // Cập nhật LocalStorage với URL thực tế để đồng bộ trạng thái
+      //   localStorage.setItem('activeSidebarButton', button.getAttribute("data-id"));
+      // }
     });
   });
 
-  function adjustSidebarTop() {
-    const header = document.getElementById("header");
-    const sidebar = document.getElementById("sidebar");
-
-    // Lấy chiều cao thực tế của header
-    const headerHeight = header.offsetHeight;
-
-    // Áp dụng giá trị top động cho sidebar
-    sidebar.style.top = headerHeight + "px";
-  }
-
-  // Gọi hàm khi tải trang và khi thay đổi kích thước
-  window.addEventListener("load", adjustSidebarTop);
-  window.addEventListener("resize", adjustSidebarTop);
-
-
   document.addEventListener('DOMContentLoaded', () => {
     const openSidebarBtn = document.getElementById("openSidebarBtn");
-    const overlay = document.getElementById("overlay");
+
     const sidebar = document.getElementById("sidebar");
 
     // Mở sidebar khi nhấp vào nút hamburger
     openSidebarBtn.addEventListener("click", () => {
       sidebar.classList.toggle("-translate-x-full");
-      overlay.classList.toggle("hidden");
     });
 
-    // Đóng sidebar khi nhấp vào lớp phủ
-    overlay.addEventListener("click", () => {
-      sidebar.classList.add("-translate-x-full");
-      overlay.classList.add("hidden");
-    });
   });
 
 </script>

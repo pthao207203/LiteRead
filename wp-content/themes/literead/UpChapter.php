@@ -88,16 +88,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
   }
 }
+$isHome = is_front_page();
+$isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
 
+$screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
+$isMobile = $screen_width < 768;
+echo '<script>console.log(' . $screen_width . ')</script>';
 ?>
-<div class="pb-7 bg-orange-light-active rounded-xl">
-
-  <div class="max-md:max-w-full">
-    <div class="flex gap-5 max-md:flex-col">
-
-
-      <main class="w-full max-md:w-full">
-        <div class="w-full max-md:mt-[1.25rem] max-md:max-w-full">
+<main class="relative flex flex-col mt-[4.425rem]">
+  <div class="w-full max-md:max-w-full">
+    <div class="flex max-md:flex-col">
+      <!-- Sidebar Navigationx -->
+      <?php get_sidebar(); ?>
+      <section id="mainContent"
+        class="transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+        <div class="w-full bg-white  max-md:max-w-full">
           <nav
             class="flex flex-wrap items-center w-full px-[20px] text-[1.125rem] font-medium  bg-white text-red-darker mb-[2px]"
             aria-label="Navigation menu">
@@ -192,10 +197,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             </div>
           </form>
         </div>
-      </main>
+      </section>
     </div>
   </div>
-</div>
+</main>
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {

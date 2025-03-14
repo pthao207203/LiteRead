@@ -1,16 +1,23 @@
 <?php
 /* Template Name: Manage Stories */
+session_start();
+
+$isHome = is_front_page();
+$isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
+
+$screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
+$isMobile = $screen_width < 768;
+echo '<script>console.log(' . $screen_width . ')</script>';
 ?>
 <?php get_header(); ?>
 
-<main class="flex flex-col bg-[#FFE5E1]">
+<main class="relative flex flex-col mt-[4.425rem]">
   <div class="w-full max-md:max-w-full">
-    <div class="flex md:gap-[1.25rem] max-md:flex-col">
+    <div class="flex max-md:flex-col">
       <!-- Sidebar Navigationx -->
-      <?php include "sidebar.php"; ?>
-
-      <!-- Main Content Area -->
-      <section id="mainContent" class="md:w-10/12 flex-grow transition-all max-md:ml-0 max-md:w-full">
+      <?php get_sidebar(); ?>
+      <section id="mainContent"
+        class="flex-grow transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
         <div class="grow w-full bg-white  max-md:max-w-full">
           <!-- Author Profile Section -->
           <section class="flex flex-col justify-center p-[2.25rem] w-full max-md:px-5 max-md:max-w-full">
@@ -201,221 +208,9 @@
               </h2>
 
               <!-- Wrapper cuộn ngang + Grid cho màn hình lớn -->
-              <div
-                class="flex overflow-x-auto md:grid md:grid-cols-6 gap-4 md:gap-11 items-center p-4 pt-[14px] md:p-[34px] md:pt-[28px] bg-red-light scrollbar-thin scrollbar-thumb-red-normal scrollbar-track-red-light md:overflow-x-hidden"
-                role="list">
-
-                <!-- Story Cards (6 items) -->
-                <article class="flex flex-col self-stretch my-auto min-h-[261px] w-[121px] shrink-0 md:w-auto"
-                  role="listitem">
-                  <img loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/103bf3aa31034bd4a5ed1d2543b64cba/2f2af36a820558f250245bf8cbfcf84ed537ec84ec142b2a6eee78e7e09985cc?placeholderIfAbsent=true"
-                    alt="Thiên Quan Tứ Phúc book cover"
-                    class="object-contain rounded-lg aspect-[0.81] w-[121px] md:w-full" />
-                  <span
-                    class="gap-[0.625rem] self-start px-[2px] mt-[4px] md:my-[8px] text-[0.75rem] md:text-[1.5rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Full</span>
-                  <div class="flex flex-col mt-[4px] w-full">
-                    <h3
-                      class="flex-1 shrink gap-[0.625rem] self-stretch w-full text-[1rem] md:text-[1.75rem] font-medium basis-0 text-orange-darker break-words">
-                      Thiên Quan Tứ Phúc
-                    </h3>
-                    <div class="flex gap-1 items-start self-start mt-[4px] ">
-                      <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                      </div>
-                      <span class="text-[0.75rem] md:text-[1.5rem] text-normal text-red-normal md:mt-1.5">4</span>
-                    </div>
-                    <p
-                      class="flex-1 shrink gap-[0.625rem] self-stretch mt-1 w-full text-[0.875rem] md:text-[1.5rem] text-normal text-red-normal basis-0">
-                      Chương 120
-                    </p>
-                  </div>
-                </article>
-
-                <article class="flex flex-col self-stretch my-auto min-h-[261px] w-[121px] shrink-0 md:w-auto"
-                  role="listitem">
-                  <img loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/103bf3aa31034bd4a5ed1d2543b64cba/9dd267289a0cb27a587fb07b7828d086b3fae63f129a511567a0ef797a0cc83e?placeholderIfAbsent=true"
-                    alt="Thiên Quan Tứ Phúc book cover"
-                    class="object-contain rounded-lg aspect-[0.81] w-[121px] md:w-full" />
-                  <span
-                    class="gap-[0.625rem] self-start px-[2px] mt-[4px] md:my-[8px] text-[0.75rem] md:text-[1.5rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Full</span>
-                  <div class="flex flex-col mt-[4px] w-full">
-                    <h3
-                      class="flex-1 shrink gap-[0.625rem] self-stretch w-full text-[1rem] md:text-[1.75rem] font-medium basis-0 text-orange-darker break-words">
-                      Thiên Quan Tứ Phúc
-                    </h3>
-                    <div class="flex gap-1 items-start self-start mt-[4px] ">
-                      <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                      </div>
-                      <span class="text-[0.75rem] md:text-[1.5rem] text-normal text-red-normal md:mt-[6px]">4</span>
-                    </div>
-                    <p
-                      class="flex-1 shrink gap-[0.625rem] self-stretch mt-1 w-full text-[0.875rem] md:text-[1.5rem] text-normal text-red-normal basis-0">
-                      Chương 120
-                    </p>
-                  </div>
-                </article>
-
-                <article class="flex flex-col self-stretch my-auto min-h-[261px] w-[121px] shrink-0 md:w-auto"
-                  role="listitem">
-                  <img loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/103bf3aa31034bd4a5ed1d2543b64cba/f4328ea808e2caa1543ca62e045986f9aa118826c92eb8c55c73ed952790d8d8?placeholderIfAbsent=true"
-                    alt="Thiên Quan Tứ Phúc book cover"
-                    class="object-contain rounded-lg aspect-[0.81] w-[121px] md:w-full" />
-                  <span
-                    class="gap-[0.625rem] self-start px-[2px] mt-[4px] md:my-[8px] text-[0.75rem] md:text-[1.5rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Full</span>
-                  <div class="flex flex-col mt-[4px] w-full">
-                    <h3
-                      class="flex-1 shrink gap-[0.625rem] self-stretch w-full text-[1rem] md:text-[1.75rem] font-medium basis-0 text-orange-darker break-words">
-                      Thiên Quan Tứ Phúc
-                    </h3>
-                    <div class="flex gap-1 items-start self-start mt-[4px] ">
-                      <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                      </div>
-                      <span class="text-[0.75rem] md:text-[1.5rem] text-normal text-red-normal md:mt-[6px]">4</span>
-                    </div>
-                    <p
-                      class="flex-1 shrink gap-[0.625rem] self-stretch mt-1 w-full text-[0.875rem] md:text-[1.5rem] text-normal text-red-normal basis-0">
-                      Chương 120
-                    </p>
-                  </div>
-                </article>
-
-                <article class="flex flex-col self-stretch my-auto min-h-[261px] w-[121px] shrink-0 md:w-auto"
-                  role="listitem">
-                  <img loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/103bf3aa31034bd4a5ed1d2543b64cba/b1809ff9ef1703155c59e3b83491fa28bd0ea26d794044d7fbb24ec732522af2?placeholderIfAbsent=true"
-                    alt="Thiên Quan Tứ Phúc book cover"
-                    class="object-contain rounded-lg aspect-[0.81] w-[121px] md:w-full" />
-                  <span
-                    class="gap-[0.625rem] self-start px-[2px] mt-[4px] md:my-[8px] text-[0.75rem] md:text-[1.5rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Full</span>
-                  <div class="flex flex-col mt-[4px] w-full">
-                    <h3
-                      class="flex-1 shrink gap-[0.625rem] self-stretch w-full text-[1rem] md:text-[1.75rem] font-medium basis-0 text-orange-darker break-words">
-                      Thiên Quan Tứ Phúc
-                    </h3>
-                    <div class="flex gap-1 items-start self-start mt-[4px] ">
-                      <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                      </div>
-                      <span class="text-[0.75rem] md:text-[1.5rem] text-normal text-red-normal md:mt-[6px]">4</span>
-                    </div>
-                    <p
-                      class="flex-1 shrink gap-[0.625rem] self-stretch mt-1 w-full text-[0.875rem] md:text-[1.5rem] text-normal text-red-normal basis-0">
-                      Chương 120
-                    </p>
-                  </div>
-                </article>
-                <article class="flex flex-col self-stretch my-auto min-h-[261px] w-[121px] shrink-0 md:w-auto"
-                  role="listitem">
-                  <img loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/103bf3aa31034bd4a5ed1d2543b64cba/fa1aab32ed4fdfed4b0b89542c9cf41b51378fc0234b82eaf6c095cc0fb135ea?placeholderIfAbsent=true"
-                    alt="Thiên Quan Tứ Phúc book cover"
-                    class="object-contain rounded-lg aspect-[0.81] w-[121px] md:w-full" />
-                  <span
-                    class="gap-[0.625rem] self-start px-[2px] mt-[4px] md:my-[8px] text-[0.75rem] md:text-[1.5rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Full</span>
-                  <div class="flex flex-col mt-[4px] w-full">
-                    <h3
-                      class="flex-1 shrink gap-[0.625rem] self-stretch w-full text-[1rem] md:text-[1.75rem] font-medium basis-0 text-orange-darker break-words">
-                      Thiên Quan Tứ Phúc
-                    </h3>
-                    <div class="flex gap-1 items-start self-start mt-[4px] ">
-                      <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                      </div>
-                      <span class="text-[0.75rem] md:text-[1.5rem] text-normal text-red-normal md:mt-[6px]">4</span>
-                    </div>
-                    <p
-                      class="flex-1 shrink gap-[0.625rem] self-stretch mt-1 w-full text-[0.875rem] md:text-[1.5rem] text-normal text-red-normal basis-0">
-                      Chương 120
-                    </p>
-                  </div>
-                </article>
-                <article class="flex flex-col self-stretch my-auto min-h-[261px] w-[121px] shrink-0 md:w-auto"
-                  role="listitem">
-                  <img loading="lazy"
-                    src="https://cdn.builder.io/api/v1/image/assets/103bf3aa31034bd4a5ed1d2543b64cba/86d511a8c6c88d2970d2c4095ab76500972346f71c79e0b75b8d14fd9940ee36?placeholderIfAbsent=true"
-                    alt="Thiên Quan Tứ Phúc book cover"
-                    class="object-contain rounded-lg aspect-[0.81] w-[121px] md:w-full" />
-                  <span
-                    class="gap-[0.625rem] self-start px-[2px] mt-[4px] md:my-[8px] text-[0.75rem] md:text-[1.5rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]">Full</span>
-                  <div class="flex flex-col mt-[4px] w-full">
-                    <h3
-                      class="flex-1 shrink gap-[0.625rem] self-stretch w-full text-[1rem] md:text-[1.75rem] font-medium basis-0 text-orange-darker break-words">
-                      Thiên Quan Tứ Phúc
-                    </h3>
-                    <div class="flex gap-1 items-start self-start mt-[4px] ">
-                      <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                        <span
-                          class="text-[#FFC700] w-[1rem] h-[1rem] md:w-[1.75rem] md:h-[1.75rem] text-[1rem] md:text-[2rem]">★</span>
-                      </div>
-                      <span class="text-[0.75rem] md:text-[1.5rem] text-normal text-red-normal md:mt-[6px]">4</span>
-                    </div>
-                    <p
-                      class="flex-1 shrink gap-[0.625rem] self-stretch mt-1 w-full text-[0.875rem] md:text-[1.5rem] text-normal text-red-normal basis-0">
-                      Chương 120
-                    </p>
-                  </div>
-                </article>
-
-              </div>
+              <?php include "de-cu.php"; ?>
             </div>
+            <?php get_footer(); ?>
           </section>
 
         </div>
@@ -423,5 +218,3 @@
     </div>
   </div>
 </main>
-
-<?php get_footer(); ?>
