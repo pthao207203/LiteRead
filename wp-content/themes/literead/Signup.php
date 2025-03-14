@@ -106,8 +106,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["signup"])) {
 ?>
 
 <div class="flex overflow-hidden flex-col mx-auto w-full bg-white max-w-[480px]">
-  <div class="flex overflow-hidden flex-col w-full bg-red-100">
-    <div class="flex flex-col px-[17px] pt-[17px] w-full text-[18px] text-red-dark bg-white min-h-[779px]">
+  <div class="flex overflow-hidden flex-col w-full">
+    <div class="flex flex-col px-[1.0625rem] pt-[1.0625rem] mt-[3.5rem] w-full text-[1.5rem] text-red-dark bg-white min-h-[779px]">
       <form method="POST">
       <div class="flex flex-col w-full tracking-wide leading-none">
         <label for="emailOrPhone" class="font-semibold">Email</label>
@@ -143,7 +143,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["signup"])) {
           <?php endif; ?>
         </div>
 
-        <div class="mt-[12px] w-full text-[16px] font-medium text-center text-stone-500">
+        <div class="mt-[12px] w-full text-[1.5rem] font-medium text-center text-stone-500">
           <span class="text-red-dark">Bạn đã có tài khoản?</span>
           <a href="<?php echo esc_url(home_url('/dang-nhap')); ?>" class="hover:no-underline hover:text-red-darker font-semibold text-red-dark-hover  text-[16px] ">Đăng ký</a>
         </div>
