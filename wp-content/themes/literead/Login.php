@@ -1,8 +1,55 @@
 <?php
 /* Template Name: Login */
-get_header(); 
+ob_start();
+get_header();
 
+global $wpdb;
+$users_literead = $wpdb->prefix . 'users_literead';
+
+$error_message = "";
+$user_data = null;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $emailOrPhone = ($_POST['emailOrPhone']);
+    $password = ($_POST['password']);
+   // echo "<script>console.log('".$emailOrPhone."');</script>";
+    
+    // Lấy thông tin người dùng từ database
+    $user = $wpdb->get_row($wpdb->prepare(
+        "SELECT * FROM $users_literead WHERE email = %s OR phone = %s",
+        $emailOrPhone, $emailOrPhone
+    ));
+    //echo "<script>console.log('".$user->password."');</script>";
+
+    // echo "<script>window.alert(".$emailOrPhone.")</script>";
+    
+    if ($user) {
+        // Kiểm tra mật khẩu
+        // echo "<script>console.log('Password nhập vào: " . $password . "');</script>";
+        //echo "<script>console.log('Password trong DB: " . $user->password . "');</script>";
+        if (wp_check_password($password, $user->password)) {
+            // Đăng nhập thành công, lấy thông tin người dùng để hiển thị
+            $user_data = [
+                'user_name' => $user->user_name,
+                'email' => $user->email,
+                //'full_name' => $user->full_name
+            ];
+           // echo "<script>console.log('Do');</script>";
+
+            setcookie("signup_token", $user->token, time() + (7 * 24 * 60 * 60), "/", "", false, true);
+
+            wp_redirect(home_url('/'));
+        } else {
+          //echo "<script>console.log('loi');</script>";
+            $error_message2 = "Mật khẩu không đúng.";
+        }
+    } else {
+        $error_message = "Email hoặc số điện thoại không tồn tại.";
+    }
+}
 ?>
+
+
 <div
   class="flex overflow-hidden flex-col mx-auto w-full bg-white max-w-[428px]"
 >
@@ -10,16 +57,20 @@ get_header();
   <div
     class="flex flex-col px-[17px] pt-[17px] w-full text-red-dark bg-white min-h-[779px] text-[18px] "
   >
-    <form>
+  <form method="POST">
       <div class="flex flex-col w-full tracking-wide leading-none ">
         <label for="emailOrPhone" class="font-semibold">Email hoặc số điện thoại</label>
         <input
           type="text"
+          name="emailOrPhone"
           id="emailOrPhone"
           class="flex overflow-hidden flex-col justify-center px-[12px] py-[12px] mt-[8px] w-full whitespace-nowrap border-b border-solid border-red-dark"
           placeholder="123@gmail.com"
         />
       </div>
+      <?php if (!empty($error_message)): ?>
+        <p style="color: red;"><?php echo esc_html($error_message); ?></p>
+      <?php endif; ?>
       <div class="flex flex-col mt-[12px] w-full leading-none">
         <label for="password" class="font-semibold tracking-wide">Mật khẩu</label>
         <div
@@ -27,16 +78,20 @@ get_header();
         >
           <input
             type="password"
+            name="password"
             id="password"
             class="flex-1 shrink self-stretch my-auto opacity-60 basis-0"
             value="**********"
           />
         </div>
+        <?php if (!empty($error_message2)): ?>
+        <p style="color: red;"><?php echo esc_html($error_message2); ?></p>
+      <?php endif; ?>
         <button class="mt-[8px] text-[16px] font-medium text-right">Quên mật khẩu</button>
       </div>
       <div class="mt-[12px] w-full text-base font-medium text-center text-stone-500">
         <span class="text-red-dark  text-[16px] ">Bạn chưa có tài khoản?</span>
-        <button class="font-semibold text-red-dark-hover  text-[16px] ">Đăng ký</button>
+        <a href="<?php echo esc_url(home_url('/dang-ky')); ?>" class="hover:no-underline hover:text-red-darker font-semibold text-red-dark-hover  text-[16px] ">Đăng ký</a>
       </div>
       <button
         type="submit"

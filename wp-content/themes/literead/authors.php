@@ -2,6 +2,7 @@
 <?php
 /*template name: Authors */
 get_header();
+
 ?>
 
 <div class="bg-white">
