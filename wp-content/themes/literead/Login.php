@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if ($user) {
         // Kiểm tra mật khẩu
-       // echo "<script>console.log('Password nhập vào: " . $password . "');</script>";
+        // echo "<script>console.log('Password nhập vào: " . $password . "');</script>";
         //echo "<script>console.log('Password trong DB: " . $user->password . "');</script>";
         if (wp_check_password($password, $user->password)) {
             // Đăng nhập thành công, lấy thông tin người dùng để hiển thị
@@ -40,8 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             wp_redirect(home_url('/'));
         } else {
-          echo "<script>console.log('loi');</script>";
-            $error_message = "Mật khẩu không đúng.";
+          //echo "<script>console.log('loi');</script>";
+            $error_message2 = "Mật khẩu không đúng.";
         }
     } else {
         $error_message = "Email hoặc số điện thoại không tồn tại.";
@@ -68,6 +68,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           placeholder="123@gmail.com"
         />
       </div>
+      <?php if (!empty($error_message)): ?>
+        <p style="color: red;"><?php echo esc_html($error_message); ?></p>
+      <?php endif; ?>
       <div class="flex flex-col mt-[12px] w-full leading-none">
         <label for="password" class="font-semibold tracking-wide">Mật khẩu</label>
         <div
@@ -81,11 +84,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             value="**********"
           />
         </div>
+        <?php if (!empty($error_message2)): ?>
+        <p style="color: red;"><?php echo esc_html($error_message2); ?></p>
+      <?php endif; ?>
         <button class="mt-[8px] text-[16px] font-medium text-right">Quên mật khẩu</button>
       </div>
       <div class="mt-[12px] w-full text-base font-medium text-center text-stone-500">
         <span class="text-red-dark  text-[16px] ">Bạn chưa có tài khoản?</span>
-        <button class="font-semibold text-red-dark-hover  text-[16px] ">Đăng ký</button>
+        <a href="<?php echo esc_url(home_url('/dang-ky')); ?>" class="hover:no-underline hover:text-red-darker font-semibold text-red-dark-hover  text-[16px] ">Đăng ký</a>
       </div>
       <button
         type="submit"
