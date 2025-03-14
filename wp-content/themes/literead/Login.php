@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 >
 
   <div
-    class="flex flex-col px-[17px] pt-[17px] w-full text-red-dark bg-white min-h-[779px] text-[18px] "
+    class="flex flex-col px-[1.0625rem] pt-[1.0625rem] mt-[3.5rem] w-full text-red-dark bg-white min-h-[779px] text-[1.5rem] "
   >
   <form method="POST">
       <div class="flex flex-col w-full tracking-wide leading-none ">
@@ -87,11 +87,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php if (!empty($error_message2)): ?>
         <p style="color: red;"><?php echo esc_html($error_message2); ?></p>
       <?php endif; ?>
-        <button class="mt-[8px] text-[16px] font-medium text-right">Quên mật khẩu</button>
+        <button class="mt-[8px] text-[1.5rem] font-medium text-right">Quên mật khẩu</button>
       </div>
       <div class="mt-[12px] w-full text-base font-medium text-center text-stone-500">
-        <span class="text-red-dark  text-[16px] ">Bạn chưa có tài khoản?</span>
-        <a href="<?php echo esc_url(home_url('/dang-ky')); ?>" class="hover:no-underline hover:text-red-darker font-semibold text-red-dark-hover  text-[16px] ">Đăng ký</a>
+        <span class="text-red-dark  text-[1.5rem] ">Bạn chưa có tài khoản?</span>
+        <a href="<?php echo esc_url(home_url('/dang-ky')); ?>" class="hover:no-underline hover:text-red-darker font-semibold text-red-dark-hover  text-[1.5rem] ">Đăng ký</a>
       </div>
       <button
         type="submit"
@@ -106,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <div
         class="flex-1 shrink self-stretch my-auto h-0 border-b border-solid border-red-dark-hover basis-5 w-[116.5px]"
       ></div>
-      <div class="self-stretch px-2.5 my-auto w-[141px] text-[16px] "> 
+      <div class="self-stretch px-2.5 my-auto w-[141px] text-[1.5rem] "> 
         Đăng nhập với
       </div>
       <div
