@@ -6,6 +6,10 @@ get_header();
 global $wpdb;
 $users_literead = $wpdb->prefix . 'users_literead';
 
+if (!$wpdb->get_var("SHOW COLUMNS FROM $users_literead LIKE 'password'")) {
+  $wpdb->query("ALTER TABLE $users_literead ADD COLUMN password TEXT NOT NULL");
+}
+
 if ($wpdb->get_var("SHOW TABLES LIKE '$users_literead'") != $users_literead) {
   $charset_collate = $wpdb->get_charset_collate();
 
@@ -65,12 +69,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["signup"])) {
       if ($existing_user > 0) {
           $error_user = "Email này đã được sử dụng!";
       } else {
-          // Tạo token đăng ký 20 ký tự
-          $token = wp_generate_password(20, false);
-          $activation_link = home_url("/signup/?token=" . $token);
-
           // Mã hóa mật khẩu
           $hashed_password = wp_hash_password($password);
+
+          // Tạo token đăng ký 20 ký tự
+          $token = wp_generate_password(20, false);
 
           // Thêm dữ liệu vào bảng
           $wpdb->insert(
@@ -82,17 +85,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["signup"])) {
                   "email" => $email,
                   "slug" => sanitize_title($email),
                   "token" => $token,
+                  "password" => $hashed_password, // Lưu mật khẩu vào DB
                   "status" => 'pending',
                   "created_at" => current_time('mysql'),
               ],
-              ["%s", "%s", "%s", "%s", "%s", "%s", "%s"]
-          ); 
+              ["%s", "%s", "%s", "%s", "%s", "%s", "%s", "%s"]
+          );
+
+          // Lưu token vào cookie
           setcookie("signup_token", $token, time() + (7 * 24 * 60 * 60), "/", "", false, true);
+
           wp_redirect(home_url('/'));
-        }
+          exit;
       }
+  }
 }
 ?>
+
 
 <div class="flex overflow-hidden flex-col mx-auto w-full bg-white max-w-[480px]">
   <div class="flex overflow-hidden flex-col w-full bg-red-100">
