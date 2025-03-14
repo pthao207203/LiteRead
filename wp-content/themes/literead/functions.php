@@ -1,5 +1,7 @@
 <?php
 // function dùng cho toàn bộ page 
+add_filter('show_admin_bar', '__return_false');
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -32,6 +34,25 @@ function time_ago($datetime)
     return floor($diff / 31536000) . " năm trước";
   }
 }
+
+// Xử lý request lưu kích thước màn hình mà không cần file riêng
+function save_screen_size()
+{
+  session_start();
+
+  if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['width'], $_POST['height'])) {
+    $_SESSION['screen_width'] = intval($_POST['width']);
+    $_SESSION['screen_height'] = intval($_POST['height']);
+    wp_send_json_success([
+      'message' => "Session đã lưu: {$_SESSION['screen_width']}x{$_SESSION['screen_height']}"
+    ]);
+  } else {
+    wp_send_json_error(['message' => "Dữ liệu không hợp lệ"]);
+  }
+}
+add_action('wp_ajax_save_screen_size', 'save_screen_size');
+add_action('wp_ajax_nopriv_save_screen_size', 'save_screen_size');
+
 // --------------------------------------------------
 
 // Thêm truyện 

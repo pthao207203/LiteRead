@@ -5,10 +5,10 @@ get_header();
 
 <main class="flex flex-col bg-[#FFE5E1]">
     <div class="w-full max-md:max-w-full">
-        <div class="flex gap-[1.25rem] max-md:flex-col">
-          <!-- Sidebar Navigation -->
-        <?php get_sidebar(); ?>
-          <div class="flex flex-col w-[84%] max-md:ml-0 max-md:w-full">
+    <div class="flex max-md:flex-col">
+      <!-- Sidebar Navigation -->
+      <?php get_sidebar(); ?>
+      <section id="mainContent" class="md:w-10/12 md:ml-[1.25rem] bg-white flex-grow transition-all max-md:ml-0 max-md:w-full">
             <div class="flex flex-col grow w-full bg-white max-md:mt-5 max-md:max-w-full">
               <div class="flex flex-col justify-center items-start p-10 w-full max-md:px-6 max-md:max-w-full">
                 <div class="flex flex-wrap gap-6 items-end self-stretch w-full font-medium text-[#A04D4C] max-md:max-w-full">

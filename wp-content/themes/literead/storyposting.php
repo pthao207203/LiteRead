@@ -193,7 +193,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update_profile"])) {
               </section>
             </form>
 
-
             <section class="mt-12 max-md:mt-10">
               <h2
                 class="gap-2 self-stretch px-[1.25rem] py-[0.625rem] text-[1.875rem] text-[#D56665] bg-[#FFF2F0] rounded-xl font-medium w-fit">
