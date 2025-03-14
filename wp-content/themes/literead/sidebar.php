@@ -10,7 +10,7 @@ if (!$isHome && !$isSingleTruyen) {
 ?>
 <aside id="sidebar"
   class="z-[60] w-auto overflow-y-auto max-md:w-auto font-medium max-sm:text-[1rem] md:text-[1.5rem] transition-all duration-200 ease-in-out
-       max-md:hidden bg-[#FFE5E1] md:block <?= ($isHome || $isSingleTruyen) ? 'hidden absolute' : 'md:fixed top-[4.425rem] left-0 ' ?>">
+       max-md:hidden bg-[#FFE5E1] md:block <?= ($isHome || $isSingleTruyen) ? 'hidden absolute' : 'fixed top-[4.425rem] left-0 ' ?>">
   <nav class="flex flex-col justify-between py-[1.25rem] min-h-[calc(100vh-4.425rem)] bg-red-normal shadow-lg mx-auto">
     <ul class="flex flex-col flex-1 w-full font-medium leading-none text-orange-light">
       <li>
@@ -190,6 +190,7 @@ if (!$isHome && !$isSingleTruyen) {
         sidebar.classList.toggle("w-0", sidebar.classList.contains("w-auto"));
         sidebar.classList.toggle("w-auto", !sidebar.classList.contains("w-auto"));
         mainContent.classList.toggle("md:ml-0");
+        mainContent.classList.toggle("pl-[19.5rem]");
       }
     });
 
