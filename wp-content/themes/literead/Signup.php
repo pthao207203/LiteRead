@@ -150,7 +150,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["signup"])) {
 
         <button type="submit" name="signup"
           class="gap-2.5 self-stretch py-[16px] mt-[12px] w-full font-medium text-center text-orange-light bg-red-normal rounded-[8px] hover:bg-red-light hover:text-red-normal transition-colors duration-300">
-          Đăng ký
+          Đăng nhập
         </button>
       </form>
     </div>

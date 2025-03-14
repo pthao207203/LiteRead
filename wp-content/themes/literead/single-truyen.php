@@ -440,13 +440,6 @@ document.getElementById("toggle-btn").addEventListener("click", function (event)
     .then(data => {
         if (data.success) {
             alert(data.data.message); // Hiển thị thông báo từ server
-
-            // Cập nhật lại hình ảnh nếu đã lưu
-            if (data.data.status === 'saved') {
-                img.src = img2; // Cập nhật ảnh khi đã lưu
-            } else if (data.data.status === 'already_saved') {
-                img.src = img1; // Cập nhật ảnh khi chưa lưu
-            }
         } else {
             alert(data.data.message); // Hiển thị lỗi từ server
         }
@@ -456,35 +449,6 @@ document.getElementById("toggle-btn").addEventListener("click", function (event)
     });
 });
 
-// Khi trang được tải lại, kiểm tra trạng thái đã lưu hay chưa và cập nhật nút
-document.addEventListener("DOMContentLoaded", function() {
-    const img = document.getElementById("toggle-img");
-    const img1 = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png";
-    const img2 = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/tkn6hjhe.png";
-
-    // Gửi request kiểm tra trạng thái
-    const formData = new FormData();
-    formData.append('action', 'check_story_status');
-    formData.append('story_id', <?php echo esc_js($story->id); ?>);
-
-    fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Cập nhật lại trạng thái hình ảnh
-            if (data.data.status === 'saved') {
-                img.src = img2; // Nếu đã lưu, thay đổi ảnh
-            } else {
-                img.src = img1; // Nếu chưa lưu, giữ ảnh ban đầu
-            }
-        } else {
-            console.log('Không thể kiểm tra trạng thái.');
-        }
-    });
-});
 
 </script>
 

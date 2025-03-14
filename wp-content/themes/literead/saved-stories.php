@@ -25,13 +25,14 @@ $user_id = $user_info->id;  // Lấy user_id từ thông tin người dùng
 $favorites_table = $wpdb->prefix . 'users_likes';
 $stories_table = $wpdb->prefix . 'stories';
 
-$saved_stories = $wpdb->get_results($wpdb->prepare(
-    "SELECT s.* FROM $favorites_table ul
-     JOIN $stories_table s ON ul.story_id = s.ID
-     WHERE ul.user_id = %d",
-    $user_id
-));
-
+$saved_stories = $wpdb->get_results(
+  $wpdb->prepare(
+      "SELECT s.* FROM {$wpdb->prefix}users_likes ul
+       JOIN {$wpdb->prefix}stories s ON ul.story_id = s.id
+       WHERE ul.user_id = %d",
+      $user_id
+  )
+);
 
 ?>
 
