@@ -94,8 +94,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["signup"])) {
 }
 ?>
 
-<div class="flex overflow-hidden flex-col mx-auto w-full bg-white max-w-[480px]">
-  <div class="flex overflow-hidden flex-col w-full bg-red-100">
+<div class="flex flex-col relative mt-[7.925rem] mx-auto w-full bg-white max-w-[480px]">
+  <div class="flex overflow-hidden flex-col w-full">
     <div class="flex flex-col px-[17px] pt-[17px] w-full text-[18px] text-red-dark bg-white min-h-[779px]">
       <form method="POST">
         <div class="flex flex-col w-full tracking-wide leading-none">

@@ -1,6 +1,7 @@
 <?php
 /* Template Name: Manage Stories */
 session_start();
+get_header();
 
 $isHome = is_front_page();
 $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
@@ -8,8 +9,55 @@ $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Ki�
 $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
 $isMobile = $screen_width < 768;
 echo '<script>console.log(' . $screen_width . ')</script>';
+
+global $wpdb;
+// Kiểm tra đăng nhập
+if (!isset($_COOKIE['signup_token'])) {
+  echo "<p class='text-center text-red-500 font-bold text-lg'>Bạn cần đăng nhập để quản lý truyện.</p>";
+  get_footer();
+  exit;
+}
+
+// Lấy thông tin user từ bảng `users_literead`
+  $users_literead = $wpdb->prefix . "users_literead";
+  $user = $wpdb->get_row($wpdb->prepare(
+  "SELECT * FROM $users_literead WHERE token = %s",
+  $_COOKIE['signup_token']
+  ));
+
+  $user_id = $user->id;
+  $author_name = esc_html($user->full_name ?: "Tác giả");
+  
+  // Lấy số liệu thống kê truyện của tác giả
+  $story_stats = $wpdb->get_results($wpdb->prepare(
+    "SELECT post_status, COUNT(*) as count FROM {$wpdb->prefix}posts 
+    WHERE post_author = %d AND post_type = 'post' 
+    GROUP BY post_status",
+    $user_id
+  ));
+  
+  $approved_count = 0;
+  $pending_count = 0;
+  $draft_count = 0;
+  
+  foreach ($story_stats as $stat) {
+    if ($stat->post_status == 'publish') $approved_count = $stat->count;
+    if ($stat->post_status == 'pending') $pending_count = $stat->count;
+    if ($stat->post_status == 'draft') $draft_count = $stat->count;
+  }
+  
+  // Lấy danh sách truyện của tác giả
+  $stories = $wpdb->get_results($wpdb->prepare(
+    "SELECT p.ID, p.post_title, p.post_status, p.post_date, pm.meta_value as thumbnail
+    FROM {$wpdb->prefix}posts p
+    LEFT JOIN {$wpdb->prefix}postmeta pm ON p.ID = pm.post_id AND pm.meta_key = '_thumbnail_id'
+    WHERE p.post_author = %d AND p.post_type = 'post'
+    ORDER BY p.post_date DESC",
+    $user_id
+  ));
+
 ?>
-<?php get_header(); ?>
+
 
 <main class="relative flex flex-col mt-[4.425rem]">
   <div class="w-full max-md:max-w-full">
@@ -23,7 +71,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
           <section class="flex flex-col justify-center p-[2.25rem] w-full max-md:px-5 max-md:max-w-full">
             <h2
               class="self-center text-[1.25rem] md:text-[2rem] font-bold leading-none text-center text-red-dark uppercase max-md:max-w-full">
-              Nguyệt hạ
+              <? echo esc_html($author) ?>
             </h2>
 
             <!-- Author Stats -->

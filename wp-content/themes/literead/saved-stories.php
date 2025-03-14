@@ -8,6 +8,11 @@ $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width'
 $isMobile = $screen_width < 768;
 echo '<script> console.log(' . $screen_width . ')</script>';
 
+// Lấy thông tin từ bảng wp_users_literead
+$users_literead = $wpdb->prefix . "users_literead";
+$user_info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $users_literead WHERE token = %s", $_COOKIE['signup_token']));
+
+
 ?>
 
 <main class="relative flex flex-col mt-[4.425rem]">
