@@ -47,25 +47,31 @@ if (!empty($_POST["action"]) && $_POST["action"] === "withdraw_coins") {
   $current_balance = intval($user->coin);
   $new_balance = $current_balance - $withdrawAmount;
 
-  if ($new_balance < 0) {
-    echo json_encode(["status" => "error", "message" => "Số dư không đủ!"]);
-    wp_die();
-  }
+    // Lấy lại số dư để kiểm tra cập nhật thành công
+    $check_balance = intval($wpdb->get_var($wpdb->prepare(
+        "SELECT coin FROM wp_users_literead WHERE id = %d",
+        $user_id
+    )));
 
-  // Bắt đầu giao dịch SQL
-  $wpdb->query('START TRANSACTION');
+    if ($update_result && $check_balance === $new_balance) {
+        // Ghi lịch sử giao dịch
+        $wpdb->insert('wp_wallet_history', [
+            'user_id'         => $user_id,
+            'before_balance'  => $current_balance,
+            'amount'          => -$withdrawAmount,
+            'after_balance'   => $new_balance,
+            'transaction_type'=> 'withdraw',
+            'created_at'      => current_time('mysql')
+        ]);
 
-  // Cập nhật số dư an toàn
-  $update_result = $wpdb->query($wpdb->prepare(
-    "UPDATE wp_users_literead SET coin = coin - %d WHERE id = %d AND coin >= %d",
-    $withdrawAmount,
-    $user_id,
-    $withdrawAmount
-  ));
-  echo "<script>console.log(1)</script>";
-  if ($wpdb->last_error) {
-    $wpdb->query('ROLLBACK');
-    echo json_encode(["status" => "error", "message" => "Lỗi SQL: " . $wpdb->last_error]);
+        // Xác nhận giao dịch
+        $wpdb->query('COMMIT');
+        //Trả về kết quả
+        echo json_encode(["status" => 200, "message" => "Rút $withdrawAmount xu thành công!", "new_balance" => $new_balance]);
+    } else {
+        $wpdb->query('ROLLBACK');
+        echo json_encode(["status" => "error", "message" => "Lỗi khi cập nhật số dư!"]);
+    }
     wp_die();
   }
 
