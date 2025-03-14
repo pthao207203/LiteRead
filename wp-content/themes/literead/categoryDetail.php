@@ -91,7 +91,6 @@ if (!empty($category_name)) {
     </div>
   </section>
 
-
   <div class="flex flex-col w-full rounded-none lg:mt-[8px]">
       <!-- Tiêu đề -->
       <h2 class="gap-2.5 self-start p-[10px] lg:px-[20px] ml-[17px] lg:ml-[34px] mb-[-3px] text-[18px] lg:text-[1.875rem] font-medium text-red-normal bg-red-light rounded-tl-[12px] rounded-tr-[12px]">
@@ -238,7 +237,5 @@ if (!empty($category_name)) {
       </div>
     </div>
 </div>
-
-
 
 <?php get_footer(); ?>
