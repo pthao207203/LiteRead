@@ -6,6 +6,9 @@ if (!$isHome && !$isSingleTruyen) {
   $slug_parts = explode('/', $current_path);
   $current_slug = $slug_parts[1];
 }
+$screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
+$isMobile = $screen_width < 768;
+echo '<script>console.log(' . $screen_width . ')</script>';
 // echo $current_slug;
 ?>
 <aside id="sidebar"
@@ -181,7 +184,7 @@ if (!$isHome && !$isSingleTruyen) {
       const isMobile = window.innerWidth < 768;
       if (isHomeOrSingleTruyen) {
         sidebar.classList.toggle("hidden", sidebar.classList.contains("block"));
-        
+
       }
       if (isMobile) {
         sidebar.classList.toggle("max-md:hidden", sidebar.classList.contains("block"));

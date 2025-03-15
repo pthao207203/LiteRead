@@ -7,6 +7,8 @@ if (!isset($_COOKIE['signup_token']) || empty($_COOKIE['signup_token'])) {
   exit();
 }
 
+global $wpdb;
+
 $signup_token = sanitize_text_field($_COOKIE['signup_token']);
 $users_literead = $wpdb->prefix . "users_literead";
 
@@ -379,4 +381,3 @@ echo '<script>console.log(' . $screen_width . ')</script>';
 
 
 </script>
-<?php get_footer(); ?>
