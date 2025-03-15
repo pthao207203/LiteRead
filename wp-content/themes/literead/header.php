@@ -77,9 +77,12 @@
       </div>
     <?php endif; ?>
 
-    <h1 class="flex-1 shrink self-stretch my-auto text-[24px] md:text-[2rem] text-[#D66766] font-[Moul] basis-0">
-      LiteRead
-    </h1>
+    <a href="<?php echo esc_url(home_url('/')); ?>"
+      class="hover:no-underline hover:text-orange-dark text-orange-darker">
+      <h1 class="flex-1 shrink self-stretch my-auto text-[24px] md:text-[2rem] text-[#D66766] font-[Moul] basis-0">
+        LiteRead
+      </h1>
+    </a>
 
     <form role="search"
       class="flex items-center gap-[1.25rem] my-auto px-[1.25rem] max-md:p-[0.625rem] py-[0.625rem] bg-white max-h-[3.125rem] rounded-full w-full max-md:w-auto">

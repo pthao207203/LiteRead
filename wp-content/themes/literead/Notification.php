@@ -101,7 +101,6 @@ echo '<script> console.log(' . $screen_width . ')</script>';
             </article>
           </section>
         </header>
-        <?php get_footer(); ?>
       </section>
     </div>
   </div>

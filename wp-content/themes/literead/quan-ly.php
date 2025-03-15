@@ -103,7 +103,7 @@ if (!$user) {
                 <article
                   class="flex flex-col flex-1 shrink justify-center gap-[1.25rem] p-[1.25rem] bg-orange-light-hover rounded-xl basis-0  max-md:max-w-full">
                   <p class="text-[1rem] md:text-[1.75rem]"><?php echo esc_html($total_stories_full); ?></p>
-                  <h3 class="text-[0.875rem] md:text-[1.5rem] font-semibold">Truyện đã hoàn thành</h3>
+                  <h3 class="text-[0.875rem] md:text-[1.5rem] font-semibold">Đã hoàn thành</h3>
                 </article>
               </div>
 
@@ -163,9 +163,12 @@ if (!$user) {
                     class="object-contain rounded-2xl aspect-[0.72] max-h-[23rem] md:w-[16.625rem] w-1/3"
                     alt=<?php echo esc_html($story->story_name); ?> />
                   <div class="flex flex-col justify-center items-start">
-                    <h3 class="gap-[0.625rem] self-stretch w-full text-[1rem] md:text-[1.75rem] font-medium">
-                    <?php echo esc_html($story->story_name) ?>
-                    </h3>
+                    <a href="<?php echo esc_url(home_url('/quan-ly-truyen/' . $story->slug)); ?>"
+                    class="hover:no-underline hover:text-orange-dark text-orange-darker">
+                      <h3 class="gap-[0.625rem] self-stretch w-full text-[1rem] md:text-[1.75rem] font-medium">
+                      <?php echo esc_html($story->story_name) ?>
+                      </h3>
+                    </a>
                     <p class="gap-[0.625rem] self-stretch mt-[0.5rem]">Số chữ: 24.7K</p>
                     <p class="gap-[0.625rem] self-stretch mt-[0.5rem]">
                       Trạng thái:
