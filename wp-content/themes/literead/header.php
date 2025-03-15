@@ -66,23 +66,26 @@
   <!-- === Header === -->
   <header
     class="fixed top-0 left-0 flex items-center md:px-[2.125rem] md:py-[0.625rem] p-[0.625rem] gap-[1rem] md:gap-[2.875rem] w-full bg-orange-light-active z-50">
-    <?php if (!is_page_template(['Signup.php', 'Login.php'])) : ?>
-    <div class="flex gap-2.5 items-center ">
-      <!-- Nút Hamburger mở Sidebar -->
-      <button id="openSidebarBtn" class="w-[30px] max-md:w-[1.8rem]" aria-label="Menu">
-        <div class="w-full bg-red-normal h-[0.125rem] rounded-full"></div>
-        <div class="mt-1.5 w-full bg-red-normal h-0.5 rounded-full"></div>
-        <div class="mt-1.5 w-full bg-red-normal h-0.5 rounded-full"></div>
-      </button>
-    </div>
+    <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
+      <div class="flex gap-2.5 items-center ">
+        <!-- Nút Hamburger mở Sidebar -->
+        <button id="openSidebarBtn" class="w-[30px] max-md:w-[1.8rem]" aria-label="Menu">
+          <div class="w-full bg-red-normal h-[0.125rem] rounded-full"></div>
+          <div class="mt-1.5 w-full bg-red-normal h-0.5 rounded-full"></div>
+          <div class="mt-1.5 w-full bg-red-normal h-0.5 rounded-full"></div>
+        </button>
+      </div>
     <?php endif; ?>
 
-    <h1 class="flex-1 shrink self-stretch my-auto text-[24px] md:text-[2rem] text-[#D66766] font-[Moul] basis-0">
-      LiteRead
-    </h1>
+    <a href="<?php echo esc_url(home_url('/')); ?>"
+      class="hover:no-underline hover:text-orange-dark text-orange-darker">
+      <h1 class="flex-1 shrink self-stretch my-auto text-[24px] md:text-[2rem] text-[#D66766] font-[Moul] basis-0">
+        LiteRead
+      </h1>
+    </a>
 
     <form role="search"
-      class="flex items-center gap-[1.25rem] px-[1.25rem] max-md:p-[0.625rem] py-[0.625rem] bg-white max-h-[3.125rem] rounded-full w-full max-md:w-auto">
+      class="flex items-center gap-[1.25rem] my-auto px-[1.25rem] max-md:p-[0.625rem] py-[0.625rem] bg-white max-h-[3.125rem] rounded-full w-full max-md:w-auto">
       <!-- Nút tìm kiếm -->
       <button type="submit" aria-label="Search" class="flex justify-center items-center">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
