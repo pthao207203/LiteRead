@@ -171,7 +171,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
             </form>
 
             <!-- Pop-up xác nhận rút xu -->
-            <div id="confirmPopup" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div id="confirmPopup" class="hidden fixed inset-0 items-center justify-center bg-black bg-opacity-50">
               <div class="bg-white rounded-3xl p-[3rem] shadow-lg text-center w-[36rem]">
                 <!-- <img src="<?php echo esc_url(get_template_directory_uri() . '/wp-content/plugins/akismet/_inc/img/Group26.svg'); ?>" alt="Warning Icon" class="w-16 h-16 mx-auto"> -->
                 <p class="text-3xl text-black my-[2rem]">Xác nhận rút <span id="confirmAmount"></span> xu?</p>

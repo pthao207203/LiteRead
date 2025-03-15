@@ -65,7 +65,8 @@ echo '<script> console.log(' . $screen_width . ')</script>';
     <div class="flex max-md:flex-col">
       <!-- Sidebar Navigationx -->
       <?php get_sidebar(); ?>
-      <div id="mainContent" class="md:w-10/12 flex-grow transition-all max-md:ml-0 max-md:w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+      <div id="mainContent"
+        class="md:w-10/12 flex-grow transition-all max-md:ml-0 max-md:w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
         <div class="flex flex-col pt-[17px] w-full">
           <!-- Title -->
           <h1 class="lg:text-[1.875rem] text-[18px] lg:px-[56px] px-[17px] font-semibold text-red-darker text-left ">
