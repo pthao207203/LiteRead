@@ -1,19 +1,22 @@
 <?php
 
 // Kiểm tra nếu user chưa đăng nhập
-if (!isset($_COOKIE['signup_token'])) {
-  echo "<script>alert('Bạn cần đăng nhập để xem trang này!'); window.location.href='/wp-login.php';</script>";
-  wp_redirect(home_url('/dang-ky'));
+if (!isset($_COOKIE['signup_token']) || empty($_COOKIE['signup_token'])) {
+  echo "<script>alert('Bạn cần đăng nhập để xem trang này!');</script>";
+  wp_redirect(home_url('/dang-nhap'));
   exit();
 }
 
-// Lấy thông tin từ bảng wp_users_literead
+$signup_token = sanitize_text_field($_COOKIE['signup_token']);
 $users_literead = $wpdb->prefix . "users_literead";
-$user_info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $users_literead WHERE token = %s", $_COOKIE['signup_token']));
 
-if (!isset($_COOKIE['signup_token'])) {
+// Lấy thông tin người dùng
+$user_info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $users_literead WHERE token = %s", $signup_token));
+
+if (!$user_info) {
   echo "<script>alert('Không tìm thấy thông tin người dùng. Vui lòng liên hệ với quản trị viên!');</script>";
-  wp_redirect(home_url('/'));
+  wp_redirect(home_url('/dang-nhap'));
+  exit();
 }
 
 global $wpdb;

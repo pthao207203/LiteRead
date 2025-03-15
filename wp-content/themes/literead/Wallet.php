@@ -1,13 +1,13 @@
-<?php 
+<?php
 /* Template Name: Wallet */
 get_header();
 global $wpdb;
 $table_name = $wpdb->prefix . 'wallet_history';
 
 if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
-    $charset_collate = $wpdb->get_charset_collate();
+  $charset_collate = $wpdb->get_charset_collate();
 
-    $sql = "CREATE TABLE $table_name (
+  $sql = "CREATE TABLE $table_name (
         id MEDIUMINT(9) UNSIGNED NOT NULL AUTO_INCREMENT,
         user_id BIGINT(20) UNSIGNED NOT NULL,
         before_balance INT UNSIGNED NOT NULL,
@@ -19,53 +19,33 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
         KEY user_id (user_id)
     ) $charset_collate;";
 
-    require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-    dbDelta($sql);
+  require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+  dbDelta($sql);
 }
 
 $user_id = get_current_user_id();
 
 // Xử lý AJAX rút xu
 if (!empty($_POST["action"]) && $_POST["action"] === "withdraw_coins") {
-    header("Content-Type: application/json");
+  header("Content-Type: application/json");
 
-    $withdrawAmount = intval($_POST["withdrawAmount"] ?? 0);
+  $withdrawAmount = intval($_POST["withdrawAmount"] ?? 0);
 
-    // Kiểm tra số xu hợp lệ
-    if ($withdrawAmount <= 0) {
-        echo json_encode(["status" => "error", "message" => "Số xu phải lớn hơn 0!"]);
-        exit;
-    }
+  // Kiểm tra số xu hợp lệ
+  if ($withdrawAmount <= 0) {
+    echo json_encode(["status" => "error", "message" => "Số xu phải lớn hơn 0!"]);
+    exit;
+  }
 
-    // Lấy thông tin số dư của người dùng
-    $user = $wpdb->get_row($wpdb->prepare("SELECT coin FROM wp_users_literead WHERE id = %d", $user_id));
-    if (!$user) {
-        echo json_encode(["status" => "error", "message" => "Lỗi: Không tìm thấy tài khoản!"]);
-        exit;
-    }
+  // Lấy thông tin số dư của người dùng
+  $user = $wpdb->get_row($wpdb->prepare("SELECT coin FROM wp_users_literead WHERE id = %d", $user_id));
+  if (!$user) {
+    echo json_encode(["status" => "error", "message" => "Lỗi: Không tìm thấy tài khoản!"]);
+    exit;
+  }
 
-    $current_balance = intval($user->coin);
-    $new_balance = $current_balance - $withdrawAmount;
-
-    if ($new_balance < 0) {
-        echo json_encode(["status" => "error", "message" => "Số dư không đủ!"]);
-        wp_die();
-    }
-
-    // Bắt đầu giao dịch SQL
-    $wpdb->query('START TRANSACTION');
-
-    // Cập nhật số dư an toàn
-    $update_result = $wpdb->query($wpdb->prepare(
-        "UPDATE wp_users_literead SET coin = coin - %d WHERE id = %d AND coin >= %d",
-        $withdrawAmount, $user_id, $withdrawAmount
-    ));
-    echo "<script>console.log(1)</script>";
-    if ($wpdb->last_error) {
-        $wpdb->query('ROLLBACK');
-        echo json_encode(["status" => "error", "message" => "Lỗi SQL: " . $wpdb->last_error]);
-        wp_die();
-    }
+  $current_balance = intval($user->coin);
+  $new_balance = $current_balance - $withdrawAmount;
 
     // Lấy lại số dư để kiểm tra cập nhật thành công
     $check_balance = intval($wpdb->get_var($wpdb->prepare(
@@ -93,6 +73,34 @@ if (!empty($_POST["action"]) && $_POST["action"] === "withdraw_coins") {
         echo json_encode(["status" => "error", "message" => "Lỗi khi cập nhật số dư!"]);
     }
     wp_die();
+  }
+
+  // Lấy lại số dư để kiểm tra cập nhật thành công
+  $check_balance = intval($wpdb->get_var($wpdb->prepare(
+    "SELECT coin FROM wp_users_literead WHERE id = %d",
+    $user_id
+  )));
+
+  if ($update_result && $check_balance === $new_balance) {
+    // Ghi lịch sử giao dịch
+    $wpdb->insert('wp_wallet_history', [
+      'user_id' => $user_id,
+      'before_balance' => $current_balance,
+      'amount' => -$withdrawAmount,
+      'after_balance' => $new_balance,
+      'transaction_type' => 'withdraw',
+      'created_at' => current_time('mysql')
+    ]);
+
+    // Xác nhận giao dịch
+    $wpdb->query('COMMIT');
+    // Trả về kết quả
+    echo json_encode(["status" => 200, "message" => "Rút $withdrawAmount xu thành công!", "new_balance" => $new_balance]);
+  } else {
+    $wpdb->query('ROLLBACK');
+    echo json_encode(["status" => "error", "message" => "Lỗi khi cập nhật số dư!"]);
+  }
+  wp_die();
 }
 
 // Lấy thông tin ví của người dùng 
@@ -100,9 +108,16 @@ $user = $wpdb->get_row($wpdb->prepare("SELECT * FROM wp_users_literead WHERE id 
 
 // Lấy lịch sử giao dịch
 $transactions = $wpdb->get_results($wpdb->prepare(
-    "SELECT * FROM wp_wallet_history WHERE user_id = %d ORDER BY created_at DESC LIMIT 5",
-    $user_id
+  "SELECT * FROM wp_wallet_history WHERE user_id = %d ORDER BY created_at DESC LIMIT 5",
+  $user_id
 )) ?: [];
+
+$isHome = is_front_page();
+$isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
+
+$screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
+$isMobile = $screen_width < 768;
+echo '<script>console.log(' . $screen_width . ')</script>';
 ?>
 <main class="flex items-center ml-[0.625rem] mr-[0.625rem] mx-auto md:px-[2.225rem] md:py-[0.625rem] gap-[1rem] md:gap-[2.875rem] w-full bg-[#FFE5E1]">
     <div class="w-full max-md:max-w-full">
@@ -171,9 +186,9 @@ $transactions = $wpdb->get_results($wpdb->prepare(
                         <div class="bg-white rounded-3xl p-[3rem] shadow-lg text-center w-[36rem]">
                             <!-- <img src="<?php echo esc_url(get_template_directory_uri() . '/wp-content/plugins/akismet/_inc/img/Check_ring_duotone_line.svg'); ?>" 
                                 alt="Success Icon" class="w-16 h-16 mx-auto"> -->
-                            <p class="text-3xl text-black my-[2rem]">Tiền của bạn sẽ được thanh toán trong vòng 24 giờ</p>
-                        </div>
-                    </div>
+                <p class="text-3xl text-black my-[2rem]">Tiền của bạn sẽ được thanh toán trong vòng 24 giờ</p>
+              </div>
+            </div>
 
                         <!-- Lịch sử giao dịch -->
                         <div class="flex flex-col mt-12 w-full text-3xl tracking-wide leading-none text-[#A04D4C] max-md:mt-10">
@@ -223,9 +238,47 @@ $transactions = $wpdb->get_results($wpdb->prepare(
                         </div>
                         </div>
                     </div>
+                  <?php endforeach; ?>
                 </div>
+                <div class="flex flex-col mt-3">
+                  <div
+                    class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-xl whitespace-nowrap">
+                    Số lượng</div>
+                  <?php foreach ($transactions as $transaction): ?>
+                    <div
+                      class="px-2 py-3 border-b border-red-400 text-center text-3xl max-md:text-sm max-sm:text-xl whitespace-nowrap <?php echo $transaction->amount < 0 ? 'text-[#CD0800]' : 'text-[#088E00]'; ?>">
+                      <?php echo ($transaction->amount < 0 ? '- ' : '+ ') . number_format(abs($transaction->amount), 2); ?>
+                    </div>
+                  <?php endforeach; ?>
+                </div>
+                <div class="flex flex-col mt-3">
+                  <div
+                    class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-xl whitespace-nowrap">
+                    SD sau</div>
+                  <?php foreach ($transactions as $transaction): ?>
+                    <div
+                      class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-xl whitespace-nowrap">
+                      <?php echo number_format($transaction->after_balance, 2); ?>
+                    </div>
+                  <?php endforeach; ?>
+                </div>
+                <div class="flex flex-col mt-3">
+                  <div
+                    class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-xl whitespace-nowrap">
+                    Thời gian</div>
+                  <?php foreach ($transactions as $transaction): ?>
+                    <div
+                      class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-xl whitespace-nowrap">
+                      <?php echo date('H:i d/m/Y', strtotime($transaction->created_at)); ?>
+                    </div>
+                  <?php endforeach; ?>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
+    </div>
+  </div>
 </main>
 
 <script>
@@ -256,47 +309,64 @@ $transactions = $wpdb->get_results($wpdb->prepare(
             confirmAmount.textContent = new Intl.NumberFormat('vi-VN').format(amount);
             confirmPopup.classList.remove("hidden"); // Hiển thị pop-up xác nhận
         });
+    // Mở pop-up xác nhận khi nhấn "Rút"
+    withdrawButton.addEventListener("click", function (e) {
+      e.preventDefault();
+      let amount = withdrawAmountInput.value.trim();
+      if (amount <= 0 || isNaN(amount)) {
+        alert("Vui lòng nhập số xu hợp lệ!");
+        return;
+      }
 
-        // Hủy rút xu
-        cancelWithdraw.addEventListener("click", function () {
-            confirmPopup.classList.add("hidden");
-        });
+      confirmAmount.textContent = new Intl.NumberFormat('vi-VN').format(amount);
+      confirmPopup.classList.remove("hidden"); // Hiển thị pop-up xác nhận
+      confirmPopup.classList.add("flex");
+    });
 
-        // Xử lý xác nhận rút xu
-        confirmWithdraw.addEventListener("click", function () {
-            let amount = withdrawAmountInput.value.trim();
-            confirmPopup.classList.add("hidden"); // Ẩn pop-up xác nhận
+    // Hủy rút xu
+    cancelWithdraw.addEventListener("click", function () {
+      confirmPopup.classList.add("hidden");
+      confirmPopup.classList.remove("flex");
+    });
 
-            fetch(window.location.href, {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: "action=withdraw_coins&withdrawAmount=" + encodeURIComponent(amount)
-            })
-            .then(response => {
-                response.json();
-                console.log("response ", response);
-                if (response.status === 200) {
-                    document.getElementById("userBalance").innerText = new Intl.NumberFormat('vi-VN').format(response.new_balance) + " xu";
-                    withdrawAmountInput.value = "";
+    // Xử lý xác nhận rút xu
+    confirmWithdraw.addEventListener("click", function () {
+      let amount = withdrawAmountInput.value.trim();
+      confirmPopup.classList.add("hidden"); // Ẩn pop-up xác nhận
+      confirmPopup.classList.remove("flex");
 
-                    console.log("Hiển thị successPopup");
-                    successPopup.classList.remove("hidden"); // Hiển thị pop-up hoàn tất
+      fetch(window.location.href, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: "action=withdraw_coins&withdrawAmount=" + encodeURIComponent(amount)
+      })
+        .then(response => {
+          response.json();
+          console.log("response ", response);
+          if (response.status === 200) {
+            document.getElementById("userBalance").innerText = new Intl.NumberFormat('vi-VN').format(response.new_balance) + " xu";
+            withdrawAmountInput.value = "";
 
-                    // Kiểm tra nếu successPopup thực sự xuất hiện
-                    setTimeout(() => {
-                        console.log("Ẩn successPopup & reload trang");
-                        successPopup.classList.add("hidden");
-                        location.reload();
-                    }, 4000);
-                } else {
-                    alert(response.message);
-                }
-            })
-            .catch(error => {
-                console.error("Lỗi:", error);
-            });
+            console.log("Hiển thị successPopup");
+            successPopup.classList.remove("hidden"); // Hiển thị pop-up hoàn tất
+            successPopup.classList.add("flex");
+
+            // Kiểm tra nếu successPopup thực sự xuất hiện
+            setTimeout(() => {
+              console.log("Ẩn successPopup & reload trang");
+              successPopup.classList.add("hidden");
+              successPopup.classList.remove("flex");
+              location.reload();
+            }, 4000);
+          } else {
+            alert(response.message);
+          }
+        })
+        .catch(error => {
+          console.error("Lỗi:", error);
         });
     });
+  });
 </script>
 
 <?php get_footer(); ?>
