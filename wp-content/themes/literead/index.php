@@ -206,12 +206,12 @@ echo '<script>console.log(' . $screen_width . ')</script>';
                     <!-- 🔄 Story Card 1 -->
                     <article class="flex gap-3 mt-[12px] lg:mt-[24px] items-end w-full lg:max-w-[38rem]" role="listitem">
                       <img loading="lazy" src=<?php echo esc_url($story->cover_image_url); ?> alt=<?php echo esc_html($story->story_name); ?>
-                        class="object-cover shrink-0 rounded-lg aspect-[0.81] w-[121px] lg:w-[12,5rem]" />
+                        class="object-cover shrink-0 rounded-lg aspect-[0.81] w-[121px] lg:w-[12.5rem]" />
                       <div class="flex flex-col flex-1 shrink basis-0 min-w-60">
-                        <?php if ($story->status == "Hoàn thành")
-                          echo "<span
-                          class='gap-2.5 self-start px-[2px] text-[12px] lg:text-[1.25rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]'>Hoàn thành</span>"
-                            ?>
+                          <?php if ($story->status == "Hoàn thành")
+                            echo "<span
+                            class='gap-2.5 self-start px-[2px] text-[12px] lg:text-[1.25rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]'>Hoàn thành</span>"
+                              ?>
                           <a href="<?php echo esc_url(home_url('/truyen/' . $story->slug)); ?>"
                           class="hover:no-underline hover:text-orange-dark text-orange-darker">
                           <h3
