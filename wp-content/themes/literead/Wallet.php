@@ -47,34 +47,6 @@ if (!empty($_POST["action"]) && $_POST["action"] === "withdraw_coins") {
   $current_balance = intval($user->coin);
   $new_balance = $current_balance - $withdrawAmount;
 
-    // Lấy lại số dư để kiểm tra cập nhật thành công
-    $check_balance = intval($wpdb->get_var($wpdb->prepare(
-        "SELECT coin FROM wp_users_literead WHERE id = %d",
-        $user_id
-    )));
-
-    if ($update_result && $check_balance === $new_balance) {
-        // Ghi lịch sử giao dịch
-        $wpdb->insert('wp_wallet_history', [
-            'user_id'         => $user_id,
-            'before_balance'  => $current_balance,
-            'amount'          => -$withdrawAmount,
-            'after_balance'   => $new_balance,
-            'transaction_type'=> 'withdraw',
-            'created_at'      => current_time('mysql')
-        ]);
-
-        // Xác nhận giao dịch
-        $wpdb->query('COMMIT');
-        //Trả về kết quả
-        echo json_encode(["status" => 200, "message" => "Rút $withdrawAmount xu thành công!", "new_balance" => $new_balance]);
-    } else {
-        $wpdb->query('ROLLBACK');
-        echo json_encode(["status" => "error", "message" => "Lỗi khi cập nhật số dư!"]);
-    }
-    wp_die();
-  }
-
   // Lấy lại số dư để kiểm tra cập nhật thành công
   $check_balance = intval($wpdb->get_var($wpdb->prepare(
     "SELECT coin FROM wp_users_literead WHERE id = %d",
@@ -119,196 +91,208 @@ $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width'
 $isMobile = $screen_width < 768;
 echo '<script>console.log(' . $screen_width . ')</script>';
 ?>
-<main class="flex items-center ml-[0.625rem] mr-[0.625rem] mx-auto md:px-[2.225rem] md:py-[0.625rem] gap-[1rem] md:gap-[2.875rem] w-full bg-[#FFE5E1]">
-    <div class="w-full max-md:max-w-full">
-        <div class="flex gap-[1.25rem] max-md:flex-col">
-            <?php get_sidebar(); ?>
-            <div class="flex flex-col flex-grow max-md:ml-0 max-md:w-full">
-                <div class="md:w-10/12 bg-white flex-grow transition-all max-md:ml-0 max-md:w-full">
-                    <div class="flex flex-col justify-center items-start p-10 w-full max-md:px-6 max-md:max-w-full">
-                        
-                        <!-- Thông tin người dùng -->
-                        <div class="flex flex-wrap gap-6 items-end self-stretch w-full font-medium text-[#A04D4C] max-md:max-w-full">
-                            <img loading="lazy"
-                                src="<?php echo esc_url($user->avatar_image_url ?? 'https://via.placeholder.com/150'); ?>"
-                                class="object-contain shrink-0 aspect-square w-[8.375rem]"
-                                alt="User profile picture" />
-                            <div class="flex flex-col flex-1 shrink items-start basis-0 w-[15rem] max-md:max-w-full">
-                                <div class="flex flex-col">
-                                    <div class="text-3xl"><?php echo esc_html($user->full_name); ?></div>
-                                    <div class="mt-3 text-3xl opacity-60"><?php echo esc_html($user->email); ?></div>
-                                </div>
-                            </div>
-                        </div>
+<main
+  class="flex items-center ml-[0.625rem] mr-[0.625rem] mx-auto md:px-[2.225rem] md:py-[0.625rem] gap-[1rem] md:gap-[2.875rem] w-full bg-[#FFE5E1]">
+  <div class="w-full max-md:max-w-full">
+    <div class="flex gap-[1.25rem] max-md:flex-col">
+      <?php get_sidebar(); ?>
+      <div class="flex flex-col flex-grow max-md:ml-0 max-md:w-full">
+        <div class="md:w-10/12 bg-white flex-grow transition-all max-md:ml-0 max-md:w-full">
+          <div class="flex flex-col justify-center items-start p-10 w-full max-md:px-6 max-md:max-w-full">
 
-                        <!-- Tổng xu -->
-                        <!-- <div class="flex flex-col mt-12 max-w-full text-3xl tracking-wide leading-none text-[#A04D4C] w-[394px] max-md:mt-10">
-                            <div class="font-semibold">Tổng xu</div>
-                            <div class="flex overflow-hidden flex-col justify-center py-4 mt-2 w-full font-medium whitespace-nowrap border-b border-solid border-b-[#A04D4C]">
-                                <div class="ml-2 opacity-60"><?php echo number_format($user->sum_coin, 0, ',', '.'); ?> xu</div>
-                            </div>
-                        </div> -->
+            <!-- Thông tin người dùng -->
+            <div
+              class="flex flex-wrap gap-6 items-end self-stretch w-full font-medium text-[#A04D4C] max-md:max-w-full">
+              <img loading="lazy"
+                src="<?php echo esc_url($user->avatar_image_url ?? 'https://via.placeholder.com/150'); ?>"
+                class="object-contain shrink-0 aspect-square w-[8.375rem]" alt="User profile picture" />
+              <div class="flex flex-col flex-1 shrink items-start basis-0 w-[15rem] max-md:max-w-full">
+                <div class="flex flex-col">
+                  <div class="text-3xl"><?php echo esc_html($user->full_name); ?></div>
+                  <div class="mt-3 text-3xl opacity-60"><?php echo esc_html($user->email); ?></div>
+                </div>
+              </div>
+            </div>
 
-                         <!-- Số dư -->
-                    <div class="flex flex-col mt-12 text-3xl text-[#A04D4C] max-w-full w-[394px] max-md:mt-10">
-                        <div class="font-semibold">Tổng xu hiện tại</div>
-                        <div class="flex flex-col py-4 mt-2 w-full border-b border-solid border-b-[#A04D4C]">
-                            <div id="userBalance" class="ml-2 opacity-60"><?php echo number_format($user->coin, 0, ',', '.'); ?> xu</div>
-                        </div>
-                    </div>
+            <!-- Tổng xu -->
+            <!-- <div class="flex flex-col mt-12 max-w-full text-3xl tracking-wide leading-none text-[#A04D4C] w-[394px] max-md:mt-10">
+                      <div class="font-semibold">Tổng xu</div>
+                      <div class="flex overflow-hidden flex-col justify-center py-4 mt-2 w-full font-medium whitespace-nowrap border-b border-solid border-b-[#A04D4C]">
+                          <div class="ml-2 opacity-60"><?php echo number_format($user->sum_coin, 0, ',', '.'); ?> xu</div>
+                      </div>
+                  </div> -->
 
-                    <!-- Form rút xu -->
-                    <form id="withdrawForm" class="flex flex-col max-w-full mt-12 w-[650px] max-md:mt-10">
-                        <label for="withdrawAmount" class="text-3xl font-semibold tracking-wide leading-none text-[#A04D4C]">Rút xu</label>
-                        <div class="flex flex-grow gap-2 items-start w-full">
-                            <input type="number" id="withdrawAmount" name="withdrawAmount"
-                                class="flex-1 px-2 py-4 text-3xl text-[#A04D4C] border-b border-[#A04D4C] placeholder-[#d89e9d]"
-                                placeholder="Nhập số xu..." required />
-                            <button id="withdrawButton" type="submit"
-                                class="ml-2 w-[5.69rem] h-[4.56rem] p-2.5 text-3xl text-white bg-[#D56665] rounded-xl hover:bg-[#C05C5D]">Rút</button>
-                        </div>
-                    </form>
+            <!-- Số dư -->
+            <div class="flex flex-col mt-12 text-3xl text-[#A04D4C] max-w-full w-[394px] max-md:mt-10">
+              <div class="font-semibold">Tổng xu hiện tại</div>
+              <div class="flex flex-col py-4 mt-2 w-full border-b border-solid border-b-[#A04D4C]">
+                <div id="userBalance" class="ml-2 opacity-60"><?php echo number_format($user->coin, 0, ',', '.'); ?> xu
+                </div>
+              </div>
+            </div>
 
-                    <!-- Pop-up xác nhận rút xu -->
-                    <div id="confirmPopup" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                        <div class="bg-white rounded-3xl p-[3rem] shadow-lg text-center w-[36rem]">
-                        <!-- <img src="<?php echo esc_url(get_template_directory_uri() . '/wp-content/plugins/akismet/_inc/img/Group26.svg'); ?>" alt="Warning Icon" class="w-16 h-16 mx-auto"> -->
-                        <p class="text-3xl text-black my-[2rem]">Xác nhận rút <span id="confirmAmount"></span> xu?</p>
-                            <div class="flex justify-center gap-4">
-                                <button id="confirmWithdraw" class="bg-[#D56665] text-white text-3xl p-2.5 rounded-lg w-[15.69rem] h-[4.56rem]">Rút</button>
-                                <button id="cancelWithdraw" class="bg-[#FFE5E1] text-[#D56665] text-3xl p-2.5 rounded-lg w-[15.69rem] h-[4.56rem]">Hủy</button>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Form rút xu -->
+            <form id="withdrawForm" class="flex flex-col max-w-full mt-12 w-[650px] max-md:mt-10">
+              <label for="withdrawAmount" class="text-3xl font-semibold tracking-wide leading-none text-[#A04D4C]">Rút
+                xu</label>
+              <div class="flex flex-grow gap-2 items-start w-full">
+                <input type="number" id="withdrawAmount" name="withdrawAmount"
+                  class="flex-1 px-2 py-4 text-3xl text-[#A04D4C] border-b border-[#A04D4C] placeholder-[#d89e9d]"
+                  placeholder="Nhập số xu..." required />
+                <button id="withdrawButton" type="submit"
+                  class="ml-2 w-[5.69rem] h-[4.56rem] p-2.5 text-3xl text-white bg-[#D56665] rounded-xl hover:bg-[#C05C5D]">Rút</button>
+              </div>
+            </form>
 
-                    <!-- Pop-up hoàn tất -->
-                    <div id="successPopup" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                        <div class="bg-white rounded-3xl p-[3rem] shadow-lg text-center w-[36rem]">
-                            <!-- <img src="<?php echo esc_url(get_template_directory_uri() . '/wp-content/plugins/akismet/_inc/img/Check_ring_duotone_line.svg'); ?>" 
-                                alt="Success Icon" class="w-16 h-16 mx-auto"> -->
+            <!-- Pop-up xác nhận rút xu -->
+            <div id="confirmPopup" class="hidden fixed inset-0 z-50 items-center justify-center bg-black bg-opacity-50">
+              <div class="bg-white rounded-3xl p-[3rem] shadow-lg text-center w-[36rem]">
+                <!-- <img src="<?php echo esc_url(get_template_directory_uri() . '/wp-content/plugins/akismet/_inc/img/Group26.svg'); ?>" alt="Warning Icon" class="w-16 h-16 mx-auto"> -->
+                <p class="text-3xl text-black my-[2rem]">Xác nhận rút <span id="confirmAmount"></span> xu?</p>
+                <div class="flex justify-center gap-4">
+                  <button id="confirmWithdraw"
+                    class="bg-[#D56665] text-white text-3xl p-2.5 rounded-lg w-[15.69rem] h-[4.56rem]">Rút</button>
+                  <button id="cancelWithdraw"
+                    class="bg-[#FFE5E1] text-[#D56665] text-3xl p-2.5 rounded-lg w-[15.69rem] h-[4.56rem]">Hủy</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pop-up hoàn tất -->
+            <div id="successPopup" class="hidden fixed inset-0 z-50 items-center justify-center bg-black bg-opacity-50">
+              <div class="bg-white rounded-3xl p-[3rem] shadow-lg text-center w-[36rem]">
+                <!-- <img src="<?php echo esc_url(get_template_directory_uri() . '/wp-content/plugins/akismet/_inc/img/Check_ring_duotone_line.svg'); ?>" 
+                        alt="Success Icon" class="w-16 h-16 mx-auto"> -->
                 <p class="text-3xl text-black my-[2rem]">Tiền của bạn sẽ được thanh toán trong vòng 24 giờ</p>
               </div>
             </div>
 
-                        <!-- Lịch sử giao dịch -->
-                        <div class="flex flex-col mt-12 w-full text-3xl tracking-wide leading-none text-[#A04D4C] max-md:mt-10">
-                            <div class="font-semibold max-md:text-xl max-sm:text-3xl">Lịch sử biến đổi</div>
-                            <!-- Sử dụng grid layout với auto-fit để tự động điều chỉnh cột và căn chỉnh phần tử -->
-                            <div class="flex grid grid-cols-4 md:grid-cols-4 gap-4 mt-2 w-full max-w-full font-medium">
-                                <!-- SD trước -->
-                                <div class="flex flex-col justify-between">
-                                    <div class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:max-full max-sm:text-2xl whitespace-nowrap">SD trước</div>
-                                    <?php foreach ($transactions as $transaction): ?>
-                                        <div class="px-2 py-3 mt-2 border-b border-red-400 opacity-60 text-center text-3xl max-md:max-full max-sm:text-2xl whitespace-nowrap">
-                                            <?php echo number_format($transaction->before_balance); ?>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-
-                                <!-- Số lượng -->
-                                <div class="flex flex-col justify-between">
-                                    <div class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:max-full max-sm:text-2xl whitespace-nowrap">Số lượng</div>
-                                    <?php foreach ($transactions as $transaction): ?>
-                                        <div class="px-2 py-3 mt-2 border-b border-red-400 text-center text-3xl max-md:max-full max-sm:text-2xl whitespace-nowrap <?php echo $transaction->amount < 0 ? 'text-[#CD0800]' : 'text-[#088E00]'; ?>">
-                                            <?php echo ($transaction->amount < 0 ? '- ' : '+ ') . number_format(abs($transaction->amount)); ?>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-
-                                <!-- SD sau -->
-                                <div class="flex flex-col justify-between">
-                                    <div class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:max-full max-sm:text-2xl whitespace-nowrap">SD sau</div>
-                                    <?php foreach ($transactions as $transaction): ?>
-                                        <div class="px-2 py-3 mt-2 border-b border-red-400 opacity-60 text-center text-3xl max-md:max-full max-sm:text-2xl whitespace-nowrap">
-                                            <?php echo number_format($transaction->after_balance); ?>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-
-                                <!-- Thời gian -->
-                                <div class="flex flex-col justify-between">
-                                    <div class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:max-full max-sm:text-2xl whitespace-nowrap">Thời gian</div>
-                                    <?php foreach ($transactions as $transaction): ?>
-                                        <div class="px-2 py-3 mt-2 border-b border-red-400 opacity-60 text-center text-3xl max-md:max-full max-sm:text-2xl">
-                                            <?php echo date('H:i d/m/Y', strtotime($transaction->created_at)); ?>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
+            <!-- Lịch sử giao dịch -->
+            <div class="flex flex-col mt-12 w-full text-3xl tracking-wide leading-none text-[#A04D4C] max-md:mt-10">
+              <div class="font-semibold max-md:text-xl max-sm:text-3xl">Lịch sử biến đổi</div>
+              <!-- Sử dụng grid layout với auto-fit để tự động điều chỉnh cột và căn chỉnh phần tử -->
+              <div class="grid grid-cols-4 md:grid-cols-4 gap-4 mt-2 w-full max-w-full font-medium">
+                <!-- SD trước -->
+                <div class="flex flex-col justify-between">
+                  <div
+                    class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:max-full max-sm:text-2xl whitespace-nowrap">
+                    SD trước</div>
+                  <?php foreach ($transactions as $transaction): ?>
+                    <div
+                      class="px-2 py-3 mt-2 border-b border-red-400 opacity-60 text-center text-3xl max-md:max-full max-sm:text-2xl whitespace-nowrap">
+                      <?php echo number_format($transaction->before_balance); ?>
                     </div>
                   <?php endforeach; ?>
                 </div>
-                <div class="flex flex-col mt-3">
+
+                <!-- Số lượng -->
+                <div class="flex flex-col justify-between">
                   <div
-                    class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-xl whitespace-nowrap">
+                    class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:max-full max-sm:text-2xl whitespace-nowrap">
                     Số lượng</div>
                   <?php foreach ($transactions as $transaction): ?>
                     <div
-                      class="px-2 py-3 border-b border-red-400 text-center text-3xl max-md:text-sm max-sm:text-xl whitespace-nowrap <?php echo $transaction->amount < 0 ? 'text-[#CD0800]' : 'text-[#088E00]'; ?>">
-                      <?php echo ($transaction->amount < 0 ? '- ' : '+ ') . number_format(abs($transaction->amount), 2); ?>
+                      class="px-2 py-3 mt-2 border-b border-red-400 text-center text-3xl max-md:max-full max-sm:text-2xl whitespace-nowrap <?php echo $transaction->amount < 0 ? 'text-[#CD0800]' : 'text-[#088E00]'; ?>">
+                      <?php echo ($transaction->amount < 0 ? '- ' : '+ ') . number_format(abs($transaction->amount)); ?>
                     </div>
                   <?php endforeach; ?>
                 </div>
-                <div class="flex flex-col mt-3">
+
+                <!-- SD sau -->
+                <div class="flex flex-col justify-between">
                   <div
-                    class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-xl whitespace-nowrap">
+                    class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:max-full max-sm:text-2xl whitespace-nowrap">
                     SD sau</div>
                   <?php foreach ($transactions as $transaction): ?>
                     <div
-                      class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-xl whitespace-nowrap">
-                      <?php echo number_format($transaction->after_balance, 2); ?>
+                      class="px-2 py-3 mt-2 border-b border-red-400 opacity-60 text-center text-3xl max-md:max-full max-sm:text-2xl whitespace-nowrap">
+                      <?php echo number_format($transaction->after_balance); ?>
                     </div>
                   <?php endforeach; ?>
                 </div>
-                <div class="flex flex-col mt-3">
+
+                <!-- Thời gian -->
+                <div class="flex flex-col justify-between">
                   <div
-                    class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-xl whitespace-nowrap">
+                    class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:max-full max-sm:text-2xl whitespace-nowrap">
                     Thời gian</div>
                   <?php foreach ($transactions as $transaction): ?>
                     <div
-                      class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-xl whitespace-nowrap">
+                      class="px-2 py-3 mt-2 border-b border-red-400 opacity-60 text-center text-3xl max-md:max-full max-sm:text-2xl">
                       <?php echo date('H:i d/m/Y', strtotime($transaction->created_at)); ?>
                     </div>
                   <?php endforeach; ?>
                 </div>
               </div>
             </div>
+            <div class="flex flex-col mt-3">
+              <div
+                class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-xl whitespace-nowrap">
+                Số lượng</div>
+              <?php foreach ($transactions as $transaction): ?>
+                <div
+                  class="px-2 py-3 border-b border-red-400 text-center text-3xl max-md:text-sm max-sm:text-xl whitespace-nowrap <?php echo $transaction->amount < 0 ? 'text-[#CD0800]' : 'text-[#088E00]'; ?>">
+                  <?php echo ($transaction->amount < 0 ? '- ' : '+ ') . number_format(abs($transaction->amount), 2); ?>
+                </div>
+              <?php endforeach; ?>
+            </div>
+            <div class="flex flex-col mt-3">
+              <div
+                class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-xl whitespace-nowrap">
+                SD sau</div>
+              <?php foreach ($transactions as $transaction): ?>
+                <div
+                  class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-xl whitespace-nowrap">
+                  <?php echo number_format($transaction->after_balance, 2); ?>
+                </div>
+              <?php endforeach; ?>
+            </div>
+            <div class="flex flex-col mt-3">
+              <div
+                class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-xl whitespace-nowrap">
+                Thời gian</div>
+              <?php foreach ($transactions as $transaction): ?>
+                <div
+                  class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-xl whitespace-nowrap">
+                  <?php echo date('H:i d/m/Y', strtotime($transaction->created_at)); ?>
+                </div>
+              <?php endforeach; ?>
+            </div>
           </div>
         </div>
+      </div>
     </div>
   </div>
 </main>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const withdrawForm = document.getElementById("withdrawForm");
-        const withdrawButton = document.getElementById("withdrawButton");
-        const withdrawAmountInput = document.getElementById("withdrawAmount");
-        const confirmPopup = document.getElementById("confirmPopup");
-        const confirmWithdraw = document.getElementById("confirmWithdraw");
-        const cancelWithdraw = document.getElementById("cancelWithdraw");
-        const confirmAmount = document.getElementById("confirmAmount");
-        const successPopup = document.getElementById("successPopup"); // Pop-up hoàn tất
+  document.addEventListener("DOMContentLoaded", function () {
+    const withdrawForm = document.getElementById("withdrawForm");
+    const withdrawButton = document.getElementById("withdrawButton");
+    const withdrawAmountInput = document.getElementById("withdrawAmount");
+    const confirmPopup = document.getElementById("confirmPopup");
+    const confirmWithdraw = document.getElementById("confirmWithdraw");
+    const cancelWithdraw = document.getElementById("cancelWithdraw");
+    const confirmAmount = document.getElementById("confirmAmount");
+    const successPopup = document.getElementById("successPopup"); // Pop-up hoàn tất
 
-        if (!successPopup) {
-            console.error("Lỗi: Không tìm thấy phần tử successPopup trên trang!");
-            return;
-        }
+    if (!successPopup) {
+      console.error("Lỗi: Không tìm thấy phần tử successPopup trên trang!");
+      return;
+    }
 
-        // Mở pop-up xác nhận khi nhấn "Rút"
-        withdrawButton.addEventListener("click", function (e) {
-            e.preventDefault();
-            let amount = withdrawAmountInput.value.trim();
-            if (amount < 50 || isNaN(amount)) {
-                alert("Vui lòng rút trên 50 xu!");
-                return;
-            }
+    // Mở pop-up xác nhận khi nhấn "Rút"
+    withdrawButton.addEventListener("click", function (e) {
+      e.preventDefault();
+      let amount = withdrawAmountInput.value.trim();
+      if (amount < 50 || isNaN(amount)) {
+        alert("Vui lòng rút trên 50 xu!");
+        return;
+      }
 
-            confirmAmount.textContent = new Intl.NumberFormat('vi-VN').format(amount);
-            confirmPopup.classList.remove("hidden"); // Hiển thị pop-up xác nhận
-        });
+      confirmAmount.textContent = new Intl.NumberFormat('vi-VN').format(amount);
+      confirmPopup.classList.remove("hidden"); // Hiển thị pop-up xác nhận
+    });
     // Mở pop-up xác nhận khi nhấn "Rút"
     withdrawButton.addEventListener("click", function (e) {
       e.preventDefault();
