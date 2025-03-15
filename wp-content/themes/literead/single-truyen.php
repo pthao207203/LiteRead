@@ -72,7 +72,7 @@ if ($story) {
   $users_literead = $wpdb->prefix . "users_literead";
 
   // Đảm bảo không có echo, var_dump, print, hay bất kỳ thông báo nào
-  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_comment'])) {
     if (!isset($_COOKIE['signup_token'])) {
       wp_redirect(home_url('/dang-nhap'));
       exit();  // Dừng script để không thực thi thêm mã phía dưới
@@ -100,7 +100,44 @@ if ($story) {
       exit();
     }
   }
+  // Kiểm tra đăng nhập của người dùng
+  if (!isset($_COOKIE['signup_token'])) {
+    echo "<p>Vui lòng đăng nhập để lưu truyện!</p>";
+    get_footer();
+    exit;
+  }
+  // Lấy thông tin người dùng từ cookie
+  $users_literead = $wpdb->prefix . "users_literead";
+  $user_info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $users_literead WHERE token = %s", $_COOKIE['signup_token']));
+  $user_id = $user_info->id;  // Lấy user_id từ thông tin người dùng
 
+  // Nút lưu truyện
+  if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_story'])) {
+    $story_id = $_POST['story_id'];
+
+    // Kiểm tra nếu truyện chưa có trong danh sách yêu thích của người dùng
+    $favorites_table = $wpdb->prefix . 'users_likes';
+    $existing_favorite = $wpdb->get_var($wpdb->prepare(
+      "SELECT COUNT(*) FROM $favorites_table WHERE user_id = %d AND story_id = %d",
+      $user_id,
+      $story_id
+    ));
+    if ($existing_favorite == 0) {
+      // Thêm truyện vào danh sách yêu thích
+      $wpdb->insert(
+        $favorites_table,
+        array(
+          'user_id' => $user_id,
+          'story_id' => $story_id,
+          'created_at' => current_time('mysql'),
+        ),
+        array('%d', '%d', '%s')
+      );
+      echo "<script>alert('Truyện đã được lưu vào danh sách yêu thích!');</script>";
+    } else {
+      echo "<script>alert('Truyện đã có trong danh sách yêu thích.');</script>";
+    }
+  }
 
   $isHome = is_front_page();
   $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
@@ -179,22 +216,15 @@ if ($story) {
                       class="self-stretch px-[1rem] py-[0.5rem] md:px-[1.25rem] md:py-[0.625rem] bg-red-normal rounded-xl hover:no-underline hover:text-red-light-hover">
                       Chương cuối
                     </a>
-                    <button id="toggle-btn">
-                      <img id="toggle-img"
-                        src="https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png"
-                        class="w-[3.5625rem] max-sm:w-[2.625rem] max-sm:h-[2.625rem] h-[3.5625rem] object-fill shrink "
-                        alt="Toggle Button" />
-                    </button>
-
-                    <script>
-                      document.getElementById("toggle-btn").addEventListener("click", function () {
-                        const img = document.getElementById("toggle-img");
-                        const img1 = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png";
-                        const img2 = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/tkn6hjhe.png";
-
-                        img.src = img.src === img1 ? img2 : img1;
-                      });
-                    </script>
+                    <form method="POST" id="save-story-form" action="">
+                      <input type="hidden" name="story_id" value="<?php echo esc_attr($story->id); ?>" />
+                      <button type="submit" name="save_story" id="toggle-btn">
+                        <img id="toggle-img"
+                          src="https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png"
+                          class="w-[3.5625rem] max-sm:w-[2.625rem] max-sm:h-[2.625rem] h-[3.5625rem] object-fill shrink "
+                          alt="Toggle Button" />
+                      </button>
+                    </form>
                   </div>
                 </div>
               </div>
@@ -299,7 +329,7 @@ if ($story) {
                       echo "<p style='color: red;'>" . esc_html($content_error) . "</p>";
                     } ?>
                     <div class="justify-self-end">
-                      <button type="submit" id="commentSubmit"
+                      <button type="submit" id="commentSubmit" name="save_comment"
                         class="gap-2.5 p-2.5 mt-6 text-[18px] md:text-[1.875rem] font-medium bg-red-normal text-orange-light-hover rounded-xl">
                         Đăng bình luận
                       </button>
@@ -428,5 +458,42 @@ if ($story) {
   <p>Truyện không tồn tại hoặc đã bị xóa.</p>
 <?php }
 ; ?>
+
+<script>
+  document.getElementById("toggle-btn").addEventListener("click", function (event) {
+    event.preventDefault();  // Ngừng gửi form ngay lập tức
+
+    const img = document.getElementById("toggle-img");
+    const img1 = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png";
+    const img2 = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/tkn6hjhe.png";
+
+    // Toggle image source
+    img.src = img.src === img1 ? img2 : img1;
+
+    // Tạo AJAX request
+    const formData = new FormData();
+    formData.append('action', 'save_story'); // Đảm bảo rằng action là save_story
+    formData.append('story_id', <?php echo esc_js($story->id); ?>); // Gửi ID của truyện
+
+    // Gửi AJAX request tới admin-ajax.php
+    fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+      method: 'POST',
+      body: formData
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert(data.data.message); // Hiển thị thông báo từ server
+        } else {
+          alert(data.data.message); // Hiển thị lỗi từ server
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  });
+
+
+</script>
 
 <?php get_footer(); ?>

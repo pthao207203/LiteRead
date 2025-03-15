@@ -106,9 +106,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["signup"])) {
 $isHome = is_front_page();
 $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
 
-$screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
-$isMobile = $screen_width < 768;
-?>
+<div class="flex overflow-hidden flex-col relative mt-[7.925rem] w-full bg-white max-w-[480px]">
+  <div class="flex overflow-hidden flex-col w-full bg-red-100">
+  <div class="flex flex-col px-[1.0625rem] pt-[1.0625rem] mt-[3.5rem] w-full text-[1.5rem] text-red-dark bg-white min-h-[779px]">
+      <form method="POST">
+      <div class="flex flex-col w-full tracking-wide leading-none">
+        <label for="emailOrPhone" class="font-semibold">Email</label>
+        <div class="flex overflow-hidden flex-col justify-center px-[8px] py-[12px] mt-[8px] w-full border-b border-solid border-red-dark">
+          <input type="text" id="emailOrPhone" name="emailOrPhone" placeholder="123@gmail.com"
+            class="opacity-60 bg-transparent border-none outline-none" required />
+        </div>
+        <?php if (!empty($error_email)): ?>
+          <p style="color: red;"><?php echo esc_html($error_email); ?></p>
+        <?php endif; ?>
+        <?php if (!empty($error_user)): ?>
+          <p style="color: red;"><?php echo esc_html($error_user); ?></p>
+        <?php endif; ?>
+      </div>
+        <div class="flex flex-col mt-[12px] w-full tracking-wide leading-none">
+          <label for="password" class="font-semibold">Mật khẩu</label>
+          <div
+            class="flex overflow-hidden gap-1.5 items-center px-[8px] py-[12px] mt-[8px] w-full border-b border-solid border-red-dark">
+            <input type="password" id="password" name="password" placeholder="**********"
+              class="flex-1 opacity-60 bg-transparent border-none outline-none" required />
+          </div>
+        </div>
 
 <main class="relative flex flex-col mt-[4.425rem]">
   <div class="w-full max-md:max-w-full">
@@ -172,7 +194,11 @@ $isMobile = $screen_width < 768;
             </div>
           </div>
         </div>
-      </section>
+        <button type="submit" name="signup"
+          class="gap-2.5 self-stretch py-[16px] mt-[12px] w-full font-medium text-center text-orange-light bg-red-normal rounded-[8px] hover:bg-red-light hover:text-red-normal transition-colors duration-300">
+          Đăng nhập
+        </button>
+      </form>
     </div>
   </div>
 </main>
