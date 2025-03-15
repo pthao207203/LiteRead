@@ -15,6 +15,7 @@
     padding: 8px;
     width: 100%;
     background-color: white;
+    overflow: hidden;
   }
 
   .footer-container .contact-info {
@@ -56,7 +57,7 @@
   @media (max-width: 768px) {
     .footer-container {
       width: 100%;
-      padding: 12px;    
+      padding: 0px;    
     }
 
     .footer-container .contact-info h2 {
@@ -92,8 +93,8 @@
   }
 </style>
 
-<footer class="flex items-center ml-[0.625rem] mr-[0.625rem] mx-auto md:px-[2.125rem] md:py-[0.625rem] gap-[1rem] md:gap-[2.875rem] w-full bg-[#FFE5E1]">
-  <div class="footer-container" role="contentinfo" aria-label="Contact Information">
+<footer class="flex items-center mx-auto gap-[1rem] md:gap-[2.875rem] w-full bg-[#FFE5E1]">
+  <div class="footer-container flex items-center mx-auto gap-[1rem] md:gap-[2.875rem] w-full bg-[#FFE5E1]" role="contentinfo" aria-label="Contact Information">
     <div class="contact-info">
       <h2 class="lite-read-text">
         LiteRead
@@ -101,11 +102,11 @@
       <address>
         <p>
           <span class="sr-only">Phone:</span>
-          <a href="tel:0849449448" class="hover:underline focus:outline-none focus:ring-2 focus:ring-pink-800">Điện thoại: 0849449448</a>
+          <a href="tel:0849449448" class="focus:ring-2 hover:no-underline hover:text-[#A04D4C]">Điện thoại: 0849449448</a>
         </p>
         <p>
           <span class="sr-only">Email:</span>
-          <a href="mailto:22521375@gm.uit.edu.vn" class="hover:underline focus:outline-none focus:ring-2 focus:ring-pink-800">Email: 22521375@gm.uit.edu.vn</a>
+          <a href="mailto:22521375@gm.uit.edu.vn" class="focus:ring-2 hover:no-underline hover:text-[#A04D4C]">Email: 22521375@gm.uit.edu.vn</a>
         </p>
         <p>
           <span class="sr-only">Address:</span>
