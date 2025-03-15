@@ -55,7 +55,7 @@ if ($story) {
   $total_comments = $wpdb->get_var("SELECT COUNT(*) FROM $comments_table WHERE story_id = $story->id");
   $total_pages_comments = ceil($total_comments / $per_page_comments);
   $comments = $wpdb->get_results(
-    $wpdb->prepare("SELECT * FROM $comments_table WHERE story_id = %s ORDER BY created_at ASC LIMIT %d OFFSET %d", $story->id, $per_page_comments, $offset_comments)
+    $wpdb->prepare("SELECT * FROM $comments_table WHERE story_id = %s ORDER BY created_at DESC LIMIT %d OFFSET %d", $story->id, $per_page_comments, $offset_comments)
   );
 
   $first_chapter = $wpdb->get_var($wpdb->prepare(
@@ -374,21 +374,24 @@ if ($story) {
                           ?>
                           <article
                             class="flex flex-wrap gap-6 items-start py-4 md:py-8 w-full border-solid border-t-[0.5px] border-t-[#593B37]/50 border-b-[0.1px] max-md:max-w-full">
-                            <div
-                              class="flex shrink-0 gap-2.5 bg-orange-light aspect-[1/1] h-[50px] w-[50px] max-md:h-[30px] rounded-[99px] max-md:w-[30px]"
-                              role="img" aria-label="Midori's avatar"></div>
+                            <img
+                              class="flex shrink-0 gap-2.5 bg-orange-light object-cover aspect-[1/1] h-[50px] w-[50px] max-md:h-[30px] rounded-[99px] max-md:w-[30px]"
+                              src="<?php if ($user->avatar_image_url)
+                                echo $user->avatar_image_url;
+                              else
+                                echo ''; ?>">
                             <div class="flex-1 shrink basis-0  max-md:max-w-full">
                               <header
                                 class="flex flex-wrap md:gap-10 gap-1 justify-between items-center w-full max-md:max-w-full">
                                 <h3 class="self-stretch my-auto text-[16px] md:text-[1.75rem] font-medium w-[126px]">
-                                  Midori
+                                  <?php echo $user->full_name ?>
                                 </h3>
-                                <time class="self-stretch my-auto text-[14px] md:text-[1.5rem] text-right">9 giờ
-                                  trước</time>
+                                <time
+                                  class="self-stretch my-auto text-[14px] md:text-[1.5rem] text-right"><?php echo time_ago($comment->created_at); ?></time>
                               </header>
                               <p
                                 class="md:p-9 p-4 w-full text-[16px] md:text-[1.75rem] bg-orange-light rounded-tr-xl rounded-b-xl max-md:px-5 max-md:max-w-full">
-                                Thấy cmt tưởng não tàn lắm nhưng mà ngược lại. Thấy cũng ổn mà
+                                <?php echo $comment->synopsis; ?>
                               </p>
                             </div>
                           </article>

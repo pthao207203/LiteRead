@@ -171,7 +171,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
             <div class="flex flex-col mt-12 w-full text-3xl tracking-wide leading-none text-[#A04D4C] max-md:mt-10">
               <div class="font-semibold max-md:text-xl max-sm:text-3xl">Lịch sử biến đổi</div>
               <!-- Sử dụng grid layout với auto-fit để tự động điều chỉnh cột và căn chỉnh phần tử -->
-              <div class="flex grid grid-cols-4 md:grid-cols-4 gap-4 mt-2 w-full max-w-full font-medium">
+              <div class="grid grid-cols-4 md:grid-cols-4 gap-4 mt-2 w-full max-w-full font-medium">
                 <!-- SD trước -->
                 <div class="flex flex-col justify-between">
                   <div
