@@ -5,7 +5,7 @@ $stories = $wpdb->prefix . 'stories';
 $stories_views = $wpdb->get_results("SELECT * FROM $stories ORDER BY view DESC LIMIT 5");
 ?>
 <h2
-  class="bg-red-light rounded-[12px] inline-block self-start p-[10px] lg:px-[20px] text-[18px] lg:text-[1.875rem] font-medium text-red-normal ">
+  class="rounded-[12px] inline-block self-start p-[10px] lg:px-[20px] text-[18px] lg:text-[1.875rem] font-medium text-red-normal ">
   Nổi bật</h2>
 <div
   class="flex gap-2.5 justify-center items-start mt-[12px] lg:mt-[24px] w-full text-lg font-medium text-red-normal whitespace-nowrap"
@@ -33,7 +33,8 @@ $stories_views = $wpdb->get_results("SELECT * FROM $stories ORDER BY view DESC L
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 mt-[12px] lg:mt-[24px] w-full" role="tabpanel">
   <!-- Trending Stories -->
-  <?php if (!empty($stories_views)): ?>
+  <?php if (!empty($stories_views)): 
+    $index = 0; ?>
     <?php foreach ($stories_views as $story) {
       $genres = $wpdb->get_col($wpdb->prepare(
         "SELECT t.type_name 
@@ -42,11 +43,12 @@ $stories_views = $wpdb->get_results("SELECT * FROM $stories ORDER BY view DESC L
           WHERE st.story_id = %d",
         $story->id
       ));
+      $index = $index + 1;
       ?>
       <article class="flex gap-3 items-center w-full mb-[12px] lg:mb-[24px]">
         <span
           class="gap-2.5 self-stretch my-auto w-[2rem] h-[2rem] text-[16px] lg:text-[1.25rem] font-medium text-center text-red-normal whitespace-nowrap rounded-[2px] border"
-          style="border-color: #D56665 !important;">1</span>
+          style="border-color: #D56665 !important;"><?php echo $index;?></span>
         <img loading="lazy" src=<?php echo esc_url($story->cover_image_url); ?> alt=<?php echo esc_html($story->story_name); ?>
           class="object-cover shrink-0 self-stretch my-auto rounded-lg aspect-[0.81] w-[84px] lg:w-[10rem]" />
         <div class="flex flex-col flex-1 shrink self-stretch my-auto basis-0 min-w-60">

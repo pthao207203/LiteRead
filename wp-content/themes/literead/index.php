@@ -31,7 +31,7 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$type'") != $type) {
   dbDelta($sql);
 
   $sql = "INSERT INTO $type (`type_name`) VALUES 
-    ('ABO'), ('Mạt thế'), ('Ngọt sủng'), ('Ngược'), ('Ngọt sủng'), ('Ngôn tình'),
+    ('ABO'), ('Mạt thế'), ('Ngược'), ('Ngọt sủng'), ('Ngôn tình'),
     ('Đam mỹ'), ('Bách hợp'), ('HE'), ('SE'), ('OE'), ('Cổ đại'), ('Dân quốc'),
     ('Hiện đại'), ('Xuyên không'), ('Trọng sinh'), ('Hệ thống'), ('Nữ cường'),
     ('Tổng tài'), ('Thế thân'), ('Tu tiên'), ('Nam chủ')";
@@ -114,7 +114,8 @@ echo '<script>console.log(' . $screen_width . ')</script>';
     <div class="flex max-md:flex-col">
       <!-- Sidebar Navigation -->
       <?php get_sidebar(); ?>
-      <div id="mainContent" class="flex flex-col <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+      <div id="mainContent"
+        class="flex flex-col <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
         <section
           class="flex relative flex-col w-full min-h-[246px] mb-[-20px] md:flex-row md:min-h-[300px] lg:min-h-[400px]">
           <img loading="lazy"
