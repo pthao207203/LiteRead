@@ -44,7 +44,7 @@ $saved_stories = $wpdb->get_results(
 
       <section id="mainContent"
         class="transition-all gap-[0.75rem] w-full <?= ($isHome || $isSingleTruyen) ? 'pl-0' : 'pl-[19.5rem]' ?>">
-        <div class="flex flex-col justify-center p-[2.25rem] grow w-full bg-white  max-md:max-w-full">
+        <div class="flex flex-col justify-center p-[2.25rem] grow w-full bg-white max-md:max-w-full">
           <header>
             <h1
               class="font-bold leading-none text-red-dark text-[20px] lg:text-[2rem] uppercase text-center max-md:max-w-full">
