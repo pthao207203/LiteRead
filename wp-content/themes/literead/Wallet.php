@@ -104,8 +104,8 @@ $transactions = $wpdb->get_results($wpdb->prepare(
     $user_id
 )) ?: [];
 ?>
-<main class="flex items-center  mx-auto md:px-[2.125rem] md:py-[0.625rem] gap-[1rem] md:gap-[2.875rem] w-full bg-[#FFE5E1]">
-    <div class="w-full ml-[1.2rem] max-md:max-w-full">
+<main class="flex items-center ml-[0.625rem] mr-[0.625rem] mx-auto md:px-[2.225rem] md:py-[0.625rem] gap-[1rem] md:gap-[2.875rem] w-full bg-[#FFE5E1]">
+    <div class="w-full max-md:max-w-full">
         <div class="flex gap-[1.25rem] max-md:flex-col">
             <?php get_sidebar(); ?>
             <div class="flex flex-col flex-grow max-md:ml-0 max-md:w-full">
@@ -127,16 +127,16 @@ $transactions = $wpdb->get_results($wpdb->prepare(
                         </div>
 
                         <!-- Tổng xu -->
-                        <div class="flex flex-col mt-12 max-w-full text-3xl tracking-wide leading-none text-[#A04D4C] w-[394px] max-md:mt-10">
+                        <!-- <div class="flex flex-col mt-12 max-w-full text-3xl tracking-wide leading-none text-[#A04D4C] w-[394px] max-md:mt-10">
                             <div class="font-semibold">Tổng xu</div>
                             <div class="flex overflow-hidden flex-col justify-center py-4 mt-2 w-full font-medium whitespace-nowrap border-b border-solid border-b-[#A04D4C]">
                                 <div class="ml-2 opacity-60"><?php echo number_format($user->sum_coin, 0, ',', '.'); ?> xu</div>
                             </div>
-                        </div>
+                        </div> -->
 
                          <!-- Số dư -->
                     <div class="flex flex-col mt-12 text-3xl text-[#A04D4C] max-w-full w-[394px] max-md:mt-10">
-                        <div class="font-semibold">Số dư</div>
+                        <div class="font-semibold">Tổng xu hiện tại</div>
                         <div class="flex flex-col py-4 mt-2 w-full border-b border-solid border-b-[#A04D4C]">
                             <div id="userBalance" class="ml-2 opacity-60"><?php echo number_format($user->coin, 0, ',', '.'); ?> xu</div>
                         </div>
@@ -155,7 +155,7 @@ $transactions = $wpdb->get_results($wpdb->prepare(
                     </form>
 
                     <!-- Pop-up xác nhận rút xu -->
-                    <div id="confirmPopup" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div id="confirmPopup" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-900">
                         <div class="bg-white rounded-3xl p-[3rem] shadow-lg text-center w-[36rem]">
                         <!-- <img src="<?php echo esc_url(get_template_directory_uri() . '/wp-content/plugins/akismet/_inc/img/Group26.svg'); ?>" alt="Warning Icon" class="w-16 h-16 mx-auto"> -->
                         <p class="text-3xl text-black my-[2rem]">Xác nhận rút <span id="confirmAmount"></span> xu?</p>
@@ -169,50 +169,61 @@ $transactions = $wpdb->get_results($wpdb->prepare(
                     <!-- Pop-up hoàn tất -->
                     <div id="successPopup" class="hidden fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                         <div class="bg-white rounded-3xl p-[3rem] shadow-lg text-center w-[36rem]">
-                            <!-- <img src="<?php echo esc_url(get_template_directory_uri() . '/wp-content/plugins/akismet/_inc/img/Check_ring_duotone_line.svg'); ?>" 
-                                alt="Success Icon" class="w-16 h-16 mx-auto"> -->
+                            <img src="<?php echo esc_url(get_template_directory_uri() . '/wp-content/plugins/akismet/_inc/img/Check_ring_duotone_line.svg'); ?>" 
+                                alt="Success Icon" class="w-16 h-16 mx-auto">
                             <p class="text-3xl text-black my-[2rem]">Tiền của bạn sẽ được thanh toán trong vòng 24 giờ</p>
                         </div>
                     </div>
 
-                        <!-- Lịch sử giao dịch -->
-                        <div class="flex flex-col mt-12 w-full text-3xl tracking-wide leading-none text-[#A04D4C] max-md:mt-10">
-                            <div class="font-semibold max-md:text-xl max-sm:text-3xl">Lịch sử biến đổi</div>
-                            <div class="grid grid-cols-[20%_20%_20%_40%] gap-4 mt-2 w-full font-medium">
-                                <div class="flex flex-col mt-3">
-                                    <div class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-xl whitespace-nowrap">SD trước</div>
-                                    <?php foreach ($transactions as $transaction): ?>
-                                        <div class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-xl whitespace-nowrap">
-                                            <?php echo number_format($transaction->before_balance, 2); ?>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                                <div class="flex flex-col mt-3">
-                                    <div class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-xl whitespace-nowrap">Số lượng</div>
-                                    <?php foreach ($transactions as $transaction): ?>
-                                        <div class="px-2 py-3 border-b border-red-400 text-center text-3xl max-md:text-sm max-sm:text-xl whitespace-nowrap <?php echo $transaction->amount < 0 ? 'text-[#CD0800]' : 'text-[#088E00]'; ?>">
-                                            <?php echo ($transaction->amount < 0 ? '- ' : '+ ') . number_format(abs($transaction->amount), 2); ?>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                                <div class="flex flex-col mt-3">
-                                    <div class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-xl whitespace-nowrap">SD sau</div>
-                                    <?php foreach ($transactions as $transaction): ?>
-                                        <div class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-xl whitespace-nowrap">
-                                            <?php echo number_format($transaction->after_balance, 2); ?>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                                <div class="flex flex-col mt-3">
-                                    <div class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-xl mr-[3rem] whitespace-nowrap">Thời gian</div>
-                                    <?php foreach ($transactions as $transaction): ?>
-                                        <div class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-xl mr-[3rem] whitespace-nowrap">
-                                            <?php echo date('H:i d/m/Y', strtotime($transaction->created_at)); ?>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                            </div>
-                        </div>
+<!-- Lịch sử giao dịch -->
+<div class="flex flex-col mt-12 w-full text-3xl tracking-wide leading-none text-[#A04D4C] max-md:mt-10">
+    <div class="font-semibold max-md:text-xl max-sm:text-3xl">Lịch sử biến đổi</div>
+    <!-- Sử dụng grid layout với auto-fit để tự động điều chỉnh cột và căn chỉnh phần tử -->
+    <div class="grid grid-cols-[1fr_1fr_1fr_1fr] gap-4 mt-2 w-full font-medium">
+        
+        <!-- SD trước -->
+        <div class="flex flex-col justify-between">
+            <div class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-2xl whitespace-nowrap">SD trước</div>
+            <?php foreach ($transactions as $transaction): ?>
+                <div class="px-2 py-3 mt-2 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-2xl whitespace-nowrap">
+                    <?php echo number_format($transaction->before_balance); ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
+        <!-- Số lượng -->
+        <div class="flex flex-col justify-between">
+            <div class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-2xl whitespace-nowrap">Số lượng</div>
+            <?php foreach ($transactions as $transaction): ?>
+                <div class="px-2 py-3 mt-2 border-b border-red-400 text-center text-3xl max-md:text-sm max-sm:text-2xl whitespace-nowrap <?php echo $transaction->amount < 0 ? 'text-[#CD0800]' : 'text-[#088E00]'; ?>">
+                    <?php echo ($transaction->amount < 0 ? '- ' : '+ ') . number_format(abs($transaction->amount)); ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
+        <!-- SD sau -->
+        <div class="flex flex-col justify-between">
+            <div class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-2xl whitespace-nowrap">SD sau</div>
+            <?php foreach ($transactions as $transaction): ?>
+                <div class="px-2 py-3 mt-2 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-2xl whitespace-nowrap">
+                    <?php echo number_format($transaction->after_balance); ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
+        <!-- Thời gian -->
+        <div class="flex flex-col justify-between">
+            <div class="px-2 py-3 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-2xl whitespace-nowrap">Thời gian</div>
+            <?php foreach ($transactions as $transaction): ?>
+                <div class="px-2 py-3 mt-2 border-b border-red-400 opacity-60 text-center text-3xl max-md:text-sm max-sm:text-2xl">
+                    <?php echo date('H:i d/m/Y', strtotime($transaction->created_at)); ?>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>
+
+
                         </div>
                     </div>
                 </div>

@@ -55,8 +55,9 @@
 
   @media (max-width: 768px) {
     .footer-container {
-      width: 100vw; /* Đảm bảo tràn toàn bộ màn hình */
-      padding: 12px;    }
+      width: 100%;
+      padding: 12px;    
+    }
 
     .footer-container .contact-info h2 {
       font-size: 2rem;
@@ -73,7 +74,7 @@
 
   @media (max-width: 576px) {
     .footer-container {
-      width: 100vw; /* Đảm bảo tràn toàn bộ màn hình */
+      width: 100vw;
       padding: 6px;
     }
 
@@ -91,7 +92,7 @@
   }
 </style>
 
-<footer class="fixed bottom-0 left-0 flex items-center md:px-[2.125rem] md:py-[0.625rem] p-[0.625rem] gap-[1rem] md:gap-[2.875rem] w-full bg-orange-light-active z-50">
+<footer class="flex items-center ml-[0.625rem] mr-[0.625rem] mx-auto md:px-[2.125rem] md:py-[0.625rem] gap-[1rem] md:gap-[2.875rem] w-full bg-[#FFE5E1]">
   <div class="footer-container" role="contentinfo" aria-label="Contact Information">
     <div class="contact-info">
       <h2 class="lite-read-text">
