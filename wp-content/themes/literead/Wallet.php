@@ -168,8 +168,7 @@ echo '<script> console.log(' . $screen_width . ')</script>';
           </form>
 
           <!-- Pop-up xác nhận rút xu -->
-          <div id="confirmPopup"
-            class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div id="confirmPopup" class="hidden fixed inset-0 z-50 items-center justify-center bg-black bg-opacity-50">
             <div class="bg-white rounded-3xl p-[3rem] shadow-lg text-center w-[36rem]">
               <!-- <img src="<?php echo esc_url(get_template_directory_uri() . '/wp-content/plugins/akismet/_inc/img/Group26.svg'); ?>" alt="Warning Icon" class="w-16 h-16 mx-auto"> -->
               <p class="text-3xl text-black my-[2rem]">Xác nhận rút <span id="confirmAmount"></span> xu?</p>
@@ -183,8 +182,7 @@ echo '<script> console.log(' . $screen_width . ')</script>';
           </div>
 
           <!-- Pop-up hoàn tất -->
-          <div id="successPopup"
-            class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div id="successPopup" class="hidden fixed inset-0 z-50 items-center justify-center bg-black bg-opacity-50">
             <div class="bg-white rounded-3xl p-[3rem] shadow-lg text-center w-[36rem]">
               <!-- <img src="<?php echo esc_url(get_template_directory_uri() . '/wp-content/plugins/akismet/_inc/img/Check_ring_duotone_line.svg'); ?>" 
                                 alt="Success Icon" class="w-16 h-16 mx-auto"> -->
@@ -196,7 +194,7 @@ echo '<script> console.log(' . $screen_width . ')</script>';
           <div class="flex flex-col mt-12 w-full text-3xl tracking-wide leading-none text-[#A04D4C] max-md:mt-10">
             <div class="font-semibold max-md:text-xl max-sm:text-3xl">Lịch sử biến đổi</div>
             <!-- Sử dụng grid layout với auto-fit để tự động điều chỉnh cột và căn chỉnh phần tử -->
-            <div class="flex grid grid-cols-4 md:grid-cols-4 gap-4 mt-2 w-full max-w-full font-medium">
+            <div class="grid grid-cols-4 md:grid-cols-4 gap-4 mt-2 w-full max-w-full font-medium">
               <!-- SD trước -->
               <div class="flex flex-col justify-between">
                 <div
