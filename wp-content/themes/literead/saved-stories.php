@@ -12,8 +12,8 @@ global $wpdb;
 
 // Kiểm tra đăng nhập
 if (!isset($_COOKIE['signup_token'])) {
-    echo "<script>alert('Bạn cần đăng nhập để xem trang này!'); window.location.href='/wp-login.php';</script>";
-    exit();
+  echo "<script>alert('Bạn cần đăng nhập để xem trang này!'); window.location.href='/wp-login.php';</script>";
+  exit();
 }
 
 // Lấy thông tin người dùng từ cookie
@@ -27,10 +27,10 @@ $stories_table = $wpdb->prefix . 'stories';
 
 $saved_stories = $wpdb->get_results(
   $wpdb->prepare(
-      "SELECT s.* FROM {$wpdb->prefix}users_likes ul
+    "SELECT s.* FROM {$wpdb->prefix}users_likes ul
        JOIN {$wpdb->prefix}stories s ON ul.story_id = s.id
        WHERE ul.user_id = %d",
-      $user_id
+    $user_id
   )
 );
 
@@ -44,7 +44,7 @@ $saved_stories = $wpdb->get_results(
 
       <section id="mainContent"
         class="transition-all gap-[0.75rem] w-full <?= ($isHome || $isSingleTruyen) ? 'pl-0' : 'pl-[19.5rem]' ?>">
-        <div class="flex flex-col justify-center p-[2.25rem] grow w-full bg-white  max-md:max-w-full">
+        <div class="flex flex-col justify-center p-[2.25rem] grow w-full bg-white max-md:max-w-full">
           <header>
             <h1
               class="font-bold leading-none text-red-dark text-[20px] lg:text-[2rem] uppercase text-center max-md:max-w-full">
@@ -68,47 +68,47 @@ $saved_stories = $wpdb->get_results(
           <div class="mt-[12px] lg:mt-[24px] w-full max-md:max-w-full">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-[12px] lg:gap-[2.25rem] w-full  ">
               <!-- Story Cards -->
-              <?php if (!empty($saved_stories)) : ?>
-                <?php foreach ($saved_stories as $story) : 
-                   $chapter_lastest = $wpdb->get_results(
+              <?php if (!empty($saved_stories)): ?>
+                <?php foreach ($saved_stories as $story):
+                  $chapter_lastest = $wpdb->get_results(
                     $wpdb->prepare(
                       "SELECT * FROM wp_chapters WHERE story_id = %s ORDER BY chapter_number DESC LIMIT 2",
                       $story->id
                     )
                   );
                   ?>
-              <article class="flex flex-wrap grow shrink gap-3 items-end min-w-60 w-full">
-                <img
-                  src="<?= esc_url($story->cover_image_url ?: "https://cdn.builder.io/api/v1/image/assets/TEMP/dc856669e14cfc9235a8d8326089d88b4938c1f787734b0722fd369985adc15f?placeholderIfAbsent=true&apiKey=02079658ccf1406d920515bd4a481c0d") ?>"
-                  alt="Story cover" class="object-cover shrink-0 rounded-lg aspect-[0.81] w-[121px] lg:w-[12.5rem]" />
-                <div class="flex flex-col flex-1 shrink basis-0 min-w-60">
-                <?php 
-                  if ($story->status == "Hoàn thành") {
-                      echo "<span class='gap-2.5 self-start px-[2px] text-[12px] lg:text-[1.25rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]'>Hoàn thành</span>";
-                  }
-                  else {
-                      echo "<span class='gap-2.5 self-start px-[2px] text-[12px] lg:text-[1.25rem] font-medium text-orange-light whitespace-nowrap bg-red-normal rounded-[2px]'>Đang cập nhật</span>";
-                  }
-                ?>
-                <a href="<?php echo esc_url(home_url('/truyen/' . $story->slug)); ?>"
-                class="hover:no-underline hover:text-orange-dark text-orange-darker">
-                  <h2
-                    class="flex-1 shrink gap-2.5 self-stretch mt-[1rem] w-full text-[16px] lg:text-[1.75rem] font-medium basis-0 text-orange-darker">
-                    <?php echo esc_html($story->story_name) ?>
-                  </h2>
-                </a>
-                <div class="flex gap-1 items-start self-start mt-[4px] mb-[-5px]">
-                    <div class="flex items-start" aria-label="Rating: 4 out of 5">
-                      <span
-                        class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
-                    </div>
-                    <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[6px]"><?php echo esc_html($story->rate) ?></span>
-                </div>
-                  
-                  <?php
-                        if (!empty($chapter_lastest)) {
-                          foreach ($chapter_lastest as $chapter) {
-                            echo "
+                  <article class="flex flex-wrap grow shrink gap-3 items-end min-w-60 w-full">
+                    <img
+                      src="<?= esc_url($story->cover_image_url ?: "https://cdn.builder.io/api/v1/image/assets/TEMP/dc856669e14cfc9235a8d8326089d88b4938c1f787734b0722fd369985adc15f?placeholderIfAbsent=true&apiKey=02079658ccf1406d920515bd4a481c0d") ?>"
+                      alt="Story cover" class="object-cover shrink-0 rounded-lg aspect-[0.81] w-[121px] lg:w-[12.5rem]" />
+                    <div class="flex flex-col flex-1 shrink basis-0 min-w-60">
+                      <?php
+                      if ($story->status == "Hoàn thành") {
+                        echo "<span class='gap-2.5 self-start px-[2px] text-[12px] lg:text-[1.25rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]'>Hoàn thành</span>";
+                      } else {
+                        echo "<span class='gap-2.5 self-start px-[2px] text-[12px] lg:text-[1.25rem] font-medium text-orange-light whitespace-nowrap bg-red-normal rounded-[2px]'>Đang cập nhật</span>";
+                      }
+                      ?>
+                      <a href="<?php echo esc_url(home_url('/truyen/' . $story->slug)); ?>"
+                        class="hover:no-underline hover:text-orange-dark text-orange-darker">
+                        <h2
+                          class="flex-1 shrink gap-2.5 self-stretch mt-[1rem] w-full text-[16px] lg:text-[1.75rem] font-medium basis-0 text-orange-darker">
+                          <?php echo esc_html($story->story_name) ?>
+                        </h2>
+                      </a>
+                      <div class="flex gap-1 items-start self-start mt-[4px] mb-[-5px]">
+                        <div class="flex items-start" aria-label="Rating: 4 out of 5">
+                          <span
+                            class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
+                        </div>
+                        <span
+                          class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[6px]"><?php echo esc_html($story->rate) ?></span>
+                      </div>
+
+                      <?php
+                      if (!empty($chapter_lastest)) {
+                        foreach ($chapter_lastest as $chapter) {
+                          echo "
                               <div class='flex justify-between items-center mt-[8px] mb-[-4px] w-full'>
                                 <p class='text-[14px] lg:text-[1.5rem] text-red-normal text-regular'>
                                   Chương " . $chapter->chapter_number . "
@@ -117,31 +117,30 @@ $saved_stories = $wpdb->get_results(
                                   " . time_ago($chapter->created_at) . "
                                 </p>
                               </div>";
-                          }
                         }
-                        ?>  
-                </div>
-              </article>
-              <?php endforeach; ?>
-            <?php else: ?>
-                <p class="text-center text-gray-500">Bạn chưa lưu truyện nào.</p>
-            <?php endif; ?>
+                      }
+                      ?>
+                    </div>
+                  </article>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <p class="text-center text-gray-500">Bạn chưa thích truyện nào.</p>
+              <?php endif; ?>
             </div>
           </div>
         </div>
 
         <!-- Recommended stories -->
         <section class="flex flex-col pt-[0.75rem] w-full rounded-none bg-white">
-            <!-- Tiêu đề -->
-            <h2
-              class="gap-2.5 self-start p-[10px] lg:px-[20px] ml-[17px] lg:ml-[34px] mb-[-3px] text-[18px] lg:text-[1.875rem] font-medium text-red-normal bg-red-light rounded-tl-[12px] rounded-tr-[12px]">
-              Truyện đề cử
-            </h2>
+          <!-- Tiêu đề -->
+          <h2
+            class="gap-2.5 self-start p-[10px] lg:px-[20px] ml-[17px] lg:ml-[34px] mb-[-3px] text-[18px] lg:text-[1.875rem] font-medium text-red-normal bg-red-light rounded-tl-[12px] rounded-tr-[12px]">
+            Truyện đề cử
+          </h2>
           <div class="flex flex-col w-full rounded-none">
             <?php include "de-cu.php"; ?>
           </div>
         </section>
-        <?php get_footer(); ?>
       </section>
     </div>
   </div>

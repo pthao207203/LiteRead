@@ -84,10 +84,12 @@ if (!$user) {
             <!-- editor Stats -->
             <div class="mt-12 w-full max-md:mt-10 max-md:max-w-full">
               <div class="flex flex-wrap gap-3 justify-end items-center w-full font-medium max-md:max-w-full">
-                <button
-                  class="gap-[0.625rem] self-stretch p-[0.625rem] my-auto text-[1rem] md:text-[1.75rem] font-medium text-orange-light bg-red-normal rounded-xl ">
-                  Đăng truyện mới
-                </button>
+                <a href="<?php echo home_url("/quan-ly-truyen/them-truyen-moi"); ?>">
+                  <button
+                    class="gap-[0.625rem] self-stretch p-[0.625rem] my-auto text-[1rem] md:text-[1.75rem] font-medium text-orange-light bg-red-normal rounded-xl ">
+                    Đăng truyện mới
+                  </button>
+                </a>
               </div>
 
               <div class="flex flex-wrap gap-3 items-start mt-3 w-full text-red-dark max-md:max-w-full">
@@ -101,7 +103,7 @@ if (!$user) {
                 <article
                   class="flex flex-col flex-1 shrink justify-center gap-[1.25rem] p-[1.25rem] bg-orange-light-hover rounded-xl basis-0  max-md:max-w-full">
                   <p class="text-[1rem] md:text-[1.75rem]"><?php echo esc_html($total_stories_full); ?></p>
-                  <h3 class="text-[0.875rem] md:text-[1.5rem] font-semibold">Truyện đã hoàn thành</h3>
+                  <h3 class="text-[0.875rem] md:text-[1.5rem] font-semibold">Đã hoàn thành</h3>
                 </article>
               </div>
 
@@ -126,14 +128,21 @@ if (!$user) {
               <!-- Tabs -->
               <h2
                 class="flex flex-wrap gap-[1.25rem] justify-center items-start w-full font-semibold text-red-normal max-md:max-w-full">
-           Danh sách truyện  
-            </h2>
+                Danh sách truyện  
+              </h2>
 
               <!-- Story Cards -->
               <div class="grid grid-cols-1 lg:grid-cols-2 gap-[2.25rem] items-start mt-[1.5rem] w-full text-red-darker max-md:max-w-full">
                 <?php  
                 if (!empty($total)) :
                   foreach ($total as $story) :
+                    $genres = $wpdb->get_col($wpdb->prepare(
+                      "SELECT t.type_name 
+                        FROM wp_story_type st 
+                        INNER JOIN wp_type t ON st.type_id = t.id 
+                        WHERE st.story_id = %d",
+                      $story->id
+                    ));
                     // Truy vấn số chương của từng truyện
                     $chapter_count = $wpdb->get_var($wpdb->prepare(
                       "SELECT COUNT(*) FROM $chapters_table WHERE story_id = %d",
@@ -153,17 +162,26 @@ if (!$user) {
                     src="<?= esc_url($story->cover_image_url ?:"https://cdn.builder.io/api/v1/image/assets/103bf3aa31034bd4a5ed1d2543b64cba/50cbfd8cdfc73f54a9f3f27033cf3182a841382fe95cc17c2dc9ebde4c3ada8a?placeholderIfAbsent=true") ?>"
                     class="object-contain rounded-2xl aspect-[0.72] max-h-[23rem] md:w-[16.625rem] w-1/3"
                     alt=<?php echo esc_html($story->story_name); ?> />
-                  <div class="flex flex-col justify-center items-start w-80 ">
-                    <h3 class="gap-[0.625rem] self-stretch w-full text-[1rem] md:text-[1.75rem] font-medium">
-                    <?php echo esc_html($story->story_name) ?>
-                    </h3>
+                  <div class="flex flex-col justify-center items-start">
+                    <a href="<?php echo esc_url(home_url('/quan-ly-truyen/' . $story->slug)); ?>"
+                    class="hover:no-underline hover:text-orange-dark text-orange-darker">
+                      <h3 class="gap-[0.625rem] self-stretch w-full text-[1rem] md:text-[1.75rem] font-medium">
+                      <?php echo esc_html($story->story_name) ?>
+                      </h3>
+                    </a>
                     <p class="gap-[0.625rem] self-stretch mt-[0.5rem]">Số chữ: 24.7K</p>
                     <p class="gap-[0.625rem] self-stretch mt-[0.5rem]">
                       Trạng thái:
                       <span class="font-semibold"><?php echo esc_html($story->status) ?></span>
                     </p>
                     <p class="gap-[0.625rem] self-stretch mt-[0.5rem]">
-                      Thể loại: <?php echo esc_html($story->genres) ?>
+                      Thể loại: <?php
+                        if (!empty($genres)) {
+                          echo esc_html(implode(', ', array_map('trim', $genres)));
+                        } else {
+                          echo '<p>Không có thể loại nào</p>';
+                        }
+                        ?>
                     </p>
                     <p class="gap-[0.625rem] self-stretch mt-[0.5rem]">Số chương: <?= $chapter_count ?></p>
                     <p class="gap-[0.625rem] self-stretch mt-[0.5rem]">Lượt đọc: <?php echo esc_html($story->view) ?></p>
@@ -190,7 +208,6 @@ if (!$user) {
               <!-- Wrapper cuộn ngang + Grid cho màn hình lớn -->
               <?php include "de-cu.php"; ?>
             </div>
-            <?php get_footer(); ?>
           </section>
 
         </div>

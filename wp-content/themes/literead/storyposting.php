@@ -154,7 +154,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
                     <label for="Hoten" class="font-semibold max-md:max-w-full">Họ và tên</label>
                     <div class="overflow-hidden w-full max-md:max-w-full text-[#A04D4C]">
                       <input type="text" id="Hoten" name="Hoten" value="<?php echo esc_attr($full_name); ?>" readonly
-                        class="text-[#A04D4C] font-medium px-[0.5rem] py-[1rem] mt-4 w-full border-b border-solid 
+                        class="text-[#A04D4C] font-medium px-[0.5rem] py-[1rem] mt-4 w-full border-b border-solid h-[3.5rem]
                                     border-b-[color:var(--Foundation-Red-red-Dark,#A04D4C)] outline-none" required />
                     </div>
                   </div>
@@ -163,7 +163,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
                     <label for="SDT" class="font-semibold tracking-wide leading-none max-md:max-w-full">Số điện
                       thoại</label>
                     <div class="overflow-hidden w-full max-md:max-w-full text-[#A04D4C]">
-                      <input type="tel" id="SDT" name="SDT" value="<?php echo esc_attr($phone); ?>" readonly class="text-[#A04D4C] font-medium px-[0.5rem] py-[1rem] mt-4 w-full border-b border-solid 
+                      <input type="text" id="SDT" name="SDT" value="<?php echo esc_attr($phone); ?>" readonly class="text-[#A04D4C] font-medium px-[0.5rem] py-[1rem] mt-4 w-full border-b border-solid h-[3.5rem]
                                     border-b-[color:var(--Foundation-Red-red-Dark,#A04D4C)] outline-none" required />
                     </div>
                     <p class="mt-[1rem] text-[1.5rem] text-[CD0800] max-md:max-w-full">
@@ -174,9 +174,9 @@ echo '<script>console.log(' . $screen_width . ')</script>';
                   <div
                     class="grow shrink tracking-wide leading-none whitespace-nowrap min-w-60 w-[566px] max-md:max-w-full">
                     <label for="Gmail" class="font-semibold tracking-wide leading-none max-md:max-w-full">Gmail</label>
-                    <div class="overflow-hidden w-full bg-[#F0F3F5] max-md:max-w-full text-[#A04D4C]">
+                    <div class="overflow-hidden w-full max-md:max-w-full text-[#A04D4C]">
                       <input type="text" id="Gmail" name="Gmail" value="<?php echo esc_attr($email); ?>" readonly
-                        class="overflow-hidden px-[0.5rem] py-[1rem] mt-4 w-full font-medium border-b border-solid 
+                        class="bg-[#F0F3F5] overflow-hidden px-[0.5rem] py-[1rem] mt-4 w-full font-medium border-b border-solid h-[3.5rem]
                                     border-b-[color:var(--Foundation-Red-red-Dark,#A04D4C)] outline-none max-md:max-w-full" required />
                     </div>
                   </div>
@@ -184,20 +184,20 @@ echo '<script>console.log(' . $screen_width . ')</script>';
                   <div class="grow shrink tracking-wide leading-none min-w-60 w-[566px] max-md:max-w-full">
                     <label for="ngaythamgia" class="font-semibold  tracking-wide leading-none max-md:max-w-full">Ngày
                       tham gia</label>
-                    <div class="overflow-hidden bg-[#F0F3F5]  w-full max-md:max-w-full text-[#A04D4C]">
+                    <div class="overflow-hidden w-full max-md:max-w-full text-[#A04D4C]">
                       <input type="date" id="ngaythamgia" name="ngaythamgia"
                         value="<?php echo esc_attr($created_at_display); ?>" readonly
-                        class="overflow-hidden px-[0.5rem] py-[1rem] mt-4 w-full font-medium border-b border-solid border-b-[color:var(--Foundation-Red-red-Dark,#A04D4C)] outline-none max-md:max-w-full" />
+                        class="bg-[#F0F3F5] overflow-hidden px-[0.5rem] py-[1rem] mt-4 w-full font-medium border-b border-solid h-[3.5rem] border-b-[color:var(--Foundation-Red-red-Dark,#A04D4C)] outline-none max-md:max-w-full" />
                     </div>
                   </div>
 
                   <div class="grow shrink tracking-wide leading-none min-w-60 w-[566px] max-md:max-w-full">
                     <label for="Capnhat" class="font-semibold tracking-wide leading-none max-md:max-w-full">Cập nhật lần
                       cuối</label>
-                    <div class="overflow-hidden bg-[#F0F3F5]  w-full max-md:max-w-full text-[#A04D4C]">
+                    <div class="overflow-hidden w-full max-md:max-w-full text-[#A04D4C]">
                       <input type="date" id="Capnhat" name="Capnhat"
                         value="<?php echo esc_attr($updated_at_display); ?>" readonly
-                        class="overflow-hidden px-[0.5rem] py-[1rem] mt-4 w-full font-medium border-b border-solid border-b-[color:var(--Foundation-Red-red-Dark,#A04D4C)] outline-none max-md:max-w-full" />
+                        class="bg-[#F0F3F5] overflow-hidden px-[0.5rem] py-[1rem] mt-4 w-full font-medium border-b border-solid h-[3.5rem] border-b-[color:var(--Foundation-Red-red-Dark,#A04D4C)] outline-none max-md:max-w-full" />
                     </div>
                   </div>
 
@@ -415,6 +415,3 @@ echo '<script>console.log(' . $screen_width . ')</script>';
     }
   });
 </script>
-
-
-<?php get_footer(); ?>
