@@ -1,4 +1,3 @@
-
 <?php 
 /* Template Name: Wallet */
 get_header();
