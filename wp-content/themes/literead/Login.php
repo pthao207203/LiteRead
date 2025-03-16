@@ -49,13 +49,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-
+<div class="relative mt-[4.425rem] w-screen">
 <div
-  class="flex overflow-hidden flex-col mx-auto w-full bg-white max-w-[428px]"
+  class="flex overflow-hidden flex-col mx-auto w-full-screen bg-white max-w-[428px]"
 >
 
   <div
-    class="flex flex-col px-[1.0625rem] pt-[1.0625rem] mt-[3.5rem] w-full text-red-dark bg-white min-h-[779px] text-[1.5rem] "
+    class="flex flex-col px-[1.0625rem] pt-[1.0625rem]  w-full text-red-dark bg-white min-h-[779px] text-[1.5rem] "
   >
   <form method="POST">
       <div class="flex flex-col w-full tracking-wide leading-none ">
@@ -124,6 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       Facebook
     </button>
   </div>
+</div>
 </div>
 
 <?php get_footer(); ?>
