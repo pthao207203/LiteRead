@@ -13,7 +13,7 @@ $total_stories = $wpdb->get_var("SELECT COUNT(*) FROM $stories");
 $total_pages = ceil($total_stories / $per_page);
 
 $stories_new = $wpdb->get_results(
-  $wpdb->prepare("SELECT * FROM $stories ORDER BY created_at DESC LIMIT %d OFFSET %d", $per_page, $offset)
+  $wpdb->prepare("SELECT * FROM $stories ORDER BY edited_at DESC LIMIT %d OFFSET %d", $per_page, $offset)
 );
 
 $type = $wpdb->prefix . 'type';
