@@ -31,7 +31,7 @@ $is_logged_in = isset($_COOKIE['signup_token']);
         <li>
           <button data-id="<?= home_url('/tong-quan'); ?>" onclick="handleSidebarClick(this)"
             class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
-           hover:bg-orange-light hover:text-red-normal <?= ($current_slug === 'tong-quan') ? 'bg-orange-light text-red-normal' : '' ?>">
+           hover:bg-orange-light hover:text-red-normal <?= (!$isHome && !$isSingleTruyen && $current_slug === 'tong-quan') ? 'bg-orange-light text-red-normal' : '' ?>">
             <div>
               <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"
                 class="w-[1.875rem] h-[1.875rem] transition-all hover:stroke-red-normal active:stroke-red-normal ">
@@ -52,7 +52,7 @@ $is_logged_in = isset($_COOKIE['signup_token']);
         <li>
           <button data-id="<?= home_url('/truyen-da-thich'); ?>" onclick="handleSidebarClick(this)"
             class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
-            hover:bg-orange-light hover:text-red-normal <?= ($current_slug === 'truyen-da-thich') ? 'bg-orange-light text-red-normal' : '' ?>">
+            hover:bg-orange-light hover:text-red-normal <?= (!$isHome && !$isSingleTruyen && $current_slug === 'truyen-da-thich') ? 'bg-orange-light text-red-normal' : '' ?>">
             <div>
               <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"
                 class="w-[1.875rem] h-[1.875rem] transition-all hover:stroke-red-normal active:stroke-red-normal ">
@@ -72,7 +72,7 @@ $is_logged_in = isset($_COOKIE['signup_token']);
         <li>
           <button data-id="<?= home_url('/quan-ly-truyen'); ?>" onclick="handleSidebarClick(this)"
             class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
-       hover:bg-orange-light hover:text-red-normal <?= ($current_slug === 'quan-ly-truyen') ? 'bg-orange-light text-red-normal' : '' ?>">
+       hover:bg-orange-light hover:text-red-normal <?= (!$isHome && !$isSingleTruyen && $current_slug === 'quan-ly-truyen') ? 'bg-orange-light text-red-normal' : '' ?>">
             <div>
               <svg width="30" height="30" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg"
                 class="w-[1.875rem] h-[1.875rem] transition-all hover:stroke-red-normal active:stroke-red-normal ">
@@ -102,7 +102,7 @@ $is_logged_in = isset($_COOKIE['signup_token']);
         <li>
           <button data-id="<?= home_url('/vi-cua-toi'); ?>" onclick="handleSidebarClick(this)"
             class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
-            hover:bg-orange-light hover:text-red-normal <?= ($current_slug === 'vi-cua-toi') ? 'bg-orange-light text-red-normal' : '' ?>">
+            hover:bg-orange-light hover:text-red-normal <?= (!$isHome && !$isSingleTruyen && $current_slug === 'vi-cua-toi') ? 'bg-orange-light text-red-normal' : '' ?>">
             <div>
               <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"
                 class="w-[1.875rem] h-[1.875rem] transition-all hover:stroke-red-normal active:stroke-red-normal ">
@@ -125,7 +125,7 @@ $is_logged_in = isset($_COOKIE['signup_token']);
         <li>
           <button data-id="<?= home_url('/thong-bao'); ?>" onclick="handleSidebarClick(this)"
             class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
-            hover:bg-orange-light hover:text-red-normal <?= ($current_slug === 'thong-bao') ? 'bg-orange-light text-red-normal' : '' ?>">
+            hover:bg-orange-light hover:text-red-normal <?= (!$isHome && !$isSingleTruyen && $current_slug === 'thong-bao') ? 'bg-orange-light text-red-normal' : '' ?>">
             <div>
               <svg width="30" height="31" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg"
                 class="w-[1.875rem] h-[1.875rem] transition-all hover:stroke-red-normal active:stroke-red-normal ">

@@ -12,7 +12,7 @@ $story = $wpdb->get_row(
 
 $users = $wpdb->prefix . 'users_literead';
 $user = $wpdb->get_row(
-  $wpdb->prepare("SELECT user_name, full_name, slug FROM $users WHERE id = %s", $story->id)
+  $wpdb->prepare("SELECT user_name, full_name, slug FROM $users WHERE id = %s", $story->author)
 );
 
 $comments_table = $wpdb->prefix . 'comments_literead';
@@ -353,7 +353,7 @@ if ($story) {
     // Tạo AJAX request
     const formData = new FormData();
     formData.append('action', 'save_story'); // Đảm bảo rằng action là save_story
-    formData.append('story_id', <?php echo esc_js($story->id); ?>); // Gửi ID của truyện
+    formData.append('story_id', <?php echo ($story->id); ?>); // Gửi ID của truyện
 
     // Gửi AJAX request tới admin-ajax.php
     fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
