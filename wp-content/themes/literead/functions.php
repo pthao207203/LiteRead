@@ -442,7 +442,7 @@ add_action('template_redirect', function () {
   }
 });
 
-// [POST] /truyen/{ten-truyen}
+// [POST] /truyen/{ten-truyen} - Truyện đã thích/đã lưu
 add_action('wp_ajax_save_story', 'save_story');
 add_action('wp_ajax_nopriv_save_story', 'save_story');
 
@@ -464,6 +464,7 @@ function save_story()
 
       // Kiểm tra nếu truyện đã có trong danh sách yêu thích
       $favorites_table = $wpdb->prefix . 'users_likes';
+      $stories_table = $wpdb->prefix . 'stories';
       $existing_favorite = $wpdb->get_var($wpdb->prepare(
         "SELECT COUNT(*) FROM $favorites_table WHERE user_id = %d AND story_id = %d",
         $user_id,
@@ -482,7 +483,13 @@ function save_story()
           array('%d', '%d', '%s')
         );
 
-        wp_send_json_success(array('message' => 'Truyện đã được lưu vào danh sách yêu thích.'));
+         // Tăng lượt thích trong bảng stories
+         $wpdb->query(
+          $wpdb->prepare("UPDATE $stories_table SET likes = likes + 1 WHERE id = %d", $story_id)
+      );
+
+
+        wp_send_json_success(array('message' => 'Truyện đã được lưu vào danh sách yêu thích.', 'status' => 'saved'));
       } else {
         // Nếu đã có, xóa truyện khỏi danh sách yêu thích
         $wpdb->delete(
@@ -494,7 +501,12 @@ function save_story()
           array('%d', '%d')
         );
 
-        wp_send_json_success(array('message' => 'Truyện đã bị xóa khỏi danh sách yêu thích.'));
+          // Giảm lượt thích, nhưng không để âm
+          $wpdb->query(
+            $wpdb->prepare("UPDATE $stories_table SET likes = GREATEST(likes - 1, 0) WHERE id = %d", $story_id)
+        );
+
+        wp_send_json_success(array('message' => 'Truyện đã bị xóa khỏi danh sách yêu thích.', 'status' => 'not_saved'));
       }
     } else {
       wp_send_json_error(array('message' => 'Người dùng không hợp lệ.'));

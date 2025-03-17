@@ -115,7 +115,7 @@ echo '<script> console.log(' . $screen_width . ')</script>';
 ?>
 <main class="relative flex flex-col mt-[4.425rem]">
   <div class="w-full max-md:max-w-full">
-    <div class="flex max-md:flex-col">
+    <div class="flex max-md:flex-col h-full">
       <!-- Sidebar Navigation -->
       <?php get_sidebar(); ?>
       <section id="mainContent"

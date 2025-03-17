@@ -21,7 +21,9 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$comments_table'") != $comments_table) {
     story_id MEDIUMINT(9) UNSIGNED NOT NULL,
     content TEXT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY  (story_id, month)
+    PRIMARY KEY  (id),
+    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES wp_users_literead(id) ON DELETE CASCADE,
+    CONSTRAINT fk_story_id FOREIGN KEY (story_id) REFERENCES wp_stories(id) ON DELETE CASCADE
   ) $charset_collate;";
   require_once ABSPATH . 'wp-admin/includes/upgrade.php';
   dbDelta($sql);
@@ -218,7 +220,7 @@ if ($story) {
                     </a>
                     <form method="POST" id="save-story-form" action="">
                       <input type="hidden" name="story_id" value="<?php echo esc_attr($story->id); ?>" />
-                      <button type="submit" name="save_story" id="toggle-btn">
+                      <button type="button" name="save_story" id="toggle-btn" data-story-id="<?php echo esc_attr($story->id); ?>">
                         <img id="toggle-img"
                           src="https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png"
                           class="w-[3.5625rem] max-sm:w-[2.625rem] max-sm:h-[2.625rem] h-[3.5625rem] object-fill shrink "
@@ -463,40 +465,77 @@ if ($story) {
 ; ?>
 
 <script>
-  document.getElementById("toggle-btn").addEventListener("click", function (event) {
-    event.preventDefault();  // Ngừng gửi form ngay lập tức
+const img_saved = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/tkn6hjhe.png"; // saved
+const img_not_saved = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png"; // not saved
 
+document.getElementById("toggle-btn").addEventListener("click", function (event) {
+    event.preventDefault();
+
+    const btn = event.currentTarget;
     const img = document.getElementById("toggle-img");
-    const img1 = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png";
-    const img2 = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/tkn6hjhe.png";
+    const storyId = btn.dataset.storyId; // Lấy story_id động từ data attribute
 
-    // Toggle image source
-    img.src = img.src === img1 ? img2 : img1;
+    // Toggle UI ngay lập tức (mượt mà hơn)
+    const isCurrentlySaved = img.src === img_saved;
+    img.src = isCurrentlySaved ? img_not_saved : img_saved;
 
-    // Tạo AJAX request
     const formData = new FormData();
-    formData.append('action', 'save_story'); // Đảm bảo rằng action là save_story
-    formData.append('story_id', <?php echo esc_js($story->id); ?>); // Gửi ID của truyện
+    formData.append('action', 'save_story');
+    formData.append('story_id', storyId);
 
-    // Gửi AJAX request tới admin-ajax.php
     fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
-      method: 'POST',
-      body: formData
+        method: 'POST',
+        body: formData,
+        credentials: 'same-origin'
     })
-      .then(response => response.json())
-      .then(data => {
+    .then(response => response.json())
+    .then(data => {
         if (data.success) {
-          alert(data.data.message); // Hiển thị thông báo từ server
+            alert(data.data.message);
+            // Reload trang sau khi server xử lý xong
+            window.location.reload();
         } else {
-          alert(data.data.message); // Hiển thị lỗi từ server
+            alert(data.data.message);
+            // Nếu server báo lỗi, revert lại icon
+            img.src = isCurrentlySaved ? img_saved : img_not_saved;
         }
-      })
-      .catch(error => {
+    })
+    .catch(error => {
         console.error('Error:', error);
-      });
-  });
+        img.src = isCurrentlySaved ? img_saved : img_not_saved;
+    });
+});
 
-
+ 
+ // Khi trang được tải lại, kiểm tra trạng thái đã lưu hay chưa và cập nhật nút
+ document.addEventListener("DOMContentLoaded", function() {
+     const img = document.getElementById("toggle-img");
+     const storyId = document.getElementById("toggle-btn").dataset.storyId;
+ 
+     // Gửi request kiểm tra trạng thái
+     const formData = new FormData();
+     formData.append('action', 'check_story_status');
+     formData.append('story_id', storyId);
+ 
+     fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+         method: 'POST',
+         body: formData,
+         credentials: 'same-origin'
+     })
+     .then(response => response.json())
+     .then(data => {
+         if (data.success) {
+             // Cập nhật lại trạng thái hình ảnh
+             if (data.data.status === 'saved') {
+                img.src = img_saved;
+            } else {
+                img.src = img_not_saved;
+            }
+         } else {
+             console.log('Không thể kiểm tra trạng thái.');
+         }
+     });
+ });
 </script>
 
 <?php get_footer(); ?>
