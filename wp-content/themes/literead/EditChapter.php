@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       array('id' => $chapter->id)
     );
 
-    echo '<script>window.location.href="' . home_url("/quan-ly-truyen/$story_slug/") . '";</script>';
+    echo '<script>window.location.href="' . home_url("/quan-ly-truyen/" . $story_slug) . '";</script>';
     exit;
   }
 }

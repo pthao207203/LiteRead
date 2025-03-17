@@ -163,7 +163,7 @@ function tao_custom_post_type()
     'publicly_queryable' => true, //Hiển thị các tham số trong query, phải đặt true
     'capability_type' => 'post' //
   ));
-    
+
 }
 
 /* Kích hoạt hàm tạo custom post type */
@@ -431,7 +431,7 @@ add_action('template_redirect', function () {
     exit;
   }
   //[GET] /quan-ly-truyen/{ten-truyen}
-  if (isset($wp_query->query_vars['post_type']) && ($wp_query->query_vars['post_type']=='truyen')) {
+  if (isset($wp_query->query_vars['post_type']) && ($wp_query->query_vars['post_type'] == 'truyen')) {
     include(get_template_directory() . '/single-truyen.php');
     exit;
   }
@@ -483,10 +483,10 @@ function save_story()
           array('%d', '%d', '%s')
         );
 
-         // Tăng lượt thích trong bảng stories
-         $wpdb->query(
+        // Tăng lượt thích trong bảng stories
+        $wpdb->query(
           $wpdb->prepare("UPDATE $stories_table SET likes = likes + 1 WHERE id = %d", $story_id)
-      );
+        );
 
 
         wp_send_json_success(array('message' => 'Truyện đã được lưu vào danh sách yêu thích.', 'status' => 'saved'));
@@ -501,9 +501,9 @@ function save_story()
           array('%d', '%d')
         );
 
-          // Giảm lượt thích, nhưng không để âm
-          $wpdb->query(
-            $wpdb->prepare("UPDATE $stories_table SET likes = GREATEST(likes - 1, 0) WHERE id = %d", $story_id)
+        // Giảm lượt thích, nhưng không để âm
+        $wpdb->query(
+          $wpdb->prepare("UPDATE $stories_table SET likes = GREATEST(likes - 1, 0) WHERE id = %d", $story_id)
         );
 
         wp_send_json_success(array('message' => 'Truyện đã bị xóa khỏi danh sách yêu thích.', 'status' => 'not_saved'));
@@ -556,54 +556,54 @@ function check_story_status()
 }
 
 // Log out
-add_action('init', function() {
+add_action('init', function () {
   if (isset($_GET['action']) && $_GET['action'] === 'custom_logout') {
-      wp_logout();
+    wp_logout();
 
-      // Xóa cookie signup_token
-      if (isset($_COOKIE['signup_token'])) {
-          setcookie('signup_token', '', time() - 3600, '/');
-          unset($_COOKIE['signup_token']);
-      }
+    // Xóa cookie signup_token
+    if (isset($_COOKIE['signup_token'])) {
+      setcookie('signup_token', '', time() - 3600, '/');
+      unset($_COOKIE['signup_token']);
+    }
 
-      // Lấy URL hiện tại trừ tham số action
-      $protocol = is_ssl() ? "https://" : "http://";
-      $current_url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    // Lấy URL hiện tại trừ tham số action
+    $protocol = is_ssl() ? "https://" : "http://";
+    $current_url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
-      // Loại bỏ ?action=custom_logout khỏi URL
-      $redirect_url = remove_query_arg('action', $current_url);
+    // Loại bỏ ?action=custom_logout khỏi URL
+    $redirect_url = remove_query_arg('action', $current_url);
 
-      // Thêm ?logout=1 để hiển thị alert sau khi reload
-      $redirect_url = add_query_arg('logout', '1', $redirect_url);
+    // Thêm ?logout=1 để hiển thị alert sau khi reload
+    $redirect_url = add_query_arg('logout', '1', $redirect_url);
 
-      wp_safe_redirect($redirect_url);
-      exit;
+    wp_safe_redirect($redirect_url);
+    exit;
   }
 });
 
-function is_public_page() {
+function is_public_page()
+{
   $uri = $_SERVER['REQUEST_URI'];
   $base = parse_url(home_url(), PHP_URL_PATH); // sẽ trả về /LiteRead nếu chạy trong localhost/LiteRead
-  $base = rtrim($base, '/'); // loại bỏ dấu / cuối nếu có
 
   // Public URLs chính xác:
-    // Nếu là single post của post type 'truyen'
-    if (is_singular('truyen')) {
-      return true;
+  // Nếu là single post của post type 'truyen'
+  if (is_singular('truyen')) {
+    return true;
   }
 
   if (preg_match('#^' . $base . '/truyen/[^/]+/chuong-[0-9]+/?$#', $uri)) { // chi tiết chương
-      return true;
+    return true;
   }
 
   if ($uri === $base . '/' || strpos($uri, '/dang-nhap') !== false || strpos($uri, '/dang-ky') !== false) {
-      return true;
+    return true;
   }
 
   return false;
 }
 
-add_action('template_redirect', function() {
+add_action('template_redirect', function () {
   if (!isset($_COOKIE['signup_token']) && !is_public_page()) {
     echo "<script>
       alert('Bạn cần đăng nhập để xem trang này!');

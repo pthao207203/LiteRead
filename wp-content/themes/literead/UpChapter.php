@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       array('id' => $story) // Điều kiện cập nhật đúng story
     );
 
-    echo '<script>window.location.href="' . home_url('/') . '";</script>';
+    echo '<script>window.location.href="' . home_url('/quan-ly-truyen/' . $truyen_slug) . '";</script>';
     exit;
 
 
@@ -109,7 +109,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
     <div class="flex max-md:flex-col">
       <!-- Sidebar Navigationx -->
       <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
-      <?php get_sidebar(); ?>
+        <?php get_sidebar(); ?>
       <?php endif; ?>
       <section id="mainContent"
         class="transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
