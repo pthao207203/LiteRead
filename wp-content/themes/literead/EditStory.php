@@ -55,6 +55,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $error_genres = '';
     $cover_image_url = '';
     if (!empty($_FILES['cover_image']['name'])) {
+      if (!function_exists('wp_handle_upload')) {
+        require_once ABSPATH . 'wp-admin/includes/file.php';
+      }
       $uploaded_file = $_FILES['cover_image'];
       $upload = wp_handle_upload($uploaded_file, array('test_form' => false));
 
@@ -283,7 +286,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
                 echo esc_html($synopsis);
               else
                 echo esc_html($story->synopsis) ?>
-                                                                                              </textarea>
+                                                                                                </textarea>
               <?php if (!empty($error_synopsis)): ?>
                 <p style="color: red;"><?php echo esc_html($error_synopsis); ?></p>
               <?php endif; ?>
