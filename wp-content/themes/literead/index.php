@@ -101,6 +101,7 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$stories_like'") != $stories_like) {
 }
 $isHome = is_front_page();
 $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
+$isAuthPage = strpos($_SERVER['REQUEST_URI'], 'dang-nhap') !== false || strpos($_SERVER['REQUEST_URI'], 'dang-ky') !== false;
 
 $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
 $isMobile = $screen_width < 768;
@@ -113,9 +114,11 @@ echo '<script>console.log(' . $screen_width . ')</script>';
   <div class="w-full max-md:max-w-full">
     <div class="flex max-md:flex-col">
       <!-- Sidebar Navigation -->
+      <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
       <?php get_sidebar(); ?>
+      <?php endif; ?>
       <div id="mainContent"
-        class="flex flex-col <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+        class="flex flex-col <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
         <section
           class="flex relative flex-col w-full min-h-[246px] mb-[-20px] md:flex-row md:min-h-[300px] lg:min-h-[400px]">
           <img loading="lazy"
@@ -208,10 +211,10 @@ echo '<script>console.log(' . $screen_width . ')</script>';
                       <img loading="lazy" src=<?php echo esc_url($story->cover_image_url); ?> alt=<?php echo esc_html($story->story_name); ?>
                         class="object-cover shrink-0 rounded-lg aspect-[0.81] w-[121px] lg:w-[12.5rem]" />
                       <div class="flex flex-col flex-1 shrink basis-0 min-w-60">
-                          <?php if ($story->status == "Hoàn thành")
-                            echo "<span
+                        <?php if ($story->status == "Hoàn thành")
+                          echo "<span
                             class='gap-2.5 self-start px-[2px] text-[12px] lg:text-[1.25rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]'>Hoàn thành</span>"
-                              ?>
+                            ?>
                           <a href="<?php echo esc_url(home_url('/truyen/' . $story->slug)); ?>"
                           class="hover:no-underline hover:text-orange-dark text-orange-darker">
                           <h3
@@ -278,9 +281,9 @@ echo '<script>console.log(' . $screen_width . ')</script>';
           </section>
 
         </section>
+
+        <?php get_footer(); ?>
       </div>
     </div>
   </div>
 </main>
-
-<?php get_footer(); ?>

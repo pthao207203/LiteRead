@@ -1,5 +1,10 @@
 <?php
 /* Template Name: Signup */
+if (isset($_COOKIE['signup_token'])) {
+  wp_redirect(home_url('/'));
+  exit;
+}
+
 ob_start();
 get_header();
 
@@ -105,16 +110,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["signup"])) {
 }
 $isHome = is_front_page();
 $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
+$isAuthPage = strpos($_SERVER['REQUEST_URI'], 'dang-nhap') !== false || strpos($_SERVER['REQUEST_URI'], 'dang-ky') !== false;
 ?>
 
 <main class="relative flex flex-col mt-[4.425rem] ">
   <div class="w-full max-md:max-w-full">
     <div class="flex max-md:flex-col">
       <!-- Sidebar Navigationx -->
-      <?php get_sidebar(); ?>
+      <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
+        <?php get_sidebar(); ?>
+      <?php endif; ?>
       <section id="mainContent"
-        class="flex-grow transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
-        <div class="grow w-full bg-white  max-md:max-w-full h-[calc(100vh-4.425rem)]">
+        class="flex-grow transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+        <div class="grow w-full bg-white  max-md:max-w-full h-[calc(100vh-4.425rem)] overflow-y-auto">
           <div class="flex overflow-hidden flex-col pt-14 mx-auto w-full bg-white max-w-[428px]">
             <div class="flex flex-col px-[1.0625rem] pt-[1.0625rem] w-full text-[1.5rem] text-red-dark bg-white">
               <form method="POST">

@@ -1,10 +1,21 @@
 <?php
 /* Template Name: Manage Stories */
+
+// Kiểm tra nếu user chưa đăng nhập
+if (!isset($_COOKIE['signup_token']) || empty($_COOKIE['signup_token'])) {
+  echo "<script>alert('Bạn cần đăng nhập để xem trang này!');</script>";
+  wp_redirect(home_url('/dang-nhap'));
+  exit();
+}
+
 session_start();
 get_header();
 
 $isHome = is_front_page();
 $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
+$isAuthPage = strpos($_SERVER['REQUEST_URI'], 'dang-nhap') !== false || strpos($_SERVER['REQUEST_URI'], 'dang-ky') !== false;
+
+
 
 $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
 $isMobile = $screen_width < 768;
@@ -13,7 +24,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
 global $wpdb;
 // Kiểm tra đăng nhập
 if (!isset($_COOKIE['signup_token'])) {
-  echo "<p class='text-center text-red-500 font-bold text-lg'>Bạn cần đăng nhập để quản lý truyện.</p>";
+  echo "<p class='text-center text-red-500 font-bold text-lg relative mt-[4.425rem]'>Bạn cần đăng nhập để quản lý truyện.</p>";
   get_footer();
   exit;
 }
@@ -26,7 +37,7 @@ if (!isset($_COOKIE['signup_token'])) {
   ));
 
 if (!$user) {
-    echo "<p class='text-center text-red-500 font-bold text-lg'>Tài khoản không tồn tại.</p>";
+    echo "<p class='text-center text-red-500 font-bold text-lg relative mt-[4.425rem]'>Tài khoản không tồn tại.</p>";
     get_footer();
     exit;
   }
@@ -58,22 +69,22 @@ if (!$user) {
   $total = $wpdb->get_results(
     $wpdb->prepare("SELECT * FROM $stories_table WHERE editor = %d ORDER BY created_at DESC", $user->id)
   );  
-  if (empty($total)) {
-    echo "<p class='text-center text-gray-500'>Bạn chưa đăng truyện nào.</p>";
-    get_footer();
-    exit;
+  if (!isset($total)) {
+    $total = 0;
   }
 ?>
 
 
 <main class="relative flex flex-col mt-[4.425rem]">
   <div class="w-full max-md:max-w-full">
-    <div class="flex max-md:flex-col">
+    <div class="flex max-md:flex-col h-full">
       <!-- Sidebar Navigationx -->
+      <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
       <?php get_sidebar(); ?>
+      <?php endif; ?>
       <section id="mainContent"
-        class="flex-grow transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
-        <div class="grow w-full bg-white  max-md:max-w-full">
+        class="flex-grow transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+        <div class="grow w-full bg-white  max-md:max-w-full ">
           <!-- editor Profile Section -->
           <section class="flex flex-col justify-center p-[2.25rem] w-full max-md:px-5 max-md:max-w-full">
             <h2
@@ -110,14 +121,14 @@ if (!$user) {
               <div class="flex flex-wrap gap-3 items-start mt-3 w-full text-red-dark max-md:max-w-full">
                 <article
                   class="flex flex-col flex-1 shrink justify-center gap-[1.25rem] p-[1.25rem] bg-orange-light-hover rounded-xl basis-0  max-md:max-w-full">
-                  <p class="text-[1rem] md:text-[1.75rem]"><?php echo esc_html($total_likes); ?></p>
+                  <p class="text-[1rem] md:text-[1.75rem]"><?php echo esc_html($total_likes ?? 0); ?></p>
                   <h3 class="text-[0.875rem] md:text-[1.5rem] font-semibold">
                     Lượt thích
                   </h3>
                 </article>
                 <article
                   class="flex flex-col flex-1 shrink justify-center gap-[1.25rem] p-[1.25rem] bg-orange-light-hover rounded-xl basis-0  max-md:max-w-full">
-                  <p class="text-[1rem] md:text-[1.75rem]"><?php echo esc_html($total_view); ?></p>
+                  <p class="text-[1rem] md:text-[1.75rem]"><?php echo esc_html($total_view ?? 0); ?></p>
                   <h3 class="text-[0.875rem] md:text-[1.5rem] font-semibold">Lượt đọc</h3>
                 </article>
               </div>
@@ -136,6 +147,12 @@ if (!$user) {
                 <?php  
                 if (!empty($total)) :
                   foreach ($total as $story) :
+                    $total_count = $wpdb->get_var(
+                      $wpdb->prepare(
+                        "SELECT SUM(count) FROM $chapters_table WHERE story_id = %d",
+                        $story->id
+                      )
+                    );
                     $genres = $wpdb->get_col($wpdb->prepare(
                       "SELECT t.type_name 
                         FROM wp_story_type st 
@@ -160,7 +177,7 @@ if (!$user) {
                   class="flex grow shrink gap-6 items-start p-[1.25rem] bg-white rounded-2xl shadow-lg max-md:max-w-full h-full self-stretch">
                   <img
                     src="<?= esc_url($story->cover_image_url ?:"https://cdn.builder.io/api/v1/image/assets/103bf3aa31034bd4a5ed1d2543b64cba/50cbfd8cdfc73f54a9f3f27033cf3182a841382fe95cc17c2dc9ebde4c3ada8a?placeholderIfAbsent=true") ?>"
-                    class="object-contain rounded-2xl aspect-[0.72] max-h-[23rem] md:w-[16.625rem] w-1/3"
+                    class="object-cover rounded-2xl aspect-[0.72] max-h-[23rem] md:w-[16.625rem] w-1/3"
                     alt=<?php echo esc_html($story->story_name); ?> />
                   <div class="flex flex-col justify-center items-start">
                     <a href="<?php echo esc_url(home_url('/quan-ly-truyen/' . $story->slug)); ?>"
@@ -169,7 +186,7 @@ if (!$user) {
                       <?php echo esc_html($story->story_name) ?>
                       </h3>
                     </a>
-                    <p class="gap-[0.625rem] self-stretch mt-[0.5rem]">Số chữ: 24.7K</p>
+                    <p class="gap-[0.625rem] self-stretch mt-[0.5rem]">Số chữ: <?php echo esc_html($total_count) ?></p>
                     <p class="gap-[0.625rem] self-stretch mt-[0.5rem]">
                       Trạng thái:
                       <span class="font-semibold"><?php echo esc_html($story->status) ?></span>

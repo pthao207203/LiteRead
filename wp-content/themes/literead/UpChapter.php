@@ -1,7 +1,15 @@
 <?php
 /* Template Name: UpChapter */
 
+// Kiểm tra nếu user chưa đăng nhập
+if (!isset($_COOKIE['signup_token']) || empty($_COOKIE['signup_token'])) {
+  echo "<script>alert('Bạn cần đăng nhập để xem trang này!');</script>";
+  wp_redirect(home_url('/dang-nhap'));
+  exit();
+}
+
 get_header();
+
 
 global $wpdb;
 $table_name = $wpdb->prefix . 'chapters';
@@ -54,7 +62,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $chapter_name = isset($_POST['chapter_name']) ? sanitize_text_field($_POST['chapter_name']) : '';
   $synopsis = isset($_POST['synopsis']) ? wp_unslash($_POST['synopsis']) : '';
   $story = intval($_POST['story']);
-  $word_count = str_word_count($synopsis);
+  $words = mb_split('\s+', trim($synopsis));
+  $word_count = count(array_filter($words));
 
   if (empty(trim($chapter_number))) {
     $error_chapter_number = 'Nội dung không được để trống!';
@@ -81,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       array('id' => $story) // Điều kiện cập nhật đúng story
     );
 
-    echo '<script>window.location.href="' . home_url('/') . '";</script>';
+    echo '<script>window.location.href="' . home_url('/quan-ly-truyen/' . $truyen_slug) . '";</script>';
     exit;
 
 
@@ -90,6 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 $isHome = is_front_page();
 $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
+$isAuthPage = strpos($_SERVER['REQUEST_URI'], 'dang-nhap') !== false || strpos($_SERVER['REQUEST_URI'], 'dang-ky') !== false;
 
 $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
 $isMobile = $screen_width < 768;
@@ -99,9 +109,11 @@ echo '<script>console.log(' . $screen_width . ')</script>';
   <div class="w-full max-md:max-w-full">
     <div class="flex max-md:flex-col">
       <!-- Sidebar Navigationx -->
-      <?php get_sidebar(); ?>
+      <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
+        <?php get_sidebar(); ?>
+      <?php endif; ?>
       <section id="mainContent"
-        class="transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+        class="transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
         <div class="w-full bg-white  max-md:max-w-full">
           <nav
             class="flex flex-wrap items-center w-full px-[20px] text-[1.125rem] font-medium  bg-white text-red-darker mb-[2px]"
@@ -122,7 +134,9 @@ echo '<script>console.log(' . $screen_width . ')</script>';
 
             <!-- 📝 Đăng truyện -->
             <div class="flex items-center self-stretch px-[12px] py-[10px] mr-0 ">
-              <a href="#" class="self-stretch mr-[12px]" tabindex="0"><?php echo esc_attr($story->story_name); ?></a>
+              <a href="#" class="self-stretch mr-[12px]"
+                tabindex="0"><?php if (isset($story->story_name))
+                  echo esc_attr($story->story_name); ?></a>
               <!-- ➡️ Mũi tên SVG -->
               <div class="flex items-center justify-center w-5 h-5" aria-hidden="true">
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 20 20" fill="none">
@@ -145,10 +159,12 @@ echo '<script>console.log(' . $screen_width . ')</script>';
               <h2 class="font-semibold text-[1.75rem] max-md:max-w-full">Tên truyện</h2>
               <div
                 class="flex overflow-hidden flex-col justify-center px-[0.5rem] py-[0.5rem] mt-[1rem] w-full whitespace-nowrap border-b border-solid border-b-red-dark max-md:max-w-full">
-                <input type="text" placeholder="" readonly value="<?php echo esc_attr($story->story_name); ?>"
+                <input type="text" placeholder="" readonly value="<?php if (isset($story->story_name))
+                  echo esc_attr($story->story_name); ?>"
                   class="opacity-60 max-md:max-w-full w-full bg-transparent text-red-dark outline-none" />
 
-                <input type="text" class="hidden" name="story" value="<?php echo esc_attr($story->id); ?>">
+                <input type="text" class="hidden" name="story" value="<?php if (isset($story->id))
+                  echo esc_attr($story->id); ?>">
 
               </div>
             </div>

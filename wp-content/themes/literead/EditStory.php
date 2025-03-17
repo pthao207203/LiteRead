@@ -1,4 +1,12 @@
 <?php
+
+// Kiểm tra nếu user chưa đăng nhập
+if (!isset($_COOKIE['signup_token']) || empty($_COOKIE['signup_token'])) {
+  echo "<script>alert('Bạn cần đăng nhập để xem trang này!');</script>";
+  wp_redirect(home_url('/dang-nhap'));
+  exit();
+}
+
 global $wpdb;
 $story_slug = get_query_var('truyen');
 $stories = $wpdb->prefix . 'stories';
@@ -13,6 +21,14 @@ $author = $story->author;
 $status = $story->status;
 $synopsis = $story->synopsis;
 $cover_image_url = $story->cover_image_url;
+$genres_all = $wpdb->get_col("SELECT type_name FROM wp_type");
+$genres_checked = $wpdb->get_col($wpdb->prepare(
+  "SELECT t.type_name 
+  FROM wp_story_type st 
+  INNER JOIN wp_type t ON st.type_id = t.id 
+  WHERE st.story_id = %d",
+  $story->id
+));
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
   // if (!isset($_POST['security']) || !wp_verify_nonce($_POST['security'], 'story_upload_nonce')) {
@@ -45,8 +61,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $error_synopsis = '';
   } else {
     $error_genres = '';
-    $cover_image_url = '';
     if (!empty($_FILES['cover_image']['name'])) {
+      if (!function_exists('wp_handle_upload')) {
+        require_once ABSPATH . 'wp-admin/includes/file.php';
+      }
       $uploaded_file = $_FILES['cover_image'];
       $upload = wp_handle_upload($uploaded_file, array('test_form' => false));
 
@@ -72,18 +90,37 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $type_names = array_map('trim', explode(',', $genres));
 
-    $story_id = $wpdb->insert_id;
+    $new_type_ids = [];
     foreach ($type_names as $type_name) {
       $type_id = $wpdb->get_var($wpdb->prepare(
         "SELECT id FROM wp_type WHERE type_name = %s",
         $type_name
       ));
+      if ($type_id) {
+        $new_type_ids[] = $type_id;
+      }
+    }
 
-      // Thêm vào bảng trung gian
-      $wpdb->insert('wp_story_type', [
-        'story_id' => $story_id,
-        'type_id' => $type_id,
-      ]);
+    $types_to_remove = array_diff($genres_checked, $new_type_ids);
+    if (!empty($types_to_remove)) {
+      $wpdb->query(
+        "DELETE FROM wp_story_type WHERE story_id = {$story->id} AND type_id IN (" . implode(',', $types_to_remove) . ")"
+      );
+    }
+
+    $existing_type_ids = $wpdb->get_col($wpdb->prepare(
+      "SELECT type_id FROM wp_story_type WHERE story_id = %d",
+      $story->id
+    ));
+
+    foreach ($new_type_ids as $type_id) {
+      if (!in_array($type_id, $existing_type_ids)) {
+        // Thêm vào bảng trung gian wp_story_type
+        $wpdb->insert('wp_story_type', [
+          'story_id' => $story->id,
+          'type_id' => $type_id,
+        ]);
+      }
     }
 
 
@@ -111,10 +148,15 @@ get_header();
 
 $isHome = is_front_page();
 $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
+$isAuthPage = strpos($_SERVER['REQUEST_URI'], 'dang-nhap') !== false || strpos($_SERVER['REQUEST_URI'], 'dang-ky') !== false;
+
+
 
 $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
 $isMobile = $screen_width < 768;
 echo '<script>console.log(' . $screen_width . ')</script>';
+
+
 ?>
 
 <!-- 💡 Nội dung chính -->
@@ -124,8 +166,8 @@ echo '<script>console.log(' . $screen_width . ')</script>';
       <!-- Sidebar Navigationx -->
       <?php get_sidebar(); ?>
       <section id="mainContent"
-        class="transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
-        <div class="w-full bg-white  max-md:max-w-full">
+        class="transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+        <div class="w-full bg-white  max-md:max-w-full  h-[calc(100vh-4.425rem)] overflow-y-auto">
 
           <!-- Nội dung bên dưới Header -->
           <nav
@@ -147,36 +189,37 @@ echo '<script>console.log(' . $screen_width . ')</script>';
 
             <!-- 📝 Tên truyện -->
             <div class="flex items-center self-stretch px-[12px] py-[10px] mr-0 ">
-              <a href="#" class="self-stretch mr-[12px]" tabindex="0"><?php echo esc_html($story->story_name) ?></a>
-              <!-- ➡️ Mũi tên SVG -->
-              <div class="flex items-center justify-center w-5 h-5" aria-hidden="true">
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 20 20" fill="none">
-                  <path d="M7.42499 16.5999L12.8583 11.1666C13.5 10.5249 13.5 9.4749 12.8583 8.83324L7.42499 3.3999"
-                    stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                    stroke-linejoin="round" />
-                </svg>
+              <a href="#" class="self-stretch mr-[12px]" tabindex="0"><?php if (isset($story->story_name))
+                echo esc_html($story->story_name) ?></a>
+                <!-- ➡️ Mũi tên SVG -->
+                <div class="flex items-center justify-center w-5 h-5" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 20 20" fill="none">
+                    <path d="M7.42499 16.5999L12.8583 11.1666C13.5 10.5249 13.5 9.4749 12.8583 8.83324L7.42499 3.3999"
+                      stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </div>
               </div>
-            </div>
 
-            <!-- 📝 Chỉnh sửa -->
-            <div class="flex items-center self-stretch px-[12px] py-[10px] mr-0 ">
-              <a href="#" class="self-stretch mr-[12px]" tabindex="0">Chỉnh sửa</a>
-              <!-- ➡️ Mũi tên SVG -->
-              <div class="flex items-center justify-center w-5 h-5" aria-hidden="true">
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 20 20" fill="none">
-                  <path d="M7.42499 16.5999L12.8583 11.1666C13.5 10.5249 13.5 9.4749 12.8583 8.83324L7.42499 3.3999"
-                    stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
-                    stroke-linejoin="round" />
-                </svg>
+              <!-- 📝 Chỉnh sửa -->
+              <div class="flex items-center self-stretch px-[12px] py-[10px] mr-0 ">
+                <a href="#" class="self-stretch mr-[12px]" tabindex="0">Chỉnh sửa</a>
+                <!-- ➡️ Mũi tên SVG -->
+                <div class="flex items-center justify-center w-5 h-5" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 20 20" fill="none">
+                    <path d="M7.42499 16.5999L12.8583 11.1666C13.5 10.5249 13.5 9.4749 12.8583 8.83324L7.42499 3.3999"
+                      stroke="black" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </div>
               </div>
-            </div>
-          </nav>
+            </nav>
 
 
-          <!-- Form Đăng Truyện -->
-          <form id="storyForm"
-            class="bg-white px-[17px] py-[17px] md:px-[3.5rem] md:py-[2.125rem] w-full text-[1.75rem]" method="POST"
-            enctype="multipart/form-data">
+            <!-- Form Đăng Truyện -->
+            <form id="storyForm"
+              class="bg-white px-[17px] py-[17px] md:px-[3.5rem] md:py-[2.125rem] w-full text-[1.75rem]" method="POST"
+              enctype="multipart/form-data">
             <?php wp_nonce_field('story_upload_action', 'story_nonce'); ?>
 
             <!-- Upload Ảnh Bìa -->
@@ -235,20 +278,12 @@ echo '<script>console.log(' . $screen_width . ')</script>';
               <label class="font-semibold text-red-dark-hover mt-[1.25rem]">Thể loại</label>
               <div class="flex flex-wrap gap-[1rem] mt-[1rem] text-[1.5rem]">
                 <?php
-                $genres = $wpdb->get_col("SELECT type_name FROM wp_type");
-                $genres_checked = $wpdb->get_col($wpdb->prepare(
-                  "SELECT t.type_name 
-           FROM wp_story_type st 
-           INNER JOIN wp_type t ON st.type_id = t.id 
-           WHERE st.story_id = %d",
-                  $story->id
-                ));
-                foreach ($genres as $genre) {
+                foreach ($genres_all as $genre) {
                   $checked = in_array($genre, $genres_checked) ? 'checked' : '';
                   ?>
                   <label class='genre-label inline-block py-[1rem] px-[1.25rem] text-center cursor-pointer 
-              bg-orange-light-active rounded-lg hover:bg-red-normal hover:text-red-light 
-              transition-colors text-red-dark-hover'>
+                    bg-orange-light-active rounded-lg hover:bg-red-normal hover:text-red-light 
+                    transition-colors text-red-dark-hover'>
                     <input type='checkbox' name='genres[]' value='<?php echo $genre; ?>' class='hidden genre-checkbox'
                       <?php echo $checked; ?> />
                     <span class='font-normal'><?php echo $genre; ?></span>
@@ -270,7 +305,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
                 echo esc_html($synopsis);
               else
                 echo esc_html($story->synopsis) ?>
-                                                                                </textarea>
+                                                                                                        </textarea>
               <?php if (!empty($error_synopsis)): ?>
                 <p style="color: red;"><?php echo esc_html($error_synopsis); ?></p>
               <?php endif; ?>

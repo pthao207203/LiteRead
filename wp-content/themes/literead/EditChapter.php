@@ -1,6 +1,13 @@
 <?php
 /* Template Name: UpChapter */
 
+// Kiểm tra nếu user chưa đăng nhập
+if (!isset($_COOKIE['signup_token']) || empty($_COOKIE['signup_token'])) {
+  echo "<script>alert('Bạn cần đăng nhập để xem trang này!');</script>";
+  wp_redirect(home_url('/dang-nhap'));
+  exit();
+}
+
 get_header();
 
 global $wpdb;
@@ -68,11 +75,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       array('id' => $chapter->id)
     );
 
-    echo '<script>window.location.href="' . home_url("/quan-ly-truyen/$story_slug/") . '";</script>';
+    echo '<script>window.location.href="' . home_url("/quan-ly-truyen/" . $story_slug) . '";</script>';
     exit;
-
-
-
   }
 }
 $isHome = is_front_page();
@@ -81,6 +85,8 @@ $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Ki�
 $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
 $isMobile = $screen_width < 768;
 echo '<script>console.log(' . $screen_width . ')</script>';
+
+
 ?>
 <main class="relative flex flex-col mt-[4.425rem]">
   <div class="w-full max-md:max-w-full">

@@ -55,6 +55,7 @@ $previous_chapter_url = $previous_chapter_number ? site_url("/truyen/$story_slug
 $next_chapter_url = $next_chapter_number ? site_url("/truyen/$story_slug/chuong-$next_chapter_number") : '#';
 $isHome = is_front_page();
 $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
+$isAuthPage = strpos($_SERVER['REQUEST_URI'], 'dang-nhap') !== false || strpos($_SERVER['REQUEST_URI'], 'dang-ky') !== false;
 
 $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
 $isMobile = $screen_width < 768;
@@ -64,9 +65,11 @@ echo '<script> console.log(' . $screen_width . ')</script>';
   <div class="w-full max-md:max-w-full">
     <div class="flex max-md:flex-col">
       <!-- Sidebar Navigationx -->
-      <?php get_sidebar(); ?>
+      <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
+        <?php get_sidebar(); ?>
+      <?php endif; ?>
       <div id="mainContent"
-        class="md:w-10/12 flex-grow transition-all max-md:ml-0 max-md:w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+        class="md:w-10/12 flex-grow transition-all max-md:ml-0 max-md:w-full <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
         <div class="flex flex-col pt-[17px] w-full">
           <!-- Title -->
           <h1 class="lg:text-[1.875rem] text-[18px] lg:px-[56px] px-[17px] font-semibold text-red-darker text-left ">
@@ -266,104 +269,10 @@ echo '<script> console.log(' . $screen_width . ')</script>';
             setupDropdown("dropdownToggleTop", "dropdownMenuTop");
             setupDropdown("dropdownToggleBottom", "dropdownMenuBottom");
           </script>
-          <section class=" lg:px-[3.5rem] px-[17px] flex flex-col mt-[1.5rem]  bg-white" aria-label="Comment Section">
-            <h2 id="comment"
-              class="gap-2.5 self-start p-2.5 text-[18px] lg:text-[1.875rem] font-medium text-red-normal bg-orange-light-hover rounded-xl">
-              Bình luận
-            </h2>
-
-            <div class="flex flex-col mt-6 w-full text-red-darker max-md:max-w-full">
-              <!-- Comment Input -->
-              <textarea id="commentBox"
-                class="p-2.5 w-full bg-orange-light text-red-dark placeholder-red-dark text-[16px] lg:text-[1.75rem] resize-none overflow-y-auto block min-h-[3.75rem]"
-                placeholder="Bình luận tại đây..." aria-label="Write your comment"></textarea>
-
-              <!-- Comment List -->
-              <div role="feed" aria-label="Comments list">
-                <!-- Comment 1 -->
-                <article
-                  class="flex flex-wrap gap-6 items-start py-4 md:py-8 mt-3 w-full border-solid border-t-[0.5px] border-t-[#593B37]/50 border-b-[0.1px] border-b-[#593B37]/50 max-md:max-w-full">
-                  <div
-                    class="flex shrink-0 gap-2.5 bg-orange-light aspect-[1/1] h-[50px] w-[50px] max-md:h-[30px] rounded-[99px] max-md:w-[30px]"
-                    role="img" aria-label="Midori's avatar"></div>
-                  <div class="flex-1 shrink basis-0  max-md:max-w-full">
-                    <header
-                      class="flex flex-wrap md:gap-10 gap-1 justify-between items-center w-full max-md:max-w-full">
-                      <h3 class="self-stretch my-auto text-[16px] lg:text-[1.75rem] font-medium w-[126px]">
-                        Midori
-                      </h3>
-                      <time class="self-stretch my-auto text-[12px] lg:text-[1.5rem] text-right">9 giờ trước</time>
-                    </header>
-                    <p
-                      class="md:p-9 p-4 w-full text-[16px] lg:text-[1.75rem] bg-orange-light rounded-tr-xl rounded-b-xl max-md:px-5 max-md:max-w-full">
-                      Thấy cmt tưởng não tàn lắm nhưng mà ngược lại. Thấy cũng ổn mà
-                    </p>
-                  </div>
-                </article>
-
-                <!-- Comment 2 -->
-                <article
-                  class="flex flex-wrap gap-6 items-start py-4 md:py-8 mt-2 w-full border-solid border-b-[0.5px] border-b-[#593B37]/50 max-md:max-w-full">
-                  <div
-                    class="flex shrink-0 gap-2.5 bg-orange-light aspect-[1/1] h-[50px] w-[50px] max-md:h-[30px] rounded-[99px] max-md:w-[30px]"
-                    role="img" aria-label="Midori's avatar"></div>
-                  <div class="flex-1 shrink basis-0  max-md:max-w-full">
-                    <header
-                      class="flex flex-wrap md:gap-10 gap-1 justify-between items-center w-full max-md:max-w-full">
-                      <h3 class="self-stretch my-auto text-[16px] lg:text-[1.75rem] font-medium w-[126px]">
-                        Midori
-                      </h3>
-                      <time class="self-stretch my-auto text-[12px] lg:text-[1.5rem] text-right">9 giờ trước</time>
-                    </header>
-                    <p
-                      class="p-4 md:p-9 w-full text-[16px] lg:text-[1.75rem] bg-orange-light rounded-tr-xl rounded-b-xl max-md:px-5 max-md:max-w-full">
-                      Mạnh dạn đoán tác giả đang học cấp 3 hoặc ĐH
-                    </p>
-                  </div>
-                </article>
-
-                <!-- Comment 3 -->
-                <article class="flex flex-wrap gap-3 items-start py-4 md:py-8 mt-2 w-full max-md:max-w-full">
-                  <div
-                    class="flex shrink-0 gap-2.5 bg-orange-light aspect-[1/1] h-[50px] w-[50px] max-md:h-[30px] rounded-[99px] max-md:w-[30px]"
-                    role="img" aria-label="Midori's avatar"></div>
-                  <div class="flex-1 shrink basis-0  max-md:max-w-full">
-                    <header
-                      class="flex flex-wrap md:gap-10 gap-1 justify-between items-center w-full max-md:max-w-full">
-                      <h3 class="self-stretch my-auto text-[16px] lg:text-[1.75rem] font-medium w-[126px]">
-                        Midori
-                      </h3>
-                      <time class="self-stretch my-auto text-[12px] lg:text-[1.5rem] text-right">9 giờ trước</time>
-                    </header>
-                    <p
-                      class="p-9 w-full text-[16px] lg:text-[1.75rem] bg-orange-light rounded-tr-xl rounded-b-xl max-md:px-5 max-md:max-w-full">
-                      Xời nam9 xức sắc, 10 đỉm, tập sau ảnh đá bay nam phụ độc ác ra
-                      chuồng gà:))))
-                    </p>
-                  </div>
-                </article>
-              </div>
-
-              <!-- Pagination -->
-              <nav
-                class="flex gap-1 justify-center items-center self-center font-medium text-center text-red-normal whitespace-nowrap mt-4 text-[18px] lg:text-[1.875rem]"
-                aria-label="Pagination">
-                <button aria-label="Page 1"
-                  class="self-stretch px-0.5 my-auto text-orange-light bg-[#D56665] rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center"
-                  aria-current="page">1</button>
-                <button aria-label="Page 2"
-                  class="self-stretch px-0.5 my-auto bg-[#FFF2F0] rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center">2</button>
-                <button aria-label="Page 3"
-                  class="self-stretch px-0.5 my-auto bg-[#FFF2F0] rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center">3</button>
-                <span
-                  class="self-stretch px-0.5 my-auto bg-[#FFF2F0] rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center">...</span>
-                <button aria-label="Page 6"
-                  class="self-stretch px-0.5 my-auto bg-[#FFF2F0] rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center">6
-                </button>
-                <button aria-label="Next page"
-                  class="self-stretch px-0.5 my-auto bg-[#FFF2F0] rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center">&gt;</button>
-              </nav>
-            </div>
+          <section class="flex flex-col px-[17px] lg:px-[56px] bg-white" aria-label="Comment Section">
+            <?php
+            include "binh-luan.php";
+            ?>
           </section>
 
 
@@ -399,9 +308,9 @@ echo '<script> console.log(' . $screen_width . ')</script>';
 
           </script>
         </div>
+
+        <?php get_footer(); ?>
       </div>
     </div>
   </div>
 </main>
-
-<?php get_footer(); ?>

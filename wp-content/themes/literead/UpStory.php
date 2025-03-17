@@ -1,12 +1,5 @@
 <?php
 
-// Kiểm tra nếu user chưa đăng nhập
-if (!isset($_COOKIE['signup_token']) || empty($_COOKIE['signup_token'])) {
-  echo "<script>alert('Bạn cần đăng nhập để xem trang này!');</script>";
-  wp_redirect(home_url('/dang-nhap'));
-  exit();
-}
-
 global $wpdb;
 
 $signup_token = sanitize_text_field($_COOKIE['signup_token']);
@@ -41,7 +34,7 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
     likes INT UNSIGNED DEFAULT 0,
     hot INT UNSIGNED DEFAULT 0,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    editted_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    edited_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY  (id)
   ) $charset_collate;";
   require_once ABSPATH . 'wp-admin/includes/upgrade.php';
@@ -142,7 +135,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($story_name) {
       // Chuyển hướng về trang chính với thông báo thành công
       echo 'Thêm truyện thành công!';
-      wp_redirect(home_url('/'));
+      wp_redirect(home_url('/quan-ly-truyen/' . $slug));
       exit;
     } else {
       // wp_die('Lỗi khi thêm truyện. Vui lòng thử lại.');
@@ -158,6 +151,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 get_header();
 $isHome = is_front_page();
 $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
+$isAuthPage = strpos($_SERVER['REQUEST_URI'], 'dang-nhap') !== false || strpos($_SERVER['REQUEST_URI'], 'dang-ky') !== false;
 
 $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
 $isMobile = $screen_width < 768;
@@ -168,9 +162,11 @@ echo '<script>console.log(' . $screen_width . ')</script>';
   <div class="w-full max-md:max-w-full">
     <div class="flex max-md:flex-col">
       <!-- Sidebar Navigationx -->
-      <?php get_sidebar(); ?>
+      <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
+        <?php get_sidebar(); ?>
+      <?php endif; ?>
       <section id="mainContent"
-        class="transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+        class="transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
         <div class="w-full bg-white  max-md:max-w-full">
           <nav
             class="flex flex-wrap items-center w-full px-[20px] text-[1.125rem] font-medium  bg-white text-red-darker mb-[2px]"

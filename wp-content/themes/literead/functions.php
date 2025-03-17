@@ -139,6 +139,30 @@ function tao_custom_post_type()
     'publicly_queryable' => true, //Hiển thị các tham số trong query, phải đặt true
     'capability_type' => 'post' //
   ));
+
+  register_post_type('tacgia', array(
+    'labels' => array(
+      'name' => __('Tác giả', 'textdomain'),
+      'singular_name' => __('Tác giả', 'textdomain'),
+    ),
+    'public' => true,
+    'has_archive' => false, // Chỉ hiển thị dưới "Truyện"
+    'rewrite' => false, // Không có đường dẫn riêng
+    'supports' => array('title', 'editor'),
+
+    'taxonomies' => array('category', 'post_tag'), //Các taxonomy được phép sử dụng để phân loại nội dung
+    'hierarchical' => false, //Cho phép phân cấp, nếu là false thì post type này giống như Post, true thì giống như Page
+    'show_ui' => true, //Hiển thị khung quản trị như Post/Page
+    'show_in_menu' => true, //Hiển thị trên Admin Menu (tay trái)
+    'show_in_nav_menus' => true, //Hiển thị trong Appearance -> Menus
+    'show_in_admin_bar' => true, //Hiển thị trên thanh Admin bar màu đen.
+    'menu_position' => 5, //Thứ tự vị trí hiển thị trong menu (tay trái)
+    'menu_icon' => '', //Đường dẫn tới icon sẽ hiển thị
+    'can_export' => true, //Có thể export nội dung bằng Tools -> Export
+    'exclude_from_search' => false, //Loại bỏ khỏi kết quả tìm kiếm
+    'publicly_queryable' => true, //Hiển thị các tham số trong query, phải đặt true
+    'capability_type' => 'post' //
+  ));
 }
 /* Kích hoạt hàm tạo custom post type */
 add_action('init', 'tao_custom_post_type');
@@ -399,9 +423,8 @@ add_action('template_redirect', function () {
     include(get_template_directory() . '/single-chuong.php');
     exit;
   }
-  
-  // [GET] /truyen/{ten-truyen}
-  if (isset($wp_query->query_vars['post_type']) && ($wp_query->query_vars['post_type']=='truyen')) {
+  //[GET] /quan-ly-truyen/{ten-truyen}
+  if (isset($wp_query->query_vars['post_type']) && ($wp_query->query_vars['post_type'] == 'truyen')) {
     include(get_template_directory() . '/single-truyen.php');
     exit;
   }
@@ -448,6 +471,11 @@ function save_story()
         $author_id = $story->author;
         $message = $user_info->full_name . ' đã thích truyện của bạn!';
 
+        // Tăng lượt thích trong bảng stories
+        $wpdb->query(
+          $wpdb->prepare("UPDATE $stories_table SET likes = likes + 1 WHERE id = %d", $story_id)
+        );
+
         $notifications_table = $wpdb->prefix . 'notifications';
         $wpdb->insert(
           $notifications_table,
@@ -482,6 +510,10 @@ function save_story()
             'story_id' => $story_id
           ),
           array('%d', '%d', '%d')
+        // Giảm lượt thích, nhưng không để âm
+        $wpdb->query(
+          $wpdb->prepare("UPDATE $stories_table SET likes = GREATEST(likes - 1, 0) WHERE id = %d", $story_id)
+
         );
 
         wp_send_json_success(array('message' => 'Truyện đã bị xóa khỏi danh sách yêu thích.'));
@@ -533,6 +565,63 @@ function check_story_status()
   }
 }
 
+// Log out
+add_action('init', function () {
+  if (isset($_GET['action']) && $_GET['action'] === 'custom_logout') {
+    wp_logout();
+
+    // Xóa cookie signup_token
+    if (isset($_COOKIE['signup_token'])) {
+      setcookie('signup_token', '', time() - 3600, '/');
+      unset($_COOKIE['signup_token']);
+    }
+
+    // Lấy URL hiện tại trừ tham số action
+    $protocol = is_ssl() ? "https://" : "http://";
+    $current_url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+    // Loại bỏ ?action=custom_logout khỏi URL
+    $redirect_url = remove_query_arg('action', $current_url);
+
+    // Thêm ?logout=1 để hiển thị alert sau khi reload
+    $redirect_url = add_query_arg('logout', '1', $redirect_url);
+
+    wp_safe_redirect($redirect_url);
+    exit;
+  }
+});
+
+function is_public_page()
+{
+  $uri = $_SERVER['REQUEST_URI'];
+  $base = parse_url(home_url(), PHP_URL_PATH); // sẽ trả về /LiteRead nếu chạy trong localhost/LiteRead
+
+  // Public URLs chính xác:
+  // Nếu là single post của post type 'truyen'
+  if (is_singular('truyen')) {
+    return true;
+  }
+
+  if (preg_match('#^' . $base . '/truyen/[^/]+/chuong-[0-9]+/?$#', $uri)) { // chi tiết chương
+    return true;
+  }
+
+  if ($uri === $base . '/' || strpos($uri, '/dang-nhap') !== false || strpos($uri, '/dang-ky') !== false) {
+    return true;
+  }
+
+  return false;
+}
+
+add_action('template_redirect', function () {
+  if (!isset($_COOKIE['signup_token']) && !is_public_page()) {
+    echo "<script>
+      alert('Bạn cần đăng nhập để xem trang này!');
+      window.location.href = '" . home_url('/dang-nhap') . "';
+    </script>";
+    exit;
+  }
+}, 1);
 
 
 // global $wp_rewrite;
