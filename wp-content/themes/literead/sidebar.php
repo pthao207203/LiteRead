@@ -6,11 +6,14 @@ if (!$isHome && !$isSingleTruyen) {
   $slug_parts = explode('/', $current_path);
   $current_slug = $slug_parts[1];
 }
+$screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
+$isMobile = $screen_width < 768;
+echo '<script>console.log(' . $screen_width . ')</script>';
 // echo $current_slug;
 ?>
 <aside id="sidebar"
   class="z-[60] w-auto overflow-y-auto max-md:w-auto font-medium max-sm:text-[1rem] md:text-[1.5rem] transition-all duration-200 ease-in-out
-       max-md:hidden bg-[#FFE5E1] md:block <?= ($isHome || $isSingleTruyen) ? 'hidden absolute' : 'fixed top-[4.425rem] left-0 ' ?>">
+       max-md:hidden bg-[#FFE5E1] md:block <?= ($isHome || $isSingleTruyen || $isMobile) ? 'hidden absolute' : 'fixed top-[4.425rem] left-0 ' ?>">
   <nav class="flex flex-col justify-between py-[1.25rem] min-h-[calc(100vh-4.425rem)] bg-red-normal shadow-lg mx-auto">
     <ul class="flex flex-col flex-1 w-full font-medium leading-none text-orange-light">
       <li>
@@ -181,7 +184,7 @@ if (!$isHome && !$isSingleTruyen) {
       const isMobile = window.innerWidth < 768;
       if (isHomeOrSingleTruyen) {
         sidebar.classList.toggle("hidden", sidebar.classList.contains("block"));
-        
+
       }
       if (isMobile) {
         sidebar.classList.toggle("max-md:hidden", sidebar.classList.contains("block"));

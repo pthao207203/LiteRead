@@ -198,7 +198,6 @@ if ($story) {
                 } ?>
               </div>
           </div>
-          <?php get_footer(); ?>
         </section>
       </div>
     </div>
@@ -207,7 +206,5 @@ if ($story) {
   <?php
 } else { ?>
   <p>Truyện không tồn tại hoặc đã bị xóa.</p>
-
-  <?php get_footer(); ?>
 <?php }
 ; ?>
