@@ -1,6 +1,14 @@
 <?php
 /*template name: Saved Stories */
 get_header();
+
+// Kiểm tra nếu user chưa đăng nhập
+if (!isset($_COOKIE['signup_token']) || empty($_COOKIE['signup_token'])) {
+  echo "<script>alert('Bạn cần đăng nhập để xem trang này!');</script>";
+  wp_redirect(home_url('/dang-nhap'));
+  exit();
+}
+
 $isHome = is_front_page();
 $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
 
@@ -43,7 +51,7 @@ $saved_stories = $wpdb->get_results(
       <?php get_sidebar(); ?>
 
       <section id="mainContent"
-        class="transition-all gap-[0.75rem] w-full <?= ($isHome || $isSingleTruyen) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+        class="transition-all gap-[0.75rem] w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
         <div class="flex flex-col justify-center p-[2.25rem] grow w-full bg-white max-md:max-w-full">
           <header>
             <h1

@@ -1,5 +1,13 @@
 <?php
 /* Template Name: Wallet */
+
+// Kiểm tra nếu user chưa đăng nhập
+if (!isset($_COOKIE['signup_token']) || empty($_COOKIE['signup_token'])) {
+  echo "<script>alert('Bạn cần đăng nhập để xem trang này!');</script>";
+  wp_redirect(home_url('/dang-nhap'));
+  exit();
+}
+
 get_header();
 global $wpdb;
 $table_name = $wpdb->prefix . 'wallet_history';
@@ -38,7 +46,7 @@ if (!empty($_POST["action"]) && $_POST["action"] === "withdraw_coins") {
   }
 
   // Lấy thông tin số dư của người dùng
-  $user = $wpdb->get_row($wpdb->prepare("SELECT coin FROM wp_users_literead WHERE id = %d", $user_id));
+  $user = $wpdb->get_row($wpdb->prepare("SELECT coin FROM wp_users_literead WHERE token = %s", $_COOKIE['sign_up']));
   if (!$user) {
     echo json_encode(["status" => "error", "message" => "Lỗi: Không tìm thấy tài khoản!"]);
     exit;
@@ -105,17 +113,10 @@ $transactions = $wpdb->get_results($wpdb->prepare(
   "SELECT * FROM wp_wallet_history WHERE user_id = %d ORDER BY created_at DESC LIMIT 5",
   $user_id
 )) ?: [];
-
-$isHome = is_front_page();
-$isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
-
-$screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
-$isMobile = $screen_width < 768;
-echo '<script> console.log(' . $screen_width . ')</script>';
 ?>
 <main class="relative flex flex-col mt-[4.425rem]">
   <div class="w-full max-md:max-w-full">
-    <div class="flex max-md:flex-col">
+    <div class="flex max-md:flex-col h-full">
       <!-- Sidebar Navigation -->
       <?php get_sidebar(); ?>
       <section id="mainContent"
@@ -148,8 +149,7 @@ echo '<script> console.log(' . $screen_width . ')</script>';
           <div class="flex flex-col mt-12 text-3xl text-[#A04D4C] max-w-full w-[394px] max-md:mt-10">
             <div class="font-semibold">Tổng xu hiện tại</div>
             <div class="flex flex-col py-4 mt-2 w-full border-b border-solid border-b-[#A04D4C]">
-              <div id="userBalance" class="ml-2 opacity-60"><?php echo number_format($user->coin, 0, ',', '.'); ?>
-                xu
+              <div id="userBalance" class="ml-2 opacity-60"><?php echo number_format($user->coin, 0, ',', '.'); ?> xu
               </div>
             </div>
           </div>
@@ -168,7 +168,8 @@ echo '<script> console.log(' . $screen_width . ')</script>';
           </form>
 
           <!-- Pop-up xác nhận rút xu -->
-          <div id="confirmPopup" class="hidden fixed inset-0 z-50 items-center justify-center bg-black bg-opacity-50">
+          <div id="confirmPopup"
+            class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
             <div class="bg-white rounded-3xl p-[3rem] shadow-lg text-center w-[36rem]">
               <!-- <img src="<?php echo esc_url(get_template_directory_uri() . '/wp-content/plugins/akismet/_inc/img/Group26.svg'); ?>" alt="Warning Icon" class="w-16 h-16 mx-auto"> -->
               <p class="text-3xl text-black my-[2rem]">Xác nhận rút <span id="confirmAmount"></span> xu?</p>
@@ -182,7 +183,8 @@ echo '<script> console.log(' . $screen_width . ')</script>';
           </div>
 
           <!-- Pop-up hoàn tất -->
-          <div id="successPopup" class="hidden fixed inset-0 z-50 items-center justify-center bg-black bg-opacity-50">
+          <div id="successPopup"
+            class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
             <div class="bg-white rounded-3xl p-[3rem] shadow-lg text-center w-[36rem]">
               <!-- <img src="<?php echo esc_url(get_template_directory_uri() . '/wp-content/plugins/akismet/_inc/img/Check_ring_duotone_line.svg'); ?>" 
                                 alt="Success Icon" class="w-16 h-16 mx-auto"> -->
@@ -194,7 +196,7 @@ echo '<script> console.log(' . $screen_width . ')</script>';
           <div class="flex flex-col mt-12 w-full text-3xl tracking-wide leading-none text-[#A04D4C] max-md:mt-10">
             <div class="font-semibold max-md:text-xl max-sm:text-3xl">Lịch sử biến đổi</div>
             <!-- Sử dụng grid layout với auto-fit để tự động điều chỉnh cột và căn chỉnh phần tử -->
-            <div class="grid grid-cols-4 md:grid-cols-4 gap-4 mt-2 w-full max-w-full font-medium">
+            <div class="flex grid grid-cols-4 md:grid-cols-4 gap-4 mt-2 w-full max-w-full font-medium">
               <!-- SD trước -->
               <div class="flex flex-col justify-between">
                 <div
@@ -249,8 +251,9 @@ echo '<script> console.log(' . $screen_width . ')</script>';
             </div>
           </div>
         </div>
-      </section>
     </div>
+  </div>
+  </div>
   </div>
 </main>
 
@@ -324,3 +327,5 @@ echo '<script> console.log(' . $screen_width . ')</script>';
     });
   });
 </script>
+
+<?php get_footer(); ?>

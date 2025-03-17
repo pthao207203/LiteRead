@@ -1,5 +1,10 @@
 <?php
 /* Template Name: Signup */
+if (isset($_COOKIE['signup_token'])) {
+  wp_redirect(home_url('/'));
+  exit;
+}
+
 ob_start();
 get_header();
 
@@ -114,7 +119,7 @@ $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiá»
       <?php get_sidebar(); ?>
       <section id="mainContent"
         class="flex-grow transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
-        <div class="grow w-full bg-white  max-md:max-w-full h-[calc(100vh-4.425rem)]">
+        <div class="grow w-full bg-white  max-md:max-w-full h-[calc(100vh-4.425rem)] overflow-y-auto">
           <div class="flex overflow-hidden flex-col pt-14 mx-auto w-full bg-white max-w-[428px]">
             <div class="flex flex-col px-[1.0625rem] pt-[1.0625rem] w-full text-[1.5rem] text-red-dark bg-white">
               <form method="POST">

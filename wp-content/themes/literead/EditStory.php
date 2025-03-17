@@ -1,4 +1,12 @@
 <?php
+
+// Kiểm tra nếu user chưa đăng nhập
+if (!isset($_COOKIE['signup_token']) || empty($_COOKIE['signup_token'])) {
+  echo "<script>alert('Bạn cần đăng nhập để xem trang này!');</script>";
+  wp_redirect(home_url('/dang-nhap'));
+  exit();
+}
+
 global $wpdb;
 $story_slug = get_query_var('truyen');
 $stories = $wpdb->prefix . 'stories';
@@ -125,7 +133,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
       <?php get_sidebar(); ?>
       <section id="mainContent"
         class="transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
-        <div class="w-full bg-white  max-md:max-w-full">
+        <div class="w-full bg-white  max-md:max-w-full h-[calc(100vh-4.425rem)] overflow-y-auto">
 
           <!-- Nội dung bên dưới Header -->
           <nav
@@ -270,7 +278,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
                 echo esc_html($synopsis);
               else
                 echo esc_html($story->synopsis) ?>
-                                                                                </textarea>
+                                                                                            </textarea>
               <?php if (!empty($error_synopsis)): ?>
                 <p style="color: red;"><?php echo esc_html($error_synopsis); ?></p>
               <?php endif; ?>

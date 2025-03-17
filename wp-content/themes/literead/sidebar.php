@@ -11,10 +11,18 @@ $isMobile = $screen_width < 768;
 echo '<script>console.log(' . $screen_width . ')</script>';
 // echo $current_slug;
 ?>
-<aside id="sidebar"
-  class="z-[60] w-auto overflow-y-auto max-md:w-auto font-medium max-sm:text-[1rem] md:text-[1.5rem] transition-all duration-200 ease-in-out
-       max-md:hidden bg-[#FFE5E1] md:block <?= ($isHome || $isSingleTruyen || $isMobile) ? 'hidden absolute' : 'fixed top-[4.425rem] left-0 ' ?>">
-  <nav class="flex flex-col justify-between py-[1.25rem] min-h-[calc(100vh-4.425rem)] bg-red-normal shadow-lg mx-auto">
+<aside id="sidebar" class="z-[60] overflow-y-auto font-medium max-sm:text-[1rem] md:text-[1.5rem] transition-all duration-200 ease-in-out bg-[#FFE5E1]
+  <?php
+  if ($isMobile) {
+    echo '-translate-x-full fixed top-[4.425rem] left-0';
+  } elseif ($isHome || $isSingleTruyen) {
+    echo 'hidden fixed top-[4.425rem] left-0';
+  } else {
+    echo 'w-auto fixed top-[4.425rem] left-0';
+  }
+  ?>">
+  <nav
+    class="flex flex-col justify-between py-[1.25rem] md:min-h-[calc(100vh-4.425rem)] bg-red-normal shadow-lg mx-auto">
     <ul class="flex flex-col flex-1 w-full font-medium leading-none text-orange-light">
       <li>
         <button data-id="<?= home_url('/tong-quan'); ?>" onclick="handleSidebarClick(this)"
@@ -168,35 +176,57 @@ echo '<script>console.log(' . $screen_width . ')</script>';
   document.addEventListener("DOMContentLoaded", () => {
     const sidebar = document.getElementById("sidebar");
     const openSidebarBtn = document.getElementById("openSidebarBtn");
+    const mainContent = document.getElementById("mainContent");
 
-    if (!openSidebarBtn || !sidebar) {
-      console.error("Không tìm thấy nút hoặc sidebar!");
+    if (!openSidebarBtn || !sidebar || !mainContent) {
+      console.error("Không tìm thấy sidebar, mainContent hoặc openSidebarBtn!");
       return;
     }
 
-    // Xác định nếu đang ở trang Home hoặc trang Single Truyện
-    const isHomeOrSingleTruyen = window.location.pathname === "/" ||
+    let isHomeOrSingleTruyen = window.location.pathname === "/" ||
       window.location.pathname === "/LiteRead/" ||
       window.location.pathname.includes("/truyen/");
 
-    // Mở/đóng sidebar khi nhấn nút hamburger
+    function updateLayout() {
+      const isMobile = window.innerWidth < 768;
+      sidebar.classList.remove("w-auto", "w-0", "hidden", "translate-x-0", "-translate-x-full");
+      mainContent.classList.remove("pl-0", "pl-[19.5rem]");
+
+      if (isMobile) {
+        sidebar.classList.add("-translate-x-full");
+        mainContent.classList.add("pl-0");
+      } else if (isHomeOrSingleTruyen) {
+        sidebar.classList.add("hidden");
+        sidebar.classList.add("w-auto");
+        mainContent.classList.add("pl-0");
+      } else {
+        sidebar.classList.add("w-auto");
+        mainContent.classList.add("pl-[19.5rem]");
+      }
+    }
+
+    // Setup ban đầu
+    updateLayout();
+
+    // Lắng nghe khi resize
+    window.addEventListener("resize", () => {
+      updateLayout();
+    });
+
     openSidebarBtn.addEventListener("click", () => {
       const isMobile = window.innerWidth < 768;
-      if (isHomeOrSingleTruyen) {
-        sidebar.classList.toggle("hidden", sidebar.classList.contains("block"));
-
-      }
       if (isMobile) {
-        sidebar.classList.toggle("max-md:hidden", sidebar.classList.contains("block"));
-        sidebar.classList.toggle("block", !sidebar.classList.contains("block"));
-
+        sidebar.classList.toggle("-translate-x-full");
+        sidebar.classList.toggle("translate-x-0");
+      } else if (isHomeOrSingleTruyen) {
+        sidebar.classList.toggle("hidden");
       } else {
-        sidebar.classList.toggle("w-0", sidebar.classList.contains("w-auto"));
-        sidebar.classList.toggle("w-auto", !sidebar.classList.contains("w-auto"));
-        mainContent.classList.toggle("md:ml-0");
+        sidebar.classList.toggle("w-0");
+        sidebar.classList.toggle("w-auto");
       }
 
-      if (!isHomeOrSingleTruyen) {
+      // Cập nhật mainContent khi toggle
+      if (!isHomeOrSingleTruyen && !isMobile) {
         if (sidebar.classList.contains("w-auto")) {
           mainContent.classList.remove("pl-0");
           mainContent.classList.add("pl-[19.5rem]");
@@ -207,15 +237,16 @@ echo '<script>console.log(' . $screen_width . ')</script>';
       }
     });
 
-
-    // Đóng sidebar khi nhấp ra ngoài (chỉ trên mobile)
+    // Đóng sidebar mobile khi click ra ngoài
     window.addEventListener("click", (e) => {
-      if (window.innerWidth < 768 && !sidebar.contains(e.target) && !openSidebarBtn.contains(e.target)) {
-        sidebar.classList.add("hidden");
-        sidebar.classList.remove("block");
+      const isMobile = window.innerWidth < 768;
+      if (isMobile && !sidebar.contains(e.target) && !openSidebarBtn.contains(e.target)) {
+        sidebar.classList.add("-translate-x-full");
+        sidebar.classList.remove("translate-x-0");
       }
     }, { passive: true });
   });
+
 
   // Xử lý khi nhấn vào button trong sidebar
   function handleSidebarClick(button) {
@@ -263,18 +294,6 @@ echo '<script>console.log(' . $screen_width . ')</script>';
       //   localStorage.setItem('activeSidebarButton', button.getAttribute("data-id"));
       // }
     });
-  });
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const openSidebarBtn = document.getElementById("openSidebarBtn");
-
-    const sidebar = document.getElementById("sidebar");
-
-    // Mở sidebar khi nhấp vào nút hamburger
-    openSidebarBtn.addEventListener("click", () => {
-      sidebar.classList.toggle("-translate-x-full");
-    });
-
   });
 
 </script>

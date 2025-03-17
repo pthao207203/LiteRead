@@ -1,5 +1,13 @@
 <?php
 /* Template Name: Manage Stories */
+
+// Kiểm tra nếu user chưa đăng nhập
+if (!isset($_COOKIE['signup_token']) || empty($_COOKIE['signup_token'])) {
+  echo "<script>alert('Bạn cần đăng nhập để xem trang này!');</script>";
+  wp_redirect(home_url('/dang-nhap'));
+  exit();
+}
+
 session_start();
 get_header();
 
@@ -155,7 +163,7 @@ if (!$user) {
                 ?>
                 <!-- Story Card 1 -->
                 <article
-                  class="flex  grow shrink gap-6 items-start p-[1.25rem] bg-white rounded-2xl shadow-lg  max-md:max-w-full">
+                  class="flex grow shrink gap-6 items-start p-[1.25rem] bg-white rounded-2xl shadow-lg max-md:max-w-full h-full self-stretch">
                   <img
                     src="<?= esc_url($story->cover_image_url ?:"https://cdn.builder.io/api/v1/image/assets/103bf3aa31034bd4a5ed1d2543b64cba/50cbfd8cdfc73f54a9f3f27033cf3182a841382fe95cc17c2dc9ebde4c3ada8a?placeholderIfAbsent=true") ?>"
                     class="object-contain rounded-2xl aspect-[0.72] max-h-[23rem] md:w-[16.625rem] w-1/3"

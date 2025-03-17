@@ -2,6 +2,13 @@
 /* Template Name: storyposting */
 get_header();
 
+// Kiểm tra nếu user chưa đăng nhập
+if (!isset($_COOKIE['signup_token']) || empty($_COOKIE['signup_token'])) {
+  echo "<script>alert('Bạn cần đăng nhập để xem trang này!');</script>";
+  wp_redirect(home_url('/dang-nhap'));
+  exit();
+}
+
 global $wpdb;
 
 // Kiểm tra xem người dùng đã đăng nhập chưa
