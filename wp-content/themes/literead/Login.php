@@ -67,21 +67,31 @@ $isMobile = $screen_width < 768;
 
             <div class="flex flex-col px-[1.0625rem] pt-[1.0625rem] w-full text-red-dark bg-white text-[1.5rem] ">
               <form method="POST">
-                <div class="flex flex-col w-full tracking-wide leading-none ">
-                  <label for="emailOrPhone" class="font-semibold">Email hoặc số điện thoại</label>
-                  <input type="text" name="emailOrPhone" id="emailOrPhone"
-                    class="flex overflow-hidden flex-col justify-center px-[12px] py-[12px] mt-[8px] w-full whitespace-nowrap border-b border-solid border-red-dark"
-                    placeholder="123@gmail.com" />
-                </div>
-                <?php if (!empty($error_message)): ?>
-                  <p style="color: red;"><?php echo esc_html($error_message); ?></p>
-                <?php endif; ?>
-                <div class="flex flex-col mt-[12px] w-full leading-none">
-                  <label for="password" class="font-semibold tracking-wide">Mật khẩu</label>
-                  <div
-                    class="flex overflow-hidden gap-1.5 items-center px-[12px] py-[12px] mt-[8px] w-full tracking-wide whitespace-nowrap border-b border-solid border-red-dark">
-                    <input type="password" name="password" id="password"
-                      class="flex-1 shrink self-stretch my-auto opacity-60 basis-0" value="**********" />
+      <div class="flex flex-col w-full tracking-wide leading-none ">
+        <label for="emailOrPhone" class="font-semibold">Email hoặc số điện thoại</label>
+        <input
+          type="text"
+          name="emailOrPhone"
+          id="emailOrPhone"
+          class="flex overflow-hidden flex-col justify-center px-[12px] py-[12px] mt-[8px] w-full whitespace-nowrap border-b border-solid border-red-dark"
+          placeholder="123@gmail.com"
+        />
+      </div>
+      <?php if (!empty($error_message)): ?>
+        <p style="color: red;"><?php echo esc_html($error_message); ?></p>
+      <?php endif; ?>
+      <div class="flex flex-col mt-[12px] w-full leading-none">
+        <label for="password" class="font-semibold tracking-wide">Mật khẩu</label>
+        <div
+          class="flex overflow-hidden gap-1.5 items-center px-[12px] py-[12px] mt-[8px] w-full tracking-wide whitespace-nowrap border-b border-solid border-red-dark"
+        >
+          <input
+            type="password"
+            name="password"
+            id="password"
+            class="flex-1 shrink self-stretch my-auto opacity-60 basis-0"
+            value="**********"
+          />
                   </div>
                   <?php if (!empty($error_message2)): ?>
                     <p style="color: red;"><?php echo esc_html($error_message2); ?></p>
