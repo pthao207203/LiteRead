@@ -51,22 +51,31 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update_profile"])) {
   $new_phone = sanitize_text_field($_POST["SDT"]);
   $avatar_url = !empty($user_info->avatar_image_url) ? $user_info->avatar_image_url : ''; // Giữ ảnh cũ
 
+
+  // Kiểm tra xem có upload ảnh không
   if (!empty($_FILES['avatar']['name'])) {
+    // Debugging the uploaded file
+    error_log(print_r($_FILES['avatar'], true)); // Log the file upload data
+
     if (!function_exists('wp_handle_upload')) {
       require_once ABSPATH . 'wp-admin/includes/file.php';
     }
 
     $uploaded_file = $_FILES['avatar'];
-    $upload_overrides = array('test_form' => false);
+    $upload = wp_handle_upload($uploaded_file, array('test_form' => false));
 
-    $upload = wp_handle_upload($uploaded_file, $upload_overrides);
-
-    if (!isset($upload['error']) && isset($upload['url'])) {
-      $avatar_url = $upload['url']; // Cập nhật URL ảnh mới
+    if (isset($upload['url'])) {
+      // Log the upload URL to ensure it's set correctly
+      error_log('Uploaded file URL: ' . $upload['url']);
+      $avatar_url = $upload['url']; // Save the image URL
     } else {
       echo "<script>alert('Lỗi upload ảnh: " . esc_js($upload['error']) . "');</script>";
+      exit();
     }
   }
+
+
+
   // Cập nhật vào database
   $result = $wpdb->update(
     $users_literead,
@@ -74,12 +83,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update_profile"])) {
       "full_name" => $new_full_name,
       "phone" => $new_phone,
       "avatar_image_url" => $avatar_url,
-      "avatar_image_url" => $avatar_url,
       "edited_at" => current_time('mysql'),
-      "edited_at" => current_time('mysql')
     ],
-    ["token" => $signup_token],
+    ["token" => $signup_token]
   );
+
   // Kiểm tra xem có lỗi khi cập nhật không
   if ($result !== false) {
     // Sau khi cập nhật thành công, thêm thông báo "success" vào URL
@@ -109,11 +117,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update_profile"])) {
                     alt="Profile avatar"
                     class="object-contain shrink-0 aspect-square w-[6.1875rem] rounded-full border border-gray-300" />
 
+                  <!-- Input để upload ảnh -->
                   <input type="file" id="avatarInput" name="avatar" accept="image/*"
                     class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer hidden" />
                 </div>
               </form>
-
               <!-- Thông tin người dùng -->
               <div class="flex flex-col flex-1 shrink items-start basis-0 min-w-60 max-md:max-w-full">
                 <h1 id="hoten" class="text-[1.875rem]"><?php echo esc_html($full_name); ?></h1>
@@ -267,8 +275,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update_profile"])) {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 9999; /* Đảm bảo nó hiển thị trên cùng */
-}
+    z-index: 9999;
+    /* Đảm bảo nó hiển thị trên cùng */
+  }
+
   /* Nội dung của Popup */
   .popup-content {
     background-color: #fff;
@@ -371,6 +381,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update_profile"])) {
     let confirmSave = document.getElementById("confirmSave");
     let cancelSave = document.getElementById("cancelSave");
     let submitButton = document.getElementById("submitButton");
+    document.getElementById('avatarInput').addEventListener('change', function(e) {
+      var reader = new FileReader();
+      reader.onload = function(event) {
+        document.getElementById('avatarImg').src = event.target.result; // Cập nhật ảnh hiển thị
+      };
+      reader.readAsDataURL(this.files[0]); // Đọc file ảnh và chuyển thành URL
+    });
 
     // Khi bấm "Sửa"
     editButton.addEventListener("click", function() {
