@@ -384,24 +384,24 @@ add_action('template_redirect', function () {
     include(get_template_directory() . '/EditStory.php');
     exit;
   }
-  //[GET] /quan-ly-truyen/{ten-truyen}/{ten-chuong}
+  // [GET] /quan-ly-truyen/{ten-truyen}/{ten-chuong}
   if (isset($wp_query->query_vars['chuong']) && isset($wp_query->query_vars['truyen'])) {
     include(get_template_directory() . '/EditChapter.php');
     exit;
   }
-  //[GET] /quan-ly-truyen/{ten-truyen}
+  // [GET] /quan-ly-truyen/{ten-truyen}
   if (isset($wp_query->query_vars['post_type']) && $wp_query->query_vars['post_type'] == 'quan-ly-truyen') {
     include(get_template_directory() . '/quan-ly-truyen.php');
     exit;
   }
-  //[GET] /truyen/{ten-truyen}/{ten-chuong}
+  // [GET] /truyen/{ten-truyen}/{ten-chuong}
   if (isset($wp_query->query_vars['chuong']) && isset($wp_query->query_vars['truyen_parent'])) {
     include(get_template_directory() . '/single-chuong.php');
     exit;
   }
   
-  //[GET] /truyen/{ten-truyen}
-  if (isset($wp_query->query_vars['post_type']) && ($wp_query->query_vars['post_type']='truyen')) {
+  // [GET] /truyen/{ten-truyen}
+  if (isset($wp_query->query_vars['post_type']) && ($wp_query->query_vars['post_type']=='truyen')) {
     include(get_template_directory() . '/single-truyen.php');
     exit;
   }
@@ -415,19 +415,16 @@ function save_story()
 {
   global $wpdb;
 
-  // Kiểm tra có gửi đúng POST không
   if (isset($_POST['story_id']) && isset($_COOKIE['signup_token'])) {
     $story_id = intval($_POST['story_id']);
     $signup_token = sanitize_text_field($_COOKIE['signup_token']);
 
-    // Lấy thông tin người dùng từ token
     $users_literead = $wpdb->prefix . "users_literead";
     $user_info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $users_literead WHERE token = %s", $signup_token));
 
     if ($user_info) {
-      $user_id = $user_info->id; // Lấy ID người dùng
+      $user_id = $user_info->id;
 
-      // Kiểm tra nếu truyện đã có trong danh sách yêu thích
       $favorites_table = $wpdb->prefix . 'users_likes';
       $existing_favorite = $wpdb->get_var($wpdb->prepare(
         "SELECT COUNT(*) FROM $favorites_table WHERE user_id = %d AND story_id = %d",
@@ -436,7 +433,6 @@ function save_story()
       ));
 
       if ($existing_favorite == 0) {
-        // Thêm truyện vào danh sách yêu thích
         $wpdb->insert(
           $favorites_table,
           array(
@@ -447,9 +443,26 @@ function save_story()
           array('%d', '%d', '%s')
         );
 
+        // Thêm thông báo vào bảng notifications
+        $story = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}stories WHERE id = %d", $story_id));
+        $author_id = $story->author;
+        $message = $user_info->full_name . ' đã thích truyện của bạn!';
+
+        $notifications_table = $wpdb->prefix . 'notifications';
+        $wpdb->insert(
+          $notifications_table,
+          array(
+            'recipient_id' => $author_id,
+            'sender_id' => $user_id,
+            'story_id' => $story_id,
+            'message' => $message,
+            'created_at' => current_time('mysql')
+          ),
+          array('%d', '%d', '%d', '%s', '%s')
+        );
+
         wp_send_json_success(array('message' => 'Truyện đã được lưu vào danh sách yêu thích.'));
       } else {
-        // Nếu đã có, xóa truyện khỏi danh sách yêu thích
         $wpdb->delete(
           $favorites_table,
           array(
@@ -459,18 +472,30 @@ function save_story()
           array('%d', '%d')
         );
 
+        // Xóa thông báo khỏi bảng notifications
+        $notifications_table = $wpdb->prefix . 'notifications';
+        $wpdb->delete(
+          $notifications_table,
+          array(
+            'recipient_id' => $story->author,
+            'sender_id' => $user_id,
+            'story_id' => $story_id
+          ),
+          array('%d', '%d', '%d')
+        );
+
         wp_send_json_success(array('message' => 'Truyện đã bị xóa khỏi danh sách yêu thích.'));
       }
     } else {
       wp_send_json_error(array('message' => 'Người dùng không hợp lệ.'));
     }
   } else {
-    wp_send_json_error(array('message' => 'Truyện không hợp lệ.'));
+    wp_send_json_error(array('message' => 'Dữ liệu không hợp lệ.'));
   }
 }
 
-add_action('wp_ajax_check_story_status', 'check_story_status');
-add_action('wp_ajax_nopriv_check_story_status', 'check_story_status');
+add_action('wp_ajax_save_story', 'save_story');
+add_action('wp_ajax_nopriv_save_story', 'save_story');
 
 function check_story_status()
 {
