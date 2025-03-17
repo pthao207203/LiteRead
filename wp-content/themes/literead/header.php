@@ -65,7 +65,8 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <!-- === Header === -->
   <header
-    class="fixed top-0 left-0 flex items-center md:px-[2.125rem] md:py-[0.625rem] p-[0.625rem] gap-[1rem] md:gap-[2.875rem] w-full bg-orange-light-active z-50">
+    class="fixed top-0 left-0 flex justify-between items-center md:px-[2.125rem] md:py-[0.625rem] p-[0.625rem] gap-[1rem] md:gap-[2.875rem] w-full bg-orange-light-active z-50">
+    <div class="flex flex-row gap-[1rem] md:gap-[2.875rem]">
     <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
       <div class="flex gap-2.5 items-center ">
         <!-- Nút Hamburger mở Sidebar -->
@@ -83,6 +84,7 @@
         LiteRead
       </h1>
     </a>
+    </div>
 
     <form role="search"
       class="flex items-center gap-[1.25rem] my-auto px-[1.25rem] max-md:p-[0.625rem] py-[0.625rem] bg-white max-h-[3.125rem] rounded-full w-full max-md:w-auto">
