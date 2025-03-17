@@ -62,7 +62,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $chapter_name = isset($_POST['chapter_name']) ? sanitize_text_field($_POST['chapter_name']) : '';
   $synopsis = isset($_POST['synopsis']) ? wp_unslash($_POST['synopsis']) : '';
   $story = intval($_POST['story']);
-  $word_count = str_word_count($synopsis);
+  $words = mb_split('\s+', trim($synopsis));
+  $word_count = count(array_filter($words));
 
   if (empty(trim($chapter_number))) {
     $error_chapter_number = 'Nội dung không được để trống!';
@@ -133,7 +134,9 @@ echo '<script>console.log(' . $screen_width . ')</script>';
 
             <!-- 📝 Đăng truyện -->
             <div class="flex items-center self-stretch px-[12px] py-[10px] mr-0 ">
-              <a href="#" class="self-stretch mr-[12px]" tabindex="0"><?php echo esc_attr($story->story_name); ?></a>
+              <a href="#" class="self-stretch mr-[12px]"
+                tabindex="0"><?php if (isset($story->story_name))
+                  echo esc_attr($story->story_name); ?></a>
               <!-- ➡️ Mũi tên SVG -->
               <div class="flex items-center justify-center w-5 h-5" aria-hidden="true">
                 <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 20 20" fill="none">
@@ -156,10 +159,12 @@ echo '<script>console.log(' . $screen_width . ')</script>';
               <h2 class="font-semibold text-[1.75rem] max-md:max-w-full">Tên truyện</h2>
               <div
                 class="flex overflow-hidden flex-col justify-center px-[0.5rem] py-[0.5rem] mt-[1rem] w-full whitespace-nowrap border-b border-solid border-b-red-dark max-md:max-w-full">
-                <input type="text" placeholder="" readonly value="<?php echo esc_attr($story->story_name); ?>"
+                <input type="text" placeholder="" readonly value="<?php if (isset($story->story_name))
+                  echo esc_attr($story->story_name); ?>"
                   class="opacity-60 max-md:max-w-full w-full bg-transparent text-red-dark outline-none" />
 
-                <input type="text" class="hidden" name="story" value="<?php echo esc_attr($story->id); ?>">
+                <input type="text" class="hidden" name="story" value="<?php if (isset($story->id))
+                  echo esc_attr($story->id); ?>">
 
               </div>
             </div>
