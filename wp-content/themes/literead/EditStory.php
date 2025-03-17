@@ -111,10 +111,15 @@ get_header();
 
 $isHome = is_front_page();
 $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
+$isAuthPage = strpos($_SERVER['REQUEST_URI'], 'dang-nhap') !== false || strpos($_SERVER['REQUEST_URI'], 'dang-ky') !== false;
+
+
 
 $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
 $isMobile = $screen_width < 768;
 echo '<script>console.log(' . $screen_width . ')</script>';
+
+
 ?>
 
 <!-- 💡 Nội dung chính -->
@@ -124,7 +129,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
       <!-- Sidebar Navigationx -->
       <?php get_sidebar(); ?>
       <section id="mainContent"
-        class="transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+        class="transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
         <div class="w-full bg-white  max-md:max-w-full">
 
           <!-- Nội dung bên dưới Header -->

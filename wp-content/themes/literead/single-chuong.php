@@ -55,6 +55,7 @@ $previous_chapter_url = $previous_chapter_number ? site_url("/truyen/$story_slug
 $next_chapter_url = $next_chapter_number ? site_url("/truyen/$story_slug/chuong-$next_chapter_number") : '#';
 $isHome = is_front_page();
 $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
+$isAuthPage = strpos($_SERVER['REQUEST_URI'], 'dang-nhap') !== false || strpos($_SERVER['REQUEST_URI'], 'dang-ky') !== false;
 
 $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
 $isMobile = $screen_width < 768;
@@ -64,9 +65,11 @@ echo '<script> console.log(' . $screen_width . ')</script>';
   <div class="w-full max-md:max-w-full">
     <div class="flex max-md:flex-col">
       <!-- Sidebar Navigationx -->
+      <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
       <?php get_sidebar(); ?>
+      <?php endif; ?>
       <div id="mainContent"
-        class="md:w-10/12 flex-grow transition-all max-md:ml-0 max-md:w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+        class="md:w-10/12 flex-grow transition-all max-md:ml-0 max-md:w-full <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
         <div class="flex flex-col pt-[17px] w-full">
           <!-- Title -->
           <h1 class="lg:text-[1.875rem] text-[18px] lg:px-[56px] px-[17px] font-semibold text-red-darker text-left ">
