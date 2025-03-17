@@ -3,6 +3,9 @@
 get_header();
 
 global $wpdb, $wp;
+
+
+
 $story_slug = get_query_var('story_slug');
 $current_url = home_url($wp->request);
 // echo $current_url; // Trả về toàn bộ URL: http://localhost/literead/story/chu-tien
@@ -41,6 +44,7 @@ if ($story) {
 
   $isHome = is_front_page();
   $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
+  
 
   $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
   $isMobile = $screen_width < 768;
@@ -50,9 +54,11 @@ if ($story) {
     <div class="relative w-full max-md:max-w-full">
       <div class="relative flex max-md:flex-col">
         <!-- Sidebar -->
-        <?php include "sidebar.php"; ?>
+        <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
+        <?php get_sidebar(); ?>
+        <?php endif; ?>
         <section id="mainContent"
-          class="flex-grow gap-[0.75rem] <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+          class="flex-grow gap-[0.75rem] <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
           <nav
             class="flex flex-wrap items-center w-full px-[20px] text-[1.125rem] font-medium  bg-white text-red-darker mb-[2px] max-sm:hidden"
             aria-label="Navigation menu">

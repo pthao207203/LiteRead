@@ -4,12 +4,6 @@ get_header();
 
 global $wpdb;
 
-// Kiểm tra xem người dùng đã đăng nhập chưa
-if (!isset($_COOKIE['signup_token']) || empty($_COOKIE['signup_token'])) {
-  echo "<script>alert('Bạn cần đăng nhập để xem trang này!');</script>";
-  wp_redirect(home_url('/dang-nhap'));
-  exit();
-}
 
 $signup_token = sanitize_text_field($_COOKIE['signup_token']);
 $users_literead = $wpdb->prefix . "users_literead";
@@ -92,6 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update_profile"])) {
 
 $isHome = is_front_page();
 $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
+$isAuthPage = strpos($_SERVER['REQUEST_URI'], 'dang-nhap') !== false || strpos($_SERVER['REQUEST_URI'], 'dang-ky') !== false;
 
 $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
 $isMobile = $screen_width < 768;
@@ -103,9 +98,11 @@ echo '<script>console.log(' . $screen_width . ')</script>';
   <div class="w-full max-md:max-w-full">
     <div class="flex max-md:flex-col">
       <!-- Sidebar Navigationx -->
+      <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
       <?php get_sidebar(); ?>
+      <?php endif; ?>
       <section id="mainContent"
-        class="flex-grow transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+        class="flex-grow transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
         <div class="grow w-full bg-white  max-md:max-w-full">
           <section class="px-[3.5rem] py-[2.125rem] max-w-full w-[1520px] bg-white">
             <header class="flex flex-wrap gap-6 items-end w-full font-medium text-pink-800 max-md:max-w-full">
@@ -235,13 +232,13 @@ echo '<script>console.log(' . $screen_width . ')</script>';
                 <div class="flex flex-wrap gap-3 items-start mt-[0.75rem] w-full max-md:max-w-full">
                   <article
                     class="flex flex-col flex-1 shrink justify-center p-[1.25rem] bg-[#FFF2F0] rounded-xl basis-0 min-w-60 max-md:max-w-full">
-                    <p class="text-[1.875rem] font-regular"><?php echo esc_html($total_likes); ?></p>
+                    <p class="text-[1.875rem] font-regular"><?php echo esc_html($total_likes ?? 0); ?></p>
                     <h4 class="mt-[1.25rem] text-[1.5rem] font-semibold">Lượt thích</h4>
                   </article>
 
                   <article
                     class="flex flex-col flex-1 shrink justify-center p-[1.25rem] bg-[#FFF2F0] rounded-xl basis-0 min-w-60 max-md:max-w-full">
-                    <p class="text-[1.875rem] font-regular"><?php echo esc_html($total_views); ?></p>
+                    <p class="text-[1.875rem] font-regular"><?php echo esc_html($total_views ?? 0); ?></p>
                     <h4 class="mt-[1.25rem] text-[1.5rem] font-semibold">Lượt view</h4>
                   </article>
                 </div>

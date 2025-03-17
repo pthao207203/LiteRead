@@ -1,6 +1,7 @@
 <?php
 $isHome = is_front_page();
 $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
+$isAuthPage = strpos($_SERVER['REQUEST_URI'], 'dang-nhap') !== false || strpos($_SERVER['REQUEST_URI'], 'dang-ky') !== false;
 if (!$isHome && !$isSingleTruyen) {
   $current_path = trim(parse_url(home_url($wp->request), PHP_URL_PATH), '/');
   $slug_parts = explode('/', $current_path);
@@ -9,8 +10,10 @@ if (!$isHome && !$isSingleTruyen) {
 $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
 $isMobile = $screen_width < 768;
 echo '<script>console.log(' . $screen_width . ')</script>';
-// echo $current_slug;
+
+$is_logged_in = isset($_COOKIE['signup_token']);
 ?>
+
 <aside id="sidebar"
   class="z-[60] overflow-y-auto font-medium max-sm:text-[1rem] md:text-[1.5rem] transition-all duration-200 ease-in-out bg-[#FFE5E1]
   <?php 
@@ -22,6 +25,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
       echo 'w-auto fixed top-[4.425rem] left-0'; 
     }
   ?>">
+  <?php if ($is_logged_in) : ?>
   <nav class="flex flex-col justify-between py-[1.25rem] md:min-h-[calc(100vh-4.425rem)] bg-red-normal shadow-lg mx-auto">
     <ul class="flex flex-col flex-1 w-full font-medium leading-none text-orange-light">
       <li>
@@ -165,11 +169,27 @@ echo '<script>console.log(' . $screen_width . ')</script>';
         </button>
       </li>
     </ul>
-    <button
+    <button onclick="window.location.href='?action=custom_logout'"
       class="flex px-[3.5rem] py-[0.625rem] m-[1rem] md:text-[1.75rem] max-sm:text-[1rem] text-center justify-center text-red-normal bg-orange-light rounded-xl cursor-pointer p-[0.75rem] max-sm:mx-1.5 max-sm:mt-24 max-sm:mb-2.5">
       Đăng xuất
     </button>
   </nav>
+  <?php else : ?>
+    <!-- Nếu chưa đăng nhập -->
+    <nav class="flex flex-col justify-between py-[1.25rem] md:h-[calc(100vh-4.425rem)] h-[calc(50vh)] bg-red-normal shadow-lg mx-auto">
+       <div class="flex flex-col flex-1 mx-[1.0625rem] font-medium leading-none text-orange-light gap-[1rem] w-auto">
+        <button onclick="window.location.href='<?= home_url('/dang-nhap'); ?>'"
+          class="flex px-[3.5rem] py-[0.625rem] md:text-[1.75rem] max-sm:text-[1rem] text-center justify-center text-red-normal bg-orange-light rounded-xl cursor-pointer  max-sm:mx-1.5">
+          Đăng nhập
+        </button>
+
+        <button onclick="window.location.href='<?= home_url('/dang-ky'); ?>'"
+          class="flex px-[3.5rem] py-[0.625rem] md:text-[1.75rem] max-sm:text-[1rem] text-center justify-center text-red-normal bg-orange-light rounded-xl cursor-pointer  max-sm:mx-1.5">
+          Đăng ký
+        </button>
+      </div>
+    </nav>
+  <?php endif; ?>
 </aside>
 
 <script>
@@ -295,5 +315,17 @@ document.addEventListener("DOMContentLoaded", () => {
       // }
     });
   });
+
+  document.addEventListener("DOMContentLoaded", () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('logout') === '1') {
+    alert('Đăng xuất thành công!');
+    urlParams.delete('logout'); // Xóa param sau khi hiển thị alert
+
+    // Cập nhật URL mà không reload
+    const newUrl = window.location.pathname + (urlParams.toString() ? '?' + urlParams.toString() : '');
+    window.history.replaceState({}, document.title, newUrl);
+  }
+});
 
 </script>

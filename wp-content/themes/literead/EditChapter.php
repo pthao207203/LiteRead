@@ -70,9 +70,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     echo '<script>window.location.href="' . home_url("/quan-ly-truyen/$story_slug/") . '";</script>';
     exit;
-
-
-
   }
 }
 $isHome = is_front_page();
@@ -81,6 +78,8 @@ $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiá»
 $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
 $isMobile = $screen_width < 768;
 echo '<script>console.log(' . $screen_width . ')</script>';
+
+
 ?>
 <main class="relative flex flex-col mt-[4.425rem]">
   <div class="w-full max-md:max-w-full">

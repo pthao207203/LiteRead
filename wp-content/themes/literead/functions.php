@@ -555,6 +555,63 @@ function check_story_status()
   }
 }
 
+// Log out
+add_action('init', function() {
+  if (isset($_GET['action']) && $_GET['action'] === 'custom_logout') {
+      wp_logout();
+
+      // Xóa cookie signup_token
+      if (isset($_COOKIE['signup_token'])) {
+          setcookie('signup_token', '', time() - 3600, '/');
+          unset($_COOKIE['signup_token']);
+      }
+
+      // Lấy URL hiện tại trừ tham số action
+      $protocol = is_ssl() ? "https://" : "http://";
+      $current_url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+      // Loại bỏ ?action=custom_logout khỏi URL
+      $redirect_url = remove_query_arg('action', $current_url);
+
+      // Thêm ?logout=1 để hiển thị alert sau khi reload
+      $redirect_url = add_query_arg('logout', '1', $redirect_url);
+
+      wp_safe_redirect($redirect_url);
+      exit;
+  }
+});
+
+function is_public_page() {
+  $uri = $_SERVER['REQUEST_URI'];
+  $base = parse_url(home_url(), PHP_URL_PATH); // sẽ trả về /LiteRead nếu chạy trong localhost/LiteRead
+  $base = rtrim($base, '/'); // loại bỏ dấu / cuối nếu có
+
+  // Public URLs chính xác:
+    // Nếu là single post của post type 'truyen'
+    if (is_singular('truyen')) {
+      return true;
+  }
+
+  if (preg_match('#^' . $base . '/truyen/[^/]+/chuong-[0-9]+/?$#', $uri)) { // chi tiết chương
+      return true;
+  }
+
+  if ($uri === $base . '/' || strpos($uri, '/dang-nhap') !== false || strpos($uri, '/dang-ky') !== false) {
+      return true;
+  }
+
+  return false;
+}
+
+add_action('template_redirect', function() {
+  if (!isset($_COOKIE['signup_token']) && !is_public_page()) {
+    echo "<script>
+      alert('Bạn cần đăng nhập để xem trang này!');
+      window.location.href = '" . home_url('/dang-nhap') . "';
+    </script>";
+    exit;
+  }
+}, 1);
 
 
 // global $wp_rewrite;
