@@ -21,7 +21,9 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$comments_table'") != $comments_table) {
     story_id MEDIUMINT(9) UNSIGNED NOT NULL,
     content TEXT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY  (story_id, month)
+    PRIMARY KEY  (id),
+    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES wp_users_literead(id) ON DELETE CASCADE,
+    CONSTRAINT fk_story_id FOREIGN KEY (story_id) REFERENCES wp_stories(id) ON DELETE CASCADE
   ) $charset_collate;";
   require_once ABSPATH . 'wp-admin/includes/upgrade.php';
   dbDelta($sql);
@@ -100,19 +102,22 @@ if ($story) {
       exit();
     }
   }
-  // Kiểm tra đăng nhập của người dùng
-  if (!isset($_COOKIE['signup_token'])) {
-    echo "<p>Vui lòng đăng nhập để lưu truyện!</p>";
-    get_footer();
-    exit;
-  }
+  
   // Lấy thông tin người dùng từ cookie
   $users_literead = $wpdb->prefix . "users_literead";
   $user_info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $users_literead WHERE token = %s", $_COOKIE['signup_token']));
-  $user_id = $user_info->id;  // Lấy user_id từ thông tin người dùng
+  if(isset($user_info)){
+    $user_id = $user_info->id;  // Lấy user_id từ thông tin người dùng  
+  }
 
   // Nút lưu truyện
   if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_story'])) {
+    // Kiểm tra đăng nhập của người dùng
+    if (!isset($_COOKIE['signup_token'])) {
+      echo "<p>Vui lòng đăng nhập để lưu truyện!</p>";
+      get_footer();
+      exit;
+    }
     $story_id = $_POST['story_id'];
 
     // Kiểm tra nếu truyện chưa có trong danh sách yêu thích của người dùng

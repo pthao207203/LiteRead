@@ -394,9 +394,15 @@ add_action('template_redirect', function () {
     include(get_template_directory() . '/quan-ly-truyen.php');
     exit;
   }
-  //[GET] /quan-ly-truyen/{ten-truyen}
+  //[GET] /truyen/{ten-truyen}/{ten-chuong}
   if (isset($wp_query->query_vars['chuong']) && isset($wp_query->query_vars['truyen_parent'])) {
     include(get_template_directory() . '/single-chuong.php');
+    exit;
+  }
+  
+  //[GET] /truyen/{ten-truyen}
+  if (isset($wp_query->query_vars['post_type']) && ($wp_query->query_vars['post_type']='truyen')) {
+    include(get_template_directory() . '/single-truyen.php');
     exit;
   }
 });

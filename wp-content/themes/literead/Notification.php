@@ -12,7 +12,7 @@ echo '<script> console.log(' . $screen_width . ')</script>';
   <div class="w-full max-md:max-w-full">
     <div class="flex max-md:flex-col">
       <!-- Sidebar Navigation -->
-      <?php get_sidebar(); ?>
+      <!-- <?php get_sidebar(); ?> -->
       <section id="mainContent"
         class="flex-grow transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
         <header class="flex flex-col justify-center p-[2.125rem] w-full max-md:p-[1.0625rem] bg-white">
@@ -63,7 +63,7 @@ echo '<script> console.log(' . $screen_width . ')</script>';
                 Bạn có cmt mới!
               </h2>
               <p class="mt-[1rem] text-[1.25rem] max-md:text-[0.875rem] font-medium leading-7 max-md:max-w-full">
-                Khanh Ngu vừa cmt vào truyện mới của bạn!!
+                Khanh vừa cmt vào truyện mới của bạn!!
               </p>
               <time class="mt-[1rem] text-[1.375rem] max-md:text-[0.75rem] leading-tight block max-md:max-w-full">
                 15 ngày trước
