@@ -40,9 +40,17 @@ if ($story) {
     )
   );
 
+  $genres = $wpdb->get_col($wpdb->prepare(
+    "SELECT t.type_name 
+      FROM wp_story_type st 
+      INNER JOIN wp_type t ON st.type_id = t.id 
+      WHERE st.story_id = %d",
+    $story->id
+  ));
+
   $isHome = is_front_page();
   $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
-
+  $isAuthPage = strpos($_SERVER['REQUEST_URI'], 'dang-nhap') !== false || strpos($_SERVER['REQUEST_URI'], 'dang-ky') !== false;
 
   $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
   $isMobile = $screen_width < 768;
