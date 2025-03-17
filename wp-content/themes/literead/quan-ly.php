@@ -13,7 +13,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
 global $wpdb;
 // Kiểm tra đăng nhập
 if (!isset($_COOKIE['signup_token'])) {
-  echo "<p class='text-center text-red-500 font-bold text-lg'>Bạn cần đăng nhập để quản lý truyện.</p>";
+  echo "<p class='text-center text-red-500 font-bold text-lg relative mt-[4.425rem]'>Bạn cần đăng nhập để quản lý truyện.</p>";
   get_footer();
   exit;
 }
@@ -26,7 +26,7 @@ if (!isset($_COOKIE['signup_token'])) {
   ));
 
 if (!$user) {
-    echo "<p class='text-center text-red-500 font-bold text-lg'>Tài khoản không tồn tại.</p>";
+    echo "<p class='text-center text-red-500 font-bold text-lg relative mt-[4.425rem]'>Tài khoản không tồn tại.</p>";
     get_footer();
     exit;
   }
@@ -58,10 +58,8 @@ if (!$user) {
   $total = $wpdb->get_results(
     $wpdb->prepare("SELECT * FROM $stories_table WHERE editor = %d ORDER BY created_at DESC", $user->id)
   );  
-  if (empty($total)) {
-    echo "<p class='text-center text-gray-500'>Bạn chưa đăng truyện nào.</p>";
-    get_footer();
-    exit;
+  if (!isset($total)) {
+    $total = 0;
   }
 ?>
 

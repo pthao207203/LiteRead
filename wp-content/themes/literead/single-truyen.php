@@ -21,7 +21,9 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$comments_table'") != $comments_table) {
     story_id MEDIUMINT(9) UNSIGNED NOT NULL,
     content TEXT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY  (story_id, month)
+    PRIMARY KEY  (id),
+    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES wp_users_literead(id) ON DELETE CASCADE,
+    CONSTRAINT fk_story_id FOREIGN KEY (story_id) REFERENCES wp_stories(id) ON DELETE CASCADE
   ) $charset_collate;";
   require_once ABSPATH . 'wp-admin/includes/upgrade.php';
   dbDelta($sql);
@@ -109,7 +111,9 @@ if ($story) {
   // Lấy thông tin người dùng từ cookie
   $users_literead = $wpdb->prefix . "users_literead";
   $user_info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $users_literead WHERE token = %s", $_COOKIE['signup_token']));
-  $user_id = $user_info->id;  // Lấy user_id từ thông tin người dùng
+  if (isset($user_info)) {
+    $user_id = $user_info->id;  // Lấy user_id từ thông tin người dùng
+  }
 
   // Nút lưu truyện
   if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_story'])) {
@@ -209,11 +213,11 @@ if ($story) {
                   <div
                     class="flex flex-wrap gap-4 items-center justify-start mt-2.5 text-[18px] md:text-[1.875rem] font-normal text-orange-light max-md:max-w-full">
                     <a href="<?php echo esc_url($previous_chapter_url); ?>" aria-label="Previous chapter"
-                      class=" self-stretch px-[1rem] py-[0.5rem] md:px-[1.25rem] md:py-[0.625rem] bg-red-normal rounded-xl hover:no-underline hover:text-red-light-hover">
+                      class=" self-center px-[1rem] py-[0.5rem] md:px-[1.25rem] md:py-[0.625rem] bg-red-normal rounded-xl hover:no-underline hover:text-red-light-hover">
                       Chương đầu
                     </a>
                     <a href="<?php echo esc_url($last_chapter_url); ?>" aria-label="Last chapter"
-                      class="self-stretch px-[1rem] py-[0.5rem] md:px-[1.25rem] md:py-[0.625rem] bg-red-normal rounded-xl hover:no-underline hover:text-red-light-hover">
+                      class="self-center px-[1rem] py-[0.5rem] md:px-[1.25rem] md:py-[0.625rem] bg-red-normal rounded-xl hover:no-underline hover:text-red-light-hover">
                       Chương cuối
                     </a>
                     <form method="POST" id="save-story-form" action="">

@@ -41,7 +41,7 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") != $table_name) {
     likes INT UNSIGNED DEFAULT 0,
     hot INT UNSIGNED DEFAULT 0,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    editted_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    edited_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY  (id)
   ) $charset_collate;";
   require_once ABSPATH . 'wp-admin/includes/upgrade.php';
@@ -142,7 +142,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($story_name) {
       // Chuyển hướng về trang chính với thông báo thành công
       echo 'Thêm truyện thành công!';
-      wp_redirect(home_url('/'));
+      wp_redirect(home_url('/quan-ly-truyen/' . $slug));
       exit;
     } else {
       // wp_die('Lỗi khi thêm truyện. Vui lòng thử lại.');

@@ -3,15 +3,9 @@
 get_header();
 
 global $wpdb, $wp;
-$story_slug = get_query_var('story_slug');
+$story_slug = get_query_var('name');
 $current_url = home_url($wp->request);
-// echo $current_url; // Trả về toàn bộ URL: http://localhost/literead/story/chu-tien
 
-$segments = explode('/', trim(parse_url($current_url, PHP_URL_PATH), '/'));
-if (isset($segments[2])) {
-  $story_slug = $segments[2];
-  // echo 'Story Slug: ' . $story_slug; // Kết quả: Story Slug: chu-tien
-}
 $table_name = $wpdb->prefix . 'stories';
 
 $story = $wpdb->get_row(
