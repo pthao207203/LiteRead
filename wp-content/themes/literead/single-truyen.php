@@ -228,7 +228,7 @@ if ($story) {
                     </a>
                     <form method="POST" id="save-story-form" action="">
                       <input type="hidden" name="story_id" value="<?php echo esc_attr($story->id); ?>" />
-                      <button type="submit" name="save_story" id="toggle-btn">
+                      <button type="button" name="save_story" id="toggle-btn" data-story-id="<?php echo esc_attr($story->id); ?>">
                         <img id="toggle-img"
                           src="https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png"
                           class="w-[3.5625rem] max-sm:w-[2.625rem] max-sm:h-[2.625rem] h-[3.5625rem] object-fill shrink "
@@ -472,35 +472,38 @@ if ($story) {
 
 
 <script>
-document.getElementById("toggle-btn").addEventListener("click", function (event) {
-    event.preventDefault();
+  document.getElementById("toggle-btn").addEventListener("click", function (event) {
+    event.preventDefault();  // Ngừng gửi form ngay lập tức
 
+    const btn = event.currentTarget;
     const img = document.getElementById("toggle-img");
-    const img1 = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png";
-    const img2 = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/tkn6hjhe.png";
+    const storyId = btn.dataset.storyId; // Lấy story_id động từ data attribute
 
+    // Toggle image source
     img.src = img.src === img1 ? img2 : img1;
 
     const formData = new FormData();
-    formData.append('action', 'save_story'); 
-    formData.append('story_id', <?php echo esc_js($story->id); ?>);
+    formData.append('action', 'save_story'); // Đảm bảo rằng action là save_story
+    formData.append('story_id', <?php echo esc_js($story->id); ?>); // Gửi ID của truyện
 
     fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
-      method: 'POST',
-      body: formData
+        method: 'POST',
+        body: formData,
+        credentials: 'same-origin'
     })
-      .then(response => response.json())
-      .then(data => {
+    .then(response => response.json())
+    .then(data => {
         if (data.success) {
-          alert(data.data.message);
+          alert(data.data.message); // Hiển thị thông báo từ server
         } else {
-          alert(data.data.message);
+          alert(data.data.message); // Hiển thị lỗi từ server
         }
-      })
-      .catch(error => {
+    })
+    .catch(error => {
         console.error('Error:', error);
       });
-});
+  });
+
 
 </script>
 

@@ -139,7 +139,33 @@ function tao_custom_post_type()
     'publicly_queryable' => true, //Hiển thị các tham số trong query, phải đặt true
     'capability_type' => 'post' //
   ));
+
+  register_post_type('tacgia', array(
+    'labels' => array(
+      'name' => __('Tác giả', 'textdomain'),
+      'singular_name' => __('Tác giả', 'textdomain'),
+    ),
+    'public' => true,
+    'has_archive' => false, // Chỉ hiển thị dưới "Truyện"
+    'rewrite' => false, // Không có đường dẫn riêng
+    'supports' => array('title', 'editor'),
+
+    'taxonomies' => array('category', 'post_tag'), //Các taxonomy được phép sử dụng để phân loại nội dung
+    'hierarchical' => false, //Cho phép phân cấp, nếu là false thì post type này giống như Post, true thì giống như Page
+    'show_ui' => true, //Hiển thị khung quản trị như Post/Page
+    'show_in_menu' => true, //Hiển thị trên Admin Menu (tay trái)
+    'show_in_nav_menus' => true, //Hiển thị trong Appearance -> Menus
+    'show_in_admin_bar' => true, //Hiển thị trên thanh Admin bar màu đen.
+    'menu_position' => 5, //Thứ tự vị trí hiển thị trong menu (tay trái)
+    'menu_icon' => '', //Đường dẫn tới icon sẽ hiển thị
+    'can_export' => true, //Có thể export nội dung bằng Tools -> Export
+    'exclude_from_search' => false, //Loại bỏ khỏi kết quả tìm kiếm
+    'publicly_queryable' => true, //Hiển thị các tham số trong query, phải đặt true
+    'capability_type' => 'post' //
+  ));
+    
 }
+
 /* Kích hoạt hàm tạo custom post type */
 add_action('init', 'tao_custom_post_type');
 
@@ -337,6 +363,11 @@ function custom_rewrite_rules()
     'index.php?post_type=quan-ly-truyen&truyen_parent=$matches[1]&literead_add_chapter=1',
     'top'
   );
+  add_rewrite_rule(
+    '^trang-ca-nhan/([^/]+)/?$',
+    'index.php?post_type=tacgia&tacgia=$matches[1]',
+    'top'
+  );
 
 }
 add_action('init', 'custom_rewrite_rules');
@@ -389,7 +420,7 @@ add_action('template_redirect', function () {
     include(get_template_directory() . '/EditChapter.php');
     exit;
   }
-  // [GET] /quan-ly-truyen/{ten-truyen}
+  //[GET] /quan-ly-truyen/{ten-truyen}
   if (isset($wp_query->query_vars['post_type']) && $wp_query->query_vars['post_type'] == 'quan-ly-truyen') {
     include(get_template_directory() . '/quan-ly-truyen.php');
     exit;
@@ -397,12 +428,6 @@ add_action('template_redirect', function () {
   // [GET] /truyen/{ten-truyen}/{ten-chuong}
   if (isset($wp_query->query_vars['chuong']) && isset($wp_query->query_vars['truyen_parent'])) {
     include(get_template_directory() . '/single-chuong.php');
-    exit;
-  }
-  
-  // [GET] /truyen/{ten-truyen}
-  if (isset($wp_query->query_vars['post_type']) && ($wp_query->query_vars['post_type']=='truyen')) {
-    include(get_template_directory() . '/single-truyen.php');
     exit;
   }
 });
@@ -426,6 +451,7 @@ function save_story()
       $user_id = $user_info->id;
 
       $favorites_table = $wpdb->prefix . 'users_likes';
+      $stories_table = $wpdb->prefix . 'stories';
       $existing_favorite = $wpdb->get_var($wpdb->prepare(
         "SELECT COUNT(*) FROM $favorites_table WHERE user_id = %d AND story_id = %d",
         $user_id,
@@ -461,7 +487,13 @@ function save_story()
           array('%d', '%d', '%d', '%s', '%s')
         );
 
-        wp_send_json_success(array('message' => 'Truyện đã được lưu vào danh sách yêu thích.'));
+         // Tăng lượt thích trong bảng stories
+         $wpdb->query(
+          $wpdb->prepare("UPDATE $stories_table SET likes = likes + 1 WHERE id = %d", $story_id)
+      );
+
+
+        wp_send_json_success(array('message' => 'Truyện đã được lưu vào danh sách yêu thích.', 'status' => 'saved'));
       } else {
         $wpdb->delete(
           $favorites_table,
@@ -484,7 +516,12 @@ function save_story()
           array('%d', '%d', '%d')
         );
 
-        wp_send_json_success(array('message' => 'Truyện đã bị xóa khỏi danh sách yêu thích.'));
+          // Giảm lượt thích, nhưng không để âm
+          $wpdb->query(
+            $wpdb->prepare("UPDATE $stories_table SET likes = GREATEST(likes - 1, 0) WHERE id = %d", $story_id)
+        );
+
+        wp_send_json_success(array('message' => 'Truyện đã bị xóa khỏi danh sách yêu thích.', 'status' => 'not_saved'));
       }
     } else {
       wp_send_json_error(array('message' => 'Người dùng không hợp lệ.'));

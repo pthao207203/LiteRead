@@ -43,7 +43,7 @@ $saved_stories = $wpdb->get_results(
       <?php get_sidebar(); ?>
 
       <section id="mainContent"
-        class="transition-all gap-[0.75rem] w-full <?= ($isHome || $isSingleTruyen) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+        class="transition-all gap-[0.75rem] w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
         <div class="flex flex-col justify-center p-[2.25rem] grow w-full bg-white max-md:max-w-full">
           <header>
             <h1

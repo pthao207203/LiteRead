@@ -104,27 +104,28 @@ $transactions = $wpdb->get_results($wpdb->prepare(
     $user_id
 )) ?: [];
 ?>
-<main class="flex items-center mx-auto md:px-[2.225rem] md:py-[0.625rem] gap-[1rem] md:gap-[2.875rem] w-full bg-[#FFE5E1]">
-    <div class="w-full max-md:max-w-full">
-        <div class="flex gap-[1.25rem] max-md:flex-col">
-            <?php get_sidebar(); ?>
-            <div class="flex flex-col flex-grow max-md:ml-0 max-md:w-full">
-                <div class="md:w-10/12 bg-white flex-grow transition-all max-md:ml-0 max-md:w-full">
-                    <div class="flex flex-col justify-center items-start p-10 w-full max-md:px-6 max-md:max-w-full">
-                        
-                        <!-- Thông tin người dùng -->
-                        <div class="flex flex-wrap gap-6 items-end self-stretch w-full font-medium text-[#A04D4C] max-md:max-w-full">
-                            <img loading="lazy"
-                                src="<?php echo esc_url($user->avatar_image_url ?? 'https://via.placeholder.com/150'); ?>"
-                                class="object-contain shrink-0 aspect-square w-[8.375rem]"
-                                alt="User profile picture" />
-                            <div class="flex flex-col flex-1 shrink items-start basis-0 w-[15rem] max-md:max-w-full">
-                                <div class="flex flex-col">
-                                    <div class="text-3xl"><?php echo esc_html($user->full_name); ?></div>
-                                    <div class="mt-3 text-3xl opacity-60"><?php echo esc_html($user->email); ?></div>
-                                </div>
-                            </div>
-                        </div>
+<main class="relative flex flex-col mt-[4.425rem]">
+  <div class="w-full max-md:max-w-full">
+    <div class="flex max-md:flex-col h-full">
+      <!-- Sidebar Navigation -->
+      <?php get_sidebar(); ?>
+      <section id="mainContent"
+        class="flex-grow transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+        <div
+          class="flex flex-col justify-start items-start p-10 w-full max-md:px-6 max-md:max-w-full bg-white h-[100vh]">
+
+          <!-- Thông tin người dùng -->
+          <div class="flex flex-wrap gap-6 items-end self-stretch w-full font-medium text-[#A04D4C] max-md:max-w-full">
+            <img loading="lazy"
+              src="<?php echo esc_url($user->avatar_image_url ?? 'https://via.placeholder.com/150'); ?>"
+              class="object-cover shrink-0 aspect-square w-[8.375rem] rounded-full" alt="User profile picture" />
+            <div class="flex flex-col flex-1 shrink items-start basis-0 w-[15rem] max-md:max-w-full">
+              <div class="flex flex-col">
+                <div class="text-3xl"><?php echo esc_html($user->full_name); ?></div>
+                <div class="mt-3 text-3xl opacity-60"><?php echo esc_html($user->email); ?></div>
+              </div>
+            </div>
+          </div>
 
                         <!-- Tổng xu -->
                         <!-- <div class="flex flex-col mt-12 max-w-full text-3xl tracking-wide leading-none text-[#A04D4C] w-[394px] max-md:mt-10">
