@@ -43,6 +43,7 @@ if ($story) {
   $isHome = is_front_page();
   $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
 
+
   $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
   $isMobile = $screen_width < 768;
   echo '<script> console.log(' . $screen_width . ')</script>';
@@ -51,9 +52,11 @@ if ($story) {
     <div class="relative w-full max-md:max-w-full">
       <div class="relative flex max-md:flex-col">
         <!-- Sidebar -->
-        <?php include "sidebar.php"; ?>
+        <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
+          <?php get_sidebar(); ?>
+        <?php endif; ?>
         <section id="mainContent"
-          class="flex-grow gap-[0.75rem] overflow-y-auto <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+          class="flex-grow gap-[0.75rem] overflow-y-auto <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
           <div class="bg-white h-[calc(100vh-4.425rem)] ">
             <nav
               class="flex flex-wrap items-center w-full px-[20px] text-[1.125rem] font-medium  bg-white text-red-darker mb-[2px]"

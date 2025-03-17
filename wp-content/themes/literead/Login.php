@@ -54,6 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 $isHome = is_front_page();
 $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
+$isAuthPage = strpos($_SERVER['REQUEST_URI'], 'dang-nhap') !== false || strpos($_SERVER['REQUEST_URI'], 'dang-ky') !== false;
 
 $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
 $isMobile = $screen_width < 768;
@@ -63,9 +64,11 @@ $isMobile = $screen_width < 768;
   <div class="w-full max-md:max-w-full">
     <div class="flex max-md:flex-col">
       <!-- Sidebar Navigationx -->
-      <?php get_sidebar(); ?>
+      <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
+        <?php get_sidebar(); ?>
+      <?php endif; ?>
       <section id="mainContent"
-        class="flex-grow transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+        class="flex-grow transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
         <div class="grow w-full bg-white  max-md:max-w-full h-[calc(100vh-4.425rem)] overflow-y-auto">
           <div class="flex overflow-hidden flex-col pt-14 mx-auto w-full bg-white max-w-[428px]">
 
@@ -83,9 +86,10 @@ $isMobile = $screen_width < 768;
                 <div class="flex flex-col mt-[12px] w-full leading-none">
                   <label for="password" class="font-semibold tracking-wide">Mật khẩu</label>
                   <div
-                    class="flex overflow-hidden gap-1.5 items-center px-[12px] py-[12px] mt-[8px] w-full tracking-wide whitespace-nowrap border-b border-solid border-red-dark">
+                    class="flex overflow-hidden gap-1.5 items-center mt-[8px] w-full tracking-wide whitespace-nowrap">
                     <input type="password" name="password" id="password"
-                      class="flex-1 shrink self-stretch my-auto opacity-60 basis-0" value="**********" />
+                      class="flex-1 shrink  px-[12px] py-[12px] w-full whitespace-nowrap border-b border-solid border-red-dark self-stretch my-auto opacity-60 basis-0"
+                      placeholder="Nhập mật khẩu" value="" />
                   </div>
                   <?php if (!empty($error_message2)): ?>
                     <p style="color: red;"><?php echo esc_html($error_message2); ?></p>

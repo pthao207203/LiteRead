@@ -77,12 +77,6 @@ if ($story) {
 
   $users_literead = $wpdb->prefix . "users_literead";
 
-  // Kiểm tra đăng nhập của người dùng
-  if (!isset($_COOKIE['signup_token'])) {
-    echo "<p>Vui lòng đăng nhập để lưu truyện!</p>";
-    get_footer();
-    exit;
-  }
   // Lấy thông tin người dùng từ cookie
   $users_literead = $wpdb->prefix . "users_literead";
   $user_info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $users_literead WHERE token = %s", $_COOKIE['signup_token']));
@@ -122,6 +116,7 @@ if ($story) {
   $isHome = is_front_page();
   $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
 
+
   $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
   $isMobile = $screen_width < 768;
   echo '<script> console.log(' . $screen_width . ')</script>';
@@ -129,9 +124,11 @@ if ($story) {
   <main class="flex flex-col relative mt-[4.425rem] ">
     <div class="w-full max-md:max-w-full ">
       <div class="flex max-md:flex-col bg-white">
-        <?php get_sidebar(); ?>
+        <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
+          <?php get_sidebar(); ?>
+        <?php endif; ?>
         <div id="mainContent"
-          class="md:w-10/12 flex-grow transition-all max-md:ml-0 max-md:w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+          class="md:w-10/12 flex-grow transition-all max-md:ml-0 max-md:w-full <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
           <!-- Overview -->
           <section class="book-details md:ml-[1.25rem] max-md:p-4 px-14 py-11 " aria-labelledby="book-title">
             <div class="flex flex-col justify-start items-start max-sm:items-center mx-auto w-full max-md:max-w-full">

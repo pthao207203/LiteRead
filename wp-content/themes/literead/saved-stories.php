@@ -11,6 +11,7 @@ if (!isset($_COOKIE['signup_token']) || empty($_COOKIE['signup_token'])) {
 
 $isHome = is_front_page();
 $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
+$isAuthPage = strpos($_SERVER['REQUEST_URI'], 'dang-nhap') !== false || strpos($_SERVER['REQUEST_URI'], 'dang-ky') !== false;
 
 $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
 $isMobile = $screen_width < 768;
@@ -18,11 +19,7 @@ echo '<script> console.log(' . $screen_width . ')</script>';
 
 global $wpdb;
 
-// Kiểm tra đăng nhập
-if (!isset($_COOKIE['signup_token'])) {
-  echo "<script>alert('Bạn cần đăng nhập để xem trang này!'); window.location.href='/wp-login.php';</script>";
-  exit();
-}
+
 
 // Lấy thông tin người dùng từ cookie
 $users_literead = $wpdb->prefix . "users_literead";
@@ -48,10 +45,12 @@ $saved_stories = $wpdb->get_results(
   <div class="w-full max-md:max-w-full">
     <div class="flex max-md:flex-col">
       <!-- Sidebar Navigation -->
+      <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
       <?php get_sidebar(); ?>
+      <?php endif; ?>
 
       <section id="mainContent"
-        class="transition-all gap-[0.75rem] w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+        class="transition-all gap-[0.75rem] w-full <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
         <div class="flex flex-col justify-center p-[2.25rem] grow w-full bg-white max-md:max-w-full">
           <header>
             <h1

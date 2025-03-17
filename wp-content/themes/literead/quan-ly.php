@@ -13,6 +13,9 @@ get_header();
 
 $isHome = is_front_page();
 $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
+$isAuthPage = strpos($_SERVER['REQUEST_URI'], 'dang-nhap') !== false || strpos($_SERVER['REQUEST_URI'], 'dang-ky') !== false;
+
+
 
 $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
 $isMobile = $screen_width < 768;
@@ -74,12 +77,14 @@ if (!$user) {
 
 <main class="relative flex flex-col mt-[4.425rem]">
   <div class="w-full max-md:max-w-full">
-    <div class="flex max-md:flex-col">
+    <div class="flex max-md:flex-col h-full">
       <!-- Sidebar Navigationx -->
+      <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
       <?php get_sidebar(); ?>
+      <?php endif; ?>
       <section id="mainContent"
-        class="flex-grow transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
-        <div class="grow w-full bg-white  max-md:max-w-full">
+        class="flex-grow transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+        <div class="grow w-full bg-white  max-md:max-w-full ">
           <!-- editor Profile Section -->
           <section class="flex flex-col justify-center p-[2.25rem] w-full max-md:px-5 max-md:max-w-full">
             <h2
@@ -116,14 +121,14 @@ if (!$user) {
               <div class="flex flex-wrap gap-3 items-start mt-3 w-full text-red-dark max-md:max-w-full">
                 <article
                   class="flex flex-col flex-1 shrink justify-center gap-[1.25rem] p-[1.25rem] bg-orange-light-hover rounded-xl basis-0  max-md:max-w-full">
-                  <p class="text-[1rem] md:text-[1.75rem]"><?php echo esc_html($total_likes); ?></p>
+                  <p class="text-[1rem] md:text-[1.75rem]"><?php echo esc_html($total_likes ?? 0); ?></p>
                   <h3 class="text-[0.875rem] md:text-[1.5rem] font-semibold">
                     Lượt thích
                   </h3>
                 </article>
                 <article
                   class="flex flex-col flex-1 shrink justify-center gap-[1.25rem] p-[1.25rem] bg-orange-light-hover rounded-xl basis-0  max-md:max-w-full">
-                  <p class="text-[1rem] md:text-[1.75rem]"><?php echo esc_html($total_view); ?></p>
+                  <p class="text-[1rem] md:text-[1.75rem]"><?php echo esc_html($total_view ?? 0); ?></p>
                   <h3 class="text-[0.875rem] md:text-[1.5rem] font-semibold">Lượt đọc</h3>
                 </article>
               </div>

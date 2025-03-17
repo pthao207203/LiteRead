@@ -113,16 +113,26 @@ $transactions = $wpdb->get_results($wpdb->prepare(
   "SELECT * FROM wp_wallet_history WHERE user_id = %d ORDER BY created_at DESC LIMIT 5",
   $user_id
 )) ?: [];
+$isHome = is_front_page();
+$isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
+$isAuthPage = strpos($_SERVER['REQUEST_URI'], 'dang-nhap') !== false || strpos($_SERVER['REQUEST_URI'], 'dang-ky') !== false;
+
+$screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
+$isMobile = $screen_width < 768;
+echo '<script> console.log(' . $screen_width . ')</script>';
+
 ?>
 <main class="relative flex flex-col mt-[4.425rem]">
   <div class="w-full max-md:max-w-full">
     <div class="flex max-md:flex-col h-full">
       <!-- Sidebar Navigation -->
-      <?php get_sidebar(); ?>
+      <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
+        <?php get_sidebar(); ?>
+      <?php endif; ?>
       <section id="mainContent"
-        class="flex-grow transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+        class="flex-grow transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
         <div
-          class="flex flex-col justify-start items-start p-10 w-full max-md:px-6 max-md:max-w-full bg-white h-[100vh]">
+          class="flex flex-col justify-start items-start p-10 w-full max-md:px-6 max-md:max-w-full bg-white h-[calc(100vh-4.425rem)]">
 
           <!-- Thông tin người dùng -->
           <div class="flex flex-wrap gap-6 items-end self-stretch w-full font-medium text-[#A04D4C] max-md:max-w-full">
@@ -327,5 +337,3 @@ $transactions = $wpdb->get_results($wpdb->prepare(
     });
   });
 </script>
-
-<?php get_footer(); ?>
