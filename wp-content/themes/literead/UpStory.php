@@ -135,7 +135,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($story_name) {
       // Chuyển hướng về trang chính với thông báo thành công
       echo 'Thêm truyện thành công!';
-      wp_redirect(home_url('/'));
+      wp_redirect(home_url('/quan-ly-truyen/' . $slug));
       exit;
     } else {
       // wp_die('Lỗi khi thêm truyện. Vui lòng thử lại.');

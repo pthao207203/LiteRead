@@ -1,5 +1,13 @@
 <?php
 /* Template Name: Manage Stories */
+
+// Kiểm tra nếu user chưa đăng nhập
+if (!isset($_COOKIE['signup_token']) || empty($_COOKIE['signup_token'])) {
+  echo "<script>alert('Bạn cần đăng nhập để xem trang này!');</script>";
+  wp_redirect(home_url('/dang-nhap'));
+  exit();
+}
+
 session_start();
 get_header();
 
@@ -14,7 +22,12 @@ $isMobile = $screen_width < 768;
 echo '<script>console.log(' . $screen_width . ')</script>';
 
 global $wpdb;
-
+// Kiểm tra đăng nhập
+if (!isset($_COOKIE['signup_token'])) {
+  echo "<p class='text-center text-red-500 font-bold text-lg relative mt-[4.425rem]'>Bạn cần đăng nhập để quản lý truyện.</p>";
+  get_footer();
+  exit;
+}
 
 // Lấy thông tin user từ bảng `users_literead`
   $users_literead = $wpdb->prefix . "users_literead";
@@ -24,7 +37,7 @@ global $wpdb;
   ));
 
 if (!$user) {
-    echo "<p class='text-center text-red-500 font-bold text-lg'>Tài khoản không tồn tại.</p>";
+    echo "<p class='text-center text-red-500 font-bold text-lg relative mt-[4.425rem]'>Tài khoản không tồn tại.</p>";
     get_footer();
     exit;
   }
@@ -56,6 +69,9 @@ if (!$user) {
   $total = $wpdb->get_results(
     $wpdb->prepare("SELECT * FROM $stories_table WHERE editor = %d ORDER BY created_at DESC", $user->id)
   );  
+  if (!isset($total)) {
+    $total = 0;
+  }
 ?>
 
 

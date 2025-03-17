@@ -10,6 +10,10 @@ $story = $wpdb->get_row(
   $wpdb->prepare("SELECT * FROM $stories WHERE slug = %s", $story_slug)
 );
 
+$users = $wpdb->prefix . 'users_literead';
+$user = $wpdb->get_row(
+  $wpdb->prepare("SELECT user_name, full_name, slug FROM $users WHERE id = %s", $story->id)
+);
 
 $comments_table = $wpdb->prefix . 'comments_literead';
 if ($wpdb->get_var("SHOW TABLES LIKE '$comments_table'") != $comments_table) {
@@ -73,39 +77,12 @@ if ($story) {
 
   $users_literead = $wpdb->prefix . "users_literead";
 
-  // Đảm bảo không có echo, var_dump, print, hay bất kỳ thông báo nào
-  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_comment'])) {
-    if (!isset($_COOKIE['signup_token'])) {
-      wp_redirect(home_url('/dang-nhap'));
-      exit();  // Dừng script để không thực thi thêm mã phía dưới
-    }
-
-    $user_info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $users_literead WHERE token = %s", $_COOKIE['signup_token']));
-    $synopsis = $_POST['content'];
-    $story_id = $story->id;
-    $user_id = $user_info->id;
-
-    if (empty(trim($synopsis))) {
-      $content_error = 'Vui lòng nhập nội dung!';
-    } else {
-      $content_error = '';
-      // Chèn dữ liệu vào bảng comments
-      $wpdb->insert(
-        $comments_table,
-        array(
-          'story_id' => $story_id,
-          'user_id' => $user_id,
-          'synopsis' => $synopsis,
-        )
-      );
-      echo "<script>window.location.href = window.location.href + '?success=true';</script>";
-      exit();
-    }
-  }
   // Lấy thông tin người dùng từ cookie
   $users_literead = $wpdb->prefix . "users_literead";
   $user_info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $users_literead WHERE token = %s", $_COOKIE['signup_token']));
-  $user_id = $user_info->id;  // Lấy user_id từ thông tin người dùng
+  if (isset($user_info)) {
+    $user_id = $user_info->id;  // Lấy user_id từ thông tin người dùng
+  }
 
   // Nút lưu truyện
   if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_story'])) {
@@ -129,6 +106,7 @@ if ($story) {
         ),
         array('%d', '%d', '%s')
       );
+
       echo "<script>alert('Truyện đã được lưu vào danh sách yêu thích!');</script>";
     } else {
       echo "<script>alert('Truyện đã có trong danh sách yêu thích.');</script>";
@@ -146,9 +124,9 @@ if ($story) {
   <main class="flex flex-col relative mt-[4.425rem] ">
     <div class="w-full max-md:max-w-full ">
       <div class="flex max-md:flex-col bg-white">
-      <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
-      <?php get_sidebar(); ?>
-      <?php endif; ?>
+        <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
+          <?php get_sidebar(); ?>
+        <?php endif; ?>
         <div id="mainContent"
           class="md:w-10/12 flex-grow transition-all max-md:ml-0 max-md:w-full <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
           <!-- Overview -->
@@ -174,10 +152,17 @@ if ($story) {
                       <dt class="font-semibold text-[#593B37]">Tác giả:</dt>
                       <dd class="font-normal text-[#593B37]"><?php echo esc_html($story->author); ?></dd>
                     </div>
-                    <div class="flex gap-2.5 self-stretch text-[16px] md:text-[1.75rem] mt-2.5">
-                      <dt class="font-semibold text-[#593B37]">Nhóm dịch:</dt>
-                      <dd class="font-normal text-[#593B37]"><?php echo esc_html($story->editor); ?></dd>
-                    </div>
+                    <?php if (isset($user)) { ?>
+                      <div class="flex gap-2.5 self-stretch text-[16px] md:text-[1.75rem] mt-2.5">
+                        <dt class="font-semibold text-[#593B37]">Nhóm dịch:</dt>
+                        <dd class="font-normal text-[#593B37]">
+                          <a href=<?php echo home_url("/trang-ca-nhan/" . $user->slug); ?>
+                            class="font-medium hover:no-underline hover:text-orange-dark">
+                            <?php echo esc_html(isset($user->full_name) && $user->full_name != '' ? $user->full_name : $user->user_name); ?>
+                          </a>
+                        </dd>
+                      </div>
+                    <?php } ?>
                     <div class="flex gap-2.5 self-stretch text-[16px] md:text-[1.75rem] mt-2.5">
                       <dt class="font-semibold text-[#593B37]">Số chương:</dt>
                       <dd class="font-normal text-[#593B37]">4 chương</dd>
@@ -208,16 +193,16 @@ if ($story) {
                   <div
                     class="flex flex-wrap gap-4 items-center justify-start mt-2.5 text-[18px] md:text-[1.875rem] font-normal text-orange-light max-md:max-w-full">
                     <a href="<?php echo esc_url($previous_chapter_url); ?>" aria-label="Previous chapter"
-                      class=" self-stretch px-[1rem] py-[0.5rem] md:px-[1.25rem] md:py-[0.625rem] bg-red-normal rounded-xl hover:no-underline hover:text-red-light-hover">
+                      class=" self-center px-[1rem] py-[0.5rem] md:px-[1.25rem] md:py-[0.625rem] bg-red-normal rounded-xl hover:no-underline hover:text-red-light-hover">
                       Chương đầu
                     </a>
                     <a href="<?php echo esc_url($last_chapter_url); ?>" aria-label="Last chapter"
-                      class="self-stretch px-[1rem] py-[0.5rem] md:px-[1.25rem] md:py-[0.625rem] bg-red-normal rounded-xl hover:no-underline hover:text-red-light-hover">
+                      class="self-center px-[1rem] py-[0.5rem] md:px-[1.25rem] md:py-[0.625rem] bg-red-normal rounded-xl hover:no-underline hover:text-red-light-hover">
                       Chương cuối
                     </a>
                     <form method="POST" id="save-story-form" action="">
                       <input type="hidden" name="story_id" value="<?php echo esc_attr($story->id); ?>" />
-                      <button type="button" name="save_story" id="toggle-btn" data-story-id="<?php echo esc_attr($story->id); ?>">
+                      <button type="submit" name="save_story" id="toggle-btn">
                         <img id="toggle-img"
                           src="https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png"
                           class="w-[3.5625rem] max-sm:w-[2.625rem] max-sm:h-[2.625rem] h-[3.5625rem] object-fill shrink "
@@ -312,116 +297,9 @@ if ($story) {
               </section>
 
               <section class="flex flex-col  bg-white" aria-label="Comment Section">
-                <h2 id="comment"
-                  class="gap-2.5 self-start p-2.5 text-[18px] md:text-[1.875rem] font-medium text-red-normal bg-orange-light-hover rounded-xl">
-                  Bình luận
-                </h2>
-
-                <div class="flex flex-col mt-6 w-full text-red-darker max-md:max-w-full">
-                  <!-- Comment Input -->
-                  <form method="POST">
-                    <textarea id="commentBox" name="content"
-                      class=" p-2.5 w-full bg-orange-light text-red-dark placeholder-red-dark text-[16px] md:text-[1.75rem] resize-none overflow-y-auto block min-h-[3.75rem]"
-                      placeholder="Bình luận tại đây..." aria-label="Write your comment"><?php if (isset($synopsis))
-                        echo $synopsis; ?></textarea>
-                    <?php if (isset($content_error) && $content_error !== '') {
-                      echo "<p style='color: red;'>" . esc_html($content_error) . "</p>";
-                    } ?>
-                    <div class="justify-self-end">
-                      <button type="submit" id="commentSubmit" name="save_comment"
-                        class="gap-2.5 p-2.5 mt-6 text-[18px] md:text-[1.875rem] font-medium bg-red-normal text-orange-light-hover rounded-xl">
-                        Đăng bình luận
-                      </button>
-                    </div>
-                  </form>
-                  <!-- Comment List -->
-                  <div role="feed" aria-label="Comments list">
-                    <?php
-                    if (isset($comments)) {
-                      $first = true;
-                      foreach ($comments as $comment) {
-                        $user = $wpdb->get_row(
-                          $wpdb->prepare("SELECT * FROM $users_literead WHERE id = %s", $comment->user_id)
-                        );
-                        if ($first) {
-                          ?>
-                          <article class="flex flex-wrap gap-6 items-start py-4 md:py-8 w-full max-md:max-w-full">
-                            <img
-                              class="flex shrink-0 gap-2.5 bg-orange-light object-cover aspect-[1/1] h-[50px] w-[50px] max-md:h-[30px] rounded-[99px] max-md:w-[30px]"
-                              src="<?php if ($user->avatar_image_url)
-                                echo $user->avatar_image_url;
-                              else
-                                echo ''; ?>">
-                            <div class="flex-1 shrink basis-0  max-md:max-w-full">
-                              <header
-                                class="flex flex-wrap md:gap-10 gap-1 justify-between items-center w-full max-md:max-w-full">
-                                <h3 class="self-stretch my-auto text-[16px] md:text-[1.75rem] font-medium w-[126px]">
-                                  <?php echo $user->full_name ?>
-                                </h3>
-                                <time
-                                  class="self-stretch my-auto text-[14px] md:text-[1.5rem] text-right"><?php echo time_ago($comment->created_at); ?></time>
-                              </header>
-                              <p
-                                class="md:p-9 p-4 w-full text-[16px] md:text-[1.75rem] bg-orange-light rounded-tr-xl rounded-b-xl max-md:px-5 max-md:max-w-full">
-                                <?php echo $comment->synopsis; ?>
-                              </p>
-                            </div>
-                          </article>
-                          <?php
-                          $first = false;
-                        } else {
-                          ?>
-                          <article
-                            class="flex flex-wrap gap-6 items-start py-4 md:py-8 w-full border-solid border-t-[0.5px] border-t-[#593B37]/50 border-b-[0.1px] max-md:max-w-full">
-                            <img
-                              class="flex shrink-0 gap-2.5 bg-orange-light object-cover aspect-[1/1] h-[50px] w-[50px] max-md:h-[30px] rounded-[99px] max-md:w-[30px]"
-                              src="<?php if ($user->avatar_image_url)
-                                echo $user->avatar_image_url;
-                              else
-                                echo ''; ?>">
-                            <div class="flex-1 shrink basis-0  max-md:max-w-full">
-                              <header
-                                class="flex flex-wrap md:gap-10 gap-1 justify-between items-center w-full max-md:max-w-full">
-                                <h3 class="self-stretch my-auto text-[16px] md:text-[1.75rem] font-medium w-[126px]">
-                                  <?php echo $user->full_name ?>
-                                </h3>
-                                <time
-                                  class="self-stretch my-auto text-[14px] md:text-[1.5rem] text-right"><?php echo time_ago($comment->created_at); ?></time>
-                              </header>
-                              <p
-                                class="md:p-9 p-4 w-full text-[16px] md:text-[1.75rem] bg-orange-light rounded-tr-xl rounded-b-xl max-md:px-5 max-md:max-w-full">
-                                <?php echo $comment->synopsis; ?>
-                              </p>
-                            </div>
-                          </article>
-                          <?php
-                        }
-                      }
-                    }
-                    ?>
-                  </div>
-
-                  <!-- Pagination -->
-                  <nav
-                    class="flex gap-1 justify-center items-center self-center font-medium text-center text-red-normal whitespace-nowrap mt-4"
-                    aria-label="Pagination">
-                    <?php if ($current_page_comments > 1): ?>
-                      <a href="?page=<?php echo ($current_page_comments - 1); ?>"
-                        class="px-2 py-1 bg-[#FFF2F0] rounded-lg text-[16px] md:text-[1.75rem] hover:no-underline hover:text-red-normal-hover">←</a>
-                    <?php endif; ?>
-                    <?php for ($i = 1; $i <= $total_pages_comments; $i++): ?>
-                      <a href="?page=<?php echo $i; ?>"
-                        class="px-0.5 py-1 <?php echo $i == $current_page_comments ? 'bg-[#D56665] text-orange-light hover:no-underline hover:text-orange-light' : 'bg-[#FFF2F0]'; ?> rounded-lg text-[16px] md:text-[1.75rem] self-stretch my-auto aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center">
-                        <?php echo $i; ?>
-                      </a>
-                    <?php endfor; ?>
-                    <?php if ($current_page_comments < $total_pages_comments): ?>
-                      <a href="?page=<?php echo ($current_page_comments + 1); ?>"
-                        class="px-2 py-1 bg-[#FFF2F0] rounded-lg text-[16px] md:text-[1.75rem] hover:no-underline hover:text-red-normal-hover">→</a>
-                    <?php endif; ?>
-                  </nav>
-                  </nav>
-                </div>
+                <?php
+                include "binh-luan.php";
+                ?>
               </section>
             </div>
 
@@ -431,26 +309,26 @@ if ($story) {
               <?php include "noi-bat.php"; ?>
             </aside>
           </div>
-
-
-        </div>
-      </div>
-      <?php
-      $stories_hot = $wpdb->get_results("SELECT * FROM wp_stories WHERE hot='1' LIMIT 6");
-      ?>
-      <!-- Recommended stories -->
-      <section class="relative z-10 mt-0 w-full rounded-[20px]">
-        <div class="flex flex-col w-full rounded-none ">
-          <!-- Tiêu đề -->
-          <!-- <h2
+          <?php
+          $stories_hot = $wpdb->get_results("SELECT * FROM wp_stories WHERE hot='1' LIMIT 6");
+          ?>
+          <!-- Recommended stories -->
+          <section class="relative z-10 mt-0 w-full rounded-[20px]">
+            <div class="flex flex-col w-full rounded-none ">
+              <!-- Tiêu đề -->
+              <!-- <h2
             class="gap-2.5 self-start p-[10px] md:px-[20px] ml-[17px] md:ml-[34px] mb-[-3px] text-[18px]  md:text-[2.25rem] font-semibold text-red-normal bg-red-light rounded-tl-[12px] rounded-tr-[12px]">
             Truyện đề cử
           </h2> -->
 
-          <!-- Wrapper cuộn ngang + Grid cho màn hình lớn -->
-          <?php include "de-cu.php"; ?>
+              <!-- Wrapper cuộn ngang + Grid cho màn hình lớn -->
+              <?php include "de-cu.php"; ?>
+            </div>
+          </section>
+
+          <?php get_footer(); ?>
         </div>
-      </section>
+      </div>
     </div>
   </main>
 
@@ -462,77 +340,38 @@ if ($story) {
 ; ?>
 
 <script>
-const img_saved = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/tkn6hjhe.png"; // saved
-const img_not_saved = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png"; // not saved
+  document.getElementById("toggle-btn").addEventListener("click", function (event) {
+    event.preventDefault();  // Ngừng gửi form ngay lập tức
 
-document.getElementById("toggle-btn").addEventListener("click", function (event) {
-    event.preventDefault();
-
-    const btn = event.currentTarget;
     const img = document.getElementById("toggle-img");
-    const storyId = btn.dataset.storyId; // Lấy story_id động từ data attribute
+    const img1 = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png";
+    const img2 = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/tkn6hjhe.png";
 
-    // Toggle UI ngay lập tức (mượt mà hơn)
-    const isCurrentlySaved = img.src === img_saved;
-    img.src = isCurrentlySaved ? img_not_saved : img_saved;
+    // Toggle image source
+    img.src = img.src === img1 ? img2 : img1;
 
+    // Tạo AJAX request
     const formData = new FormData();
-    formData.append('action', 'save_story');
-    formData.append('story_id', storyId);
+    formData.append('action', 'save_story'); // Đảm bảo rằng action là save_story
+    formData.append('story_id', <?php echo esc_js($story->id); ?>); // Gửi ID của truyện
 
+    // Gửi AJAX request tới admin-ajax.php
     fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
-        method: 'POST',
-        body: formData,
-        credentials: 'same-origin'
+      method: 'POST',
+      body: formData
     })
-    .then(response => response.json())
-    .then(data => {
+      .then(response => response.json())
+      .then(data => {
         if (data.success) {
-            alert(data.data.message);
-            // Reload trang sau khi server xử lý xong
-            window.location.reload();
+          alert(data.data.message); // Hiển thị thông báo từ server
         } else {
-            alert(data.data.message);
-            // Nếu server báo lỗi, revert lại icon
-            img.src = isCurrentlySaved ? img_saved : img_not_saved;
+          alert(data.data.message); // Hiển thị lỗi từ server
         }
-    })
-    .catch(error => {
+      })
+      .catch(error => {
         console.error('Error:', error);
-        img.src = isCurrentlySaved ? img_saved : img_not_saved;
-    });
-});
+      });
+  });
 
- 
- // Khi trang được tải lại, kiểm tra trạng thái đã lưu hay chưa và cập nhật nút
- document.addEventListener("DOMContentLoaded", function() {
-     const img = document.getElementById("toggle-img");
-     const storyId = document.getElementById("toggle-btn").dataset.storyId;
- 
-     // Gửi request kiểm tra trạng thái
-     const formData = new FormData();
-     formData.append('action', 'check_story_status');
-     formData.append('story_id', storyId);
- 
-     fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
-         method: 'POST',
-         body: formData,
-         credentials: 'same-origin'
-     })
-     .then(response => response.json())
-     .then(data => {
-         if (data.success) {
-             // Cập nhật lại trạng thái hình ảnh
-             if (data.data.status === 'saved') {
-                img.src = img_saved;
-            } else {
-                img.src = img_not_saved;
-            }
-         } else {
-             console.log('Không thể kiểm tra trạng thái.');
-         }
-     });
- });
+
 </script>
-
-<?php get_footer(); ?>

@@ -1,5 +1,10 @@
 <?php
 /* Template Name: Signup */
+if (isset($_COOKIE['signup_token'])) {
+  wp_redirect(home_url('/'));
+  exit;
+}
+
 ob_start();
 get_header();
 
@@ -113,11 +118,11 @@ $isAuthPage = strpos($_SERVER['REQUEST_URI'], 'dang-nhap') !== false || strpos($
     <div class="flex max-md:flex-col">
       <!-- Sidebar Navigationx -->
       <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
-      <?php get_sidebar(); ?>
+        <?php get_sidebar(); ?>
       <?php endif; ?>
       <section id="mainContent"
         class="flex-grow transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
-        <div class="grow w-full bg-white  max-md:max-w-full h-[calc(100vh-4.425rem)]">
+        <div class="grow w-full bg-white  max-md:max-w-full h-[calc(100vh-4.425rem)] overflow-y-auto">
           <div class="flex overflow-hidden flex-col pt-14 mx-auto w-full bg-white max-w-[428px]">
             <div class="flex flex-col px-[1.0625rem] pt-[1.0625rem] w-full text-[1.5rem] text-red-dark bg-white">
               <form method="POST">

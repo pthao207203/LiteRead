@@ -1,5 +1,9 @@
 <?php
 /* Template Name: Login */
+if (isset($_COOKIE['signup_token'])) {
+  wp_redirect(home_url('/'));
+  exit;
+}
 ob_start();
 get_header();
 
@@ -62,10 +66,10 @@ $isMobile = $screen_width < 768;
       <!-- Sidebar Navigationx -->
       <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
         <?php get_sidebar(); ?>
-        <?php endif; ?>
+      <?php endif; ?>
       <section id="mainContent"
         class="flex-grow transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
-        <div class="grow w-full bg-white  max-md:max-w-full  h-[calc(100vh-4.425rem)]">
+        <div class="grow w-full bg-white  max-md:max-w-full h-[calc(100vh-4.425rem)] overflow-y-auto">
           <div class="flex overflow-hidden flex-col pt-14 mx-auto w-full bg-white max-w-[428px]">
 
             <div class="flex flex-col px-[1.0625rem] pt-[1.0625rem] w-full text-red-dark bg-white text-[1.5rem] ">
@@ -84,8 +88,8 @@ $isMobile = $screen_width < 768;
                   <div
                     class="flex overflow-hidden gap-1.5 items-center mt-[8px] w-full tracking-wide whitespace-nowrap">
                     <input type="password" name="password" id="password"
-                      class="flex-1 shrink  px-[12px] py-[12px] w-full whitespace-nowrap border-b border-solid border-red-dark self-stretch my-auto opacity-60 basis-0" placeholder="Nhập mật khẩu" 
-                      value="" />
+                      class="flex-1 shrink  px-[12px] py-[12px] w-full whitespace-nowrap border-b border-solid border-red-dark self-stretch my-auto opacity-60 basis-0"
+                      placeholder="Nhập mật khẩu" value="" />
                   </div>
                   <?php if (!empty($error_message2)): ?>
                     <p style="color: red;"><?php echo esc_html($error_message2); ?></p>

@@ -2,7 +2,6 @@
   .lite-read-text {
     color: #D66766;
     font-family: Moul;
-    font-size: var(--Font-20, 32px);
     font-style: normal;
     font-weight: 400;
     line-height: normal;
@@ -29,7 +28,6 @@
 
   .footer-container .contact-info h2 {
     width: 100%;
-    font-size: 3rem;
     color: #D66766;
   }
 
@@ -44,76 +42,39 @@
 
   .footer-container .contact-info address p {
     width: 100%;
-    font-size: 2rem;
     color: #A04D4C;
   }
 
   .footer-container .contact-info p {
-    font-size: 1.75rem;
     line-height: 1.25;
     color: #A04D4C;
-  }
-
-  @media (max-width: 768px) {
-    .footer-container {
-      width: 100%;
-      padding: 0px;    
-    }
-
-    .footer-container .contact-info h2 {
-      font-size: 2rem;
-    }
-
-    .footer-container .contact-info address p {
-      font-size: 1.5rem;
-    }
-
-    .footer-container .contact-info p {
-      font-size: 1.25rem;
-    }
-  }
-
-  @media (max-width: 576px) {
-    .footer-container {
-      width: 100vw;
-      padding: 6px;
-    }
-
-    .footer-container .contact-info h2 {
-      font-size: 2rem;
-    }
-
-    .footer-container .contact-info address p {
-      font-size: 1.25rem;
-    }
-
-    .footer-container .contact-info p {
-      font-size: 1.25rem;
-    }
   }
 </style>
 
 <footer class="flex items-center mx-auto gap-[1rem] md:gap-[2.875rem] w-full bg-[#FFE5E1]">
-  <div class="footer-container flex items-center mx-auto gap-[1rem] md:gap-[2.875rem] w-full bg-[#FFE5E1]" role="contentinfo" aria-label="Contact Information">
+  <div class="footer-container flex items-center mx-auto gap-[1rem] md:gap-[2.875rem] w-full bg-[#FFE5E1]"
+    role="contentinfo" aria-label="Contact Information">
     <div class="contact-info">
-      <h2 class="lite-read-text">
+      <h2 class="lite-read-text text-[20px] lg:text-[2rem]">
         LiteRead
       </h2>
       <address>
-        <p>
+        <p class="text-[12px] lg:text-[1.375rem]">
           <span class="sr-only">Phone:</span>
-          <a href="tel:0849449448" class="focus:ring-2 hover:no-underline hover:text-[#A04D4C]">Điện thoại: 0849449448</a>
+          <a href="tel:0849449448" class="focus:ring-2 hover:no-underline hover:text-[#A04D4C]">Điện thoại:
+            0849449448</a>
         </p>
-        <p>
+        <p class="text-[12px] lg:text-[1.375rem]">
           <span class="sr-only">Email:</span>
-          <a href="mailto:22521375@gm.uit.edu.vn" class="focus:ring-2 hover:no-underline hover:text-[#A04D4C]">Email: 22521375@gm.uit.edu.vn</a>
+          <a href="mailto:22521375@gm.uit.edu.vn" class="focus:ring-2 hover:no-underline hover:text-[#A04D4C]">Email:
+            22521375@gm.uit.edu.vn</a>
         </p>
-        <p>
+        <p class="text-[12px] lg:text-[1.375rem]">
           <span class="sr-only">Address:</span>
           Địa chỉ: Số 15, đường số 10, phường Linh Xuân, TP. Thủ Đức, TP. Hồ Chí Minh
         </p>
       </address>
-      <p>
+      <p class="text-[10px] lg:text-[1.25rem]">
         © 2024 DORA. All Rights Reserved.
       </p>
     </div>
@@ -167,4 +128,5 @@
   <?php wp_footer(); ?>
 </footer>
 </body>
+
 </html>
