@@ -1,4 +1,12 @@
 <?php
+
+// Kiểm tra nếu user chưa đăng nhập
+if (!isset($_COOKIE['signup_token']) || empty($_COOKIE['signup_token'])) {
+  echo "<script>alert('Bạn cần đăng nhập để xem trang này!');</script>";
+  wp_redirect(home_url('/dang-nhap'));
+  exit();
+}
+
 global $wpdb;
 $story_slug = get_query_var('truyen');
 $stories = $wpdb->prefix . 'stories';
@@ -47,6 +55,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $error_genres = '';
     $cover_image_url = '';
     if (!empty($_FILES['cover_image']['name'])) {
+      if (!function_exists('wp_handle_upload')) {
+        require_once ABSPATH . 'wp-admin/includes/file.php';
+      }
       $uploaded_file = $_FILES['cover_image'];
       $upload = wp_handle_upload($uploaded_file, array('test_form' => false));
 
@@ -111,10 +122,15 @@ get_header();
 
 $isHome = is_front_page();
 $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
+$isAuthPage = strpos($_SERVER['REQUEST_URI'], 'dang-nhap') !== false || strpos($_SERVER['REQUEST_URI'], 'dang-ky') !== false;
+
+
 
 $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
 $isMobile = $screen_width < 768;
 echo '<script>console.log(' . $screen_width . ')</script>';
+
+
 ?>
 
 <!-- 💡 Nội dung chính -->
@@ -124,8 +140,8 @@ echo '<script>console.log(' . $screen_width . ')</script>';
       <!-- Sidebar Navigationx -->
       <?php get_sidebar(); ?>
       <section id="mainContent"
-        class="transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
-        <div class="w-full bg-white  max-md:max-w-full">
+        class="transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+        <div class="w-full bg-white  max-md:max-w-full  h-[calc(100vh-4.425rem)] overflow-y-auto">
 
           <!-- Nội dung bên dưới Header -->
           <nav
@@ -270,7 +286,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
                 echo esc_html($synopsis);
               else
                 echo esc_html($story->synopsis) ?>
-                                                                            </textarea>
+                                                                                                  </textarea>
               <?php if (!empty($error_synopsis)): ?>
                 <p style="color: red;"><?php echo esc_html($error_synopsis); ?></p>
               <?php endif; ?>
@@ -380,8 +396,53 @@ echo '<script>console.log(' . $screen_width . ')</script>';
           </script>
         </div>
 
-        <?php get_footer(); ?>
+
       </section>
     </div>
   </div>
 </main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  $('#synopsis').summernote({
+    placeholder: 'Nhập nội dung',
+    tabsize: 2,
+    height: 300,
+    toolbar: [
+      ['style', ['style']],
+      ['font', ['bold', 'underline', 'clear']],
+      ['color', ['color']],
+      ['para', ['ul', 'ol', 'paragraph']],
+      ['table', ['table']],
+      ['insert', ['link', 'picture', 'video']],
+      ['view', ['fullscreen', 'codeview', 'help']]
+    ],
+
+    callbacks: {
+      onKeyup: function (e) {
+        updateWordCount();
+      },
+      onChange: function (contents, $editable) {
+        updateWordCount();
+      }
+    }
+  });
+
+  function setupWordCountObserver() {
+    let editableDiv = $('.note-editable');
+
+    if (editableDiv.length) {
+      editableDiv.on('input', function () {
+        updateWordCount();
+      });
+    }
+  }
+
+  function updateWordCount() {
+    let text = $('.note-editable').text().trim(); // Lấy text thuần không có HTML
+    let words = text.length > 0 ? text.split(/\s+/).length : 0;
+    $('#wordCount').text(words);
+  }
+
+  // Đảm bảo sự kiện input được gắn sau khi Summernote load
+  setTimeout(setupWordCountObserver, 1000);
+</script>

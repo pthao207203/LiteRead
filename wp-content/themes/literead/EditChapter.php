@@ -1,6 +1,13 @@
 <?php
 /* Template Name: UpChapter */
 
+// Kiểm tra nếu user chưa đăng nhập
+if (!isset($_COOKIE['signup_token']) || empty($_COOKIE['signup_token'])) {
+  echo "<script>alert('Bạn cần đăng nhập để xem trang này!');</script>";
+  wp_redirect(home_url('/dang-nhap'));
+  exit();
+}
+
 get_header();
 
 global $wpdb;
@@ -68,11 +75,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       array('id' => $chapter->id)
     );
 
-    echo '<script>window.location.href="' . home_url("/quan-ly-truyen/$story_slug/") . '";</script>';
+    echo '<script>window.location.href="' . home_url("/quan-ly-truyen/" . $story_slug) . '";</script>';
     exit;
-
-
-
   }
 }
 $isHome = is_front_page();
@@ -81,6 +85,8 @@ $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Ki�
 $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
 $isMobile = $screen_width < 768;
 echo '<script>console.log(' . $screen_width . ')</script>';
+
+
 ?>
 <main class="relative flex flex-col mt-[4.425rem]">
   <div class="w-full max-md:max-w-full">
@@ -218,10 +224,52 @@ echo '<script>console.log(' . $screen_width . ')</script>';
             });
           });
         </script>
-
-
-        <?php get_footer(); ?>
       </section>
     </div>
   </div>
 </main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  $('#synopsis').summernote({
+    placeholder: 'Nhập nội dung',
+    tabsize: 2,
+    height: 300,
+    toolbar: [
+      ['style', ['style']],
+      ['font', ['bold', 'underline', 'clear']],
+      ['color', ['color']],
+      ['para', ['ul', 'ol', 'paragraph']],
+      ['table', ['table']],
+      ['insert', ['link', 'picture', 'video']],
+      ['view', ['fullscreen', 'codeview', 'help']]
+    ],
+
+    callbacks: {
+      onKeyup: function (e) {
+        updateWordCount();
+      },
+      onChange: function (contents, $editable) {
+        updateWordCount();
+      }
+    }
+  });
+
+  function setupWordCountObserver() {
+    let editableDiv = $('.note-editable');
+
+    if (editableDiv.length) {
+      editableDiv.on('input', function () {
+        updateWordCount();
+      });
+    }
+  }
+
+  function updateWordCount() {
+    let text = $('.note-editable').text().trim(); // Lấy text thuần không có HTML
+    let words = text.length > 0 ? text.split(/\s+/).length : 0;
+    $('#wordCount').text(words);
+  }
+
+  // Đảm bảo sự kiện input được gắn sau khi Summernote load
+  setTimeout(setupWordCountObserver, 1000);
+</script>

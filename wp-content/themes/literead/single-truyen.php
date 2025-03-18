@@ -10,6 +10,29 @@ $story = $wpdb->get_row(
   $wpdb->prepare("SELECT * FROM $stories WHERE slug = %s", $story_slug)
 );
 
+$users = $wpdb->prefix . 'users_literead';
+$user = $wpdb->get_row(
+  $wpdb->prepare("SELECT user_name, full_name, slug FROM $users WHERE id = %s", $story->id)
+);
+
+$comments_table = $wpdb->prefix . 'comments_literead';
+if ($wpdb->get_var("SHOW TABLES LIKE '$comments_table'") != $comments_table) {
+  $charset_collate = $wpdb->get_charset_collate();
+
+  $sql = "CREATE TABLE $comments_table (
+    id MEDIUMINT(9) UNSIGNED NOT NULL AUTO_INCREMENT,
+    user_id MEDIUMINT(9) UNSIGNED NOT NULL,
+    story_id MEDIUMINT(9) UNSIGNED NOT NULL,
+    content TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY  (id),
+    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES wp_users_literead(id) ON DELETE CASCADE,
+    CONSTRAINT fk_story_id FOREIGN KEY (story_id) REFERENCES wp_stories(id) ON DELETE CASCADE
+  ) $charset_collate;";
+  require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+  dbDelta($sql);
+}
+
 if ($story) {
 
   $per_page = 10; // Số chương hiển thị mỗi trang
@@ -24,22 +47,6 @@ if ($story) {
     $wpdb->prepare("SELECT * FROM $chapter_name WHERE story_id = %s ORDER BY chapter_number ASC LIMIT %d OFFSET %d", $story->id, $per_page, $offset)
   );
 
-  $table_name1 = $wpdb->prefix . 'comments';
-
-  if ($wpdb->get_var("SHOW TABLES LIKE '$table_name1'") != $table_name1) {
-    $charset_collate = $wpdb->get_charset_collate();
-
-    $sql = "CREATE TABLE $table_name1 (
-      id MEDIUMINT(9) UNSIGNED NOT NULL AUTO_INCREMENT,
-      story_id TEXT NOT NULL,
-      user_id TEXT NOT NULL,
-      synopsis TEXT DEFAULT NULL,
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      PRIMARY KEY  (id)
-    ) $charset_collate;";
-    require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-    dbDelta($sql);
-  }
   $genres = $wpdb->get_col($wpdb->prepare(
     "SELECT t.type_name 
      FROM wp_story_type st 
@@ -48,7 +55,14 @@ if ($story) {
     $story->id
   ));
 
-
+  $per_page_comments = 10; // Số chương hiển thị mỗi trang
+  $current_page_comments = isset($_GET['page_comments']) ? max(1, intval($_GET['page'])) : 1; // Lấy trang hiện tại từ URL
+  $offset_comments = ($current_page_comments - 1) * $per_page_comments;
+  $total_comments = $wpdb->get_var("SELECT COUNT(*) FROM $comments_table WHERE story_id = $story->id");
+  $total_pages_comments = ceil($total_comments / $per_page_comments);
+  $comments = $wpdb->get_results(
+    $wpdb->prepare("SELECT * FROM $comments_table WHERE story_id = %s ORDER BY created_at DESC LIMIT %d OFFSET %d", $story->id, $per_page_comments, $offset_comments)
+  );
 
   $first_chapter = $wpdb->get_var($wpdb->prepare(
     "SELECT MIN(chapter_number) FROM $chapter_name WHERE story_id = %d",
@@ -61,21 +75,62 @@ if ($story) {
   $previous_chapter_url = $first_chapter ? site_url("/truyen/$story_slug/chuong-$first_chapter") : '#';
   $last_chapter_url = $last_chapter ? site_url("/truyen/$story_slug/chuong-$last_chapter") : '#';
 
+  $users_literead = $wpdb->prefix . "users_literead";
+
+  // Lấy thông tin người dùng từ cookie
+  $users_literead = $wpdb->prefix . "users_literead";
+  $user_info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $users_literead WHERE token = %s", $_COOKIE['signup_token']));
+  if (isset($user_info)) {
+    $user_id = $user_info->id;  // Lấy user_id từ thông tin người dùng
+  }
+
+  // Nút lưu truyện
+  if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_story'])) {
+    $story_id = $_POST['story_id'];
+
+    // Kiểm tra nếu truyện chưa có trong danh sách yêu thích của người dùng
+    $favorites_table = $wpdb->prefix . 'users_likes';
+    $existing_favorite = $wpdb->get_var($wpdb->prepare(
+      "SELECT COUNT(*) FROM $favorites_table WHERE user_id = %d AND story_id = %d",
+      $user_id,
+      $story_id
+    ));
+    if ($existing_favorite == 0) {
+      // Thêm truyện vào danh sách yêu thích
+      $wpdb->insert(
+        $favorites_table,
+        array(
+          'user_id' => $user_id,
+          'story_id' => $story_id,
+          'created_at' => current_time('mysql'),
+        ),
+        array('%d', '%d', '%s')
+      );
+
+      echo "<script>alert('Truyện đã được lưu vào danh sách yêu thích!');</script>";
+    } else {
+      echo "<script>alert('Truyện đã có trong danh sách yêu thích.');</script>";
+    }
+  }
+
   $isHome = is_front_page();
   $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
+
 
   $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
   $isMobile = $screen_width < 768;
   echo '<script> console.log(' . $screen_width . ')</script>';
   ?>
   <main class="flex flex-col relative mt-[4.425rem] ">
-    <div class="w-full max-md:max-w-full">
+    <div class="w-full max-md:max-w-full ">
       <div class="flex max-md:flex-col bg-white">
-        <!-- Sidebar Navigationx -->
-        <?php get_sidebar(); ?>
-        <div id="mainContent" class="md:w-10/12 md:ml-[1.25rem] flex-grow transition-all max-md:ml-0 max-md:w-full <?= ($isHome || $isSingleTruyen || $isMobile) ? 'pl-0' : 'pl-[19.5rem]' ?>">
+        <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
+          <?php get_sidebar(); ?>
+        <?php endif; ?>
+        <div id="mainContent"
+          class="md:w-10/12 flex-grow transition-all max-md:ml-0 max-md:w-full <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
           <!-- Overview -->
-          <section class="book-details max-md:p-4 px-14 py-11 " aria-labelledby="book-title">
+          <section class="book-details md:ml-[1.25rem] max-md:p-4 px-14 py-11 " aria-labelledby="book-title">
             <div class="flex flex-col justify-start items-start max-sm:items-center mx-auto w-full max-md:max-w-full">
               <div class="flex flex-col sm:flex-row sm:gap-4 md:gap-6 items-center justify-center text-center">
                 <img loading="lazy" src=<?php echo esc_url($story->cover_image_url); ?> alt=<?php echo esc_html($story->story_name); ?>
@@ -97,10 +152,17 @@ if ($story) {
                       <dt class="font-semibold text-[#593B37]">Tác giả:</dt>
                       <dd class="font-normal text-[#593B37]"><?php echo esc_html($story->author); ?></dd>
                     </div>
-                    <div class="flex gap-2.5 self-stretch text-[16px] md:text-[1.75rem] mt-2.5">
-                      <dt class="font-semibold text-[#593B37]">Nhóm dịch:</dt>
-                      <dd class="font-normal text-[#593B37]"><?php echo esc_html($story->editor); ?></dd>
-                    </div>
+                    <?php if (isset($user)) { ?>
+                      <div class="flex gap-2.5 self-stretch text-[16px] md:text-[1.75rem] mt-2.5">
+                        <dt class="font-semibold text-[#593B37]">Nhóm dịch:</dt>
+                        <dd class="font-normal text-[#593B37]">
+                          <a href=<?php echo home_url("/trang-ca-nhan/" . $user->slug); ?>
+                            class="font-medium hover:no-underline hover:text-orange-dark">
+                            <?php echo esc_html(isset($user->full_name) && $user->full_name != '' ? $user->full_name : $user->user_name); ?>
+                          </a>
+                        </dd>
+                      </div>
+                    <?php } ?>
                     <div class="flex gap-2.5 self-stretch text-[16px] md:text-[1.75rem] mt-2.5">
                       <dt class="font-semibold text-[#593B37]">Số chương:</dt>
                       <dd class="font-normal text-[#593B37]">4 chương</dd>
@@ -131,36 +193,29 @@ if ($story) {
                   <div
                     class="flex flex-wrap gap-4 items-center justify-start mt-2.5 text-[18px] md:text-[1.875rem] font-normal text-orange-light max-md:max-w-full">
                     <a href="<?php echo esc_url($previous_chapter_url); ?>" aria-label="Previous chapter"
-                      class=" self-stretch px-[1rem] py-[0.5rem] md:px-[1.25rem] md:py-[0.625rem] bg-red-normal rounded-xl hover:no-underline hover:text-red-light-hover">
+                      class=" self-center px-[1rem] py-[0.5rem] md:px-[1.25rem] md:py-[0.625rem] bg-red-normal rounded-xl hover:no-underline hover:text-red-light-hover">
                       Chương đầu
                     </a>
                     <a href="<?php echo esc_url($last_chapter_url); ?>" aria-label="Last chapter"
-                      class="self-stretch px-[1rem] py-[0.5rem] md:px-[1.25rem] md:py-[0.625rem] bg-red-normal rounded-xl hover:no-underline hover:text-red-light-hover">
+                      class="self-center px-[1rem] py-[0.5rem] md:px-[1.25rem] md:py-[0.625rem] bg-red-normal rounded-xl hover:no-underline hover:text-red-light-hover">
                       Chương cuối
                     </a>
-                    <button id="toggle-btn">
-                      <img id="toggle-img"
-                        src="https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png"
-                        class="w-[3.5625rem] max-sm:w-[2.625rem] max-sm:h-[2.625rem] h-[3.5625rem] object-fill shrink "
-                        alt="Toggle Button" />
-                    </button>
-
-                    <script>
-                      document.getElementById("toggle-btn").addEventListener("click", function () {
-                        const img = document.getElementById("toggle-img");
-                        const img1 = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png";
-                        const img2 = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/tkn6hjhe.png";
-
-                        img.src = img.src === img1 ? img2 : img1;
-                      });
-                    </script>
+                    <form method="POST" id="save-story-form" action="">
+                      <input type="hidden" name="story_id" value="<?php echo esc_attr($story->id); ?>" />
+                      <button type="submit" name="save_story" id="toggle-btn">
+                        <img id="toggle-img"
+                          src="https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png"
+                          class="w-[3.5625rem] max-sm:w-[2.625rem] max-sm:h-[2.625rem] h-[3.5625rem] object-fill shrink "
+                          alt="Toggle Button" />
+                      </button>
+                    </form>
                   </div>
                 </div>
               </div>
             </div>
           </section>
 
-          <div class="h-[0.5rem] bg-[#FFE5E1] ml-[-2rem]" role="separator">
+          <div class="h-[0.5rem] bg-[#FFE5E1] " role="separator">
           </div>
 
           <div class="flex lg:flex-row flex-col w-full max-md:max-w-full">
@@ -242,135 +297,38 @@ if ($story) {
               </section>
 
               <section class="flex flex-col  bg-white" aria-label="Comment Section">
-                <h2 id="comment"
-                  class="gap-2.5 self-start p-2.5 text-[18px] md:text-[1.875rem] font-medium text-red-normal bg-orange-light-hover rounded-xl">
-                  Bình luận
-                </h2>
-
-                <div class="flex flex-col mt-6 w-full text-red-darker max-md:max-w-full">
-                  <!-- Comment Input -->
-                  <textarea id="commentBox"
-                    class="p-2.5 w-full bg-orange-light text-red-dark placeholder-red-dark text-[16px] md:text-[1.75rem] resize-none overflow-y-auto block min-h-[3.75rem]"
-                    placeholder="Bình luận tại đây..." aria-label="Write your comment"></textarea>
-
-                  <!-- Comment List -->
-                  <div role="feed" aria-label="Comments list">
-                    <!-- Comment 1 -->
-                    <article
-                      class="flex flex-wrap gap-6 items-start py-4 md:py-8 mt-3 w-full border-solid border-t-[0.5px] border-t-[#593B37]/50 border-b-[0.1px] border-b-[#593B37]/50 max-md:max-w-full">
-                      <div
-                        class="flex shrink-0 gap-2.5 bg-orange-light aspect-[1/1] h-[50px] w-[50px] max-md:h-[30px] rounded-[99px] max-md:w-[30px]"
-                        role="img" aria-label="Midori's avatar"></div>
-                      <div class="flex-1 shrink basis-0  max-md:max-w-full">
-                        <header
-                          class="flex flex-wrap md:gap-10 gap-1 justify-between items-center w-full max-md:max-w-full">
-                          <h3 class="self-stretch my-auto text-[16px] md:text-[1.75rem] font-medium w-[126px]">
-                            Midori
-                          </h3>
-                          <time class="self-stretch my-auto text-[14px] md:text-[1.5rem] text-right">9 giờ
-                            trước</time>
-                        </header>
-                        <p
-                          class="md:p-9 p-4 w-full text-[16px] md:text-[1.75rem] bg-orange-light rounded-tr-xl rounded-b-xl max-md:px-5 max-md:max-w-full">
-                          Thấy cmt tưởng não tàn lắm nhưng mà ngược lại. Thấy cũng ổn mà
-                        </p>
-                      </div>
-                    </article>
-
-                    <!-- Comment 2 -->
-                    <article
-                      class="flex flex-wrap gap-6 items-start py-4 md:py-8 mt-2 w-full border-solid border-b-[0.5px] border-b-[#593B37]/50 max-md:max-w-full">
-                      <div
-                        class="flex shrink-0 gap-2.5 bg-orange-light aspect-[1/1] h-[50px] w-[50px] max-md:h-[30px] rounded-[99px] max-md:w-[30px]"
-                        role="img" aria-label="Midori's avatar"></div>
-                      <div class="flex-1 shrink basis-0  max-md:max-w-full">
-                        <header
-                          class="flex flex-wrap md:gap-10 gap-1 justify-between items-center w-full max-md:max-w-full">
-                          <h3 class="self-stretch my-auto text-[16px] md:text-[1.75rem] font-medium w-[126px]">
-                            Midori
-                          </h3>
-                          <time class="self-stretch my-auto text-[14px] md:text-[1.5rem] text-right">9 giờ
-                            trước</time>
-                        </header>
-                        <p
-                          class="p-4 md:p-9 w-full text-[16px] md:text-[1.75rem] bg-orange-light rounded-tr-xl rounded-b-xl max-md:px-5 max-md:max-w-full">
-                          Mạnh dạn đoán tác giả đang học cấp 3 hoặc ĐH
-                        </p>
-                      </div>
-                    </article>
-
-                    <!-- Comment 3 -->
-                    <article class="flex flex-wrap gap-3 items-start py-4 md:py-8 mt-2 w-full max-md:max-w-full">
-                      <div
-                        class="flex shrink-0 gap-2.5 bg-orange-light aspect-[1/1] h-[50px] w-[50px] max-md:h-[30px] rounded-[99px] max-md:w-[30px]"
-                        role="img" aria-label="Midori's avatar"></div>
-                      <div class="flex-1 shrink basis-0  max-md:max-w-full">
-                        <header
-                          class="flex flex-wrap md:gap-10 gap-1 justify-between items-center w-full max-md:max-w-full">
-                          <h3 class="self-stretch my-auto text-[16px] md:text-[1.75rem] font-medium w-[126px]">
-                            Midori
-                          </h3>
-                          <time class="self-stretch my-auto text-[14px] md:text-[1.5rem] text-right">9 giờ
-                            trước</time>
-                        </header>
-                        <p
-                          class="p-9 w-full text-[16px] md:text-[1.75rem] bg-orange-light rounded-tr-xl rounded-b-xl max-md:px-5 max-md:max-w-full">
-                          Xời nam9 xức sắc, 10 đỉm, tập sau ảnh đá bay nam phụ độc ác ra
-                          chuồng gà:))))
-                        </p>
-                      </div>
-                    </article>
-                  </div>
-
-                  <!-- Pagination -->
-                  <nav
-                    class="flex gap-1 justify-center items-center self-center font-medium text-center text-red-normal whitespace-nowrap mt-4"
-                    aria-label="Pagination">
-                    <button aria-label="Page 1"
-                      class="self-stretch px-0.5 my-auto text-orange-light text-[18px] md:text-[1.875rem] bg-[#D56665] rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center"
-                      aria-current="page">1</button>
-                    <button aria-label="Page 2"
-                      class="self-stretch px-0.5 my-auto bg-[#FFF2F0] text-[16px] md:text-[1.75rem] rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center">2</button>
-                    <button aria-label="Page 3"
-                      class="self-stretch px-0.5 my-auto bg-[#FFF2F0] text-[16px] md:text-[1.75rem] rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center">3</button>
-                    <span
-                      class="self-stretch px-0.5 my-auto bg-[#FFF2F0] rounded-lg text-[16px] md:text-[1.75rem] aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center">...</span>
-                    <button aria-label="Page 6"
-                      class="self-stretch px-0.5 my-auto bg-[#FFF2F0] text-[16px] md:text-[1.75rem] rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center">6
-                    </button>
-                    <button aria-label="Next page"
-                      class="self-stretch px-0.5 my-auto bg-[#FFF2F0] text-[16px] md:text-[1.75rem] rounded-lg aspect-[1/1] h-[30px] min-h-[30px] w-[30px] flex items-center justify-center">&gt;</button>
-                  </nav>
-                </div>
+                <?php
+                include "binh-luan.php";
+                ?>
               </section>
             </div>
 
             <!-- 🌟 Nổi bật (4/12) -->
-            <aside
-              class="w-full lg:w-4/12 box-border bg-red-light bg-white p-4 md:p-8 max-md:mt-4 flex flex-col items-center  mx-auto"
+            <aside class="w-full lg:w-4/12 box-border bg-white p-4 md:p-8 max-md:mt-4 flex flex-col items-center  mx-auto"
               aria-labelledby="hot-list">
               <?php include "noi-bat.php"; ?>
             </aside>
           </div>
+          <?php
+          $stories_hot = $wpdb->get_results("SELECT * FROM wp_stories WHERE hot='1' LIMIT 6");
+          ?>
+          <!-- Recommended stories -->
+          <section class="relative z-10 mt-0 w-full rounded-[20px]">
+            <div class="flex flex-col w-full rounded-none ">
+              <!-- Tiêu đề -->
+              <!-- <h2
+            class="gap-2.5 self-start p-[10px] md:px-[20px] ml-[17px] md:ml-[34px] mb-[-3px] text-[18px]  md:text-[2.25rem] font-semibold text-red-normal bg-red-light rounded-tl-[12px] rounded-tr-[12px]">
+            Truyện đề cử
+          </h2> -->
 
+              <!-- Wrapper cuộn ngang + Grid cho màn hình lớn -->
+              <?php include "de-cu.php"; ?>
+            </div>
+          </section>
 
+          <?php get_footer(); ?>
         </div>
       </div>
-      <?php
-      $stories_hot = $wpdb->get_results("SELECT * FROM wp_stories WHERE hot='1' LIMIT 6");
-      ?>
-      <!-- Recommended stories -->
-      <section class="relative z-10 mt-0 w-full bg-white rounded-[20px]">
-        <div class="flex flex-col w-full rounded-none">
-          <!-- Tiêu đề
-      <h2 class="gap-2.5 self-start p-[10px] md:px-[20px] ml-[17px] md:ml-[34px] mb-[-3px] text-[18px]  md:text-[2.25rem] font-semibold text-red-normal bg-red-light rounded-tl-[12px] rounded-tr-[12px]">
-        Truyện đề cử
-      </h2> -->
-
-          <!-- Wrapper cuộn ngang + Grid cho màn hình lớn -->
-          <?php include "de-cu.php"; ?>
-        </div>
-      </section>
     </div>
   </main>
 
@@ -381,4 +339,39 @@ if ($story) {
 <?php }
 ; ?>
 
-<?php get_footer(); ?>
+<script>
+  document.getElementById("toggle-btn").addEventListener("click", function (event) {
+    event.preventDefault();  // Ngừng gửi form ngay lập tức
+
+    const img = document.getElementById("toggle-img");
+    const img1 = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png";
+    const img2 = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/tkn6hjhe.png";
+
+    // Toggle image source
+    img.src = img.src === img1 ? img2 : img1;
+
+    // Tạo AJAX request
+    const formData = new FormData();
+    formData.append('action', 'save_story'); // Đảm bảo rằng action là save_story
+    formData.append('story_id', <?php echo esc_js($story->id); ?>); // Gửi ID của truyện
+
+    // Gửi AJAX request tới admin-ajax.php
+    fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+      method: 'POST',
+      body: formData
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert(data.data.message); // Hiển thị thông báo từ server
+        } else {
+          alert(data.data.message); // Hiển thị lỗi từ server
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  });
+
+
+</script>
