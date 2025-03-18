@@ -92,5 +92,3 @@ $isMobile = $screen_width < 768;
     </div>
   </div>
 </main>
-
-<?php get_footer(); ?>
