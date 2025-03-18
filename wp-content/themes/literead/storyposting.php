@@ -106,14 +106,15 @@ echo '<script>console.log(' . $screen_width . ')</script>';
     <div class="flex max-md:flex-col">
       <!-- Sidebar Navigationx -->
       <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
-      <?php get_sidebar(); ?>
+        <?php get_sidebar(); ?>
       <?php endif; ?>
       <section id="mainContent"
         class="flex-grow transition-all w-full <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
         <div class="grow w-full bg-white  max-md:max-w-full">
           <section class="px-[3.5rem] py-[2.125rem] max-w-full w-[1520px] bg-white">
-            <header class="flex flex-wrap gap-6 items-end w-full font-medium text-pink-800 max-md:max-w-full">
-              <form method="POST" enctype="multipart/form-data">
+            <form method="POST" enctype="multipart/form-data">
+              <header class="flex flex-wrap gap-6 items-end w-full font-medium text-pink-800 max-md:max-w-full">
+
                 <div class="relative">
                   <img id="avatarImg" style="object-fit: cover; border-radius: 50%;"
                     src="<?php echo !empty($avatar) ? esc_url($avatar) : 'https://media.defense.gov/2020/Feb/19/2002251686/-1/-1/0/200219-A-QY194-002.JPG'; ?>"
@@ -123,32 +124,30 @@ echo '<script>console.log(' . $screen_width . ')</script>';
                   <input type="file" id="avatarInput" name="avatar" accept="image/*"
                     class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer hidden" />
                 </div>
-              </form>
 
-              <!-- Thông tin người dùng -->
-              <div class="flex flex-col flex-1 shrink items-start basis-0 min-w-60 max-md:max-w-full">
-                <h1 id="hoten" class="text-[1.875rem]"><?php echo esc_html($full_name); ?></h1>
-                <p id="email" class="mt-3 text-[1.75rem] opacity-60"><?php echo esc_html($email); ?></p>
-              </div>
-            </header>
+                <!-- Thông tin người dùng -->
+                <div class="flex flex-col flex-1 shrink items-start basis-0 min-w-60 max-md:max-w-full">
+                  <h1 id="hoten" class="text-[1.875rem]"><?php echo esc_html($full_name); ?></h1>
+                  <p id="email" class="mt-3 text-[1.75rem] opacity-60"><?php echo esc_html($email); ?></p>
+                </div>
+              </header>
 
-            <nav class="flex gap-2 items-start self-start mt-12 text-[1.875rem] font-medium max-md:mt-10">
-              <button
-                class="gap-2 self-stretch px-[1.25rem] py-[0.625rem] text-[1.875rem] text-[#D56665] bg-[#FFF2F0] rounded-xl min-w-60">
-                Thông tin cá nhân
-              </button>
-              <div class="">
-                <button type="button" id="editButton"
-                  class="gap-2.5 px-[1.25rem] py-[0.625rem] bg-[#D56665] hover:bg-[#C05C5B] hover:text-[#FFF2F0] text-[#FFF7F5] rounded-xl">
-                  Sửa
+              <nav class="flex gap-2 items-start self-start mt-12 text-[1.875rem] font-medium max-md:mt-10">
+                <button
+                  class="gap-2 self-stretch px-[1.25rem] py-[0.625rem] text-[1.875rem] text-[#D56665] bg-[#FFF2F0] rounded-xl min-w-60">
+                  Thông tin cá nhân
                 </button>
-                <button type="submit" id="saveButton" name="update_profile" class="hidden">
-                  Lưu
-                </button>
-              </div>
-            </nav>
+                <div class="">
+                  <button type="button" id="editButton"
+                    class="gap-2.5 px-[1.25rem] py-[0.625rem] bg-[#D56665] hover:bg-[#C05C5B] hover:text-[#FFF2F0] text-[#FFF7F5] rounded-xl">
+                    Sửa
+                  </button>
+                  <button type="submit" id="saveButton" name="update_profile" class="hidden">
+                    Lưu
+                  </button>
+                </div>
+              </nav>
 
-            <form method="POST" enctype="multipart/form-data">
               <input type="hidden" name="update_profile" value="1">
               <input type="submit" id="submitButton" class="hidden">
               <section class="mt-12 w-full text-[1.75rem] text-[#A04D4C] max-md:mt-10 max-md:max-w-full">
@@ -388,6 +387,17 @@ echo '<script>console.log(' . $screen_width . ')</script>';
       } else {
         // Hiển thị pop-up xác nhận trước khi lưu
         confirmPopup.classList.remove("hidden");
+      }
+    });
+
+    avatarInput.addEventListener('change', function (event) {
+      // Check if a file was selected
+      if (event.target.files && event.target.files[0]) {
+        // Create a URL for the selected image file
+        const fileUrl = URL.createObjectURL(event.target.files[0]);
+
+        // Set the image source to the new file URL
+        avatarImg.src = fileUrl;
       }
     });
 

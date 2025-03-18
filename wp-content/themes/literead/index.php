@@ -115,7 +115,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
     <div class="flex max-md:flex-col">
       <!-- Sidebar Navigation -->
       <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
-      <?php get_sidebar(); ?>
+        <?php get_sidebar(); ?>
       <?php endif; ?>
       <div id="mainContent"
         class="flex flex-col <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
