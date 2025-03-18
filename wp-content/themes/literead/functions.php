@@ -438,6 +438,11 @@ function save_story()
 {
   global $wpdb;
 
+  if (!isset($_COOKIE['signup_token'])) {
+    wp_send_json_error(array('message' => 'Vui lòng đăng nhập để lưu truyện!'));
+    return;
+  }
+
   // Kiểm tra có gửi đúng POST không
   if (isset($_POST['story_id']) && isset($_COOKIE['signup_token'])) {
     $story_id = intval($_POST['story_id']);
