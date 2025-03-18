@@ -1,6 +1,5 @@
 <?php
 get_header();
-// echo 'Đây là single-truyen.php';
 
 global $wpdb;
 $story_slug = get_query_var('name');
@@ -35,11 +34,10 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$comments_table'") != $comments_table) {
 
 if ($story) {
 
-  $per_page = 10; // Số chương hiển thị mỗi trang
-  $current_page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1; // Lấy trang hiện tại từ URL
+  $per_page = 10;
+  $current_page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
   $offset = ($current_page - 1) * $per_page;
 
-  // Lấy tổng số chương để tính số trang
   $chapter_name = $wpdb->prefix . 'chapters';
   $total_chapters = $wpdb->get_var("SELECT COUNT(*) FROM $chapter_name WHERE story_id = $story->id");
   $total_pages = ceil($total_chapters / $per_page);
@@ -55,8 +53,8 @@ if ($story) {
     $story->id
   ));
 
-  $per_page_comments = 10; // Số chương hiển thị mỗi trang
-  $current_page_comments = isset($_GET['page_comments']) ? max(1, intval($_GET['page'])) : 1; // Lấy trang hiện tại từ URL
+  $per_page_comments = 10;
+  $current_page_comments = isset($_GET['page_comments']) ? max(1, intval($_GET['page'])) : 1;
   $offset_comments = ($current_page_comments - 1) * $per_page_comments;
   $total_comments = $wpdb->get_var("SELECT COUNT(*) FROM $comments_table WHERE story_id = $story->id");
   $total_pages_comments = ceil($total_comments / $per_page_comments);
@@ -77,18 +75,47 @@ if ($story) {
 
   $users_literead = $wpdb->prefix . "users_literead";
 
-  // Lấy thông tin người dùng từ cookie
-  $users_literead = $wpdb->prefix . "users_literead";
-  $user_info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $users_literead WHERE token = %s", $_COOKIE['signup_token']));
-  if (isset($user_info)) {
-    $user_id = $user_info->id;  // Lấy user_id từ thông tin người dùng
+  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_comment'])) {
+    if (!isset($_COOKIE['signup_token'])) {
+      wp_redirect(home_url('/dang-nhap'));
+      exit();
+    }
+
+    $user_info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $users_literead WHERE token = %s", $_COOKIE['signup_token']));
+    $synopsis = $_POST['content'];
+    $story_id = $story->id;
+    $user_id = $user_info->id;
+
+    if (empty(trim($synopsis))) {
+      $content_error = 'Vui lòng nhập nội dung!';
+    } else {
+      $content_error = '';
+      $wpdb->insert(
+        $comments_table,
+        array(
+          'story_id' => $story_id,
+          'user_id' => $user_id,
+          'synopsis' => $synopsis,
+        )
+      );
+      echo "<script>window.location.href = window.location.href + '?success=true';</script>";
+      exit();
+    }
   }
 
-  // Nút lưu truyện
+  $user_info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $users_literead WHERE token = %s", $_COOKIE['signup_token']));
+  if(isset($user_info)){
+    $user_id = $user_info->id;  
+  }
+
   if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_story'])) {
+    if (!isset($_COOKIE['signup_token'])) {
+      echo "<p>Vui lòng đăng nhập để lưu truyện!</p>";
+      get_footer();
+      exit;
+    }
     $story_id = $_POST['story_id'];
 
-    // Kiểm tra nếu truyện chưa có trong danh sách yêu thích của người dùng
     $favorites_table = $wpdb->prefix . 'users_likes';
     $existing_favorite = $wpdb->get_var($wpdb->prepare(
       "SELECT COUNT(*) FROM $favorites_table WHERE user_id = %d AND story_id = %d",
@@ -96,7 +123,6 @@ if ($story) {
       $story_id
     ));
     if ($existing_favorite == 0) {
-      // Thêm truyện vào danh sách yêu thích
       $wpdb->insert(
         $favorites_table,
         array(
@@ -107,6 +133,22 @@ if ($story) {
         array('%d', '%d', '%s')
       );
 
+      // GỬI THÔNG BÁO CHO TÁC GIẢ
+      $author_id = $story->author;
+      $current_user_name = $user_info->full_name;
+      $message = $current_user_name . ' đã thích truyện của bạn!';
+      $wpdb->insert(
+        $wpdb->prefix . 'notifications',
+        array(
+          'recipient_id' => $author_id,
+          'sender_id' => $user_id,
+          'story_id' => $story_id,
+          'message' => $message,
+          'created_at' => current_time('mysql')
+        ),
+        array('%d', '%d', '%d', '%s', '%s')
+      );
+
       echo "<script>alert('Truyện đã được lưu vào danh sách yêu thích!');</script>";
     } else {
       echo "<script>alert('Truyện đã có trong danh sách yêu thích.');</script>";
@@ -114,13 +156,11 @@ if ($story) {
   }
 
   $isHome = is_front_page();
-  $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
-
-
+  $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false;
   $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
   $isMobile = $screen_width < 768;
   echo '<script> console.log(' . $screen_width . ')</script>';
-  ?>
+?>
   <main class="flex flex-col relative mt-[4.425rem] ">
     <div class="w-full max-md:max-w-full ">
       <div class="flex max-md:flex-col bg-white">
@@ -333,8 +373,7 @@ if ($story) {
   </main>
 
 
-  <?php
-} else { ?>
+  <?php } else { ?>
   <p>Truyện không tồn tại hoặc đã bị xóa.</p>
 <?php }
 ; ?>
@@ -347,7 +386,6 @@ if ($story) {
     const img1 = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png";
     const img2 = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/tkn6hjhe.png";
 
-    // Toggle image source
     img.src = img.src === img1 ? img2 : img1;
 
     // Tạo AJAX request
@@ -363,15 +401,13 @@ if ($story) {
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          alert(data.data.message); // Hiển thị thông báo từ server
+          alert(data.data.message);
         } else {
-          alert(data.data.message); // Hiển thị lỗi từ server
+          alert(data.data.message);
         }
       })
       .catch(error => {
         console.error('Error:', error);
       });
   });
-
-
 </script>
