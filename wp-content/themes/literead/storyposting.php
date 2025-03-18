@@ -117,7 +117,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
 
                 <div class="relative">
                   <img id="avatarImg" style="object-fit: cover; border-radius: 50%;"
-                    src="<?php echo !empty($avatar) ? esc_url($avatar) : 'https://media.defense.gov/2020/Feb/19/2002251686/-1/-1/0/200219-A-QY194-002.JPG'; ?>"
+                    src="<?php echo !empty($avatar_url) ? esc_url($avatar_url) : 'https://media.defense.gov/2020/Feb/19/2002251686/-1/-1/0/200219-A-QY194-002.JPG'; ?>"
                     alt="Profile avatar"
                     class="object-contain shrink-0 aspect-square w-[6.1875rem] rounded-full border border-gray-300" />
 
