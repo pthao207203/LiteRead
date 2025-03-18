@@ -491,14 +491,11 @@ function save_story()
 
         wp_send_json_success(array('message' => 'Truyện đã được lưu vào danh sách yêu thích.'));
       } else {
-        $wpdb->delete(
-          $favorites_table,
-          array(
-            'user_id' => $user_id,
-            'story_id' => $story_id
-          ),
-          array('%d', '%d')
-        );
+        // Nếu đã có, xóa truyện khỏi danh sách yêu thích
+        $wpdb->delete($favorites_table, array(
+          'user_id' => $user_id,
+          'story_id' => $story_id
+        ), array('%d', '%d'));
 
         // Xóa thông báo khỏi bảng notifications
         $notifications_table = $wpdb->prefix . 'notifications';
