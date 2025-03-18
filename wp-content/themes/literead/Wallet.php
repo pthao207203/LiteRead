@@ -106,7 +106,7 @@ if (!empty($_POST["action"]) && $_POST["action"] === "withdraw_coins") {
 }
 
 // Lấy thông tin ví của người dùng 
-$user = $wpdb->get_row($wpdb->prepare("SELECT * FROM wp_users_literead WHERE id = %d", $user_id));
+$user = $wpdb->get_row($wpdb->prepare("SELECT * FROM wp_users_literead WHERE token = %d", $_COOKIE['signup_token']));
 
 // Lấy lịch sử giao dịch
 $transactions = $wpdb->get_results($wpdb->prepare(
@@ -135,13 +135,15 @@ echo '<script> console.log(' . $screen_width . ')</script>';
           class="flex flex-col justify-start items-start p-10 w-full max-md:px-6 max-md:max-w-full bg-white h-[calc(100vh-4.425rem)]">
 
           <!-- Thông tin người dùng -->
-          <div class="flex flex-wrap gap-6 items-end self-stretch w-full font-medium text-[#A04D4C] max-md:max-w-full">
+          <div
+            class="flex flex-wrap gap-6 items-center self-stretch w-full font-medium text-[#A04D4C] max-md:max-w-full">
             <img loading="lazy"
-              src="<?php echo esc_url($user->avatar_image_url ?? 'https://via.placeholder.com/150'); ?>"
+              src="<?php echo esc_url($user->avatar_image_url ?? 'https://media.defense.gov/2020/Feb/19/2002251686/-1/-1/0/200219-A-QY194-002.JPG'); ?>"
               class="object-cover shrink-0 aspect-square w-[8.375rem] rounded-full" alt="User profile picture" />
             <div class="flex flex-col flex-1 shrink items-start basis-0 w-[15rem] max-md:max-w-full">
               <div class="flex flex-col">
-                <div class="text-3xl"><?php echo esc_html($user->full_name); ?></div>
+                <?php if ($user->full_name != '')
+                  echo '<div class="text-3xl">' . esc_html($user->full_name) . '</div>'; ?>
                 <div class="mt-3 text-3xl opacity-60"><?php echo esc_html($user->email); ?></div>
               </div>
             </div>

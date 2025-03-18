@@ -233,15 +233,19 @@ echo '<script>console.log(' . $screen_width . ')</script>';
                         <?php
                         if (!empty($chapter_lastest)) {
                           foreach ($chapter_lastest as $chapter) {
-                            echo "
-                              <div class='flex justify-between items-center mt-[8px] mb-[-4px] w-full'>
-                                <p class='text-[14px] lg:text-[1.5rem] text-red-normal text-regular'>
-                                  Chương " . $chapter->chapter_number . "
+                            ?>
+                            <div class='flex justify-between items-center mt-[8px] mb-[-4px] w-full'>
+                              <a href='<?php echo esc_url(home_url('/truyen/' . $story->slug . '/chuong-' . $chapter->chapter_number)); ?>'
+                                class='text-red-normal hover:no-underline hover:text-red-dark'>
+                                <p class='text-[14px] lg:text-[1.5rem] text-regular'>
+                                  Chương <?php echo $chapter->chapter_number; ?>
                                 </p>
-                                <p class='text-[12px] lg:text-[1.25rem] text-red-normal text-regular'>
-                                  " . time_ago($chapter->created_at) . "
-                                </p>
-                              </div>";
+                              </a>
+                              <p class='text-[12px] lg:text-[1.25rem] text-red-normal text-regular'>
+                                <?php echo time_ago($chapter->created_at); ?>
+                              </p>
+                            </div>
+                            <?php
                           }
                         }
                         ?>
