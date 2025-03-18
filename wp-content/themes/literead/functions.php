@@ -494,7 +494,7 @@ function save_story()
           array('%d', '%d', '%d', '%s', '%s')
         );
 
-        wp_send_json_success(array('message' => 'Truyện đã được lưu vào danh sách yêu thích.'));
+        wp_send_json_success(array('message' => 'Truyện đã được lưu vào danh sách yêu thích.', 'status' => 'saved'));
       } else {
         // Nếu đã có, xóa truyện khỏi danh sách yêu thích
         $wpdb->delete(

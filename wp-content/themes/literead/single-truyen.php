@@ -103,17 +103,16 @@ if ($story) {
     }
   }
 
-  $user_info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $users_literead WHERE token = %s", $_COOKIE['signup_token']));
-  if(isset($user_info)){
-    $user_id = $user_info->id;  
-  }
-
   if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_story'])) {
     if (!isset($_COOKIE['signup_token'])) {
       echo "<p>Vui lòng đăng nhập để lưu truyện!</p>";
       get_footer();
       exit;
     }
+    $user_info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $users_literead WHERE token = %s", $_COOKIE['signup_token']));
+    if(isset($user_info)){
+      $user_id = $user_info->id;  
+    }  
     $story_id = $_POST['story_id'];
 
     $favorites_table = $wpdb->prefix . 'users_likes';
@@ -151,7 +150,7 @@ if ($story) {
 
       echo "<script>alert('Truyện đã được lưu vào danh sách yêu thích!');</script>";
     } else {
-      echo "<script>alert('Truyện đã có trong danh sách yêu thích.');</script>";
+      echo "<script>alert('Truyện đã bị xóa khỏi danh sách yêu thích.!);</script>";
     }
   }
 
@@ -170,12 +169,12 @@ if ($story) {
         <div id="mainContent"
           class="md:w-10/12 flex-grow transition-all max-md:ml-0 max-md:w-full <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
           <!-- Overview -->
-          <section class="book-details md:ml-[1.25rem] max-md:p-4 px-14 py-11 " aria-labelledby="book-title">
+          <section class="book-details max-md:p-[1rem] px-[3.5rem] py-[2.75rem] " aria-labelledby="book-title">
             <div class="flex flex-col justify-start items-start max-sm:items-center mx-auto w-full max-md:max-w-full">
-              <div class="flex flex-col sm:flex-row sm:gap-4 md:gap-6 items-center justify-center text-center">
+              <div class="flex flex-col sm:flex-row sm:gap-[1rem] md:gap-[1.5rem] items-center justify-start sm:items-end text-center w-full">
                 <img loading="lazy" src=<?php echo esc_url($story->cover_image_url); ?> alt=<?php echo esc_html($story->story_name); ?>
                   class="object-cover lg:w-1/4 sm:w-1/3 w-[24.625rem] shrink-0  rounded-lg aspect-[0.64]" />
-                <div class="flex flex-col items-start mt-3 lg:w-3/4 w-full gap-2.5 justify-end">
+                <div class="flex flex-col items-start  mt-3 lg:w-3/4 sm:w-2/3 w-[24.625rem]  gap-2.5 justify-end">
                   <h1 id="book-title"
                     class="flex shrink gap-2.5 self-end w-full md:text-[2rem] text-[20px] font-bold max-md:leading-9 text-red-normal uppercase">
                     <?php echo esc_html($story->story_name); ?>
