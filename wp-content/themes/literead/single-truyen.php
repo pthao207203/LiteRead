@@ -11,7 +11,7 @@ $story = $wpdb->get_row(
 
 $users = $wpdb->prefix . 'users_literead';
 $user = $wpdb->get_row(
-  $wpdb->prepare("SELECT user_name, full_name, slug FROM $users WHERE id = %s", $story->author)
+  $wpdb->prepare("SELECT user_name, full_name, slug FROM $users WHERE id = %s", $story->editor)
 );
 
 $comments_table = $wpdb->prefix . 'comments_literead';
