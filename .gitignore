@@ -1,6 +1,7 @@
 wp-config.php    
 .htaccess            
 readme.html          
-license.txt          
+license.txt    
+wp-content/uploads
 
 /node_modules

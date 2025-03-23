@@ -122,34 +122,39 @@ echo '<script>console.log(' . $screen_width . ')</script>';
         class="flex flex-col <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
 
 
-        <div id="storyCarousel" class="overflow-hidden relative min-w-full min-h-[246px] mb-[-20px] md:flex-row  lg:min-h-[400px]">
-          <div class="carousel-wrapper flex transition-transform duration-700 ease-in-out" style="transform: translateX(0%)">
+        <div id="storyCarousel"
+          class="overflow-hidden relative min-w-full min-h-[246px] mb-[-20px] md:flex-row  lg:min-h-[400px]">
+          <div class="carousel-wrapper flex transition-transform duration-700 ease-in-out"
+            style="transform: translateX(0%)">
             <?php foreach ($top_stories_view as $story): ?>
 
               <section class="flex flex-col relative min-w-full">
-                <img loading="lazy"
-                  src="<?php echo esc_url($story->cover_image_url); ?>"
-                  alt="Featured story background"
+                <img loading="lazy" src="<?php echo esc_url($story->cover_image_url); ?>"
+                  alt="<?php echo esc_html($story->story_name); ?>"
                   class="object-cover absolute inset-0 w-full h-[calc(100%+20px)] z-0 filter blur-[8px]" />
-
-
                 <div
                   style="position: absolute; inset: 0; z-index: 10; background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));">
                 </div>
 
-                <article class="story-item flex min-w-full relative gap-4 items-end pt-[17px] pr-[4px] pb-[6px] pl-[17px] z-20 lg:pt-[34px] lg:px-[34px] md:pb-[60px] max-md:pb-[45px]">
-                  <img loading="lazy" src="<?php echo esc_url($story->cover_image_url); ?>" alt="Book cover" class="object-cover shrink-0 rounded-lg aspect-[0.64] h-[25rem] lg:h-[30rem]" />
+                <article
+                  class="story-item flex min-w-full relative gap-4 items-end pt-[17px] pr-[4px] pb-[6px] pl-[17px] z-20 lg:pt-[34px] lg:px-[34px] md:pb-[60px] max-md:pb-[45px]">
+                  <img loading="lazy" src="<?php echo esc_url($story->cover_image_url); ?>"
+                    alt="<?php echo esc_html($story->story_name); ?>"
+                    class="object-cover shrink-0 rounded-lg aspect-[0.64] h-[25rem] lg:h-[30rem]" />
 
                   <div class="flex flex-col min-w-60 w-full">
                     <div class="flex gap-2 justify-center items-center self-start whitespace-nowrap">
-                      <span class="gap-2.5 self-stretch p-1 my-auto text-[16px] lg:text-[1.75rem] font-medium text-red-light bg-red-normal rounded-[2px]"><?php echo esc_html($story->status); ?></span>
-                      <div class="flex gap-1 items-center self-stretch my-auto text-[18px] lg:text-[1.875rem] font-semibold text-white">
+                      <span
+                        class="gap-2.5 self-stretch p-1 my-auto text-[16px] lg:text-[1.75rem] font-medium text-red-light bg-red-normal rounded-[2px]"><?php echo esc_html($story->status); ?></span>
+                      <div
+                        class="flex gap-1 items-center self-stretch my-auto text-[18px] lg:text-[1.875rem] font-semibold text-white">
                         <span><?php echo esc_html($story->rate); ?></span>
                         <span class="ms-1 text-[#FFC700]">★</span>
                       </div>
                     </div>
 
-                    <h2 class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[18px] lg:text-[1.875rem] font-medium text-white basis-0">
+                    <h2
+                      class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[18px] lg:text-[1.875rem] font-medium text-white basis-0">
                       <?php echo esc_html($story->story_name); ?>
                     </h2>
 
@@ -173,23 +178,26 @@ echo '<script>console.log(' . $screen_width . ')</script>';
                       ?>
                     </p>
 
-                    <p class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[12px] lg:text-[1.25rem] font-regular text-white basis-0 min-h-[5.5rem] max-h-[5.5rem]"
+                    <div
+                      class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[12px] lg:text-[1.25rem] font-regular text-white basis-0 min-h-[5.5rem] max-h-[5.5rem]"
                       style="line-clamp: 3; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3;">
-                      <?php echo esc_html($story->synopsis); ?>
-                    </p>
+                      <?php echo wpautop(wp_kses_post(htmlspecialchars_decode($story->synopsis, ENT_QUOTES))); ?>
+                    </div>
                   </div>
                 </article>
-               
+
               </section>
             <?php endforeach; ?>
-            </div>
-                  <!-- Dots -->
-                  <div class="flex relative z-20 gap-1.5 items-center justify-center self-center mt-[12px] mb-[30px] md:absolute md:bottom-[16px] md:mb-[12px] max-md:bottom-[40px] max-md:mb-[-12px] md:left-1/2 md:-translate-x-1/2">
-                    <?php foreach ($top_stories_view as $index => $story): ?>
-                      <button class="dot flex shrink-0 self-stretch my-auto h-[8px] bg-[#8E98A8] rounded-full w-[9px]" data-index="<?php echo $index ?>"></button>
+          </div>
+          <!-- Dots -->
+          <div
+            class="flex relative z-20 gap-1.5 items-center justify-center self-center mt-[12px] mb-[30px] md:absolute md:bottom-[16px] md:mb-[12px] max-md:bottom-[40px] max-md:mb-[-12px] md:left-1/2 md:-translate-x-1/2">
+            <?php foreach ($top_stories_view as $index => $story): ?>
+              <button class="dot flex shrink-0 self-stretch my-auto h-[8px] bg-[#8E98A8] rounded-full w-[9px]"
+                data-index="<?php echo $index ?>"></button>
 
-                    <?php endforeach; ?>
-                  </div>
+            <?php endforeach; ?>
+          </div>
 
 
         </div>
@@ -222,7 +230,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
                         $story->id
                       )
                     );
-                  ?>
+                    ?>
                     <!-- 🔄 Story Card 1 -->
                     <article class="flex gap-3 mt-[12px] lg:mt-[24px] items-end w-full lg:max-w-[38rem]" role="listitem">
                       <img loading="lazy" src=<?php echo esc_url($story->cover_image_url); ?> alt=<?php echo esc_html($story->story_name); ?>
@@ -231,8 +239,8 @@ echo '<script>console.log(' . $screen_width . ')</script>';
                         <?php if ($story->status == "Hoàn thành")
                           echo "<span
                             class='gap-2.5 self-start px-[2px] text-[12px] lg:text-[1.25rem] font-medium text-red-light whitespace-nowrap bg-red-normal rounded-[2px]'>Hoàn thành</span>"
-                        ?>
-                        <a href="<?php echo esc_url(home_url('/truyen/' . $story->slug)); ?>"
+                            ?>
+                          <a href="<?php echo esc_url(home_url('/truyen/' . $story->slug)); ?>"
                           class="hover:no-underline hover:text-orange-dark text-orange-darker">
                           <h3
                             class="flex-1 shrink gap-2.5 self-stretch mt-[8px] w-full text-[16px] lg:text-[1.75rem] font-medium basis-0">
@@ -309,7 +317,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
       let currentIndex = 0;
       const stories = document.querySelectorAll('.story-item');
       const totalStories = stories.length;
