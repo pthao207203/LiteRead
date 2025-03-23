@@ -137,7 +137,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
                   style="position: absolute; inset: 0; z-index: 10; background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));">
                 </div>
 
-                <article class="story-item flex min-w-full relative gap-4 items-end pt-[17px] pr-[4px] pb-[6px] pl-[17px] z-20 lg:pt-[34px] lg:px-[34px] md:pb-[54px] max-md:pb-[45px]">
+                <article class="story-item flex min-w-full relative gap-4 items-end pt-[17px] pr-[4px] pb-[6px] pl-[17px] z-20 lg:pt-[34px] lg:px-[34px] md:pb-[60px] max-md:pb-[45px]">
                   <img loading="lazy" src="<?php echo esc_url($story->cover_image_url); ?>" alt="Book cover" class="object-cover shrink-0 rounded-lg aspect-[0.64] h-[25rem] lg:h-[30rem]" />
 
                   <div class="flex flex-col min-w-60 w-full">
