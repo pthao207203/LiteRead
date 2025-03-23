@@ -147,8 +147,10 @@ echo '<script> console.log(' . $screen_width . ')</script>';
             <div class="flex flex-col flex-1 shrink items-start basis-0 w-[15rem] max-md:max-w-full">
               <div class="flex flex-col">
                 <?php if ($user->full_name != '')
-                  echo '<div class="text-3xl">' . esc_html($user->full_name) . '</div>'; ?>
-                <div class="mt-3 text-3xl opacity-60"><?php echo esc_html($user->email); ?></div>
+                  echo '<div class="text-3xl">' . esc_html($user->full_name) . '</div>';
+                else
+                  echo "<div class='text-3xl'>Chưa cập nhật</div>" ?>
+                  <div class="mt-3 text-3xl opacity-60"><?php echo esc_html($user->email); ?></div>
               </div>
             </div>
           </div>
