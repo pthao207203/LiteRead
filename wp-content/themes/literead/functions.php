@@ -371,7 +371,11 @@ function custom_rewrite_rules()
     'index.php?post_type=quan-ly-truyen&truyen_parent=$matches[1]&literead_add_chapter=1',
     'top'
   );
-
+  add_rewrite_rule(
+    '^trang-ca-nhan/([^/]+)/?$',
+    'index.php?post_type=tacgia&tacgia=$matches[1]',
+    'top'
+  );
 }
 add_action('init', 'custom_rewrite_rules');
 
@@ -436,6 +440,11 @@ add_action('template_redirect', function () {
   //[GET] /quan-ly-truyen/{ten-truyen}
   if (isset($wp_query->query_vars['post_type']) && ($wp_query->query_vars['post_type'] == 'truyen')) {
     include(get_template_directory() . '/single-truyen.php');
+    exit;
+  }
+  //[GET] /trang-ca-nhan/{ten-nhom-dich}
+  if (isset($wp_query->query_vars['post_type']) && $wp_query->query_vars['post_type'] == 'tacgia') {
+    include(get_template_directory() . '/authors.php');
     exit;
   }
 });
