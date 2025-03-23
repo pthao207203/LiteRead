@@ -40,9 +40,23 @@ if ($story) {
     )
   );
 
+  $genres = $wpdb->get_col($wpdb->prepare(
+    "SELECT t.type_name 
+      FROM wp_story_type st 
+      INNER JOIN wp_type t ON st.type_id = t.id 
+      WHERE st.story_id = %d",
+    $story->id
+  ));
+
+  $comments_table = $wpdb->prefix . "comments";
+  $comment_count = $wpdb->get_var($wpdb->prepare(
+    "SELECT COUNT(*) FROM $comments_table WHERE comment_post_ID = %d",
+    $story->id
+  ));
+
   $isHome = is_front_page();
   $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
-
+  $isAuthPage = strpos($_SERVER['REQUEST_URI'], 'dang-nhap') !== false || strpos($_SERVER['REQUEST_URI'], 'dang-ky') !== false;
 
   $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
   $isMobile = $screen_width < 768;
@@ -131,7 +145,9 @@ if ($story) {
                   <p class="mb-2 text-[16px] md:text-[1.75rem] text-red-darker">Yêu thích:
                     <?php echo esc_html($story->likes) ?>
                   </p>
-                  <p class="mb-2 text-[16px] md:text-[1.75rem] text-red-darker">Bình luận: 200</p>
+                  <p class="mb-2 text-[16px] md:text-[1.75rem] text-red-darker">Bình luận:
+                    <?php echo esc_html($comment_count) ?>
+                  </p>
                 </div>
               </article>
 

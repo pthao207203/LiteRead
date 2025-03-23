@@ -153,7 +153,7 @@ echo '<script> console.log(' . $screen_width . ')</script>';
           <div class="flex flex-col mt-[18px] w-full lg:mt-[2.25rem]">
             <h2 class="font-medium text-center text-red-darker lg:text-[1.875rem] text-[18px] ">
               <?php if ($chapter->chapter_name)
-                echo esc_attr($chapter->chapter_number);
+                echo esc_attr($chapter->chapter_name);
               else
                 echo 'Chương ', esc_attr($chapter->chapter_number); ?>
             </h2>

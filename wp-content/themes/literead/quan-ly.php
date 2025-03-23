@@ -147,6 +147,12 @@ if (!$user) {
                 <?php  
                 if (!empty($total)) :
                   foreach ($total as $story) :
+                    $total_count = $wpdb->get_var(
+                      $wpdb->prepare(
+                        "SELECT SUM(count) FROM $chapters_table WHERE story_id = %d",
+                        $story->id
+                      )
+                    );
                     $genres = $wpdb->get_col($wpdb->prepare(
                       "SELECT t.type_name 
                         FROM wp_story_type st 
@@ -171,7 +177,7 @@ if (!$user) {
                   class="flex grow shrink gap-6 items-start p-[1.25rem] bg-white rounded-2xl shadow-lg max-md:max-w-full h-full self-stretch">
                   <img
                     src="<?= esc_url($story->cover_image_url ?:"https://cdn.builder.io/api/v1/image/assets/103bf3aa31034bd4a5ed1d2543b64cba/50cbfd8cdfc73f54a9f3f27033cf3182a841382fe95cc17c2dc9ebde4c3ada8a?placeholderIfAbsent=true") ?>"
-                    class="object-contain rounded-2xl aspect-[0.72] max-h-[23rem] md:w-[16.625rem] w-1/3"
+                    class="object-cover rounded-2xl aspect-[0.72] max-h-[23rem] md:w-[16.625rem] w-1/3"
                     alt=<?php echo esc_html($story->story_name); ?> />
                   <div class="flex flex-col justify-center items-start">
                     <a href="<?php echo esc_url(home_url('/quan-ly-truyen/' . $story->slug)); ?>"
@@ -180,7 +186,7 @@ if (!$user) {
                       <?php echo esc_html($story->story_name) ?>
                       </h3>
                     </a>
-                    <p class="gap-[0.625rem] self-stretch mt-[0.5rem]">Số chữ: 24.7K</p>
+                    <p class="gap-[0.625rem] self-stretch mt-[0.5rem]">Số chữ: <?php echo esc_html($total_count) ?></p>
                     <p class="gap-[0.625rem] self-stretch mt-[0.5rem]">
                       Trạng thái:
                       <span class="font-semibold"><?php echo esc_html($story->status) ?></span>

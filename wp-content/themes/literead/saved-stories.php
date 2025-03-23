@@ -46,7 +46,7 @@ $saved_stories = $wpdb->get_results(
     <div class="flex max-md:flex-col">
       <!-- Sidebar Navigation -->
       <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
-      <?php get_sidebar(); ?>
+        <?php get_sidebar(); ?>
       <?php endif; ?>
 
       <section id="mainContent"
@@ -115,15 +115,19 @@ $saved_stories = $wpdb->get_results(
                       <?php
                       if (!empty($chapter_lastest)) {
                         foreach ($chapter_lastest as $chapter) {
-                          echo "
-                              <div class='flex justify-between items-center mt-[8px] mb-[-4px] w-full'>
-                                <p class='text-[14px] lg:text-[1.5rem] text-red-normal text-regular'>
-                                  Chương " . $chapter->chapter_number . "
-                                </p>
-                                <p class='text-[12px] lg:text-[1.25rem] text-red-normal text-regular'>
-                                  " . time_ago($chapter->created_at) . "
-                                </p>
-                              </div>";
+                          ?>
+                          <div class='flex justify-between items-center mt-[8px] mb-[-4px] w-full'>
+                            <a href='<?php echo esc_url(home_url('/truyen/' . $story->slug . '/chuong-' . $chapter->chapter_number)); ?>'
+                              class='text-red-normal hover:no-underline hover:text-red-dark'>
+                              <p class='text-[14px] lg:text-[1.5rem] text-regular'>
+                                Chương <?php echo $chapter->chapter_number; ?>
+                              </p>
+                            </a>
+                            <p class='text-[12px] lg:text-[1.25rem] text-red-normal text-regular'>
+                              <?php echo time_ago($chapter->created_at); ?>
+                            </p>
+                          </div>
+                          <?php
                         }
                       }
                       ?>

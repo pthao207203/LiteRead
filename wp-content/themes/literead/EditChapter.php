@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $chapter_name = isset($_POST['chapter_name']) ? sanitize_text_field($_POST['chapter_name']) : '';
   $synopsis = isset($_POST['synopsis']) ? wp_unslash($_POST['synopsis']) : '';
   $story = intval($_POST['story']);
-  $word_count = str_word_count($synopsis);
+  $word_count = intval($_POST['word_count']);
 
   if (empty(trim($chapter_number))) {
     $error_chapter_number = 'Nội dung không được để trống!';
@@ -182,6 +182,8 @@ echo '<script>console.log(' . $screen_width . ')</script>';
               <p class="mt-[1rem] text-[1.375rem] font-medium tracking-wide leading-none max-md:max-w-full">
                 Số từ:
                 <span id="wordCount"><?php echo esc_html($chapter->count); ?></span>
+                <input type="number" id="word_count" name="word_count" class="hidden"
+                  value="<?php echo esc_html($chapter->count); ?>">
               </p>
               <p class="mt-[1rem] text-[1.375rem] font-medium tracking-wide leading-6 max-md:max-w-full">
                 Nghiêm cấm sử dụng từ ngữ thô tục, 18+, phân biệt vùng miền, vấn
@@ -268,6 +270,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
     let text = $('.note-editable').text().trim(); // Lấy text thuần không có HTML
     let words = text.length > 0 ? text.split(/\s+/).length : 0;
     $('#wordCount').text(words);
+    $('#word_count').val(words);
   }
 
   // Đảm bảo sự kiện input được gắn sau khi Summernote load

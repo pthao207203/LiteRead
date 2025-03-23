@@ -16,6 +16,8 @@
   <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
   <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
   <script>
     tailwind.config = {
       content: ["./src/**/*.{html,js}"],
@@ -67,23 +69,23 @@
   <header
     class="fixed top-0 left-0 flex justify-between items-center md:px-[2.125rem] md:py-[0.625rem] p-[0.625rem] gap-[1rem] md:gap-[2.875rem] w-full bg-orange-light-active z-50">
     <div class="flex flex-row gap-[1rem] md:gap-[2.875rem]">
-    <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
-      <div class="flex gap-2.5 items-center ">
-        <!-- Nút Hamburger mở Sidebar -->
-        <button id="openSidebarBtn" class="w-[30px] max-md:w-[1.8rem]" aria-label="Menu">
-          <div class="w-full bg-red-normal h-[0.125rem] rounded-full"></div>
-          <div class="mt-1.5 w-full bg-red-normal h-0.5 rounded-full"></div>
-          <div class="mt-1.5 w-full bg-red-normal h-0.5 rounded-full"></div>
-        </button>
-      </div>
-    <?php endif; ?>
+      <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
+        <div class="flex gap-2.5 items-center ">
+          <!-- Nút Hamburger mở Sidebar -->
+          <button id="openSidebarBtn" class="w-[30px] max-md:w-[1.8rem]" aria-label="Menu">
+            <div class="w-full bg-red-normal h-[0.125rem] rounded-full"></div>
+            <div class="mt-1.5 w-full bg-red-normal h-0.5 rounded-full"></div>
+            <div class="mt-1.5 w-full bg-red-normal h-0.5 rounded-full"></div>
+          </button>
+        </div>
+      <?php endif; ?>
 
-    <a href="<?php echo esc_url(home_url('/')); ?>"
-      class="hover:no-underline hover:text-orange-dark text-orange-darker">
-      <h1 class="flex-1 shrink self-stretch my-auto text-[24px] md:text-[2rem] text-[#D66766] font-[Moul] basis-0">
-        LiteRead
-      </h1>
-    </a>
+      <a href="<?php echo esc_url(home_url('/')); ?>"
+        class="hover:no-underline hover:text-orange-dark text-orange-darker">
+        <h1 class="flex-1 shrink self-stretch my-auto text-[24px] md:text-[2rem] text-[#D66766] font-[Moul] basis-0">
+          LiteRead
+        </h1>
+      </a>
     </div>
 
     <form role="search"
