@@ -51,7 +51,7 @@ if (!empty($_POST["action"]) && $_POST["action"] === "withdraw_coins") {
     exit;
   }
   // Kiểm tra nếu user chưa có quyền đăng truyện
-  if (isset($user) && $user->type == 1) {
+  if (isset($user) && $user->type === 1) {
     echo "<script>alert('Bạn cần có quyền đăng truyện!'); window.location.href='" . home_url('/') . "';</script>";
     exit();
   }
@@ -110,7 +110,7 @@ if (!empty($_POST["action"]) && $_POST["action"] === "withdraw_coins") {
 }
 
 // Lấy thông tin ví của người dùng 
-$user = $wpdb->get_row($wpdb->prepare("SELECT * FROM wp_users_literead WHERE token = %d", $_COOKIE['signup_token']));
+$user = $wpdb->get_row($wpdb->prepare("SELECT * FROM wp_users_literead WHERE token = %s", $_COOKIE['signup_token']));
 
 // Lấy lịch sử giao dịch
 $transactions = $wpdb->get_results($wpdb->prepare(
