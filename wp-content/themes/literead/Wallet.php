@@ -3,8 +3,7 @@
 
 // Kiểm tra nếu user chưa đăng nhập
 if (!isset($_COOKIE['signup_token']) || empty($_COOKIE['signup_token'])) {
-  echo "<script>alert('Bạn cần đăng nhập để xem trang này!');</script>";
-  wp_redirect(home_url('/dang-nhap'));
+  echo "<script>alert('Bạn cần đăng nhập để xem trang này!'); window.location.href='" . home_url('/dang-nhap') . "';</script>";
   exit();
 }
 
@@ -50,6 +49,11 @@ if (!empty($_POST["action"]) && $_POST["action"] === "withdraw_coins") {
   if (!$user) {
     echo json_encode(["status" => "error", "message" => "Lỗi: Không tìm thấy tài khoản!"]);
     exit;
+  }
+  // Kiểm tra nếu user chưa có quyền đăng truyện
+  if (isset($user) && $user->type == 1) {
+    echo "<script>alert('Bạn cần có quyền đăng truyện!'); window.location.href='" . home_url('/') . "';</script>";
+    exit();
   }
 
   $current_balance = intval($user->coin);

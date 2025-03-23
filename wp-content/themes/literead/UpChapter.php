@@ -3,8 +3,7 @@
 
 // Kiểm tra nếu user chưa đăng nhập
 if (!isset($_COOKIE['signup_token']) || empty($_COOKIE['signup_token'])) {
-  echo "<script>alert('Bạn cần đăng nhập để xem trang này!');</script>";
-  wp_redirect(home_url('/dang-nhap'));
+  echo "<script>alert('Bạn cần đăng nhập để xem trang này!'); window.location.href='" . home_url('/dang-nhap') . "';</script>";
   exit();
 }
 
@@ -45,6 +44,17 @@ if (!$story) {
   echo '<p>Truyện không tồn tại.</p>';
   get_footer();
   exit;
+}
+
+$users_literead = $wpdb->prefix . "users_literead";
+$user = $wpdb->get_row($wpdb->prepare(
+  "SELECT * FROM $users_literead WHERE token = %s",
+  $_COOKIE['signup_token']
+));
+// Kiểm tra nếu user chưa có quyền chỉnh sửa truyện
+if (isset($user) && $user->type === 1 && $story->editor == $user->id) {
+  echo "<script>alert('Bạn không có quyền chỉnh sửa truyện này!'); window.location.href='" . home_url('/quan-ly-truyen') . "';</script>";
+  exit();
 }
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
