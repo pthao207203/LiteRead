@@ -67,12 +67,18 @@
         <p class="text-[12px] lg:text-[1.375rem]">
           <span class="sr-only">Email:</span>
           <a href="mailto:22521375@gm.uit.edu.vn" class="focus:ring-2 hover:no-underline hover:text-[#A04D4C]">Email:
-            22521375@gm.uit.edu.vn</a>
+            litereadstory@gmail.com</a>
         </p>
         <p class="text-[12px] lg:text-[1.375rem]">
-          <span class="sr-only">Address:</span>
-          Địa chỉ: Số 15, đường số 10, phường Linh Xuân, TP. Thủ Đức, TP. Hồ Chí Minh
+          <span class="sr-only">Facebook:</span>
+          <a href="https://www.facebook.com/profile.php?id=61573035163575"
+            class="focus:ring-2 hover:no-underline hover:text-[#A04D4C]">Facebook:
+            Lite Read</a>
         </p>
+        <!--<p class="text-[12px] lg:text-[1.375rem]">-->
+        <!--  <span class="sr-only">Address:</span>-->
+        <!--  Địa chỉ: Số 15, đường số 10, phường Linh Xuân, TP. Thủ Đức, TP. Hồ Chí Minh-->
+        <!--</p>-->
       </address>
       <p class="text-[10px] lg:text-[1.25rem]">
         © 2024 DORA. All Rights Reserved.
