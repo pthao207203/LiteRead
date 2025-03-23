@@ -9,8 +9,13 @@ $users_literead = $wpdb->prefix . "users_literead";
 $user_info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $users_literead WHERE token = %s", $signup_token));
 
 if (!$user_info) {
-  echo "<script>alert('Không tìm thấy thông tin người dùng. Vui lòng liên hệ với quản trị viên!');</script>";
-  wp_redirect(home_url('/dang-nhap'));
+  echo "<script>alert('Không tìm thấy thông tin người dùng. Vui lòng liên hệ với quản trị viên!'); window.location.href='" . home_url('/dang-nhap') . "';</script>";
+  exit();
+}
+
+// Kiểm tra nếu user chưa có quyền đăng truyện
+if (isset($user_info) && $user_info->type === 1) {
+  echo "<script>alert('Bạn cần có quyền đăng truyện!'); window.location.href='" . home_url('/') . "';</script>";
   exit();
 }
 
@@ -134,8 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($story_name) {
       // Chuyển hướng về trang chính với thông báo thành công
-      echo 'Thêm truyện thành công!';
-      wp_redirect(home_url('/quan-ly-truyen/' . $slug));
+      echo "<script>alert('Thêm truyện thành công!'); window.location.href='" . home_url('/quan-ly-truyen/' . $slug) . "';</script>";
       exit;
     } else {
       // wp_die('Lỗi khi thêm truyện. Vui lòng thử lại.');

@@ -4,12 +4,23 @@ get_header();
 
 // Kiểm tra nếu user chưa đăng nhập
 if (!isset($_COOKIE['signup_token']) || empty($_COOKIE['signup_token'])) {
-  echo "<script>alert('Bạn cần đăng nhập để xem trang này!');</script>";
-  wp_redirect(home_url('/dang-nhap'));
+  echo "<script>alert('Bạn cần đăng nhập để xem trang này!'); window.location.href='" . home_url('/dang-nhap') . "';</script>";
   exit();
 }
 
 global $wpdb, $wp;
+
+$users_literead = $wpdb->prefix . "users_literead";
+$user = $wpdb->get_row($wpdb->prepare(
+  "SELECT * FROM $users_literead WHERE token = %s",
+  $_COOKIE['signup_token']
+));
+// Kiểm tra nếu user chưa có quyền đăng truyện
+if (isset($user) && $user->type === 1) {
+  echo "<script>alert('Bạn cần có quyền đăng truyện!'); window.location.href='" . home_url('/') . "';</script>";
+  exit();
+}
+
 $story_slug = get_query_var('name');
 $current_url = home_url($wp->request);
 
@@ -21,6 +32,12 @@ $story = $wpdb->get_row(
 // echo $story->story_name;
 
 if ($story) {
+  // Kiểm tra nếu user chưa có quyền chỉnh sửa truyện
+  if (isset($user) && $user->type === 1 && $story->editor == $user->id) {
+    echo "<script>alert('Bạn không có quyền chỉnh sửa truyện này!'); window.location.href='" . home_url('/quan-ly-truyen') . "';</script>";
+    exit();
+  }
+
   $chapter_name = $wpdb->prefix . 'chapters';
   $chapters = $wpdb->get_results(
     $wpdb->prepare("SELECT * FROM $chapter_name WHERE story_id = %s ORDER BY chapter_number ASC", $story->id)

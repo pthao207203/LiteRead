@@ -2,8 +2,7 @@
 
 // Kiểm tra nếu user chưa đăng nhập
 if (!isset($_COOKIE['signup_token']) || empty($_COOKIE['signup_token'])) {
-  echo "<script>alert('Bạn cần đăng nhập để xem trang này!');</script>";
-  wp_redirect(home_url('/dang-nhap'));
+  echo "<script>alert('Bạn cần đăng nhập để xem trang này!'); window.location.href='" . home_url('/dang-nhap') . "';</script>";
   exit();
 }
 
@@ -14,6 +13,17 @@ $stories = $wpdb->prefix . 'stories';
 $story = $wpdb->get_row(
   $wpdb->prepare("SELECT * FROM $stories WHERE slug = %s", $story_slug)
 );
+
+$users_literead = $wpdb->prefix . "users_literead";
+$user = $wpdb->get_row($wpdb->prepare(
+  "SELECT * FROM $users_literead WHERE token = %s",
+  $_COOKIE['signup_token']
+));
+// Kiểm tra nếu user chưa có quyền chỉnh sửa truyện
+if (isset($user) && $user->type === 1 && $story->editor == $user->id) {
+  echo "<script>alert('Bạn không có quyền chỉnh sửa truyện này!'); window.location.href='" . home_url('/quan-ly-truyen') . "';</script>";
+  exit();
+}
 
 
 $story_name = $story->story_name;
@@ -301,11 +311,12 @@ echo '<script>console.log(' . $screen_width . ')</script>';
             <!-- Văn án -->
             <div>
               <label for="synopsis" class="font-semibold text-red-dark mt-[1.25rem]">Văn án</label>
-              <textarea id="synopsis" name="synopsis" class="min-h-[200px]"> <?php if (isset($synopsis))
-                echo esc_html($synopsis);
-              else
-                echo esc_html($story->synopsis) ?>
-                                                                                                        </textarea>
+              <textarea id="synopsis" name="synopsis"
+                class="min-h-[200px]"> <?php if (isset($synopsis))
+                  echo esc_html($synopsis);
+                else
+                  echo esc_html($story->synopsis) ?>
+                                                                                                                </textarea>
               <?php if (!empty($error_synopsis)): ?>
                 <p style="color: red;"><?php echo esc_html($error_synopsis); ?></p>
               <?php endif; ?>
