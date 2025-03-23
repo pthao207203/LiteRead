@@ -163,9 +163,7 @@ function tao_custom_post_type()
     'publicly_queryable' => true, //Hiển thị các tham số trong query, phải đặt true
     'capability_type' => 'post' //
   ));
-
 }
-
 /* Kích hoạt hàm tạo custom post type */
 add_action('init', 'tao_custom_post_type');
 
@@ -363,11 +361,6 @@ function custom_rewrite_rules()
     'index.php?post_type=quan-ly-truyen&truyen_parent=$matches[1]&literead_add_chapter=1',
     'top'
   );
-  add_rewrite_rule(
-    '^trang-ca-nhan/([^/]+)/?$',
-    'index.php?post_type=tacgia&tacgia=$matches[1]',
-    'top'
-  );
 
 }
 add_action('init', 'custom_rewrite_rules');
@@ -420,12 +413,12 @@ add_action('template_redirect', function () {
     include(get_template_directory() . '/EditChapter.php');
     exit;
   }
-  //[GET] /quan-ly-truyen
+  //[GET] /quan-ly-truyen/{ten-truyen}
   if (isset($wp_query->query_vars['post_type']) && $wp_query->query_vars['post_type'] == 'quan-ly-truyen') {
     include(get_template_directory() . '/quan-ly-truyen.php');
     exit;
   }
-  //[GET] /quan-ly-truyen/{ten-truyen}
+  // [GET] /truyen/{ten-truyen}/{ten-chuong}
   if (isset($wp_query->query_vars['chuong']) && isset($wp_query->query_vars['truyen_parent'])) {
     include(get_template_directory() . '/single-chuong.php');
     exit;
@@ -433,11 +426,6 @@ add_action('template_redirect', function () {
   //[GET] /quan-ly-truyen/{ten-truyen}
   if (isset($wp_query->query_vars['post_type']) && ($wp_query->query_vars['post_type'] == 'truyen')) {
     include(get_template_directory() . '/single-truyen.php');
-    exit;
-  }
-  //[GET] /quan-ly-truyen/{ten-truyen}
-  if (isset($wp_query->query_vars['post_type']) && $wp_query->query_vars['post_type'] == 'tacgia') {
-    include(get_template_directory() . '/authors.php');
     exit;
   }
 });
@@ -449,6 +437,11 @@ add_action('wp_ajax_nopriv_save_story', 'save_story');
 function save_story()
 {
   global $wpdb;
+
+  if (!isset($_COOKIE['signup_token'])) {
+    wp_send_json_error(array('message' => 'Vui lòng đăng nhập để lưu truyện!'));
+    return;
+  }
 
   // Kiểm tra có gửi đúng POST không
   if (isset($_POST['story_id']) && isset($_COOKIE['signup_token'])) {
@@ -483,11 +476,28 @@ function save_story()
           array('%d', '%d', '%s')
         );
 
-        // Tăng lượt thích trong bảng stories
-        $wpdb->query(
-          $wpdb->prepare("UPDATE $stories_table SET likes = likes + 1 WHERE id = %d", $story_id)
-        );
+        // Thêm thông báo vào bảng notifications
+        $story = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}stories WHERE id = %d", $story_id));
+        $author_id = $story->author;
+        $message = $user_info->full_name . ' đã thích truyện của bạn!';
 
+         // Tăng lượt thích trong bảng stories
+         $wpdb->query(
+          $wpdb->prepare("UPDATE $stories_table SET likes = likes + 1 WHERE id = %d", $story_id)
+      );
+
+        $notifications_table = $wpdb->prefix . 'notifications';
+        $wpdb->insert(
+          $notifications_table,
+          array(
+            'recipient_id' => $author_id,
+            'sender_id' => $user_id,
+            'story_id' => $story_id,
+            'message' => $message,
+            'created_at' => current_time('mysql')
+          ),
+          array('%d', '%d', '%d', '%s', '%s')
+        );
 
         wp_send_json_success(array('message' => 'Truyện đã được lưu vào danh sách yêu thích.', 'status' => 'saved'));
       } else {
@@ -500,10 +510,20 @@ function save_story()
           ),
           array('%d', '%d')
         );
-
-        // Giảm lượt thích, nhưng không để âm
-        $wpdb->query(
-          $wpdb->prepare("UPDATE $stories_table SET likes = GREATEST(likes - 1, 0) WHERE id = %d", $story_id)
+        // Xóa thông báo khỏi bảng notifications
+        $notifications_table = $wpdb->prefix . 'notifications';
+        $story = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}stories WHERE id = %d", $story_id));
+        $wpdb->delete(
+          $notifications_table,
+          array(
+            'recipient_id' => $story->author,
+            'sender_id' => $user_id,
+            'story_id' => $story_id
+          ),
+          array('%d', '%d', '%d'));
+          // Giảm lượt thích, nhưng không để âm
+          $wpdb->query(
+            $wpdb->prepare("UPDATE $stories_table SET likes = GREATEST(likes - 1, 0) WHERE id = %d", $story_id)
         );
 
         wp_send_json_success(array('message' => 'Truyện đã bị xóa khỏi danh sách yêu thích.', 'status' => 'not_saved'));
@@ -556,54 +576,52 @@ function check_story_status()
 }
 
 // Log out
-add_action('init', function () {
+add_action('init', function() {
   if (isset($_GET['action']) && $_GET['action'] === 'custom_logout') {
-    wp_logout();
+      wp_logout();
 
-    // Xóa cookie signup_token
-    if (isset($_COOKIE['signup_token'])) {
-      setcookie('signup_token', '', time() - 3600, '/');
-      unset($_COOKIE['signup_token']);
-    }
+      // Xóa cookie signup_token
+      if (isset($_COOKIE['signup_token'])) {
+          setcookie('signup_token', '', time() - 3600, '/');
+          unset($_COOKIE['signup_token']);
+      }
 
-    // Lấy URL hiện tại trừ tham số action
-    $protocol = is_ssl() ? "https://" : "http://";
-    $current_url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+      // Lấy URL hiện tại trừ tham số action
+      $protocol = is_ssl() ? "https://" : "http://";
+      $current_url = $protocol . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
-    // Loại bỏ ?action=custom_logout khỏi URL
-    $redirect_url = remove_query_arg('action', $current_url);
+      // Loại bỏ ?action=custom_logout khỏi URL
+      $redirect_url = remove_query_arg('action', $current_url);
 
-    // Thêm ?logout=1 để hiển thị alert sau khi reload
-    $redirect_url = add_query_arg('logout', '1', $redirect_url);
+      // Thêm ?logout=1 để hiển thị alert sau khi reload
+      $redirect_url = add_query_arg('logout', '1', $redirect_url);
 
-    wp_safe_redirect($redirect_url);
-    exit;
+      wp_safe_redirect($redirect_url);
+      exit;
   }
 });
 
-function is_public_page()
-{
+function is_public_page() {
   $uri = $_SERVER['REQUEST_URI'];
   $base = parse_url(home_url(), PHP_URL_PATH); // sẽ trả về /LiteRead nếu chạy trong localhost/LiteRead
 
   // Public URLs chính xác:
-  // Nếu là single post của post type 'truyen'
-  if (is_singular('truyen')) {
-    return true;
+  if (preg_match('#^' . $base . '/truyen/[^/]+/?$#', $uri)) { // chi tiết truyện
+      return true;
   }
 
   if (preg_match('#^' . $base . '/truyen/[^/]+/chuong-[0-9]+/?$#', $uri)) { // chi tiết chương
-    return true;
+      return true;
   }
 
   if ($uri === $base . '/' || strpos($uri, '/dang-nhap') !== false || strpos($uri, '/dang-ky') !== false) {
-    return true;
+      return true;
   }
 
   return false;
 }
 
-add_action('template_redirect', function () {
+add_action('template_redirect', function() {
   if (!isset($_COOKIE['signup_token']) && !is_public_page()) {
     echo "<script>
       alert('Bạn cần đăng nhập để xem trang này!');

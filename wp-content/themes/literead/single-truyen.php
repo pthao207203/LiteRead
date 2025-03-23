@@ -1,6 +1,5 @@
 <?php
 get_header();
-// echo 'Đây là single-truyen.php';
 
 global $wpdb;
 $story_slug = get_query_var('name');
@@ -12,7 +11,7 @@ $story = $wpdb->get_row(
 
 $users = $wpdb->prefix . 'users_literead';
 $user = $wpdb->get_row(
-  $wpdb->prepare("SELECT user_name, full_name, slug FROM $users WHERE id = %s", $story->id)
+  $wpdb->prepare("SELECT user_name, full_name, slug FROM $users WHERE id = %s", $story->editor)
 );
 
 $comments_table = $wpdb->prefix . 'comments_literead';
@@ -35,11 +34,10 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$comments_table'") != $comments_table) {
 
 if ($story) {
 
-  $per_page = 10; // Số chương hiển thị mỗi trang
-  $current_page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1; // Lấy trang hiện tại từ URL
+  $per_page = 10;
+  $current_page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
   $offset = ($current_page - 1) * $per_page;
 
-  // Lấy tổng số chương để tính số trang
   $chapter_name = $wpdb->prefix . 'chapters';
   $total_chapters = $wpdb->get_var("SELECT COUNT(*) FROM $chapter_name WHERE story_id = $story->id");
   $total_pages = ceil($total_chapters / $per_page);
@@ -55,8 +53,8 @@ if ($story) {
     $story->id
   ));
 
-  $per_page_comments = 10; // Số chương hiển thị mỗi trang
-  $current_page_comments = isset($_GET['page_comments']) ? max(1, intval($_GET['page'])) : 1; // Lấy trang hiện tại từ URL
+  $per_page_comments = 10;
+  $current_page_comments = isset($_GET['page_comments']) ? max(1, intval($_GET['page'])) : 1;
   $offset_comments = ($current_page_comments - 1) * $per_page_comments;
   $total_comments = $wpdb->get_var("SELECT COUNT(*) FROM $comments_table WHERE story_id = $story->id");
   $total_pages_comments = ceil($total_comments / $per_page_comments);
@@ -77,18 +75,45 @@ if ($story) {
 
   $users_literead = $wpdb->prefix . "users_literead";
 
-  // Lấy thông tin người dùng từ cookie
-  $users_literead = $wpdb->prefix . "users_literead";
-  $user_info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $users_literead WHERE token = %s", $_COOKIE['signup_token']));
-  if (isset($user_info)) {
-    $user_id = $user_info->id;  // Lấy user_id từ thông tin người dùng
+  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_comment'])) {
+    if (!isset($_COOKIE['signup_token'])) {
+      wp_redirect(home_url('/dang-nhap'));
+      exit();
+    }
+
+    $user_info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $users_literead WHERE token = %s", $_COOKIE['signup_token']));
+    $synopsis = $_POST['content'];
+    $story_id = $story->id;
+    $user_id = $user_info->id;
+
+    if (empty(trim($synopsis))) {
+      $content_error = 'Vui lòng nhập nội dung!';
+    } else {
+      $content_error = '';
+      $wpdb->insert(
+        $comments_table,
+        array(
+          'story_id' => $story_id,
+          'user_id' => $user_id,
+          'synopsis' => $synopsis,
+        )
+      );
+      echo "<script>window.location.href = window.location.href + '?success=true';</script>";
+      exit();
+    }
   }
 
-  // Nút lưu truyện
   if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_story'])) {
+    if (!isset($_COOKIE['signup_token'])) {
+      echo "<p>Vui lòng đăng nhập để lưu truyện!</p>";
+      exit;
+    }
+    $user_info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $users_literead WHERE token = %s", $_COOKIE['signup_token']));
+    if(isset($user_info)){
+      $user_id = $user_info->id;  
+    }  
     $story_id = $_POST['story_id'];
 
-    // Kiểm tra nếu truyện chưa có trong danh sách yêu thích của người dùng
     $favorites_table = $wpdb->prefix . 'users_likes';
     $existing_favorite = $wpdb->get_var($wpdb->prepare(
       "SELECT COUNT(*) FROM $favorites_table WHERE user_id = %d AND story_id = %d",
@@ -96,7 +121,6 @@ if ($story) {
       $story_id
     ));
     if ($existing_favorite == 0) {
-      // Thêm truyện vào danh sách yêu thích
       $wpdb->insert(
         $favorites_table,
         array(
@@ -107,20 +131,34 @@ if ($story) {
         array('%d', '%d', '%s')
       );
 
+      // GỬI THÔNG BÁO CHO TÁC GIẢ
+      $author_id = $story->author;
+      $current_user_name = $user_info->full_name;
+      $message = $current_user_name . ' đã thích truyện của bạn!';
+      $wpdb->insert(
+        $wpdb->prefix . 'notifications',
+        array(
+          'recipient_id' => $author_id,
+          'sender_id' => $user_id,
+          'story_id' => $story_id,
+          'message' => $message,
+          'created_at' => current_time('mysql')
+        ),
+        array('%d', '%d', '%d', '%s', '%s')
+      );
+
       echo "<script>alert('Truyện đã được lưu vào danh sách yêu thích!');</script>";
     } else {
-      echo "<script>alert('Truyện đã có trong danh sách yêu thích.');</script>";
+      echo "<script>alert('Truyện đã bị xóa khỏi danh sách yêu thích.!);</script>";
     }
   }
 
   $isHome = is_front_page();
-  $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false; // Kiểm tra nếu là trang truyện
-
-
+  $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/truyen/') !== false;
   $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
   $isMobile = $screen_width < 768;
   echo '<script> console.log(' . $screen_width . ')</script>';
-  ?>
+?>
   <main class="flex flex-col relative mt-[4.425rem] ">
     <div class="w-full max-md:max-w-full ">
       <div class="flex max-md:flex-col bg-white">
@@ -130,12 +168,12 @@ if ($story) {
         <div id="mainContent"
           class="md:w-10/12 flex-grow transition-all max-md:ml-0 max-md:w-full <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
           <!-- Overview -->
-          <section class="book-details md:ml-[1.25rem] max-md:p-4 px-14 py-11 " aria-labelledby="book-title">
+          <section class="book-details max-md:p-[1rem] px-[3.5rem] py-[2.75rem] " aria-labelledby="book-title">
             <div class="flex flex-col justify-start items-start max-sm:items-center mx-auto w-full max-md:max-w-full">
-              <div class="flex flex-col sm:flex-row sm:gap-4 md:gap-6 items-center justify-center text-center">
+              <div class="flex flex-col sm:flex-row sm:gap-[1rem] md:gap-[1.5rem] items-center justify-start sm:items-end text-center w-full">
                 <img loading="lazy" src=<?php echo esc_url($story->cover_image_url); ?> alt=<?php echo esc_html($story->story_name); ?>
                   class="object-cover lg:w-1/4 sm:w-1/3 w-[24.625rem] shrink-0  rounded-lg aspect-[0.64]" />
-                <div class="flex flex-col items-start mt-3 lg:w-3/4 w-full gap-2.5 justify-end">
+                <div class="flex flex-col items-start  mt-3 lg:w-3/4 sm:w-2/3 w-[24.625rem]  gap-2.5 justify-end">
                   <h1 id="book-title"
                     class="flex shrink gap-2.5 self-end w-full md:text-[2rem] text-[20px] font-bold max-md:leading-9 text-red-normal uppercase">
                     <?php echo esc_html($story->story_name); ?>
@@ -202,7 +240,7 @@ if ($story) {
                     </a>
                     <form method="POST" id="save-story-form" action="">
                       <input type="hidden" name="story_id" value="<?php echo esc_attr($story->id); ?>" />
-                      <button type="submit" name="save_story" id="toggle-btn">
+                      <button type="button" name="save_story" id="toggle-btn" data-story-id="<?php echo esc_attr($story->id); ?>">
                         <img id="toggle-img"
                           src="https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png"
                           class="w-[3.5625rem] max-sm:w-[2.625rem] max-sm:h-[2.625rem] h-[3.5625rem] object-fill shrink "
@@ -333,45 +371,77 @@ if ($story) {
   </main>
 
 
-  <?php
-} else { ?>
+  <?php } else { ?>
   <p>Truyện không tồn tại hoặc đã bị xóa.</p>
 <?php }
 ; ?>
 
 <script>
+  const img_saved = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/tkn6hjhe.png"; // saved
+  const img_not_saved = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png"; // not saved
   document.getElementById("toggle-btn").addEventListener("click", function (event) {
-    event.preventDefault();  // Ngừng gửi form ngay lập tức
-
-    const img = document.getElementById("toggle-img");
-    const img1 = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png";
-    const img2 = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/tkn6hjhe.png";
-
-    // Toggle image source
-    img.src = img.src === img1 ? img2 : img1;
-
-    // Tạo AJAX request
-    const formData = new FormData();
-    formData.append('action', 'save_story'); // Đảm bảo rằng action là save_story
-    formData.append('story_id', <?php echo esc_js($story->id); ?>); // Gửi ID của truyện
-
-    // Gửi AJAX request tới admin-ajax.php
-    fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+     event.preventDefault();
+ 
+     const btn = event.currentTarget;
+     const img = document.getElementById("toggle-img");
+     const storyId = btn.dataset.storyId; // Lấy story_id động từ data attribute
+      // Toggle UI ngay lập tức (mượt mà hơn)
+      const isCurrentlySaved = img.src === img_saved;
+     img.src = isCurrentlySaved ? img_not_saved : img_saved;
+     const formData = new FormData();
+     formData.append('action', 'save_story');
+     formData.append('story_id', storyId);
+     fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
       method: 'POST',
-      body: formData
-    })
+         body: formData,
+         credentials: 'same-origin'
+     })
+     .then(response => response.json())
+     .then(data => {
+         if (data.success) {
+          alert(data.data.message);
+             // Reload trang sau khi server xử lý xong
+             window.location.reload();
+         } else {
+          alert(data.data.message);
+             // Nếu server báo lỗi, revert lại icon
+             img.src = isCurrentlySaved ? img_saved : img_not_saved;
+         }
+        })
+     .catch(error => {
+         console.error('Error:', error);
+         img.src = isCurrentlySaved ? img_saved : img_not_saved;
+     });
+ });
+ 
+  
+  // Khi trang được tải lại, kiểm tra trạng thái đã lưu hay chưa và cập nhật nút
+  document.addEventListener("DOMContentLoaded", function() {
+      const img = document.getElementById("toggle-img");
+      const storyId = document.getElementById("toggle-btn").dataset.storyId;
+  
+      // Gửi request kiểm tra trạng thái
+      const formData = new FormData();
+      formData.append('action', 'check_story_status');
+      formData.append('story_id', storyId);
+  
+      fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+          method: 'POST',
+          body: formData,
+          credentials: 'same-origin'
+      })
       .then(response => response.json())
       .then(data => {
-        if (data.success) {
-          alert(data.data.message); // Hiển thị thông báo từ server
-        } else {
-          alert(data.data.message); // Hiển thị lỗi từ server
-        }
-      })
-      .catch(error => {
-        console.error('Error:', error);
+          if (data.success) {
+              // Cập nhật lại trạng thái hình ảnh
+              if (data.data.status === 'saved') {
+                 img.src = img_saved;
+             } else {
+                 img.src = img_not_saved;
+             }
+          } else {
+              console.log('Không thể kiểm tra trạng thái.');
+          }
       });
   });
-
-
-</script>
+ </script>
