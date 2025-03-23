@@ -30,7 +30,6 @@ $email = !empty($user_info->email) ? esc_html($user_info->email) : "Chưa cập 
 $phone = !empty($user_info->phone) ? esc_html($user_info->phone) : "Chưa cập nhật";
 $created_at_display = !empty($user_info->created_at) ? date("Y-m-d", strtotime($user_info->created_at)) : "";
 $updated_at_display = !empty($user_info->edited_at) ? date("Y-m-d", strtotime($user_info->edited_at)) : "";
-$avatar_url = !empty($user_info->avatar_image_url) ? $user_info->avatar_image_url : '';
 
 
 // Thông tin truyện
@@ -53,24 +52,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update_profile"])) {
   $new_full_name = sanitize_text_field($_POST["Hoten"]);
   $new_phone = sanitize_text_field($_POST["SDT"]);
   $avatar_url = !empty($user_info->avatar_image_url) ? $user_info->avatar_image_url : ''; // Giữ ảnh cũ
-
+  $error_genres = '';
+  
   if (!empty($_FILES['avatar']['name'])) {
     if (!function_exists('wp_handle_upload')) {
-      require_once ABSPATH . 'wp-admin/includes/file.php';
+        require_once ABSPATH . 'wp-admin/includes/file.php';
     }
-
     $uploaded_file = $_FILES['avatar'];
-    $upload_overrides = array('test_form' => false);
-
-    $upload = wp_handle_upload($uploaded_file, $upload_overrides);
+    $upload = wp_handle_upload($uploaded_file, array('test_form' => false));
 
     if (!isset($upload['error']) && isset($upload['url'])) {
-      $avatar_url = $upload['url']; // Cập nhật URL ảnh mới
+        $avatar_url = $upload['url']; // Cập nhật đường dẫn ảnh mới
     } else {
-      echo "<script>alert('Lỗi upload ảnh: " . esc_js($upload['error']) . "');</script>";
+        echo "<script>alert('Lỗi upload ảnh: " . esc_js($upload['error']) . "');</script>";
     }
-  }
-  // Cập nhật vào database
+}
+ // Cập nhật vào database
   $result = $wpdb->update(
     $users_literead,
     [
@@ -79,8 +76,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update_profile"])) {
       "avatar_image_url" => $avatar_url,
       "edited_at" => current_time('mysql'),
     ],
-    ["token" => $signup_token],
+    ["token" => $signup_token]
   );
+
   // Kiểm tra xem có lỗi khi cập nhật không
   if ($result !== false) {
     // Sau khi cập nhật thành công, thêm thông báo "success" vào URL
@@ -121,10 +119,10 @@ echo '<script>console.log(' . $screen_width . ')</script>';
                     alt="Profile avatar"
                     class="object-contain shrink-0 aspect-square w-[6.1875rem] rounded-full border border-gray-300" />
 
+                  <!-- Input để upload ảnh -->
                   <input type="file" id="avatarInput" name="avatar" accept="image/*"
                     class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer hidden" />
                 </div>
-
                 <!-- Thông tin người dùng -->
                 <div class="flex flex-col flex-1 shrink items-start basis-0 min-w-60 max-md:max-w-full">
                   <h1 id="hoten" class="text-[1.875rem]"><?php echo esc_html($full_name); ?></h1>
@@ -373,11 +371,29 @@ echo '<script>console.log(' . $screen_width . ')</script>';
     let confirmSave = document.getElementById("confirmSave");
     let cancelSave = document.getElementById("cancelSave");
     let submitButton = document.getElementById("submitButton");
+    document.getElementById('avatarInput').addEventListener('change', function(e) {
+      var reader = new FileReader();
+      reader.onload = function(event) {
+        document.getElementById('avatarImg').src = event.target.result; // Cập nhật ảnh hiển thị
+      };
+      reader.readAsDataURL(this.files[0]); // Đọc file ảnh và chuyển thành URL
+    });
 
+    
     // Khi bấm "Sửa"
     editButton.addEventListener("click", function () {
       let inputs = [document.getElementById("Hoten"), document.getElementById("SDT")];
       let avatarInput = document.getElementById("avatarInput");
+
+          
+//     coverUpload.addEventListener("change", (e) => {
+//   const file = e.target.files[0];
+//   if (file) {
+//     const reader = new FileReader();
+//     reader.onload = () => avatarImg.src = reader.result;
+//     reader.readAsDataURL(file);
+//   }
+// });
 
       if (inputs[0].readOnly) {
         // Chế độ chỉnh sửa
@@ -407,6 +423,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
       submitButton.click(); // Submit form
     });
 
+
     // Khi nhấn "Hủy" trong pop-up
     cancelSave.addEventListener("click", function () {
       confirmPopup.classList.add("hidden");
@@ -429,3 +446,6 @@ echo '<script>console.log(' . $screen_width . ')</script>';
     }
   });
 </script>
+
+
+
