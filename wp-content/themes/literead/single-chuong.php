@@ -302,9 +302,9 @@ echo '<script> console.log(' . $screen_width . ')</script>';
                   headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
                 })
                   .then(response => response.json())
-                  .then(data => console.log("Update Response:", data))
+                  // .then(data => console.log("Update Response:", data))
                   .catch(error => console.error("Fetch Error:", error));
-              }, 1000);
+              }, 1000 * 2 * 60);
             });
 
           </script>

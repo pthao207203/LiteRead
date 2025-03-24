@@ -243,11 +243,11 @@ function update_view_function()
   $error_chapter = $wpdb->last_error;
 
   $update_coin = $wpdb->query($wpdb->prepare(
-    "UPDATE $user_table SET coin = coin + 1 WHERE id = %d",
+    "UPDATE $user_table SET coin = coin + 8 WHERE id = %d",
     $user_id
   ));
   $update_coin = $wpdb->query($wpdb->prepare(
-    "UPDATE $user_table SET sum_coin = sum_coin + 1 WHERE id = %d",
+    "UPDATE $user_table SET sum_coin = sum_coin + 8 WHERE id = %d",
     $user_id
   ));
 
