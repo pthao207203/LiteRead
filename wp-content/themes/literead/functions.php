@@ -175,6 +175,30 @@ function lay_custom_post_type($query)
   return $query;
 }
 
+add_action('parse_query', function($query) {
+  if (!is_admin() && $query->is_main_query() && isset($query->query_vars['post_type']) && $query->query_vars['post_type'] === 'truyen') {
+      global $wpdb;
+
+      $slug = $query->query_vars['name'] ?? '';
+      $table = $wpdb->prefix . 'stories';
+      $story = $wpdb->get_row(
+          $wpdb->prepare("SELECT id FROM $table WHERE slug = %s", $slug)
+      );
+
+      if ($story) {
+        $post = get_post($story->id);
+        setup_postdata($post);
+        
+        $query->is_single = true;
+        $query->is_singular = true;
+        $query->is_404 = false;
+        status_header(200);
+      }
+  }
+});
+
+add_theme_support('title-tag');
+
 add_action('wp_ajax_update_view', 'update_view_function');
 add_action('wp_ajax_nopriv_update_view', 'update_view_function');
 
