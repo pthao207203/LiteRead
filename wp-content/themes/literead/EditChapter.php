@@ -65,6 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $chapter_name = isset($_POST['chapter_name']) ? sanitize_text_field($_POST['chapter_name']) : '';
   $synopsis = isset($_POST['synopsis']) ? wp_unslash($_POST['synopsis']) : '';
   $story = intval($_POST['story']);
+  $chapter = intval($_POST['chapter']);
   $word_count = intval($_POST['word_count']);
 
   if (empty(trim($chapter_number))) {
@@ -83,10 +84,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         'synopsis' => $synopsis,
         'count' => $word_count
       ),
-      array('id' => $chapter->id)
+      array('id' => $chapter)
     );
 
-    echo '<script>window.location.href="' . home_url("/quan-ly-truyen/" . $story_slug) . '";</script>';
+    echo '<script>alert("Chỉnh sửa chương thành công!");window.location.href="' . home_url("/quan-ly-truyen/" . $story_slug) . '";</script>';
     exit;
   }
 }
@@ -153,6 +154,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
                   class="opacity-60 max-md:max-w-full w-full bg-transparent text-red-dark outline-none" />
 
                 <input type="text" class="hidden" name="story" value="<?php echo esc_attr($story->id); ?>">
+                <input type="text" class="hidden" name="chapter" value="<?php echo esc_attr($chapter->id); ?>">
 
               </div>
             </div>
