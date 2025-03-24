@@ -12,6 +12,11 @@ $isMobile = $screen_width < 768;
 echo '<script>console.log(' . $screen_width . ')</script>';
 
 $is_logged_in = isset($_COOKIE['signup_token']);
+
+$users_literead = $wpdb->prefix . "users_literead";
+if (isset($_COOKIE['signup_token'])) {
+  $user = $wpdb->get_row($wpdb->prepare("SELECT type FROM $users_literead WHERE token = %s", $_COOKIE['signup_token']), ARRAY_A);
+}
 ?>
 
 <aside id="sidebar" class="z-[60] overflow-y-auto font-medium max-sm:text-[1rem] md:text-[1.5rem] transition-all duration-200 ease-in-out bg-[#FFE5E1]
@@ -69,59 +74,63 @@ $is_logged_in = isset($_COOKIE['signup_token']);
             <span class="text-[##FFF7F5] max-sm:text-[1rem] md:text-[1.5rem] text-left">Truyện đã thích</span>
           </button>
         </li>
-        <li>
-          <button data-id="<?= home_url('/quan-ly-truyen'); ?>" onclick="handleSidebarClick(this)"
-            class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
+        <?php if (isset($user) && $user['type'] == 1) {
+          ?>
+          <li>
+            <button data-id="<?= home_url('/quan-ly-truyen'); ?>" onclick="handleSidebarClick(this)"
+              class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
        hover:bg-orange-light hover:text-red-normal <?= (!$isHome && !$isSingleTruyen && $current_slug === 'quan-ly-truyen') ? 'bg-orange-light text-red-normal' : '' ?>">
-            <div>
-              <svg width="30" height="30" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg"
-                class="w-[1.875rem] h-[1.875rem] transition-all hover:stroke-red-normal active:stroke-red-normal ">
-                <g clip-path="url(#clip0_797_2468)">
-                  <path
-                    d="M13.7124 3H11.2124C4.9624 3 2.4624 5.5 2.4624 11.75V19.25C2.4624 25.5 4.9624 28 11.2124 28H18.7124C24.9624 28 27.4624 25.5 27.4624 19.25V16.75"
-                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                  <path
-                    d="M27.35 4.94979C25.8125 8.78729 21.95 14.0123 18.725 16.5998L16.75 18.1748C16.5 18.3623 16.25 18.5123 15.9625 18.6248C15.9625 18.4373 15.95 18.2498 15.925 18.0498C15.8125 17.2123 15.4375 16.4248 14.7625 15.7623C14.075 15.0748 13.25 14.6873 12.4 14.5748C12.2 14.5623 12 14.5498 11.8 14.5623C11.9125 14.2498 12.075 13.9623 12.2875 13.7248L13.8625 11.7498C16.45 8.52479 21.6875 4.63729 25.5125 3.09979C26.1 2.87479 26.675 3.04979 27.0375 3.41229C27.4125 3.78729 27.5875 4.36229 27.35 4.94979Z"
-                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                  <path
-                    d="M15.9751 18.6126C15.9751 19.7126 15.5501 20.7626 14.7626 21.5626C14.1501 22.1751 13.3251 22.6001 12.3376 22.7251L9.87512 22.9876C8.53762 23.1376 7.38762 22.0001 7.53762 20.6376L7.80012 18.1751C8.03762 15.9876 9.86262 14.5876 11.8126 14.5501C12.0126 14.5376 12.2126 14.5501 12.4126 14.5626C13.2626 14.6751 14.0876 15.0626 14.7751 15.7501C15.4501 16.4251 15.8251 17.2001 15.9376 18.0376C15.9626 18.2376 15.9751 18.4376 15.9751 18.6126Z"
-                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                  <path d="M19.7751 15.4748C19.7751 12.8623 17.6626 10.7373 15.0376 10.7373" stroke="currentColor"
-                    stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                </g>
-                <defs>
-                  <clipPath id="clip0_797_2468">
-                    <rect width="30" height="30" fill="white" transform="translate(0 0.5)"></rect>
-                  </clipPath>
-                </defs>
-              </svg>
-            </div>
-            <span class="text-[##FFF7F5] max-sm:text-[1rem] md:text-[1.5rem] text-left">Quản lý truyện</span>
-          </button>
-        </li>
-        <li>
-          <button data-id="<?= home_url('/vi-cua-toi'); ?>" onclick="handleSidebarClick(this)"
-            class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
+              <div>
+                <svg width="30" height="30" viewBox="0 0 30 31" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="w-[1.875rem] h-[1.875rem] transition-all hover:stroke-red-normal active:stroke-red-normal ">
+                  <g clip-path="url(#clip0_797_2468)">
+                    <path
+                      d="M13.7124 3H11.2124C4.9624 3 2.4624 5.5 2.4624 11.75V19.25C2.4624 25.5 4.9624 28 11.2124 28H18.7124C24.9624 28 27.4624 25.5 27.4624 19.25V16.75"
+                      stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path
+                      d="M27.35 4.94979C25.8125 8.78729 21.95 14.0123 18.725 16.5998L16.75 18.1748C16.5 18.3623 16.25 18.5123 15.9625 18.6248C15.9625 18.4373 15.95 18.2498 15.925 18.0498C15.8125 17.2123 15.4375 16.4248 14.7625 15.7623C14.075 15.0748 13.25 14.6873 12.4 14.5748C12.2 14.5623 12 14.5498 11.8 14.5623C11.9125 14.2498 12.075 13.9623 12.2875 13.7248L13.8625 11.7498C16.45 8.52479 21.6875 4.63729 25.5125 3.09979C26.1 2.87479 26.675 3.04979 27.0375 3.41229C27.4125 3.78729 27.5875 4.36229 27.35 4.94979Z"
+                      stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path
+                      d="M15.9751 18.6126C15.9751 19.7126 15.5501 20.7626 14.7626 21.5626C14.1501 22.1751 13.3251 22.6001 12.3376 22.7251L9.87512 22.9876C8.53762 23.1376 7.38762 22.0001 7.53762 20.6376L7.80012 18.1751C8.03762 15.9876 9.86262 14.5876 11.8126 14.5501C12.0126 14.5376 12.2126 14.5501 12.4126 14.5626C13.2626 14.6751 14.0876 15.0626 14.7751 15.7501C15.4501 16.4251 15.8251 17.2001 15.9376 18.0376C15.9626 18.2376 15.9751 18.4376 15.9751 18.6126Z"
+                      stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                    <path d="M19.7751 15.4748C19.7751 12.8623 17.6626 10.7373 15.0376 10.7373" stroke="currentColor"
+                      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_797_2468">
+                      <rect width="30" height="30" fill="white" transform="translate(0 0.5)"></rect>
+                    </clipPath>
+                  </defs>
+                </svg>
+              </div>
+              <span class="text-[##FFF7F5] max-sm:text-[1rem] md:text-[1.5rem] text-left">Quản lý truyện</span>
+            </button>
+          </li>
+          <li>
+            <button data-id="<?= home_url('/vi-cua-toi'); ?>" onclick="handleSidebarClick(this)"
+              class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer
             hover:bg-orange-light hover:text-red-normal <?= (!$isHome && !$isSingleTruyen && $current_slug === 'vi-cua-toi') ? 'bg-orange-light text-red-normal' : '' ?>">
-            <div>
-              <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"
-                class="w-[1.875rem] h-[1.875rem] transition-all hover:stroke-red-normal active:stroke-red-normal ">
-                <path
-                  d="M22.55 16.9375C22.025 17.45 21.725 18.1875 21.8 18.975C21.9125 20.325 23.15 21.3125 24.5 21.3125H26.875V22.8C26.875 25.3875 24.7625 27.5 22.175 27.5H7.825C5.2375 27.5 3.125 25.3875 3.125 22.8V14.3875C3.125 11.8 5.2375 9.6875 7.825 9.6875H22.175C24.7625 9.6875 26.875 11.8 26.875 14.3875V16.1875H24.35C23.65 16.1875 23.0125 16.4625 22.55 16.9375Z"
-                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                <path
-                  d="M3.125 15.5126V9.80019C3.125 8.31269 4.0375 6.98764 5.425 6.46264L15.35 2.71264C16.9 2.12514 18.5625 3.27517 18.5625 4.93767V9.68766"
-                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                <path
-                  d="M28.1985 17.4624V20.0375C28.1985 20.725 27.6485 21.2875 26.9485 21.3125H24.4985C23.1485 21.3125 21.911 20.325 21.7985 18.975C21.7235 18.1875 22.0235 17.45 22.5485 16.9375C23.011 16.4625 23.6485 16.1875 24.3485 16.1875H26.9485C27.6485 16.2125 28.1985 16.7749 28.1985 17.4624Z"
-                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                <path d="M8.75 15H17.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                  stroke-linejoin="round"></path>
-              </svg>
-            </div>
-            <span class="text-[##FFF7F5] max-sm:text-[1rem] md:text-[1.5rem] text-left">Ví của tôi</span>
-          </button>
-        </li>
+              <div>
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"
+                  class="w-[1.875rem] h-[1.875rem] transition-all hover:stroke-red-normal active:stroke-red-normal ">
+                  <path
+                    d="M22.55 16.9375C22.025 17.45 21.725 18.1875 21.8 18.975C21.9125 20.325 23.15 21.3125 24.5 21.3125H26.875V22.8C26.875 25.3875 24.7625 27.5 22.175 27.5H7.825C5.2375 27.5 3.125 25.3875 3.125 22.8V14.3875C3.125 11.8 5.2375 9.6875 7.825 9.6875H22.175C24.7625 9.6875 26.875 11.8 26.875 14.3875V16.1875H24.35C23.65 16.1875 23.0125 16.4625 22.55 16.9375Z"
+                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path
+                    d="M3.125 15.5126V9.80019C3.125 8.31269 4.0375 6.98764 5.425 6.46264L15.35 2.71264C16.9 2.12514 18.5625 3.27517 18.5625 4.93767V9.68766"
+                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path
+                    d="M28.1985 17.4624V20.0375C28.1985 20.725 27.6485 21.2875 26.9485 21.3125H24.4985C23.1485 21.3125 21.911 20.325 21.7985 18.975C21.7235 18.1875 22.0235 17.45 22.5485 16.9375C23.011 16.4625 23.6485 16.1875 24.3485 16.1875H26.9485C27.6485 16.2125 28.1985 16.7749 28.1985 17.4624Z"
+                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                  <path d="M8.75 15H17.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                    stroke-linejoin="round"></path>
+                </svg>
+              </div>
+              <span class="text-[##FFF7F5] max-sm:text-[1rem] md:text-[1.5rem] text-left">Ví của tôi</span>
+            </button>
+          </li>
+          <?php
+        } ?>
         <li>
           <button data-id="<?= home_url('/thong-bao'); ?>" onclick="handleSidebarClick(this)"
             class="sidebar-button flex w-full items-center  md:p-5 p-[0.75rem] gap-6 border-l-2 border-solid border-l-red-normal transition-all cursor-pointer

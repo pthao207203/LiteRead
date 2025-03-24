@@ -292,8 +292,9 @@ echo '<script> console.log(' . $screen_width . ')</script>';
               setTimeout(() => {
                 let formData = new URLSearchParams();
                 formData.append("action", "update_view"); // Đảm bảo action là update_view
-                formData.append("story_id", <?php echo json_encode(intval($story->id)); ?>);
+                formData.append("story_id", <?php echo json_encode(intval($chapter->story_id)); ?>);
                 formData.append("chapter_id", <?php echo json_encode(intval($chapter->id)); ?>);
+                formData.append("user_id", <?php echo json_encode(intval($story->editor)); ?>);
 
                 fetch(ajaxurl, {
                   method: 'POST',

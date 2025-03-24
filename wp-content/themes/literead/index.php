@@ -4,8 +4,10 @@ get_header();
 
 global $wpdb;
 $stories = $wpdb->prefix . 'stories';
+$top_stories_view = $wpdb->get_results("SELECT * FROM $stories ORDER BY view DESC LIMIT 5");
 
-$per_page = 6; // Số chương hiển thị mỗi trang
+
+$per_page = 10; // Số chương hiển thị mỗi trang
 $current_page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1; // Lấy trang hiện tại từ URL
 $offset = ($current_page - 1) * $per_page;
 
@@ -37,7 +39,6 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$type'") != $type) {
     ('Tổng tài'), ('Thế thân'), ('Tu tiên'), ('Nam chủ')";
 
   $wpdb->query($sql);
-
 }
 
 $stories_view = $wpdb->prefix . 'stories_view_day';
@@ -119,64 +120,88 @@ echo '<script>console.log(' . $screen_width . ')</script>';
       <?php endif; ?>
       <div id="mainContent"
         class="flex flex-col <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
-        <section
-          class="flex relative flex-col w-full min-h-[246px] mb-[-20px] md:flex-row md:min-h-[300px] lg:min-h-[400px]">
-          <img loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/9cd925cf87475432037a5d161cd9740a8bf77af205181197162397c1c41f9ae2"
-            alt="Featured story background"
-            class="object-cover absolute inset-0 w-full h-[calc(100%+20px)] z-0 filter blur-[8px]" />
-          <div
-            style="position: absolute; inset: 0; z-index: 10; background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));">
-          </div>
-          <article
-            class="flex relative gap-4 items-end pt-[17px] pr-[4px] pb-[6px] pl-[17px] z-20 lg:pt-[34px] lg:px-[34px] md:pb-[54px]">
-            <img loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/246d716fd47fc915ccad0ade280ccb7d51e92f3338d35e99184b60d3b64433bb"
-              alt="Book cover" class="object-contain shrink-0 rounded-lg aspect-[0.64] h-[25rem] lg:h-[30rem]" />
-            <div class="flex flex-col min-w-60 w-full">
-              <div class="flex gap-2 justify-center items-center self-start whitespace-nowrap">
-                <span
-                  class="gap-2.5 self-stretch p-1 my-auto text-[16px] lg:text-[1.75rem] font-medium text-red-light bg-red-normal rounded-[2px]">Full</span>
+
+
+        <div id="storyCarousel"
+          class="overflow-hidden relative min-w-full min-h-[246px] mb-[-20px] md:flex-row  lg:min-h-[400px]">
+          <div class="carousel-wrapper flex transition-transform duration-700 ease-in-out"
+            style="transform: translateX(0%)">
+            <?php foreach ($top_stories_view as $story): ?>
+
+              <section class="flex flex-col relative min-w-full">
+                <img loading="lazy" src="<?php echo esc_url($story->cover_image_url); ?>"
+                  alt="<?php echo esc_html($story->story_name); ?>"
+                  class="object-cover absolute inset-0 w-full h-[calc(100%+20px)] z-0 filter blur-[8px]" />
                 <div
-                  class="flex gap-1 items-center self-stretch my-auto text-[18px] lg:text-[1.875rem] font-semibold text-white">
-                  <span>4.5</span>
-                  <span class="ms-1 text-[#FFC700]">★</span>
+                  style="position: absolute; inset: 0; z-index: 10; background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));">
                 </div>
-              </div>
-              <h2
-                class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[18px] lg:text-[1.875rem] font-medium text-white basis-0">
-                Sổ tay bạch liên hoa lừa người
-              </h2>
-              <p class="gap-2.5 self-start mt-2 text-[14px] lg:text-[1.5rem] font-regular text-white">
-                Thể loại: HE, hắc đạo
-              </p>
-              <p class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[12px] lg:text-[1.25rem] font-regular text-white basis-0 min-h-[5.5rem] max-h-[5.5rem]"
-                style="line-clamp: 3; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3;">
-                Chiều cuối hạ, cơn mưa bất chợt đổ xuống khu phố nhỏ, từng giọt nước
-                rơi lộp độp trên mái tôn cũ kỹ, tạo nên bản nhạc quen thuộc mà An vẫn
-                yêu thích từ bé. Cô đứng bên khung cửa sổ, tay cầm ly cà phê đã nguội
-                lạnh, mắt nhìn xa xăm ra khoảng sân trước nhà, nơi những vũng nước lấp
-                lánh phản chiếu ánh hoàng hôn nhạt nhòa. Chiều cuối hạ, cơn mưa bất chợt đổ xuống khu phố nhỏ, từng giọt
-                nước
-                rơi lộp độp trên mái tôn cũ kỹ, tạo nên bản nhạc quen thuộc mà An vẫn
-                yêu thích từ bé. Cô đứng bên khung cửa sổ, tay cầm ly cà phê đã nguội
-                lạnh, mắt nhìn xa xăm ra khoảng sân trước nhà, nơi những vũng nước lấp
-                lánh phản chiếu ánh hoàng hôn nhạt nhòa.
-              </p>
-            </div>
-          </article>
+
+                <article
+                  class="story-item flex min-w-full relative gap-4 items-end pt-[17px] pr-[4px] pb-[6px] pl-[17px] z-20 lg:pt-[34px] lg:px-[34px] md:pb-[60px] max-md:pb-[45px]">
+                  <img loading="lazy" src="<?php echo esc_url($story->cover_image_url); ?>"
+                    alt="<?php echo esc_html($story->story_name); ?>"
+                    class="object-cover shrink-0 rounded-lg aspect-[0.64] h-[25rem] lg:h-[30rem]" />
+
+                  <div class="flex flex-col min-w-60 w-full">
+                    <div class="flex gap-2 justify-center items-center self-start whitespace-nowrap">
+                      <span
+                        class="gap-2.5 self-stretch p-1 my-auto text-[16px] lg:text-[1.75rem] font-medium text-red-light bg-red-normal rounded-[2px]"><?php echo esc_html($story->status); ?></span>
+                      <div
+                        class="flex gap-1 items-center self-stretch my-auto text-[18px] lg:text-[1.875rem] font-semibold text-white">
+                        <span><?php echo esc_html($story->rate); ?></span>
+                        <span class="ms-1 text-[#FFC700]">★</span>
+                      </div>
+                    </div>
+
+                    <h2
+                      class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[18px] lg:text-[1.875rem] font-medium text-white basis-0">
+                      <?php echo esc_html($story->story_name); ?>
+                    </h2>
+
+                    <p class="gap-2.5 self-start mt-2 text-[14px] lg:text-[1.5rem] font-regular text-white">
+                      <?php
+                      $genres = $wpdb->get_col($wpdb->prepare(
+                        "SELECT t.type_name 
+                              FROM wp_story_type st 
+                              INNER JOIN wp_type t ON st.type_id = t.id 
+                              WHERE st.story_id = %d",
+                        $story->id
+                      ));
+                      ?>
+                      Thể loại:
+                      <?php
+                      if (!empty($genres)) {
+                        echo esc_html(implode(', ', array_map('trim', $genres)));
+                      } else {
+                        echo '<p>Không có thể loại nào</p>';
+                      }
+                      ?>
+                    </p>
+
+                    <div
+                      class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[12px] lg:text-[1.25rem] font-regular text-white basis-0 min-h-[5.5rem] max-h-[5.5rem]"
+                      style="line-clamp: 3; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3;">
+                      <?php echo wpautop(wp_kses_post(htmlspecialchars_decode($story->synopsis, ENT_QUOTES))); ?>
+                    </div>
+                  </div>
+                </article>
+
+              </section>
+            <?php endforeach; ?>
+          </div>
+          <!-- Dots -->
           <div
-            class="flex relative z-10 gap-1.5 items-center justify-center self-center mt-[12px] mb-[30px] md:absolute md:bottom-[16px] md:mb-[12px] md:left-1/2 md:-translate-x-1/2"
-            role="navigation" aria-label="Story carousel">
-            <button class="flex shrink-0 self-stretch my-auto h-[8px] bg-[#8E98A8] rounded-full w-[9px]"
-              aria-current="true"></button>
-            <button class="flex shrink-0 self-stretch my-auto h-[8px] rounded-full bg-[#E7E4E4] w-[9px]"></button>
-            <button class="flex shrink-0 self-stretch my-auto h-[8px] rounded-full bg-[#E7E4E4] w-[9px]"></button>
-            <button class="flex shrink-0 self-stretch my-auto h-[8px] rounded-full bg-[#E7E4E4] w-[9px]"></button>
-            <button class="flex shrink-0 self-stretch my-auto h-[8px] rounded-full bg-[#E7E4E4] w-[9px]"></button>
+            class="flex relative z-20 gap-1.5 items-center justify-center self-center mt-[12px] mb-[30px] md:absolute md:bottom-[16px] md:mb-[12px] max-md:bottom-[40px] max-md:mb-[-12px] md:left-1/2 md:-translate-x-1/2">
+            <?php foreach ($top_stories_view as $index => $story): ?>
+              <button class="dot flex shrink-0 self-stretch my-auto h-[8px] bg-[#8E98A8] rounded-full w-[9px]"
+                data-index="<?php echo $index ?>"></button>
+
+            <?php endforeach; ?>
           </div>
 
-        </section>
+
+        </div>
+
 
         <section class="relative z-10 pt-[17px] lg:pt-[34px] mt-0 w-full bg-white rounded-[20px]">
           <div class="flex flex-col w-full rounded-none">
@@ -290,4 +315,49 @@ echo '<script>console.log(' . $screen_width . ')</script>';
       </div>
     </div>
   </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      let currentIndex = 0;
+      const stories = document.querySelectorAll('.story-item');
+      const totalStories = stories.length;
+      const navButtons = document.querySelectorAll('.dot');
+      const carouselWrapper = document.querySelector('.carousel-wrapper');
+
+      function updateNavButtons() {
+        navButtons.forEach((button, index) => {
+          button.style.backgroundColor = (index === currentIndex) ? '#8E98A8' : '#E7E4E4';
+        });
+      }
+
+      // Thay đổi slide
+      function changeStory() {
+        // Cập nhật vị trí của carousel wrapper
+        const offset = -currentIndex * 100;
+        carouselWrapper.style.transition = 'transform 0.7s ease-in-out'; // Thêm hiệu ứng mượt mà
+        carouselWrapper.style.transform = `translateX(${offset}%)`;
+
+        // Cập nhật nút điều hướng
+        updateNavButtons();
+      }
+
+      // Cập nhật khi click vào dot
+      navButtons.forEach((button, index) => {
+        button.addEventListener('click', () => {
+          currentIndex = index;
+          changeStory();
+        });
+      });
+
+      // Thay đổi slide tự động mỗi 2.5 giây
+      setInterval(() => {
+        currentIndex = (currentIndex + 1) % totalStories;
+        changeStory();
+      }, 2500);
+
+      // Cập nhật màu nút điều hướng khi tải trang lần đầu
+      updateNavButtons();
+    });
+  </script>
+
 </main>

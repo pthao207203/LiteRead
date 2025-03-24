@@ -3,8 +3,7 @@
 
 // Kiểm tra nếu user chưa đăng nhập
 if (!isset($_COOKIE['signup_token']) || empty($_COOKIE['signup_token'])) {
-  echo "<script>alert('Bạn cần đăng nhập để xem trang này!');</script>";
-  wp_redirect(home_url('/dang-nhap'));
+  echo "<script>alert('Bạn cần đăng nhập để xem trang này!'); window.location.href='" . home_url('/dang-nhap') . "';</script>";
   exit();
 }
 
@@ -50,6 +49,11 @@ if (!empty($_POST["action"]) && $_POST["action"] === "withdraw_coins") {
   if (!$user) {
     echo json_encode(["status" => "error", "message" => "Lỗi: Không tìm thấy tài khoản!"]);
     exit;
+  }
+  // Kiểm tra nếu user chưa có quyền đăng truyện
+  if (isset($user) && $user->type === 1) {
+    echo "<script>alert('Bạn cần có quyền đăng truyện!'); window.location.href='" . home_url('/') . "';</script>";
+    exit();
   }
 
   $current_balance = intval($user->coin);
@@ -106,7 +110,7 @@ if (!empty($_POST["action"]) && $_POST["action"] === "withdraw_coins") {
 }
 
 // Lấy thông tin ví của người dùng 
-$user = $wpdb->get_row($wpdb->prepare("SELECT * FROM wp_users_literead WHERE token = %d", $_COOKIE['signup_token']));
+$user = $wpdb->get_row($wpdb->prepare("SELECT * FROM wp_users_literead WHERE token = %s", $_COOKIE['signup_token']));
 
 // Lấy lịch sử giao dịch
 $transactions = $wpdb->get_results($wpdb->prepare(
@@ -143,8 +147,10 @@ echo '<script> console.log(' . $screen_width . ')</script>';
             <div class="flex flex-col flex-1 shrink items-start basis-0 w-[15rem] max-md:max-w-full">
               <div class="flex flex-col">
                 <?php if ($user->full_name != '')
-                  echo '<div class="text-3xl">' . esc_html($user->full_name) . '</div>'; ?>
-                <div class="mt-3 text-3xl opacity-60"><?php echo esc_html($user->email); ?></div>
+                  echo '<div class="text-3xl">' . esc_html($user->full_name) . '</div>';
+                else
+                  echo "<div class='text-3xl'>Chưa cập nhật</div>" ?>
+                  <div class="mt-3 text-3xl opacity-60"><?php echo esc_html($user->email); ?></div>
               </div>
             </div>
           </div>

@@ -3,8 +3,7 @@
 
 // Kiểm tra nếu user chưa đăng nhập
 if (!isset($_COOKIE['signup_token']) || empty($_COOKIE['signup_token'])) {
-  echo "<script>alert('Bạn cần đăng nhập để xem trang này!');</script>";
-  wp_redirect(home_url('/dang-nhap'));
+  echo "<script>alert('Bạn cần đăng nhập để xem trang này!'); window.location.href='" . home_url('/dang-nhap') . "';</script>";
   exit();
 }
 
@@ -47,6 +46,17 @@ if (!$story) {
   exit;
 }
 
+$users_literead = $wpdb->prefix . "users_literead";
+$user = $wpdb->get_row($wpdb->prepare(
+  "SELECT * FROM $users_literead WHERE token = %s",
+  $_COOKIE['signup_token']
+));
+// Kiểm tra nếu user chưa có quyền chỉnh sửa truyện
+if (isset($user) && $user->type === 1 && $story->editor == $user->id) {
+  echo "<script>alert('Bạn không có quyền chỉnh sửa truyện này!'); window.location.href='" . home_url('/quan-ly-truyen') . "';</script>";
+  exit();
+}
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
   // if (!isset($_POST['security']) || !wp_verify_nonce($_POST['security'], 'story_upload_nonce')) {
   //   wp_die('Lỗi bảo mật. Vui lòng thử lại.');
@@ -61,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $chapter_number = sanitize_text_field($_POST['chapter_number']);
   $chapter_name = isset($_POST['chapter_name']) ? sanitize_text_field($_POST['chapter_name']) : '';
   $synopsis = isset($_POST['synopsis']) ? wp_unslash($_POST['synopsis']) : '';
-  $story = intval($_POST['story']);
+  $story_id = intval($_POST['story']);
   // $words = mb_split('\s+', trim($synopsis));
   $word_count = intval($_POST['word_count']);
 
@@ -76,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $wpdb->insert(
       $chapters,
       array(
-        'story_id' => $story,
+        'story_id' => $story_id,
         'chapter_number' => $chapter_number,
         'chapter_name' => $chapter_name,
         'synopsis' => $synopsis,
@@ -87,10 +97,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $wpdb->update(
       'wp_stories', // Tên bảng chứa stories
       array('edited_at' => current_time('mysql')), // Cập nhật thời gian hiện tại
-      array('id' => $story) // Điều kiện cập nhật đúng story
+      array('id' => $story_id) // Điều kiện cập nhật đúng story
     );
 
-    echo '<script>window.location.href="' . home_url('/quan-ly-truyen/' . $truyen_slug) . '";</script>';
+    echo '<script>alert("Đăng chương mới thành công!");window.location.href="' . home_url('/quan-ly-truyen/' . $truyen_slug) . '";</script>';
     exit;
 
 
