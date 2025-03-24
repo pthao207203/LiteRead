@@ -74,34 +74,13 @@ if ($story) {
   $last_chapter_url = $last_chapter ? site_url("/truyen/$story_slug/chuong-$last_chapter") : '#';
 
   $users_literead = $wpdb->prefix . "users_literead";
-
-  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_comment'])) {
-    if (!isset($_COOKIE['signup_token'])) {
-      wp_redirect(home_url('/dang-nhap'));
-      exit();
-    }
-
-    $user_info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $users_literead WHERE token = %s", $_COOKIE['signup_token']));
-    $synopsis = $_POST['content'];
-    $story_id = $story->id;
-    $user_id = $user_info->id;
-
-    if (empty(trim($synopsis))) {
-      $content_error = 'Vui lòng nhập nội dung!';
-    } else {
-      $content_error = '';
-      $wpdb->insert(
-        $comments_table,
-        array(
-          'story_id' => $story_id,
-          'user_id' => $user_id,
-          'synopsis' => $synopsis,
-        )
-      );
-      echo "<script>window.location.href = window.location.href + '?success=true';</script>";
-      exit();
-    }
-  }
+  $chapter_name = $wpdb->prefix . 'chapters';
+  $total_chapter = $wpdb->get_var(
+    $wpdb->prepare(
+      "SELECT COUNT(*) FROM $chapter_name WHERE story_id = %d",
+      $story->id
+    )
+  );
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_story'])) {
     if (!isset($_COOKIE['signup_token'])) {
@@ -109,9 +88,9 @@ if ($story) {
       exit;
     }
     $user_info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $users_literead WHERE token = %s", $_COOKIE['signup_token']));
-    if(isset($user_info)){
-      $user_id = $user_info->id;  
-    }  
+    if (isset($user_info)) {
+      $user_id = $user_info->id;
+    }
     $story_id = $_POST['story_id'];
 
     $favorites_table = $wpdb->prefix . 'users_likes';
@@ -149,7 +128,7 @@ if ($story) {
 
       echo "<script>alert('Truyện đã được lưu vào danh sách yêu thích!');</script>";
     } else {
-      echo "<script>alert('Truyện đã bị xóa khỏi danh sách yêu thích.!);</script>";
+      echo "<script>alert('Truyện đã bị xóa khỏi danh sách yêu thích!');</script>";
     }
   }
 
@@ -158,7 +137,7 @@ if ($story) {
   $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
   $isMobile = $screen_width < 768;
   echo '<script> console.log(' . $screen_width . ')</script>';
-?>
+  ?>
   <main class="flex flex-col relative mt-[4.425rem] ">
     <div class="w-full max-md:max-w-full ">
       <div class="flex max-md:flex-col bg-white">
@@ -170,10 +149,11 @@ if ($story) {
           <!-- Overview -->
           <section class="book-details max-md:p-[1rem] px-[3.5rem] py-[2.75rem] " aria-labelledby="book-title">
             <div class="flex flex-col justify-start items-start max-sm:items-center mx-auto w-full max-md:max-w-full">
-              <div class="flex flex-col sm:flex-row sm:gap-[1rem] md:gap-[1.5rem] items-center justify-start sm:items-end text-center w-full">
+              <div
+                class="flex flex-col sm:flex-row sm:gap-[1rem] md:gap-[1.5rem] items-center justify-start sm:items-end text-center w-full">
                 <img loading="lazy" src=<?php echo esc_url($story->cover_image_url); ?> alt=<?php echo esc_html($story->story_name); ?>
-                  class="object-cover lg:w-1/4 sm:w-1/3 w-[24.625rem] shrink-0  rounded-lg aspect-[0.64]" />
-                <div class="flex flex-col items-start  mt-3 lg:w-3/4 sm:w-2/3 w-[24.625rem]  gap-2.5 justify-end">
+                  class="object-cover lg:w-1/4 sm:w-1/3 w-full shrink-0  rounded-lg aspect-[0.64]" />
+                <div class="flex flex-col items-start  mt-3 lg:w-3/4 sm:w-2/3 w-full  gap-2.5 justify-end">
                   <h1 id="book-title"
                     class="flex shrink gap-2.5 self-end w-full md:text-[2rem] text-[20px] font-bold max-md:leading-9 text-red-normal uppercase">
                     <?php echo esc_html($story->story_name); ?>
@@ -187,12 +167,12 @@ if ($story) {
                   </div>
                   <dl class="w-full text-[16px] md:text-[1.75rem]">
                     <div class="flex gap-2.5 self-stretch text-[16px] md:text-[1.75rem]">
-                      <dt class="font-semibold text-[#593B37]">Tác giả:</dt>
-                      <dd class="font-normal text-[#593B37]"><?php echo esc_html($story->author); ?></dd>
+                      <dt class="font-semibold text-left text-[#593B37]">Tác giả:</dt>
+                      <dd class="font-normal text-left text-[#593B37]"><?php echo esc_html($story->author); ?></dd>
                     </div>
                     <?php if (isset($user)) { ?>
                       <div class="flex gap-2.5 self-stretch text-[16px] md:text-[1.75rem] mt-2.5">
-                        <dt class="font-semibold text-[#593B37]">Nhóm dịch:</dt>
+                        <dt class="font-semibold text-left text-[#593B37]">Nhóm dịch:</dt>
                         <dd class="font-normal text-[#593B37]">
                           <a href=<?php echo home_url("/trang-ca-nhan/" . $user->slug); ?>
                             class="font-medium hover:no-underline hover:text-orange-dark">
@@ -202,16 +182,16 @@ if ($story) {
                       </div>
                     <?php } ?>
                     <div class="flex gap-2.5 self-stretch text-[16px] md:text-[1.75rem] mt-2.5">
-                      <dt class="font-semibold text-[#593B37]">Số chương:</dt>
-                      <dd class="font-normal text-[#593B37]">4 chương</dd>
+                      <dt class="font-semibold text-left text-[#593B37]">Số chương:</dt>
+                      <dd class="font-normal text-left text-[#593B37]"><?php echo esc_html($total_chapter) ?> chương</dd>
                     </div>
                     <div class="flex gap-2.5 self-stretch text-[16px] md:text-[1.75rem] mt-2.5">
-                      <dt class="font-semibold text-[#593B37]">Lượt đọc:</dt>
-                      <dd class="font-normal text-[#593B37]"><?php echo esc_html($story->view); ?></dd>
+                      <dt class="font-semibold text-left text-[#593B37]">Lượt đọc:</dt>
+                      <dd class="font-normal text-left text-[#593B37]"><?php echo esc_html($story->view); ?></dd>
                     </div>
                     <div class="flex gap-2.5 self-stretch text-[16px] md:text-[1.75rem] mt-2.5">
-                      <dt class="font-semibold text-[#593B37]">Lượt thích:</dt>
-                      <dd class="font-normal text-[#593B37]"><?php echo esc_html($story->likes); ?></dd>
+                      <dt class="font-semibold text-left text-[#593B37]">Lượt thích:</dt>
+                      <dd class="font-normal text-left text-[#593B37]"><?php echo esc_html($story->likes); ?></dd>
                     </div>
                   </dl>
                   <div class="flex flex-wrap gap-2.5 items-center self-stretch mt-2.5 w-full"
@@ -240,7 +220,8 @@ if ($story) {
                     </a>
                     <form method="POST" id="save-story-form" action="">
                       <input type="hidden" name="story_id" value="<?php echo esc_attr($story->id); ?>" />
-                      <button type="button" name="save_story" id="toggle-btn" data-story-id="<?php echo esc_attr($story->id); ?>">
+                      <button type="button" name="save_story" id="toggle-btn"
+                        data-story-id="<?php echo esc_attr($story->id); ?>">
                         <img id="toggle-img"
                           src="https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png"
                           class="w-[3.5625rem] max-sm:w-[2.625rem] max-sm:h-[2.625rem] h-[3.5625rem] object-fill shrink "
@@ -307,7 +288,7 @@ if ($story) {
                             class="flex-1 shrink self-stretch my-auto text-[16px] md:text-[1.75rem] font-medium basis-0 hover:no-underline hover:text-orange-dark">Chương
                             <?php echo $chapter->chapter_number; ?></a></a>
                           <span
-                            class="self-stretch my-auto text-[14px] md:text-[1.5rem] font-normal"><?php echo time_ago($chapter->edited_at); ?></span>
+                            class="self-stretch my-auto text-[14px] md:text-[1.5rem] font-normal"><?php echo time_ago($chapter->created_at); ?></span>
                         </li>
                         <?php
                       }
@@ -371,7 +352,7 @@ if ($story) {
   </main>
 
 
-  <?php } else { ?>
+<?php } else { ?>
   <p>Truyện không tồn tại hoặc đã bị xóa.</p>
 <?php }
 ; ?>
@@ -380,68 +361,68 @@ if ($story) {
   const img_saved = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/tkn6hjhe.png"; // saved
   const img_not_saved = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png"; // not saved
   document.getElementById("toggle-btn").addEventListener("click", function (event) {
-     event.preventDefault();
- 
-     const btn = event.currentTarget;
-     const img = document.getElementById("toggle-img");
-     const storyId = btn.dataset.storyId; // Lấy story_id động từ data attribute
-      // Toggle UI ngay lập tức (mượt mà hơn)
-      const isCurrentlySaved = img.src === img_saved;
-     img.src = isCurrentlySaved ? img_not_saved : img_saved;
-     const formData = new FormData();
-     formData.append('action', 'save_story');
-     formData.append('story_id', storyId);
-     fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+    event.preventDefault();
+
+    const btn = event.currentTarget;
+    const img = document.getElementById("toggle-img");
+    const storyId = btn.dataset.storyId; // Lấy story_id động từ data attribute
+    // Toggle UI ngay lập tức (mượt mà hơn)
+    const isCurrentlySaved = img.src === img_saved;
+    img.src = isCurrentlySaved ? img_not_saved : img_saved;
+    const formData = new FormData();
+    formData.append('action', 'save_story');
+    formData.append('story_id', storyId);
+    fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
       method: 'POST',
-         body: formData,
-         credentials: 'same-origin'
-     })
-     .then(response => response.json())
-     .then(data => {
-         if (data.success) {
-          alert(data.data.message);
-             // Reload trang sau khi server xử lý xong
-             window.location.reload();
-         } else {
-          alert(data.data.message);
-             // Nếu server báo lỗi, revert lại icon
-             img.src = isCurrentlySaved ? img_saved : img_not_saved;
-         }
-        })
-     .catch(error => {
-         console.error('Error:', error);
-         img.src = isCurrentlySaved ? img_saved : img_not_saved;
-     });
- });
- 
-  
-  // Khi trang được tải lại, kiểm tra trạng thái đã lưu hay chưa và cập nhật nút
-  document.addEventListener("DOMContentLoaded", function() {
-      const img = document.getElementById("toggle-img");
-      const storyId = document.getElementById("toggle-btn").dataset.storyId;
-  
-      // Gửi request kiểm tra trạng thái
-      const formData = new FormData();
-      formData.append('action', 'check_story_status');
-      formData.append('story_id', storyId);
-  
-      fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
-          method: 'POST',
-          body: formData,
-          credentials: 'same-origin'
-      })
+      body: formData,
+      credentials: 'same-origin'
+    })
       .then(response => response.json())
       .then(data => {
-          if (data.success) {
-              // Cập nhật lại trạng thái hình ảnh
-              if (data.data.status === 'saved') {
-                 img.src = img_saved;
-             } else {
-                 img.src = img_not_saved;
-             }
-          } else {
-              console.log('Không thể kiểm tra trạng thái.');
-          }
+        if (data.success) {
+          alert(data.data.message);
+          // Reload trang sau khi server xử lý xong
+          window.location.reload();
+        } else {
+          alert(data.data.message);
+          // Nếu server báo lỗi, revert lại icon
+          img.src = isCurrentlySaved ? img_saved : img_not_saved;
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        img.src = isCurrentlySaved ? img_saved : img_not_saved;
       });
   });
- </script>
+
+
+  // Khi trang được tải lại, kiểm tra trạng thái đã lưu hay chưa và cập nhật nút
+  document.addEventListener("DOMContentLoaded", function () {
+    const img = document.getElementById("toggle-img");
+    const storyId = document.getElementById("toggle-btn").dataset.storyId;
+
+    // Gửi request kiểm tra trạng thái
+    const formData = new FormData();
+    formData.append('action', 'check_story_status');
+    formData.append('story_id', storyId);
+
+    fetch('<?php echo admin_url('admin-ajax.php'); ?>', {
+      method: 'POST',
+      body: formData,
+      credentials: 'same-origin'
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // Cập nhật lại trạng thái hình ảnh
+          if (data.data.status === 'saved') {
+            img.src = img_saved;
+          } else {
+            img.src = img_not_saved;
+          }
+        } else {
+          console.log('Không thể kiểm tra trạng thái.');
+        }
+      });
+  });
+</script>

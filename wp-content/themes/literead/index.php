@@ -267,7 +267,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
                                 </p>
                               </a>
                               <p class='text-[12px] lg:text-[1.25rem] text-red-normal text-regular'>
-                                <?php echo time_ago($chapter->created_at); ?>
+                                <?php echo time_ago($chapter->edited_at); ?>
                               </p>
                             </div>
                             <?php
