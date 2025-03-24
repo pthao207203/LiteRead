@@ -50,6 +50,8 @@ if (!$chapter) {
   exit;
 }
 
+$synopsis = $chapter->synopsis;
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
   // if (!isset($_POST['security']) || !wp_verify_nonce($_POST['security'], 'story_upload_nonce')) {
   //   wp_die('Lỗi bảo mật. Vui lòng thử lại.');
@@ -65,6 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $chapter_name = isset($_POST['chapter_name']) ? sanitize_text_field($_POST['chapter_name']) : '';
   $synopsis = isset($_POST['synopsis']) ? wp_unslash($_POST['synopsis']) : '';
   $story = intval($_POST['story']);
+  $chapter_id = intval($_POST['chapter']);
   $word_count = intval($_POST['word_count']);
 
   if (empty(trim($chapter_number))) {
@@ -74,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $error_synopsis = 'Nội dung không được để trống!';
   } else {
     $error_synopsis = '';
-
+    echo $synopsis;
     $wpdb->update(
       $chapters,
       array(
@@ -83,10 +86,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         'synopsis' => $synopsis,
         'count' => $word_count
       ),
-      array('id' => $chapter->id)
+      array('id' => $chapter_id)
     );
 
-    echo '<script>window.location.href="' . home_url("/quan-ly-truyen/" . $story_slug) . '";</script>';
+    echo '<script>alert("Chỉnh sửa chương thành công!");window.location.href="' . home_url("/quan-ly-truyen/" . $story_slug) . '";</script>';
     exit;
   }
 }
@@ -153,6 +156,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
                   class="opacity-60 max-md:max-w-full w-full bg-transparent text-red-dark outline-none" />
 
                 <input type="text" class="hidden" name="story" value="<?php echo esc_attr($story->id); ?>">
+                <input type="text" class="hidden" name="chapter" value="<?php echo esc_attr($chapter->id); ?>">
 
               </div>
             </div>
@@ -186,9 +190,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
                 Nội dung
               </h3>
               <textarea id="synopsis" name="synopsis" style="height: 1000px !important;"> <?php if (isset($synopsis))
-                echo esc_html($synopsis);
-              else
-                echo esc_html($chapter->synopsis); ?>
+                echo esc_html($synopsis); ?>
               </textarea>
               <p class="mt-[1rem] text-[1.375rem] font-medium tracking-wide leading-none max-md:max-w-full">
                 Số từ:
