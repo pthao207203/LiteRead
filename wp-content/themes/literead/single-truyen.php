@@ -149,7 +149,7 @@ if ($story) {
 
       echo "<script>alert('Truyện đã được lưu vào danh sách yêu thích!');</script>";
     } else {
-      echo "<script>alert('Truyện đã bị xóa khỏi danh sách yêu thích.!);</script>";
+      echo "<script>alert('Truyện đã bị xóa khỏi danh sách yêu thích!');</script>";
     }
   }
 
