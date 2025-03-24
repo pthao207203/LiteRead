@@ -104,22 +104,6 @@ if ($story) {
           'synopsis' => $synopsis,
         )
       );
-       // Lấy ID tác giả (sender_id) của câu chuyện
-      $author_id = $story->author;
-      $current_user_name = $user_info->full_name;
-    // Tạo thông báo gửi cho tác giả
-    $message = $current_user_name . ' vừa comment vào truyện mới của bạn!!';
-    $wpdb->insert(
-      $wpdb->prefix . 'notifications',
-      array(
-        'recipient_id' => $author_id,  // Tác giả nhận thông báo
-        'sender_id' => $user_id,  // Người gửi (người dùng đang comment)
-        'story_id' => $story_id,
-        'message' => $message,
-        'created_at' => current_time('mysql')
-      ),
-      array('%d', '%d', '%d', '%s', '%s')
-    );
       echo "<script>window.location.href = window.location.href + '?success=true';</script>";
       exit();
     }
