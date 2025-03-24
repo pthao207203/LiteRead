@@ -74,7 +74,13 @@ if ($story) {
   $last_chapter_url = $last_chapter ? site_url("/truyen/$story_slug/chuong-$last_chapter") : '#';
 
   $users_literead = $wpdb->prefix . "users_literead";
-
+  $chapter_name = $wpdb->prefix . 'chapters';
+  $total_chapter = $wpdb->get_var(
+    $wpdb->prepare(
+      "SELECT COUNT(*) FROM $chapter_name WHERE story_id = %d",
+      $story->id
+    )
+  );
   if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_comment'])) {
     if (!isset($_COOKIE['signup_token'])) {
       wp_redirect(home_url('/dang-nhap'));
@@ -203,7 +209,7 @@ if ($story) {
                     <?php } ?>
                     <div class="flex gap-2.5 self-stretch text-[16px] md:text-[1.75rem] mt-2.5">
                       <dt class="font-semibold text-left text-[#593B37]">Số chương:</dt>
-                      <dd class="font-normal text-left text-[#593B37]">4 chương</dd>
+                      <dd class="font-normal text-left text-[#593B37]"><?php echo esc_html($total_chapter) ?> chương</dd>
                     </div>
                     <div class="flex gap-2.5 self-stretch text-[16px] md:text-[1.75rem] mt-2.5">
                       <dt class="font-semibold text-left text-[#593B37]">Lượt đọc:</dt>
