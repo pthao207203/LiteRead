@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $chapter_number = sanitize_text_field($_POST['chapter_number']);
   $chapter_name = isset($_POST['chapter_name']) ? sanitize_text_field($_POST['chapter_name']) : '';
   $synopsis = isset($_POST['synopsis']) ? wp_unslash($_POST['synopsis']) : '';
-  $story = intval($_POST['story']);
+  $story_id = intval($_POST['story']);
   // $words = mb_split('\s+', trim($synopsis));
   $word_count = intval($_POST['word_count']);
 
@@ -86,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $wpdb->insert(
       $chapters,
       array(
-        'story_id' => $story,
+        'story_id' => $story_id,
         'chapter_number' => $chapter_number,
         'chapter_name' => $chapter_name,
         'synopsis' => $synopsis,
@@ -97,10 +97,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $wpdb->update(
       'wp_stories', // Tên bảng chứa stories
       array('edited_at' => current_time('mysql')), // Cập nhật thời gian hiện tại
-      array('id' => $story) // Điều kiện cập nhật đúng story
+      array('id' => $story_id) // Điều kiện cập nhật đúng story
     );
 
-    echo '<script>window.location.href="' . home_url('/quan-ly-truyen/' . $truyen_slug) . '";</script>';
+    echo '<script>alert("Đăng chương mới thành công!");window.location.href="' . home_url('/quan-ly-truyen/' . $truyen_slug) . '";</script>';
     exit;
 
 
