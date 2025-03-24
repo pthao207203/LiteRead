@@ -74,7 +74,9 @@ echo '<script> console.log(' . $screen_width . ')</script>';
           <!-- Title -->
           <h1 class="lg:text-[1.875rem] text-[18px] lg:px-[56px] px-[17px] font-semibold text-red-darker text-left ">
             <span class="font-bold uppercase">
-              <?php echo esc_attr($story->story_name); ?> - CHƯƠNG <?php echo esc_attr($chapter->chapter_number); ?>
+            <a href="<?php echo home_url("/truyen/" . $story->slug); ?>" class="hover:no-underline hover:text-red-normal ">
+                   <?php echo esc_attr($story->story_name); ?>
+            </a> - CHƯƠNG <?php echo esc_attr($chapter->chapter_number); ?>
             </span>
           </h1>
           <!--Bộ điều hướng 1 (Trên) -->
@@ -109,7 +111,7 @@ echo '<script> console.log(' . $screen_width . ')</script>';
 
               <!-- Dropdown Menu -->
               <div id="dropdownMenuTop"
-                class="px-[5px] py-[5px] hidden absolute mt-[5px] top-full center w-[128px] lg:w-[10.875rem] bg-orange-light-hover ">
+                class="px-[5px] py-[5px] overflow-y-auto max-h-[252px] hidden absolute mt-[5px] top-full center w-[170px] max-lg:w-[215px] bg-orange-light-hover ">
                 <ul class="text-red-darker text-[14px] text-center">
                   <?php foreach ($chapters as $chap):
                     if ($chap->chapter_number == $chapter->chapter_number) {
@@ -121,7 +123,7 @@ echo '<script> console.log(' . $screen_width . ')</script>';
                       <?php
                     } else {
                       ?>
-                      <a href="<?php echo home_url("/truyen/$story_slug/chuong-" . $chap->chapter_number); ?>">
+                      <a href="<?php echo home_url("/truyen/$story_slug/chuong-" . $chap->chapter_number); ?>" class="hover:no-underline hover:text-red-darker">
                         <li
                           class="flex justify-center items-center py-[6px] h-[36px] cursor-pointer hover:bg-orange-normal">
                           Chương
@@ -163,7 +165,7 @@ echo '<script> console.log(' . $screen_width . ')</script>';
               <?php echo wpautop(wp_kses_post(htmlspecialchars_decode($chapter->synopsis, ENT_QUOTES))); ?>
             </div>
 
-            <div class="flex self-center lg:mt-[2.25rem] mt-[18px] min-h-6">
+            <div class="flex self-center lg:mt-[2.25rem] mt-[18px] min-h-6 mb-[17px]">
               <!-- Mũi tên trái -->
               <div
                 class="flex justify-center items-center bg-red-normal p-[10px] w-[50px] h-[44px] lg:w-[3.125rem] lg:h-[3.063rem] cursor-pointer rounded-l-[8px] lg:rounded-l-[0.5rem] <?php echo $disable_previous ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'; ?>">
@@ -192,7 +194,7 @@ echo '<script> console.log(' . $screen_width . ')</script>';
 
                 <!-- Dropdown Menu -->
                 <div id="dropdownMenuBottom"
-                  class="px-[5px] py-[5px] hidden absolute mb-[5px] bottom-full center w-[128px] lg:w-[10.875rem] bg-orange-light-hover ">
+                  class="px-[5px] py-[5px]  overflow-y-auto max-h-[252px]  hidden absolute mb-[5px] bottom-full center w-[170px] max-lg:w-[215px]  bg-orange-light-hover ">
                   <ul class="text-red-darker text-[14px] text-center">
                     <?php foreach ($chapters as $chap):
                       if ($chap->chapter_number == $chapter->chapter_number) {
@@ -204,7 +206,7 @@ echo '<script> console.log(' . $screen_width . ')</script>';
                         <?php
                       } else {
                         ?>
-                        <a href="<?php echo home_url("/truyen/$story_slug/chuong-" . $chap->chapter_number); ?>">
+                        <a href="<?php echo home_url("/truyen/$story_slug/chuong-" . $chap->chapter_number); ?>" class="hover:no-underline hover:text-red-darker">
                           <li
                             class="flex justify-center items-center py-[6px] h-[36px] cursor-pointer hover:bg-orange-normal">
                             Chương
