@@ -167,7 +167,7 @@ echo '<script> console.log(' . $screen_width . ')</script>';
           <div class="flex flex-col mt-12 text-3xl text-[#A04D4C] max-w-full w-[394px] max-md:mt-10">
             <div class="font-semibold">Tổng xu hiện tại</div>
             <div class="flex flex-col py-4 mt-2 w-full border-b border-solid border-b-[#A04D4C]">
-              <div id="userBalance" class="ml-2 opacity-60"><?php echo number_format($user->coin, 0, ',', '.'); ?> xu
+              <div id="userBalance" class="ml-2 opacity-60"><?php echo number_format($user->coin, 0, ',', '.') * 8; ?> xu
               </div>
             </div>
           </div>
