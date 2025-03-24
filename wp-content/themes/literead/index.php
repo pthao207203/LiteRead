@@ -7,7 +7,7 @@ $stories = $wpdb->prefix . 'stories';
 $top_stories_view = $wpdb->get_results("SELECT * FROM $stories ORDER BY view DESC LIMIT 5");
 
 
-$per_page = 6; // Số chương hiển thị mỗi trang
+$per_page = 10; // Số chương hiển thị mỗi trang
 $current_page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1; // Lấy trang hiện tại từ URL
 $offset = ($current_page - 1) * $per_page;
 
