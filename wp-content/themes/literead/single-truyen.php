@@ -81,33 +81,6 @@ if ($story) {
       $story->id
     )
   );
-  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_comment'])) {
-    if (!isset($_COOKIE['signup_token'])) {
-      wp_redirect(home_url('/dang-nhap'));
-      exit();
-    }
-
-    $user_info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $users_literead WHERE token = %s", $_COOKIE['signup_token']));
-    $synopsis = $_POST['content'];
-    $story_id = $story->id;
-    $user_id = $user_info->id;
-
-    if (empty(trim($synopsis))) {
-      $content_error = 'Vui lòng nhập nội dung!';
-    } else {
-      $content_error = '';
-      $wpdb->insert(
-        $comments_table,
-        array(
-          'story_id' => $story_id,
-          'user_id' => $user_id,
-          'synopsis' => $synopsis,
-        )
-      );
-      echo "<script>window.location.href = window.location.href + '?success=true';</script>";
-      exit();
-    }
-  }
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_story'])) {
     if (!isset($_COOKIE['signup_token'])) {
