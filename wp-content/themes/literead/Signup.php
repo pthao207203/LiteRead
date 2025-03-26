@@ -164,8 +164,7 @@ $isAuthPage = strpos($_SERVER['REQUEST_URI'], 'dang-nhap') !== false || strpos($
                 <div class="mt-[12px] w-full text-[1.5rem] font-medium text-center text-stone-500">
                   <span class="text-red-dark">Bạn đã có tài khoản?</span>
                   <a href="<?php echo esc_url(home_url('/dang-nhap')); ?>"
-                    class="hover:no-underline hover:text-red-darker font-semibold text-red-dark-hover  text-[16px] ">Đăng
-                    nhập</a>
+                    class="hover:no-underline hover:text-red-darker font-semibold text-red-dark-hover  text-[16px] ">Đăng nhập</a>
                 </div>
 
                 <button type="submit" name="signup"

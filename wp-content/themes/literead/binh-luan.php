@@ -1,14 +1,27 @@
 <?php
-
+global $wpdb;
+// Lấy slug của câu chuyện
+$story_slug = get_query_var('truyen_parent') ? get_query_var('truyen_parent') : get_query_var('name');
+$stories = $wpdb->prefix . 'stories';
+$story = $wpdb->get_row($wpdb->prepare("SELECT * FROM $stories WHERE slug = %s", $story_slug));
 $users_literead = $wpdb->prefix . 'users_literead';
 $comments_table = $wpdb->prefix . 'comments_literead';
 $per_page_comments = 10; // Số chương hiển thị mỗi trang
 $current_page_comments = isset($_GET['page_comments']) ? max(1, intval($_GET['page'])) : 1; // Lấy trang hiện tại từ URL
 $offset_comments = ($current_page_comments - 1) * $per_page_comments;
-$total_comments = $wpdb->get_var("SELECT COUNT(*) FROM $comments_table WHERE story_id = $story->id");
+// Kiểm tra nếu $story là null
+if (is_null($story)) {
+  echo "Câu chuyện không tồn tại!";
+  exit();  // Dừng script nếu không tìm thấy câu chuyện
+}
+if ($story && isset($story->id)) {
+  $total_comments = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM $comments_table WHERE story_id = %d", $story->id));
+} else {
+  $total_comments = 0;  // Không có dữ liệu thì gán số lượng comment là 0
+}
 $total_pages_comments = ceil($total_comments / $per_page_comments);
 $comments = $wpdb->get_results(
-  $wpdb->prepare("SELECT * FROM $comments_table WHERE story_id = %s ORDER BY created_at DESC LIMIT %d OFFSET %d", $story->id, $per_page_comments, $offset_comments)
+  $wpdb->prepare("SELECT * FROM $comments_table WHERE story_id = %d ORDER BY created_at DESC LIMIT %d OFFSET %d", $story->id, $per_page_comments, $offset_comments)
 );
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_comment'])) {
@@ -34,6 +47,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_comment'])) {
         'user_id' => $user_id,
         'content' => $synopsis,
       )
+    );
+    // Lấy ID tác giả (sender_id) của câu chuyện
+    $author_id = $story->author;
+    $current_user_name = $user_info->full_name;
+    // Tạo thông báo gửi cho tác giả
+    $message = $current_user_name . ' vừa comment vào truyện mới của bạn!!';
+    $wpdb->insert(
+      $wpdb->prefix . 'notifications',
+      array(
+        'recipient_id' => $author_id,  // Tác giả nhận thông báo
+        'sender_id' => $user_id,  // Người gửi (người dùng đang comment)
+        'story_id' => $story_id,
+        'message' => $message,
+        'created_at' => current_time('mysql')
+      ),
+      array('%d', '%d', '%d', '%s', '%s')
     );
     echo "<script>window.location.href = window.location.href + '?success=true';</script>";
     exit();

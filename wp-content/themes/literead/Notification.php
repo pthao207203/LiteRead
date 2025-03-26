@@ -43,7 +43,7 @@ $user_info = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}users_l
 $user_id = $user_info->id;
 
 $notifications = $wpdb->get_results(
-  $wpdb->prepare("SELECT n.*, u.full_name AS sender_name FROM $notifications_table n LEFT JOIN {$wpdb->prefix}users_literead u ON n.sender_id = u.id WHERE recipient_id = %d ORDER BY created_at DESC", $user_id)
+  $wpdb->prepare("SELECT n.*, u.full_name AS sender_name FROM $notifications_table n LEFT JOIN {$wpdb->prefix}users_literead u ON n.sender_id = u.id WHERE recipient_id = %d OR recipient_id = 0 ORDER BY created_at DESC", $user_id)
 );
 
 $isHome = is_front_page();
@@ -73,10 +73,19 @@ $isMobile = $screen_width < 768;
           </div>
 
           <section class="w-full max-md:max-w-full">
-            <?php foreach ($notifications as $notification): ?>
+            <?php foreach ($notifications as $notification): 
+              // Kiểm tra nếu message chứa "đã thích" hoặc "comment"
+              if (strpos($notification->message, 'đã thích') !== false) {
+                $message_display = "Bạn có lượt thích truyện mới!";
+              } elseif (strpos($notification->message, 'comment') !== false) {
+                $message_display = "Bạn có comment mới!";
+              } else {
+                $message_display = "Thông báo hệ thống."; // Hiển thị message gốc nếu không chứa từ khóa
+              }
+            ?>
               <article class="mt-[1.5rem] max-md:mt-[0.75rem] text-red-darker p-[2.125rem] w-full max-md:p-[1.0625rem] bg-none rounded-[1rem] border border-solid border-red-normal max-md:max-w-full">
                 <h2 class="text-[1.75rem] max-md:text-[1rem] font-semibold leading-none max-md:max-w-full">
-                  <?= $notification->sender_name ? esc_html($notification->sender_name) . ' gửi cho bạn' : 'Thông báo hệ thống'; ?>
+                  <?= $message_display?>
                 </h2>
                 <p class="mt-[1rem] text-[1.25rem] max-md:text-[0.875rem] font-medium leading-7 max-md:max-w-full">
                   <?= esc_html($notification->message); ?>

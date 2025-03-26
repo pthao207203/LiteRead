@@ -74,34 +74,13 @@ if ($story) {
   $last_chapter_url = $last_chapter ? site_url("/truyen/$story_slug/chuong-$last_chapter") : '#';
 
   $users_literead = $wpdb->prefix . "users_literead";
-
-  if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_comment'])) {
-    if (!isset($_COOKIE['signup_token'])) {
-      wp_redirect(home_url('/dang-nhap'));
-      exit();
-    }
-
-    $user_info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $users_literead WHERE token = %s", $_COOKIE['signup_token']));
-    $synopsis = $_POST['content'];
-    $story_id = $story->id;
-    $user_id = $user_info->id;
-
-    if (empty(trim($synopsis))) {
-      $content_error = 'Vui lòng nhập nội dung!';
-    } else {
-      $content_error = '';
-      $wpdb->insert(
-        $comments_table,
-        array(
-          'story_id' => $story_id,
-          'user_id' => $user_id,
-          'synopsis' => $synopsis,
-        )
-      );
-      echo "<script>window.location.href = window.location.href + '?success=true';</script>";
-      exit();
-    }
-  }
+  $chapter_name = $wpdb->prefix . 'chapters';
+  $total_chapter = $wpdb->get_var(
+    $wpdb->prepare(
+      "SELECT COUNT(*) FROM $chapter_name WHERE story_id = %d",
+      $story->id
+    )
+  );
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['save_story'])) {
     if (!isset($_COOKIE['signup_token'])) {
@@ -149,7 +128,7 @@ if ($story) {
 
       echo "<script>alert('Truyện đã được lưu vào danh sách yêu thích!');</script>";
     } else {
-      echo "<script>alert('Truyện đã bị xóa khỏi danh sách yêu thích.!);</script>";
+      echo "<script>alert('Truyện đã bị xóa khỏi danh sách yêu thích!');</script>";
     }
   }
 
@@ -173,8 +152,8 @@ if ($story) {
               <div
                 class="flex flex-col sm:flex-row sm:gap-[1rem] md:gap-[1.5rem] items-center justify-start sm:items-end text-center w-full">
                 <img loading="lazy" src=<?php echo esc_url($story->cover_image_url); ?> alt=<?php echo esc_html($story->story_name); ?>
-                  class="object-cover lg:w-1/4 sm:w-1/3 w-[24.625rem] shrink-0  rounded-lg aspect-[0.64]" />
-                <div class="flex flex-col items-start  mt-3 lg:w-3/4 sm:w-2/3 w-[24.625rem]  gap-2.5 justify-end">
+                  class="object-cover lg:w-1/4 sm:w-1/3 w-full shrink-0  rounded-lg aspect-[0.64]" />
+                <div class="flex flex-col items-start  mt-3 lg:w-3/4 sm:w-2/3 w-full  gap-2.5 justify-end">
                   <h1 id="book-title"
                     class="flex shrink gap-2.5 self-end w-full md:text-[2rem] text-[20px] font-bold max-md:leading-9 text-red-normal uppercase">
                     <?php echo esc_html($story->story_name); ?>
@@ -188,12 +167,12 @@ if ($story) {
                   </div>
                   <dl class="w-full text-[16px] md:text-[1.75rem]">
                     <div class="flex gap-2.5 self-stretch text-[16px] md:text-[1.75rem]">
-                      <dt class="font-semibold text-[#593B37]">Tác giả:</dt>
-                      <dd class="font-normal text-[#593B37]"><?php echo esc_html($story->author); ?></dd>
+                      <dt class="font-semibold text-left text-[#593B37]">Tác giả:</dt>
+                      <dd class="font-normal text-left text-[#593B37]"><?php echo esc_html($story->author); ?></dd>
                     </div>
                     <?php if (isset($user)) { ?>
                       <div class="flex gap-2.5 self-stretch text-[16px] md:text-[1.75rem] mt-2.5">
-                        <dt class="font-semibold text-[#593B37]">Nhóm dịch:</dt>
+                        <dt class="font-semibold text-left text-[#593B37]">Nhóm dịch:</dt>
                         <dd class="font-normal text-[#593B37]">
                           <a href=<?php echo home_url("/trang-ca-nhan/" . $user->slug); ?>
                             class="font-medium hover:no-underline hover:text-orange-dark">
@@ -203,16 +182,16 @@ if ($story) {
                       </div>
                     <?php } ?>
                     <div class="flex gap-2.5 self-stretch text-[16px] md:text-[1.75rem] mt-2.5">
-                      <dt class="font-semibold text-[#593B37]">Số chương:</dt>
-                      <dd class="font-normal text-[#593B37]">4 chương</dd>
+                      <dt class="font-semibold text-left text-[#593B37]">Số chương:</dt>
+                      <dd class="font-normal text-left text-[#593B37]"><?php echo esc_html($total_chapter) ?> chương</dd>
                     </div>
                     <div class="flex gap-2.5 self-stretch text-[16px] md:text-[1.75rem] mt-2.5">
-                      <dt class="font-semibold text-[#593B37]">Lượt đọc:</dt>
-                      <dd class="font-normal text-[#593B37]"><?php echo esc_html($story->view); ?></dd>
+                      <dt class="font-semibold text-left text-[#593B37]">Lượt đọc:</dt>
+                      <dd class="font-normal text-left text-[#593B37]"><?php echo esc_html($story->view); ?></dd>
                     </div>
                     <div class="flex gap-2.5 self-stretch text-[16px] md:text-[1.75rem] mt-2.5">
-                      <dt class="font-semibold text-[#593B37]">Lượt thích:</dt>
-                      <dd class="font-normal text-[#593B37]"><?php echo esc_html($story->likes); ?></dd>
+                      <dt class="font-semibold text-left text-[#593B37]">Lượt thích:</dt>
+                      <dd class="font-normal text-left text-[#593B37]"><?php echo esc_html($story->likes); ?></dd>
                     </div>
                   </dl>
                   <div class="flex flex-wrap gap-2.5 items-center self-stretch mt-2.5 w-full"

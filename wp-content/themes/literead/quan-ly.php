@@ -50,7 +50,7 @@ if (!isset($_COOKIE['signup_token'])) {
 
   $stories_table = $wpdb->prefix . "stories";
   $chapters_table = $wpdb->prefix . "chapters";
-  $comments_table = $wpdb->prefix . "comments";
+  $comments_table = $wpdb->prefix . "comments_literead";
   // Lấy tên nhà dịch truyện
   $editor_name= !empty($user->full_name) ? esc_html($user->full_name) : "Chưa cập nhật";
   // Lấy tổng số truyện
@@ -174,7 +174,7 @@ if (!isset($_COOKIE['signup_token'])) {
 
                     // Truy vấn số bình luận của từng truyện
                     $comment_count = $wpdb->get_var($wpdb->prepare(
-                      "SELECT COUNT(*) FROM $comments_table WHERE comment_post_ID = %d",
+                      "SELECT COUNT(*) FROM $comments_table WHERE story_id = %d",
                       $story->id
                     ));
                 ?>
