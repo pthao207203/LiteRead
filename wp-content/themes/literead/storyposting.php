@@ -4,8 +4,7 @@ get_header();
 
 // Kiểm tra nếu user chưa đăng nhập
 if (!isset($_COOKIE['signup_token']) || empty($_COOKIE['signup_token'])) {
-  echo "<script>alert('Bạn cần đăng nhập để xem trang này!');</script>";
-  wp_redirect(home_url('/dang-nhap'));
+  echo "<script>alert('Bạn cần đăng nhập để xem trang này!'); window.location.href = '" . home_url('/dang-nhap') . "'; </script>";
   exit();
 }
 
@@ -19,8 +18,7 @@ $users_literead = $wpdb->prefix . "users_literead";
 $user_info = $wpdb->get_row($wpdb->prepare("SELECT * FROM $users_literead WHERE token = %s", $signup_token));
 
 if (!$user_info) {
-  echo "<script>alert('Không tìm thấy thông tin người dùng. Vui lòng liên hệ với quản trị viên!');</script>";
-  wp_redirect(home_url('/dang-nhap'));
+  echo "<script>alert('Không tìm thấy thông tin người dùng. Vui lòng liên hệ với quản trị viên!'); window.location.href = '" . home_url('/dang-nhap') . "'; </script>";
   exit();
 }
 

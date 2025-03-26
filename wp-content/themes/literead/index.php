@@ -153,10 +153,13 @@ echo '<script>console.log(' . $screen_width . ')</script>';
                       </div>
                     </div>
 
-                    <h2
-                      class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[18px] lg:text-[1.875rem] font-medium text-white basis-0">
-                      <?php echo esc_html($story->story_name); ?>
-                    </h2>
+                    <a href="<?php echo esc_url(home_url('/truyen/' . $story->slug)); ?>"
+                      class="hover:no-underline hover:text-orange-normal text-white">
+                      <h2
+                        class="flex-1 shrink gap-2.5 self-stretch mt-2 w-full text-[18px] lg:text-[1.875rem] font-medium basis-0">
+                        <?php echo esc_html($story->story_name); ?>
+                      </h2>
+                    </a>
 
                     <p class="gap-2.5 self-start mt-2 text-[14px] lg:text-[1.5rem] font-regular text-white">
                       <?php
@@ -267,7 +270,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
                                 </p>
                               </a>
                               <p class='text-[12px] lg:text-[1.25rem] text-red-normal text-regular'>
-                                <?php echo time_ago($chapter->edited_at); ?>
+                                <?php echo time_ago($chapter->created_at); ?>
                               </p>
                             </div>
                             <?php

@@ -156,7 +156,7 @@ $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/trang-ca-nhan/') !== false; 
                                   Chương " . $chapter->chapter_number . "
                                 </p>
                                 <p class='text-[12px] lg:text-[1.25rem] text-red-normal text-regular'>
-                                  " . time_ago($chapter->created_at) . "
+                                  " . time_ago($chapter->edited_at) . "
                                 </p>
                               </div>";
                             }

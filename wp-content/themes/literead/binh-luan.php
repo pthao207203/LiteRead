@@ -1,7 +1,7 @@
 <?php
 global $wpdb;
 // Lấy slug của câu chuyện
-$story_slug = get_query_var('truyen_parent');
+$story_slug = get_query_var('truyen_parent') ? get_query_var('truyen_parent') : get_query_var('name');
 $stories = $wpdb->prefix . 'stories';
 $story = $wpdb->get_row($wpdb->prepare("SELECT * FROM $stories WHERE slug = %s", $story_slug));
 $users_literead = $wpdb->prefix . 'users_literead';
@@ -48,22 +48,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_comment'])) {
         'content' => $synopsis,
       )
     );
-        // Lấy ID tác giả (sender_id) của câu chuyện
-        $author_id = $story->author;
-        $current_user_name = $user_info->full_name;
-      // Tạo thông báo gửi cho tác giả
-      $message = $current_user_name . ' vừa comment vào truyện mới của bạn!!';
-      $wpdb->insert(
-        $wpdb->prefix . 'notifications',
-        array(
-          'recipient_id' => $author_id,  // Tác giả nhận thông báo
-          'sender_id' => $user_id,  // Người gửi (người dùng đang comment)
-          'story_id' => $story_id,
-          'message' => $message,
-          'created_at' => current_time('mysql')
-        ),
-        array('%d', '%d', '%d', '%s', '%s')
-      );
+    // Lấy ID tác giả (sender_id) của câu chuyện
+    $author_id = $story->author;
+    $current_user_name = $user_info->full_name;
+    // Tạo thông báo gửi cho tác giả
+    $message = $current_user_name . ' vừa comment vào truyện mới của bạn!!';
+    $wpdb->insert(
+      $wpdb->prefix . 'notifications',
+      array(
+        'recipient_id' => $author_id,  // Tác giả nhận thông báo
+        'sender_id' => $user_id,  // Người gửi (người dùng đang comment)
+        'story_id' => $story_id,
+        'message' => $message,
+        'created_at' => current_time('mysql')
+      ),
+      array('%d', '%d', '%d', '%s', '%s')
+    );
     echo "<script>window.location.href = window.location.href + '?success=true';</script>";
     exit();
   }
