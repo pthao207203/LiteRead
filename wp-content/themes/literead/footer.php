@@ -73,7 +73,8 @@
           <span class="sr-only">Facebook:</span>
           <a href="https://www.facebook.com/profile.php?id=61573035163575"
             class="focus:ring-2 hover:no-underline hover:text-[#A04D4C]">Facebook:
-            Lite Read</a>
+            <span class="font-bold">Lite Read</span> 
+          </a>
         </p>
         <!--<p class="text-[12px] lg:text-[1.375rem]">-->
         <!--  <span class="sr-only">Address:</span>-->
