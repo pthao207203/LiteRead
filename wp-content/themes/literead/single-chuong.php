@@ -74,9 +74,10 @@ echo '<script> console.log(' . $screen_width . ')</script>';
           <!-- Title -->
           <h1 class="lg:text-[1.875rem] text-[18px] lg:px-[56px] px-[17px] font-semibold text-red-darker text-left ">
             <span class="font-bold uppercase">
-            <a href="<?php echo home_url("/truyen/" . $story->slug); ?>" class="hover:no-underline hover:text-red-normal ">
-                   <?php echo esc_attr($story->story_name); ?>
-            </a> - CHƯƠNG <?php echo esc_attr($chapter->chapter_number); ?>
+              <a href="<?php echo home_url("/truyen/" . $story->slug); ?>"
+                class="hover:no-underline hover:text-red-normal ">
+                <?php echo esc_attr($story->story_name); ?>
+              </a> - CHƯƠNG <?php echo esc_attr($chapter->chapter_number); ?>
             </span>
           </h1>
           <!--Bộ điều hướng 1 (Trên) -->
@@ -123,7 +124,8 @@ echo '<script> console.log(' . $screen_width . ')</script>';
                       <?php
                     } else {
                       ?>
-                      <a href="<?php echo home_url("/truyen/$story_slug/chuong-" . $chap->chapter_number); ?>" class="hover:no-underline hover:text-red-darker">
+                      <a href="<?php echo home_url("/truyen/$story_slug/chuong-" . $chap->chapter_number); ?>"
+                        class="hover:no-underline hover:text-red-darker">
                         <li
                           class="flex justify-center items-center py-[6px] h-[36px] cursor-pointer hover:bg-orange-normal">
                           Chương
@@ -206,7 +208,8 @@ echo '<script> console.log(' . $screen_width . ')</script>';
                         <?php
                       } else {
                         ?>
-                        <a href="<?php echo home_url("/truyen/$story_slug/chuong-" . $chap->chapter_number); ?>" class="hover:no-underline hover:text-red-darker">
+                        <a href="<?php echo home_url("/truyen/$story_slug/chuong-" . $chap->chapter_number); ?>"
+                          class="hover:no-underline hover:text-red-darker">
                           <li
                             class="flex justify-center items-center py-[6px] h-[36px] cursor-pointer hover:bg-orange-normal">
                             Chương

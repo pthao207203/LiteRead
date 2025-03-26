@@ -208,22 +208,26 @@ function update_view_function()
 
   $story_table = $wpdb->prefix . "stories";  // Lấy đúng tiền tố của bảng
   $chapter_table = $wpdb->prefix . "chapters";
+  $user_table = $wpdb->prefix . "users_literead";
 
   // Kiểm tra xem bảng có tồn tại không
   $check_story_table = $wpdb->get_var("SHOW TABLES LIKE '$story_table'");
   $check_chapter_table = $wpdb->get_var("SHOW TABLES LIKE '$chapter_table'");
+  $check_user_table = $wpdb->get_var("SHOW TABLES LIKE '$user_table'");
 
   if (!$check_story_table || !$check_chapter_table) {
     wp_send_json_error([
       "message" => "One or more tables do not exist",
       "story_table_exists" => $check_story_table ? "Yes" : "No",
-      "chapter_table_exists" => $check_chapter_table ? "Yes" : "No"
+      "chapter_table_exists" => $check_chapter_table ? "Yes" : "No",
+      "user_table_exists" => $check_user_table ? "Yes" : "No",
     ]);
     return;
   }
 
   $story_id = isset($_POST['story_id']) ? intval($_POST['story_id']) : 0;
   $chapter_id = isset($_POST['chapter_id']) ? intval($_POST['chapter_id']) : 0;
+  $user_id = isset($_POST['user_id']) ? intval($_POST['user_id']) : 0;
 
   // Cập nhật views nếu bảng tồn tại
   $update_story = $wpdb->query($wpdb->prepare(
