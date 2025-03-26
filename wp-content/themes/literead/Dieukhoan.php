@@ -1,10 +1,6 @@
 <?php
 /* Template Name: Dieukhoan */
 get_header();
-if (!isset($_COOKIE['signup_token']) || empty($_COOKIE['signup_token'])) {
-  echo "<script>alert('Bạn cần đăng nhập để xem trang này!'); window.location.href='" . home_url('/dang-nhap') . "';</script>";
-  exit();
-}
 
 global $wpdb, $wp;
 
@@ -19,7 +15,8 @@ global $wpdb, $wp;
   <!-- Nội dung chính -->
   <section id="mainContent"
     class="flex-grow gap-[0.75rem] mt-[4.425rem] overflow-y-auto <?= ($isHome || $isSingleTruyen || $isMobile || $isAuthPage) ? 'pl-0' : 'pl-[19.5rem]' ?>">
-    <article class="flex flex-col gap-[36px] mb-[5px] items-start px-14 py-9 w-full bg-white max-md:px-8 max-md:py-6 max-sm:p-4 transition-all duration-300">
+    <article
+      class="flex flex-col gap-[36px] mb-[5px] items-start px-14 py-9 w-full bg-white max-md:px-8 max-md:py-6 max-sm:p-4 transition-all duration-300">
       <header class="flex flex-col items-start w-full">
         <h1 class="lg:text-[1.875rem] text-[18px] leading-6 font-bold text-red-dark">
           Điều Khoản Sử Dụng - LiteRead
@@ -51,7 +48,8 @@ global $wpdb, $wp;
           LiteRead không cung cấp chức năng tự đăng truyện trực tiếp trên trang web.
           Nếu bạn là tác giả và muốn đăng truyện lên LiteRead, vui lòng liên hệ với
           chúng tôi qua trang
-          <a href="https://www.facebook.com/profile.php?id=61573035163575&sk=about" target="_blank" class="underline">Fanpage LiteRead</a>
+          <a href="https://www.facebook.com/profile.php?id=61573035163575&sk=about" target="_blank"
+            class="underline">Fanpage LiteRead</a>
           chính thức để được hướng dẫn và xét duyệt nội dung.
         </p>
       </section>
@@ -73,22 +71,26 @@ global $wpdb, $wp;
           4. Điều khoản về vi phạm khi sử dụng công cụ (Tool)
         </h2>
         <p class="lg:text-[1.75rem] text-[16px] mt-[24px] text-red-dark">
-        Để đảm bảo tính công bằng, minh bạch và bảo vệ hệ thống khỏi các hành vi gian lận, LiteRead quy định rõ các điều khoản liên quan đến việc sử dụng công cụ (tool) khi truy cập và sử dụng dịch vụ của chúng tôi.
+          Để đảm bảo tính công bằng, minh bạch và bảo vệ hệ thống khỏi các hành vi gian lận, LiteRead quy định rõ các
+          điều khoản liên quan đến việc sử dụng công cụ (tool) khi truy cập và sử dụng dịch vụ của chúng tôi.
         </p>
         <p class="lg:text-[1.75rem] text-[16px] mt-[24px] text-red-dark">
           <strong>Hành vi bị cấm</strong>
-        <p class="lg:text-[1.75rem] text-[16px]  mt-[24px]  text-red-dark"> Người dùng <strong>không được phép</strong> sử dụng các công cụ, phần mềm hoặc phương pháp tự động để: </p>
+        <p class="lg:text-[1.75rem] text-[16px]  mt-[24px]  text-red-dark"> Người dùng <strong>không được phép</strong>
+          sử dụng các công cụ, phần mềm hoặc phương pháp tự động để: </p>
         <ul class="list-disc pl-[24px]  lg:text-[1.75rem] text-[16px] mt-[24px] text-red-dark">
           <li>Tăng lượt xem, lượt thích, lượt theo dõi hoặc tương tác giả mạo trên hệ thống.</li>
           <li>Tạo tài khoản hàng loạt hoặc thao túng tài khoản nhằm mục đích gian lận.</li>
           <li>Tấn công hệ thống bằng cách gửi yêu cầu tự động với tần suất cao gây quá tải.</li>
           <li>Trích xuất dữ liệu trái phép từ nền tảng của chúng tôi.</li>
-          <li>Bất kỳ hành vi nào khác gây ảnh hưởng tiêu cực đến trải nghiệm của người dùng khác hoặc hoạt động của hệ thống.</li>
+          <li>Bất kỳ hành vi nào khác gây ảnh hưởng tiêu cực đến trải nghiệm của người dùng khác hoặc hoạt động của hệ
+            thống.</li>
         </ul>
         </p>
         <p class="lg:text-[1.75rem] text-[16px] mt-[24px] text-red-dark">
           <strong>Hình thức xử lý vi phạm </strong>
-          <p class="lg:text-[1.75rem] text-[16px]  mt-[24px]  text-red-dark"> Nếu phát hiện <strong>vi phạm</strong>, chúng tôi có quyền áp dụng các biện pháp xử lý sau: </p>
+        <p class="lg:text-[1.75rem] text-[16px]  mt-[24px]  text-red-dark"> Nếu phát hiện <strong>vi phạm</strong>,
+          chúng tôi có quyền áp dụng các biện pháp xử lý sau: </p>
         <ul class="list-disc pl-[24px] lg:text-[1.75rem] text-[16px] mt-[24px] text-red-dark">
           <li>Cảnh báo và yêu cầu chấm dứt hành vi vi phạm.</li>
           <li>Tạm khóa hoặc hạn chế chức năng của tài khoản nếu tiếp tục vi phạm.</li>
@@ -97,7 +99,9 @@ global $wpdb, $wp;
         </p>
         <p class="lg:text-[1.75rem] text-[16px] mt-[24px] text-red-dark">
           <strong>Khiếu nại và xử lý tranh chấp</strong>
-          <p class="lg:text-[1.75rem] text-[16px]  mt-[24px]  text-red-dark"> Người dùng có quyền khiếu nại nếu cho rằng tài khoản của mình bị xử lý nhầm. Khiếu nại cần được gửi về <strong> litereadstory@gmail.com</strong> trong vòng 7 ngày kể từ khi nhận thông báo vi phạm. Chúng tôi sẽ xem xét và phản hồi trong thời gian sớm nhất. </p>
+        <p class="lg:text-[1.75rem] text-[16px]  mt-[24px]  text-red-dark"> Người dùng có quyền khiếu nại nếu cho rằng
+          tài khoản của mình bị xử lý nhầm. Khiếu nại cần được gửi về <strong> litereadstory@gmail.com</strong> trong
+          vòng 7 ngày kể từ khi nhận thông báo vi phạm. Chúng tôi sẽ xem xét và phản hồi trong thời gian sớm nhất. </p>
         </p>
         <p class="lg:text-[1.75rem] text-[16px] mt-[24px] text-red-dark">
           Bằng việc tiếp tục sử dụng dịch vụ, bạn <strong> đồng ý tuân thủ </strong> các điều khoản này.
@@ -110,7 +114,8 @@ global $wpdb, $wp;
         <p class="lg:text-[1.75rem] text-[16px] mt-[24px] text-red-dark">
           Mọi thắc mắc, yêu cầu liên quan đến việc đăng truyện hoặc hợp tác vui lòng
           liên hệ chúng tôi qua fanpage chính thức:
-          <a href="https://www.facebook.com/profile.php?id=61573035163575&sk=about" target="_blank" class="underline">Fanpage LiteRead.</a>
+          <a href="https://www.facebook.com/profile.php?id=61573035163575&sk=about" target="_blank"
+            class="underline">Fanpage LiteRead.</a>
         </p>
       </section>
     </article>

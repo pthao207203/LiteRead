@@ -316,7 +316,7 @@ echo '<script>console.log(' . $screen_width . ')</script>';
                   echo esc_html($synopsis);
                 else
                   echo esc_html($story->synopsis) ?>
-                                                                                                                </textarea>
+                                                                                                                  </textarea>
               <?php if (!empty($error_synopsis)): ?>
                 <p style="color: red;"><?php echo esc_html($error_synopsis); ?></p>
               <?php endif; ?>
