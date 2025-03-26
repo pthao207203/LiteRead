@@ -112,7 +112,7 @@ if ($story) {
 
       // GỬI THÔNG BÁO CHO TÁC GIẢ
       $author_id = $story->editor;
-      $current_user_name = $user_info->full_name;
+      $current_user_name = $user_info->full_name ? $user_info->full_name : $user_info->email;
       $message = $current_user_name . ' đã thích truyện của bạn!';
       $wpdb->insert(
         $wpdb->prefix . 'notifications',
