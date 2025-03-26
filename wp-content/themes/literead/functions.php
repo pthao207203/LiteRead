@@ -529,7 +529,7 @@ function save_story()
 
         // Thêm thông báo vào bảng notifications
         $story = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}stories WHERE id = %d", $story_id));
-        $author_id = $story->author;
+        $author_id = $story->editor;
         $message = $user_info->full_name . ' đã thích truyện của bạn!';
 
         // Tăng lượt thích trong bảng stories
@@ -567,7 +567,7 @@ function save_story()
         $wpdb->delete(
           $notifications_table,
           array(
-            'recipient_id' => $story->author,
+            'recipient_id' => $story->editor,
             'sender_id' => $user_id,
             'story_id' => $story_id
           ),

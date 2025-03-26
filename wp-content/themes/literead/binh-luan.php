@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_comment'])) {
       )
     );
     // Lấy ID tác giả (sender_id) của câu chuyện
-    $author_id = $story->author;
+    $author_id = $story->editor;
     $current_user_name = $user_info->full_name;
     // Tạo thông báo gửi cho tác giả
     $message = $current_user_name . ' vừa comment vào truyện mới của bạn!!';

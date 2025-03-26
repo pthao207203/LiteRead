@@ -111,7 +111,7 @@ if ($story) {
       );
 
       // GỬI THÔNG BÁO CHO TÁC GIẢ
-      $author_id = $story->author;
+      $author_id = $story->editor;
       $current_user_name = $user_info->full_name;
       $message = $current_user_name . ' đã thích truyện của bạn!';
       $wpdb->insert(
