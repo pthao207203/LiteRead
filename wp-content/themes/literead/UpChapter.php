@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     );
 
     $wpdb->update(
-      'wp_stories', // Tên bảng chứa stories
+      $table_name, // Tên bảng chứa stories
       array('edited_at' => current_time('mysql')), // Cập nhật thời gian hiện tại
       array('id' => $story_id) // Điều kiện cập nhật đúng story
     );
