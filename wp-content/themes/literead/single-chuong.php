@@ -13,6 +13,7 @@ $stories = $wpdb->prefix . 'stories';
 $story = $wpdb->get_row(
   $wpdb->prepare("SELECT * FROM $stories WHERE slug = %s", $story_slug)
 );
+$user_id = $story->editor;
 
 $chapter = $wpdb->get_row(
   $wpdb->prepare("SELECT * FROM $chapters_table WHERE chapter_number = %s AND story_id = %d", $chapter_number, $story->id)
@@ -299,7 +300,7 @@ echo '<script> console.log(' . $screen_width . ')</script>';
                 formData.append("action", "update_view"); // Đảm bảo action là update_view
                 formData.append("story_id", <?php echo json_encode(intval($chapter->story_id)); ?>);
                 formData.append("chapter_id", <?php echo json_encode(intval($chapter->id)); ?>);
-                formData.append("user_id", <?php echo json_encode(intval($story->editor)); ?>);
+                formData.append("user_id", <?php echo json_encode(intval($user_id)); ?>);
 
                 fetch(ajaxurl, {
                   method: 'POST',
@@ -307,9 +308,9 @@ echo '<script> console.log(' . $screen_width . ')</script>';
                   headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
                 })
                   .then(response => response.json())
-                  // .then(data => console.log("Update Response:", data))
+                  .then(data => console.log("Update Response:", data))
                   .catch(error => console.error("Fetch Error:", error));
-              }, 1000 * 2 * 60);
+              }, 1000);
             });
 
           </script>
