@@ -246,6 +246,10 @@ function update_view_function()
     "UPDATE $user_table SET coin = coin + 8 WHERE id = %d",
     $user_id
   ));
+  $update_coin = $wpdb->query($wpdb->prepare(
+    "UPDATE $user_table SET sum_coin = sum_coin + 8 WHERE id = %d",
+    $user_id
+  ));
   // Trả về debug JSON
   wp_send_json([
     "status" => "debug",
