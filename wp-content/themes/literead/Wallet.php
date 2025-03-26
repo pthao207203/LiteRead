@@ -187,6 +187,7 @@ echo '<script> console.log(' . $screen_width . ')</script>';
 
           <!-- Pop-up xác nhận rút xu -->
           <div id="confirmPopup" class="hidden fixed inset-0 z-50 items-center justify-center bg-black bg-opacity-50">
+
             <div class="bg-white rounded-3xl p-[3rem] shadow-lg text-center w-[36rem]">
               <!-- <img src="<?php echo esc_url(get_template_directory_uri() . '/wp-content/plugins/akismet/_inc/img/Group26.svg'); ?>" alt="Warning Icon" class="w-16 h-16 mx-auto"> -->
               <p class="text-3xl text-black my-[2rem]">Xác nhận rút <span id="confirmAmount"></span> xu?</p>
@@ -200,7 +201,8 @@ echo '<script> console.log(' . $screen_width . ')</script>';
           </div>
 
           <!-- Pop-up hoàn tất -->
-          <div id="successPopup" class="hidden fixed inset-0 z-50 items-center justify-center bg-black bg-opacity-50">
+          <div id="successPopup"
+            class="hidden fixed inset-0 z-50 top-10 left-10 items-center justify-center bg-black bg-opacity-50">
             <div class="bg-white rounded-3xl p-[3rem] shadow-lg text-center w-[36rem]">
               <!-- <img src="<?php echo esc_url(get_template_directory_uri() . '/wp-content/plugins/akismet/_inc/img/Check_ring_duotone_line.svg'); ?>" 
                                 alt="Success Icon" class="w-16 h-16 mx-auto"> -->
@@ -293,24 +295,31 @@ echo '<script> console.log(' . $screen_width . ')</script>';
     withdrawButton.addEventListener("click", function (e) {
       e.preventDefault();
       let amount = withdrawAmountInput.value.trim();
-      if (amount < 50 || isNaN(amount)) {
-        alert("Vui lòng rút trên 50 xu!");
+      if (amount < 50000 || isNaN(amount)) {
+        alert("Vui lòng rút trên 50.000 xu!");
+        return;
+      }
+      if (amount > <?= number_format($user->coin, 0, ',') ?>) {
+        alert("Bạn không đủ tiền để rút!");
         return;
       }
 
       confirmAmount.textContent = new Intl.NumberFormat('vi-VN').format(amount);
       confirmPopup.classList.remove("hidden"); // Hiển thị pop-up xác nhận
+      confirmPopup.classList.add("flex");
     });
 
     // Hủy rút xu
     cancelWithdraw.addEventListener("click", function () {
       confirmPopup.classList.add("hidden");
+      confirmPopup.classList.remove("flex");
     });
 
     // Xử lý xác nhận rút xu
     confirmWithdraw.addEventListener("click", function () {
       let amount = withdrawAmountInput.value.trim();
       confirmPopup.classList.add("hidden"); // Ẩn pop-up xác nhận
+      confirmPopup.classList.remove("flex");
 
       fetch(window.location.href, {
         method: "POST",
@@ -326,11 +335,13 @@ echo '<script> console.log(' . $screen_width . ')</script>';
 
             console.log("Hiển thị successPopup");
             successPopup.classList.remove("hidden"); // Hiển thị pop-up hoàn tất
+            successPopup.classList.add("flex");
 
             // Kiểm tra nếu successPopup thực sự xuất hiện
             setTimeout(() => {
               console.log("Ẩn successPopup & reload trang");
               successPopup.classList.add("hidden");
+              successPopup.classList.remove("flex");
               location.reload();
             }, 4000);
           } else {

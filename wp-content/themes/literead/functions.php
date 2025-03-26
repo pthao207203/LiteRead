@@ -255,8 +255,11 @@ function update_view_function()
     "status" => "debug",
     "story_table_exists" => $check_story_table ? "Yes" : "No",
     "chapter_table_exists" => $check_chapter_table ? "Yes" : "No",
+    "user_table_exists" => $check_user_table ? "Yes" : "No",
+    "user_id" => $user_id,
     "update_story" => $update_story,
     "update_chapter" => $update_chapter,
+    "update_coin" => $update_coin,
     "error_story" => $error_story,
     "error_chapter" => $error_chapter
   ]);

@@ -28,7 +28,8 @@ $stories_hot = $wpdb->get_results("SELECT * FROM $stories WHERE hot='1' LIMIT 6"
             </a>
           </h3>
           <div class="flex gap-1 items-start self-start mt-[4px] ">
-            <span class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[3px]">4</span>
+            <span
+              class="text-[12px] lg:text-[1.5rem] text-regular text-red-normal lg:mt-[3px]"><?php echo esc_html($story->rate); ?></span>
             <div class="flex items-start" aria-label="Rating: 4 out of 5">
               <span
                 class="text-[#FFC700] w-[16px] h-[16px] lg:w-[1.75rem] lg:h-[1.75rem] text-[16px] lg:text-[2rem]">★</span>
