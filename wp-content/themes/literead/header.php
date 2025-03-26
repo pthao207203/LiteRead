@@ -68,7 +68,7 @@
   <header class="fixed top-0 left-0 flex justify-between items-center md:px-[2.125rem] md:py-[0.625rem] p-[0.625rem] gap-[1rem] md:gap-[2.875rem] w-full bg-orange-light-active z-50">
     <div class="flex flex-row gap-[1rem] md:gap-[2.875rem]">
       <?php if (!is_page_template(['Signup.php', 'Login.php'])): ?>
-        <div class="flex gap-2.5 items-center ">
+        <div class="flex gap-2.5 items-center">
           <!-- Nút Hamburger mở Sidebar -->
           <button id="openSidebarBtn" class="w-[30px] max-md:w-[1.8rem]" aria-label="Menu">
             <div class="w-full bg-red-normal h-[0.125rem] rounded-full"></div>
@@ -90,7 +90,7 @@
     </div>
 
     <form role="search" method="GET" action="<?php echo esc_url(home_url('/searchDetail/')); ?>" class="flex items-center gap-[1.25rem] my-auto px-[1.25rem] max-md:p-[0.625rem] py-[0.625rem] bg-white max-h-[3.125rem] rounded-full w-full max-md:w-auto">
-        <!-- Nút tìm kiếm -->
+      <!-- Nút tìm kiếm -->
       <button type="submit" aria-label="Search" class="flex justify-center items-center">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="w-[1.5rem] h-[1.5rem] ">
           <path d="M11.5 21.75C5.85 21.75 1.25 17.15 1.25 11.5C1.25 5.85 5.85 1.25 11.5 1.25C17.15 1.25 21.75 5.85 21.75 11.5C21.75 17.15 17.15 21.75 11.5 21.75ZM11.5 2.75C6.67 2.75 2.75 6.68 2.75 11.5C2.75 16.32 6.67 20.25 11.5 20.25C16.33 20.25 20.25 16.32 20.25 11.5C20.25 6.68 16.33 2.75 11.5 2.75Z" fill="#A04D4C" />
@@ -118,7 +118,7 @@
         overlay.style.width = `100%`; // Width will match the search bar
       };
 
-      // Show overlay when clicking the search button, except when it's for form submission
+      // Show overlay when clicking the search button
       searchButton.addEventListener('click', function(e) {
         if (document.querySelector('input[name="search_query"]').value === '') {
           e.preventDefault(); // Prevent default form submission
@@ -140,10 +140,12 @@
         e.stopPropagation();
       });
 
-      // Reposition overlay on window resize
+      // Reposition overlay on window resize or scroll
       window.addEventListener('resize', positionOverlay);
+      window.addEventListener('scroll', positionOverlay); // Keep overlay fixed under search bar when scrolling
     });
   </script>
+
 </body>
 
 </html>
