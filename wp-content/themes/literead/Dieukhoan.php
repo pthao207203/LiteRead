@@ -42,9 +42,15 @@ global $wpdb, $wp;
 
       <section class="flex flex-col items-start w-full">
         <h2 class="lg:text-[1.875rem] text-[18px] font-bold text-red-dark">
-          2. Đăng truyện và quyền hạn của người viết
+          2. Quyền và trách nhiệm của tác giả
         </h2>
         <p class="lg:text-[1.75rem] text-[16px] mt-[24px] text-red-dark">
+        Tác giả chịu trách nhiệm hoàn toàn về bản quyền và tính hợp pháp của các tác phẩm mà họ đăng tải lên LiteRead. Tác giả phải đảm bảo rằng các tác phẩm của mình không vi phạm bản quyền, không sao chép hay sử dụng trái phép tác phẩm của người khác. LiteRead không chịu trách nhiệm về bất kỳ tranh chấp bản quyền nào liên quan đến các tác phẩm được đăng tải. Nếu phát hiện có vi phạm bản quyền, LiteRead có quyền yêu cầu tác giả gỡ bỏ nội dung hoặc xóa tài khoản của tác giả đó.
+        </p>
+        <p class="lg:text-[1.75rem] text-[16px] mt-[10px] text-red-dark">
+        Tác giả không được phép đăng tải các tác phẩm có nội dung vi phạm pháp luật hoặc gây hại đến cộng đồng người dùng.
+        </p>
+        <p class="lg:text-[1.75rem] text-[16px] mt-[10px] text-red-dark">
           LiteRead không cung cấp chức năng tự đăng truyện trực tiếp trên trang web.
           Nếu bạn là tác giả và muốn đăng truyện lên LiteRead, vui lòng liên hệ với
           chúng tôi qua trang
