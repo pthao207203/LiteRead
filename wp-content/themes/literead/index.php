@@ -4,7 +4,7 @@ get_header();
 
 global $wpdb;
 $stories = $wpdb->prefix . 'stories';
-$top_stories_view = $wpdb->get_results("SELECT * FROM $stories ORDER BY view DESC LIMIT 5");
+$top_stories_view = $wpdb->get_results("SELECT * FROM $stories WHERE active = 0 ORDER BY view DESC LIMIT 5");
 
 
 $per_page = 10; // Số chương hiển thị mỗi trang
@@ -15,7 +15,7 @@ $total_stories = $wpdb->get_var("SELECT COUNT(*) FROM $stories");
 $total_pages = ceil($total_stories / $per_page);
 
 $stories_new = $wpdb->get_results(
-  $wpdb->prepare("SELECT * FROM $stories ORDER BY edited_at DESC LIMIT %d OFFSET %d", $per_page, $offset)
+  $wpdb->prepare("SELECT * FROM $stories WHERE active = 0 ORDER BY edited_at DESC LIMIT %d OFFSET %d", $per_page, $offset)
 );
 
 $type = $wpdb->prefix . 'type';

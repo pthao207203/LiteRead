@@ -3,6 +3,7 @@
 get_header();
 
 // Kiểm tra nếu user chưa đăng nhập
+echo "<script>console.log('" . $_COOKIE['signup_token'] . "')</script>";
 if (!isset($_COOKIE['signup_token']) || empty($_COOKIE['signup_token'])) {
   echo "<script>alert('Bạn cần đăng nhập để xem trang này!'); window.location.href = '" . home_url('/dang-nhap') . "'; </script>";
   exit();
@@ -14,7 +15,7 @@ $isAuthPage = strpos($_SERVER['REQUEST_URI'], 'dang-nhap') !== false || strpos($
 
 $screen_width = isset($_COOKIE['screen_width']) ? intval($_COOKIE['screen_width']) : 0;
 $isMobile = $screen_width < 768;
-echo '<script> console.log(' . $screen_width . ')</script>';
+// echo '<script> console.log(' . $screen_width . ')</script>';
 
 global $wpdb;
 

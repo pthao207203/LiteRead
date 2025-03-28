@@ -11,16 +11,20 @@ $chapters_table = $wpdb->prefix . 'chapters';
 $story_slug = get_query_var('truyen_parent');
 $stories = $wpdb->prefix . 'stories';
 $story = $wpdb->get_row(
-  $wpdb->prepare("SELECT * FROM $stories WHERE slug = %s", $story_slug)
+  $wpdb->prepare("SELECT * FROM $stories WHERE active = 0 AND slug = %s", $story_slug)
 );
 $user_id = $story->editor;
-
+if (!$story) {
+  echo '<p class = "relative mt-[4.425rem]">Truyện không tồn tại hoặc đã bị tạm khoá.</p>';
+  get_footer();
+  exit;
+}
 $chapter = $wpdb->get_row(
   $wpdb->prepare("SELECT * FROM $chapters_table WHERE chapter_number = %s AND story_id = %d", $chapter_number, $story->id)
 );
 
 if (!$chapter) {
-  echo '<p>Chương không tồn tại.</p>';
+  echo '<p class = "relative mt-[4.425rem]">Chương không tồn tại.</p>';
   get_footer();
   exit;
 }
@@ -308,9 +312,9 @@ echo '<script> console.log(' . $screen_width . ')</script>';
                   headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
                 })
                   .then(response => response.json())
-                  .then(data => console.log("Update Response:", data))
+                  //   .then(data => console.log("Update Response:", data))
                   .catch(error => console.error("Fetch Error:", error));
-              }, 1000);
+              }, 1000 * 2 * 60);
             });
 
           </script>

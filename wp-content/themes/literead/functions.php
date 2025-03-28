@@ -15,7 +15,6 @@ add_action('admin_menu', function () {
 });
 function time_ago($datetime)
 {
-  date_default_timezone_set('Asia/Ho_Chi_Minh'); // Đặt múi giờ Việt Nam
   $timestamp = strtotime($datetime);
   $now = time();
   $diff = $now - $timestamp;
