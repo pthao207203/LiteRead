@@ -94,7 +94,7 @@
       <?php include get_template_directory() . '/Category.php'; ?>
     </div>
 
-    <form role="search" method="GET" action="<?php echo esc_url(home_url('/searchDetail/')); ?>"
+    <form role="search" method="GET" action="<?php echo esc_url(home_url('/tim-kiem/')); ?>"
       class="flex items-center gap-[1.25rem] my-auto px-[1.25rem] max-md:p-[0.625rem] py-[0.625rem] bg-white max-h-[3.125rem] rounded-full w-full max-md:w-auto">
       <!-- Nút tìm kiếm -->
       <button type="submit" aria-label="Search" class="flex justify-center items-center">
