@@ -6,9 +6,13 @@ $story_slug = get_query_var('name');
 $stories = $wpdb->prefix . 'stories';
 
 $story = $wpdb->get_row(
-  $wpdb->prepare("SELECT * FROM $stories WHERE slug = %s", $story_slug)
+  $wpdb->prepare("SELECT * FROM $stories WHERE active = 0 AND slug = %s", $story_slug)
 );
-
+if (!$story) {
+  echo '<p class = "relative mt-[4.425rem] bg-white mb-[5px]">Truyện không tồn tại hoặc đã bị tạm khoá.</p>';
+  get_footer();
+  exit;
+}
 $users = $wpdb->prefix . 'users_literead';
 $user = $wpdb->get_row(
   $wpdb->prepare("SELECT user_name, full_name, slug FROM $users WHERE id = %s", $story->editor)
