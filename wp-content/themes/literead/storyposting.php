@@ -49,8 +49,8 @@ $user_coin = $wpdb->get_var($wpdb->prepare("SELECT coin FROM $users_table WHERE 
 // Xử lý cập nhật thông tin
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update_profile"])) {
   $new_full_name = sanitize_text_field($_POST["Hoten"]);
-  $new_slug =
-    $new_phone = sanitize_text_field($_POST["SDT"]);
+  $new_slug = sanitize_title($new_full_name);
+  $new_phone = sanitize_text_field($_POST["SDT"]);
   $avatar_url = !empty($user_info->avatar_image_url) ? $user_info->avatar_image_url : ''; // Giữ ảnh cũ
   $error_genres = '';
 
@@ -72,6 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update_profile"])) {
     $users_literead,
     [
       "full_name" => $new_full_name,
+      "slug" => $new_slug,
       "phone" => $new_phone,
       "avatar_image_url" => $avatar_url,
       "edited_at" => current_time('mysql'),
