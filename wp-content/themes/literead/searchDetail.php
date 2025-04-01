@@ -25,8 +25,8 @@ if (!empty($category_name)) {
 }
 ?>
 
-<div class="bg-white relative mt-[4.425rem]">
-  <section class="px-[17px] lg:px-[34px] py-[17px] lg:py-[34px] w-full max-md:max-w-full">
+<div class="relative mt-[4.425rem]">
+  <section class="px-[17px] lg:px-[34px] py-[17px] lg:py-[34px] w-full max-md:max-w-full bg-white mb-[5px]">
     <header>
       <h1 class="font-bold leading-none text-red-dark text-[20px] lg:text-[2rem] uppercase max-md:max-w-full">
         <?php echo esc_html($category_name ?: $search_query); ?>
@@ -56,10 +56,13 @@ if (!empty($category_name)) {
                   class="gap-2.5 self-start px-[2px] font-medium text-[10px] lg:text-[1.25rem] text-orange-light whitespace-nowrap bg-red-normal rounded-sm">
                   <?php echo esc_html($story->status); ?>
                 </span>
-                <h2
-                  class="flex-1 shrink gap-2.5 self-stretch mt-[1rem] w-full text-[16px] lg:text-[1.75rem] font-medium basis-0 text-orange-darker">
-                  <?php echo esc_html($story->story_name); ?>
-                </h2>
+                <a href="<?php echo esc_url(home_url('/truyen/' . $story->slug)); ?>"
+                  class="hover:no-underline hover:text-orange-dark text-orange-darker">
+                  <h2
+                    class="flex-1 shrink gap-2.5 self-stretch mt-[1rem] w-full text-[16px] lg:text-[1.75rem] font-medium basis-0">
+                    <?php echo esc_html($story->story_name); ?>
+                  </h2>
+                </a>
                 <div class="flex gap-1 items-start self-start mt-[4px] mb-[-5px]">
                   <div class="flex items-start" aria-label="Rating">
                     <?php for ($i = 0; $i < $story->rate; $i++): ?>
@@ -77,17 +80,19 @@ if (!empty($category_name)) {
                   if (!empty($chapter_lastest)) {
                     foreach ($chapter_lastest as $chapter) {
                       // Chỉ hiển thị chương nếu nó thuộc về truyện này
-                      if ($chapter->story_id == $story->id) {
-                        echo "
-                            <div class='flex justify-between items-center mt-[8px] mb-[-4px] w-full'>
-                                <p class='text-[14px] lg:text-[1.5rem] text-red-normal font-medium'>
-                                Chương " . esc_html($chapter->chapter_number) . " - " . esc_html($chapter->chapter_name) . "
-                                </p>
-                                <p class='text-[12px] lg:text-[1.25rem] text-red-normal font-light'>
-                                " . esc_html(time_ago($chapter->created_at)) . "
-                                </p>
-                            </div>";
-                      }
+                      ?>
+                      <div class='flex justify-between items-center mt-[8px] mb-[-4px] w-full'>
+                        <a href='<?php echo esc_url(home_url('/truyen/' . $story->slug . '/chuong-' . $chapter->chapter_number)); ?>'
+                          class='text-red-normal hover:no-underline hover:text-red-dark'>
+                          <p class='text-[14px] lg:text-[1.5rem] text-regular'>
+                            Chương <?php echo $chapter->chapter_number; ?>
+                          </p>
+                        </a>
+                        <p class='text-[12px] lg:text-[1.25rem] text-red-normal text-regular'>
+                          <?php echo time_ago($chapter->created_at); ?>
+                        </p>
+                      </div>
+                      <?php
                     }
                   } else {
                     echo "<p class='text-[14px] lg:text-[1.5rem] text-gray-500'>Chưa có chương mới</p>";
@@ -103,6 +108,5 @@ if (!empty($category_name)) {
       </div>
     </div>
   </section>
+  <?php get_footer(); ?>
 </div>
-
-<?php get_footer(); ?>
