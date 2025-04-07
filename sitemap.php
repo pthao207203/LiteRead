@@ -73,7 +73,7 @@ foreach ($stories as $story) {
         $chapter_modified = !empty($chapter->modified) ? $chapter->modified : date('Y-m-d');
         
         echo '<url>';
-        echo '<loc>' . esc_url(home_url('/truyen/' . $story_slug . '/chuong-' . $chapter_slug)) . '</loc>';
+        echo '<loc>' . esc_url(home_url('/truyen/' . $story_slug . '/chuong-' .$chapter->chapter_number)) . '</loc>';
         echo '<lastmod>' . date('Y-m-d', strtotime($chapter_modified)) . '</lastmod>';
         echo '<changefreq>daily</changefreq>';
         echo '<priority>0.9</priority>';
