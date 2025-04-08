@@ -2,7 +2,7 @@
 
 global $wpdb;
 $stories = $wpdb->prefix . 'stories';
-$stories_hot = $wpdb->get_results("SELECT * FROM $stories WHERE hot='1' LIMIT 6");
+$stories_hot = $wpdb->get_results("SELECT * FROM $stories WHERE hot='1' ORDER BY edited_at DESC LIMIT 6");
 ?>
 
 <!-- Wrapper cuộn ngang + Grid cho màn hình lớn -->

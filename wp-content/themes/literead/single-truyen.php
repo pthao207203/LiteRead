@@ -222,12 +222,11 @@ if ($story) {
                       class="self-center px-[1rem] py-[0.5rem] md:px-[1.25rem] md:py-[0.625rem] bg-red-normal rounded-xl hover:no-underline hover:text-red-light-hover">
                       Chương cuối
                     </a>
-                    <form method="POST" id="save-story-form" action="">
+                    <form method="POST" id="save-story-form" action="" class="mb-0">
                       <input type="hidden" name="story_id" value="<?php echo esc_attr($story->id); ?>" />
                       <button type="button" name="save_story" id="toggle-btn"
                         data-story-id="<?php echo esc_attr($story->id); ?>">
-                        <img id="toggle-img"
-                          src="https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png"
+                        <img id="toggle-img" src="https://i.pinimg.com/736x/51/77/79/5177792642d80bea99b5ab7415e3b66f.jpg"
                           class="w-[3.5625rem] max-sm:w-[2.625rem] max-sm:h-[2.625rem] h-[3.5625rem] object-fill shrink "
                           alt="Toggle Button" />
                       </button>
@@ -362,8 +361,8 @@ if ($story) {
 ; ?>
 
 <script>
-  const img_saved = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/tkn6hjhe.png"; // saved
-  const img_not_saved = "https://storage.googleapis.com/tagjs-prod.appspot.com/3AYFbkhn66/qbs6wbpy.png"; // not saved
+  const img_saved = "https://i.pinimg.com/736x/51/77/79/5177792642d80bea99b5ab7415e3b66f.jpg"; // saved
+  const img_not_saved = "https://i.pinimg.com/736x/f5/f5/e3/f5f5e362c8bb9452e83630a6445653b1.jpg"; // not saved
   document.getElementById("toggle-btn").addEventListener("click", function (event) {
     event.preventDefault();
 
