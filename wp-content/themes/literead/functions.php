@@ -124,7 +124,7 @@ function tao_custom_post_type()
     'has_archive' => false, // Chỉ hiển thị dưới "Truyện"
     'rewrite' => false, // Không có đường dẫn riêng
     'supports' => array('title', 'editor'),
-
+    'show_in_rest' => true,
     'taxonomies' => array('category', 'post_tag'), //Các taxonomy được phép sử dụng để phân loại nội dung
     'hierarchical' => false, //Cho phép phân cấp, nếu là false thì post type này giống như Post, true thì giống như Page
     'show_ui' => true, //Hiển thị khung quản trị như Post/Page
@@ -165,6 +165,21 @@ function tao_custom_post_type()
 }
 /* Kích hoạt hàm tạo custom post type */
 add_action('init', 'tao_custom_post_type');
+function chuong_custom_permalink($permalink, $post)
+{
+  if ($post->post_type != 'chuong')
+    return $permalink;
+
+  $truyen = get_field('truyen_cha', $post->ID); // Lấy truyện cha từ ACF
+  if (!$truyen)
+    return $permalink;
+
+  $slug_truyen = $truyen->post_name;
+  $slug_chuong = $post->post_name;
+
+  return home_url("/truyen/$slug_truyen/$slug_chuong/");
+}
+add_filter('post_type_link', 'chuong_custom_permalink', 10, 2);
 
 add_filter('pre_get_posts', 'lay_custom_post_type');
 function lay_custom_post_type($query)
