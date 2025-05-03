@@ -3,17 +3,21 @@
 get_header();
 
 global $wpdb;
-$category_name = isset($_GET['category']) ? sanitize_text_field($_GET['category']) : '';
+$category_slug = get_query_var('category');
+// $category_name = isset($_GET['category']) ? sanitize_text_field($_GET['category']) : '';
 
+$category = $wpdb->get_row(
+  $wpdb->prepare("SELECT type_name FROM wp_type WHERE slug = %s", $category_slug)
+);
 $stories = [];
-if (!empty($category_name)) {
+if (!empty($category_slug)) {
   $stories = $wpdb->get_results($wpdb->prepare("
         SELECT s.* 
         FROM wp_stories s
         INNER JOIN wp_story_type st ON s.id = st.story_id
         INNER JOIN wp_type t ON st.type_id = t.id
-        WHERE t.type_name = %s
-    ", $category_name));
+        WHERE t.slug = %s
+    ", $category_slug));
 }
 ?>
 
@@ -21,7 +25,7 @@ if (!empty($category_name)) {
   <section class="px-[17px] lg:px-[34px] py-[17px] lg:py-[34px] w-full max-md:max-w-full">
     <header>
       <h1 class="font-bold leading-none text-red-dark text-[20px] lg:text-[2rem] uppercase max-md:max-w-full">
-        <?php echo esc_html($category_name); ?>
+        <?php echo esc_html($category->type_name); ?>
       </h1>
       <p
         class="mt-[12px] lg:mt-[24px] font-medium leading-none text-red-dark text-[18px] lg:text-[1.875rem] max-md:max-w-full">
@@ -49,11 +53,11 @@ if (!empty($category_name)) {
                   <?php echo esc_html($story->status); ?>
                 </span>
                 <a href="<?php echo esc_url(home_url('/truyen/' . $story->slug)); ?>"
-                          class="hover:no-underline hover:text-orange-dark text-orange-darker">
-                    <h2
-                      class="flex-1 shrink gap-2.5 self-stretch mt-[1rem] w-full text-[16px] lg:text-[1.75rem] font-medium basis-0">
-                      <?php echo esc_html($story->story_name); ?>
-                    </h2>
+                  class="hover:no-underline hover:text-orange-dark text-orange-darker">
+                  <h2
+                    class="flex-1 shrink gap-2.5 self-stretch mt-[1rem] w-full text-[16px] lg:text-[1.75rem] font-medium basis-0">
+                    <?php echo esc_html($story->story_name); ?>
+                  </h2>
                 </a>
                 <div class="flex gap-1 items-start self-start mt-[4px] mb-[-5px]">
                   <div class="flex items-start" aria-label="Rating">
@@ -73,17 +77,17 @@ if (!empty($category_name)) {
                     foreach ($chapter_lastest as $chapter) {
                       // Chỉ hiển thị chương nếu nó thuộc về truyện này
                       ?>
-                        <div class='flex justify-between items-center mt-[8px] mb-[-4px] w-full'>
-                              <a href='<?php echo esc_url(home_url('/truyen/' . $story->slug . '/chuong-' . $chapter->chapter_number)); ?>'
-                                class='text-red-normal hover:no-underline hover:text-red-dark'>
-                                <p class='text-[14px] lg:text-[1.5rem] text-regular'>
-                                  Chương <?php echo $chapter->chapter_number; ?>
-                                </p>
-                              </a>
-                              <p class='text-[12px] lg:text-[1.25rem] text-red-normal text-regular'>
-                                <?php echo time_ago($chapter->created_at); ?>
-                              </p>
-                            </div>
+                      <div class='flex justify-between items-center mt-[8px] mb-[-4px] w-full'>
+                        <a href='<?php echo esc_url(home_url('/truyen/' . $story->slug . '/chuong-' . $chapter->chapter_number)); ?>'
+                          class='text-red-normal hover:no-underline hover:text-red-dark'>
+                          <p class='text-[14px] lg:text-[1.5rem] text-regular'>
+                            Chương <?php echo $chapter->chapter_number; ?>
+                          </p>
+                        </a>
+                        <p class='text-[12px] lg:text-[1.25rem] text-red-normal text-regular'>
+                          <?php echo time_ago($chapter->created_at); ?>
+                        </p>
+                      </div>
                       <?php
                     }
                   } else {
