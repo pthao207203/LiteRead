@@ -25,6 +25,7 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$type'") != $type) {
   $sql = "CREATE TABLE $type (
     id MEDIUMINT(9) UNSIGNED NOT NULL AUTO_INCREMENT,
     type_name TEXT NOT NULL,
+    slug TEXT NOT NULL,
     decription TEXT DEFAULT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY  (id)
@@ -32,12 +33,31 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$type'") != $type) {
   require_once ABSPATH . 'wp-admin/includes/upgrade.php';
   dbDelta($sql);
 
-  $sql = "INSERT INTO $type (`type_name`) VALUES 
-    ('ABO'), ('Mạt thế'), ('Ngược'), ('Ngọt sủng'), ('Ngôn tình'),
-    ('Đam mỹ'), ('Bách hợp'), ('HE'), ('SE'), ('OE'), ('Cổ đại'), ('Dân quốc'),
-    ('Hiện đại'), ('Xuyên không'), ('Trọng sinh'), ('Hệ thống'), ('Nữ cường'),
-    ('Tổng tài'), ('Thế thân'), ('Tu tiên'), ('Nam chủ')";
-
+  $sql = "INSERT INTO $type (`type_name`, `slug`) VALUES 
+  ('ABO', 'abo'),
+  ('Mạt thế', 'mat-the'),
+  ('Ngược', 'nguoc'),
+  ('Ngọt sủng', 'ngot-sung'),
+  ('Ngôn tình', 'ngon-tinh'),
+  ('Đam mỹ', 'dam-my'),
+  ('Bách hợp', 'bach-hop'),
+  ('HE', 'he'),
+  ('SE', 'se'),
+  ('OE', 'oe'),
+  ('Cổ đại', 'co-dai'),
+  ('Dân quốc', 'dan-quoc'),
+  ('Hiện đại', 'hien-dai'),
+  ('Xuyên không', 'xuyen-khong'),
+  ('Trọng sinh', 'trong-sinh'),
+  ('Hệ thống', 'he-thong'),
+  ('Nữ cường', 'nu-cuong'),
+  ('Tổng tài', 'tong-tai'),
+  ('Thế thân', 'the-than'),
+  ('Tu tiên', 'tu-tien'),
+  ('Nam chủ', 'nam-chu'),
+  ('Nữ chủ', 'nu-chu'),
+  ('Linh dị', 'linh-di'),
+  ('Xuyên sách', 'xuyen-sach')";
   $wpdb->query($sql);
 }
 

@@ -124,7 +124,7 @@ function tao_custom_post_type()
     'has_archive' => false, // Chỉ hiển thị dưới "Truyện"
     'rewrite' => false, // Không có đường dẫn riêng
     'supports' => array('title', 'editor'),
-
+    'show_in_rest' => true,
     'taxonomies' => array('category', 'post_tag'), //Các taxonomy được phép sử dụng để phân loại nội dung
     'hierarchical' => false, //Cho phép phân cấp, nếu là false thì post type này giống như Post, true thì giống như Page
     'show_ui' => true, //Hiển thị khung quản trị như Post/Page
@@ -162,9 +162,48 @@ function tao_custom_post_type()
     'publicly_queryable' => true, //Hiển thị các tham số trong query, phải đặt true
     'capability_type' => 'post' //
   ));
+
+  register_post_type('category', array(
+    'labels' => array(
+      'name' => __('Thể loại', 'textdomain'),
+      'singular_name' => __('Thể loại', 'textdomain'),
+    ),
+    'public' => true,
+    'has_archive' => false, // Chỉ hiển thị dưới "Truyện"
+    'rewrite' => false, // Không có đường dẫn riêng
+    'supports' => array('title', 'editor'),
+
+    'taxonomies' => array('category', 'post_tag'), //Các taxonomy được phép sử dụng để phân loại nội dung
+    'hierarchical' => false, //Cho phép phân cấp, nếu là false thì post type này giống như Post, true thì giống như Page
+    'show_ui' => true, //Hiển thị khung quản trị như Post/Page
+    'show_in_menu' => true, //Hiển thị trên Admin Menu (tay trái)
+    'show_in_nav_menus' => true, //Hiển thị trong Appearance -> Menus
+    'show_in_admin_bar' => true, //Hiển thị trên thanh Admin bar màu đen.
+    'menu_position' => 5, //Thứ tự vị trí hiển thị trong menu (tay trái)
+    'menu_icon' => '', //Đường dẫn tới icon sẽ hiển thị
+    'can_export' => true, //Có thể export nội dung bằng Tools -> Export
+    'exclude_from_search' => false, //Loại bỏ khỏi kết quả tìm kiếm
+    'publicly_queryable' => true, //Hiển thị các tham số trong query, phải đặt true
+    'capability_type' => 'post' //
+  ));
 }
 /* Kích hoạt hàm tạo custom post type */
 add_action('init', 'tao_custom_post_type');
+function chuong_custom_permalink($permalink, $post)
+{
+  if ($post->post_type != 'chuong')
+    return $permalink;
+
+  $truyen = get_field('truyen_cha', $post->ID); // Lấy truyện cha từ ACF
+  if (!$truyen)
+    return $permalink;
+
+  $slug_truyen = $truyen->post_name;
+  $slug_chuong = $post->post_name;
+
+  return home_url("/truyen/$slug_truyen/$slug_chuong/");
+}
+add_filter('post_type_link', 'chuong_custom_permalink', 10, 2);
 
 add_filter('pre_get_posts', 'lay_custom_post_type');
 function lay_custom_post_type($query)
@@ -407,6 +446,12 @@ function custom_rewrite_rules()
     'top'
   );
 
+  add_rewrite_rule(
+    '^the-loai/([^/]+)/?$',
+    'index.php?post_type=category&category=$matches[1]',
+    'top'
+  );
+
 }
 add_action('init', 'custom_rewrite_rules');
 
@@ -438,6 +483,11 @@ flush_rewrite_rules();
 add_action('template_redirect', function () {
   global $wp_query;
   echo "<script>console.error('Debug Error: " . json_encode($wp_query->query_vars) . "');</script>";
+  //[GET] /the-loai/{ten-nhom-dich}
+  if (isset($wp_query->query_vars['post_type']) && $wp_query->query_vars['post_type'] == 'category') {
+    include(get_template_directory() . '/categoryDetail.php');
+    exit;
+  }
   //[GET] /quan-ly-truyen/them-truyen-moi
   if (isset($wp_query->query_vars['literead_add_story'])) {
     include(get_template_directory() . '/UpStory.php');
@@ -663,6 +713,13 @@ function is_public_page()
   }
 
   if (preg_match('#^' . $base . '/truyen/[^/]+/chuong-[0-9]+/?$#', $uri)) { // chi tiết chương
+    return true;
+  }
+
+  if (preg_match('#^' . $base . '/tac-gia/[^/]+/?$#', $uri)) { // tac gia
+    return true;
+  }
+  if (preg_match('#^' . $base . '/?$#', $uri)) { // trang chu
     return true;
   }
 

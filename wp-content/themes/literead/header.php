@@ -3,8 +3,10 @@
 
 <head>
   <meta name="google-site-verification" content="wPRr0TbbvWTsztW_CeL2_nlnuVXhpRmVaGewPE1lmAg" />
+  <meta name="botw-verify" content="jch7z62u" />
   <meta charset="<?php bloginfo('charset'); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!--<title><?php bloginfo('name'); ?> | <?php wp_title('', true, 'left'); ?></title>-->
   <title><?php bloginfo('name'); ?> | <?php wp_title('', true, 'left'); ?></title>
   <?php wp_head(); ?>
   <script src="https://cdn.tailwindcss.com"></script>
