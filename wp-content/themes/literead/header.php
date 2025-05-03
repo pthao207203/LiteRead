@@ -22,7 +22,7 @@
   <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
   <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9357894106826270"
-    crossorigin="anonymous"></script>
+  crossorigin="anonymous"></script>
   <script>
     tailwind.config = {
       content: ["./src/**/*.{html,js}"],
