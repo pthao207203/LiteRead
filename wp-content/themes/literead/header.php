@@ -7,7 +7,7 @@
   <meta charset="<?php bloginfo('charset'); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!--<title><?php bloginfo('name'); ?> | <?php wp_title('', true, 'left'); ?></title>-->
-  <title><?php echo wp_get_document_title(); ?></title>
+  <title><?php bloginfo('name'); ?> | <?php wp_title('', true, 'left'); ?></title>
   <?php wp_head(); ?>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap"
