@@ -18,8 +18,7 @@ $categories = $wpdb->get_results("SELECT * FROM wp_type");
       </h2>
       <div class="flex flex-wrap gap-[1rem] justify-center items-start max-md:gap-3">
         <?php foreach ($categories as $category): ?>
-          <button
-            onclick="window.location.href='<?php echo home_url('/chi-tiet-the-loai/') . '?category=' . urlencode($category->type_name); ?>'"
+          <button onclick="window.location.href='<?php echo home_url('/the-loai/' . $category->slug); ?>'"
             class="px-[0.625rem] py-[1.25rem] text-2xl text-[#803D3D] bg-[#FFE5E1] rounded-[0.5rem] cursor-pointer w-[11.25rem] max-md:w-[9.375rem] text-center truncate">
             <?php echo esc_html($category->type_name); ?>
           </button>

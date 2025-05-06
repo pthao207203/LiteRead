@@ -715,8 +715,10 @@ function is_public_page()
   if (preg_match('#^' . $base . '/truyen/[^/]+/chuong-[0-9]+/?$#', $uri)) { // chi tiết chương
     return true;
   }
-
-  if (preg_match('#^' . $base . '/tac-gia/[^/]+/?$#', $uri)) { // tac gia
+  if (preg_match('#^' . $base . '/the-loai/[^/]+/?$#', $uri)) { // the loai
+    return true;
+  }
+  if (preg_match('#^' . $base . '/trang-ca-nhan/[^/]+/?$#', $uri)) { // tac gia
     return true;
   }
   if (preg_match('#^' . $base . '/?$#', $uri)) { // trang chu
