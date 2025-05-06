@@ -285,6 +285,10 @@ echo '<script> console.log(' . $screen_width . ')</script>';
             ?>
           </section>
 
+          <amp-ad width="100vw" height="320" type="adsense" data-ad-client="ca-pub-9357894106826270"
+            data-ad-slot="4222935559" data-auto-format="rspv" data-full-width="">
+            <div overflow=""></div>
+          </amp-ad>
 
           <?php
           $stories_hot = $wpdb->get_results("SELECT * FROM wp_stories WHERE hot='1' LIMIT 6");
