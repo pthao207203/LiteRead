@@ -189,21 +189,21 @@ function tao_custom_post_type()
 }
 /* Kích hoạt hàm tạo custom post type */
 add_action('init', 'tao_custom_post_type');
-function chuong_custom_permalink($permalink, $post)
-{
-  if ($post->post_type != 'chuong')
-    return $permalink;
+// function chuong_custom_permalink($permalink, $post)
+// {
+//   if ($post->post_type != 'chuong')
+//     return $permalink;
 
-  $truyen = get_field('truyen_cha', $post->ID); // Lấy truyện cha từ ACF
-  if (!$truyen)
-    return $permalink;
+//   $truyen = get_field('truyen_cha', $post->ID); // Lấy truyện cha từ ACF
+//   if (!$truyen)
+//     return $permalink;
 
-  $slug_truyen = $truyen->post_name;
-  $slug_chuong = $post->post_name;
+//   $slug_truyen = $truyen->post_name;
+//   $slug_chuong = $post->post_name;
 
-  return home_url("/truyen/$slug_truyen/$slug_chuong/");
-}
-add_filter('post_type_link', 'chuong_custom_permalink', 10, 2);
+//   return home_url("/truyen/$slug_truyen/$slug_chuong/");
+// }
+// add_filter('post_type_link', 'chuong_custom_permalink', 10, 2);
 
 add_filter('pre_get_posts', 'lay_custom_post_type');
 function lay_custom_post_type($query)
@@ -702,45 +702,45 @@ add_action('init', function () {
   }
 });
 
-function is_public_page()
-{
-  $uri = $_SERVER['REQUEST_URI'];
-  $base = parse_url(home_url(), PHP_URL_PATH); // sẽ trả về /LiteRead nếu chạy trong localhost/LiteRead
+// function is_public_page()
+// {
+//   $uri = $_SERVER['REQUEST_URI'];
+//   $base = parse_url(home_url(), PHP_URL_PATH); // sẽ trả về /LiteRead nếu chạy trong localhost/LiteRead
 
-  // Public URLs chính xác:
-  if (preg_match('#^' . $base . '/truyen/[^/]+/?$#', $uri)) { // chi tiết truyện
-    return true;
-  }
+//   // Public URLs chính xác:
+//   if (preg_match('#^' . $base . '/truyen/[^/]+/?$#', $uri)) { // chi tiết truyện
+//     return true;
+//   }
 
-  if (preg_match('#^' . $base . '/truyen/[^/]+/chuong-[0-9]+/?$#', $uri)) { // chi tiết chương
-    return true;
-  }
-  if (preg_match('#^' . $base . '/the-loai/[^/]+/?$#', $uri)) { // the loai
-    return true;
-  }
-  if (preg_match('#^' . $base . '/trang-ca-nhan/[^/]+/?$#', $uri)) { // tac gia
-    return true;
-  }
-  if (preg_match('#^' . $base . '/?$#', $uri)) { // trang chu
-    return true;
-  }
+//   if (preg_match('#^' . $base . '/truyen/[^/]+/chuong-[0-9]+/?$#', $uri)) { // chi tiết chương
+//     return true;
+//   }
+//   if (preg_match('#^' . $base . '/the-loai/[^/]+/?$#', $uri)) { // the loai
+//     return true;
+//   }
+//   if (preg_match('#^' . $base . '/trang-ca-nhan/[^/]+/?$#', $uri)) { // tac gia
+//     return true;
+//   }
+//   if (preg_match('#^' . $base . '/?$#', $uri)) { // trang chu
+//     return true;
+//   }
 
-  if ($uri === $base . '/' || strpos($uri, '/dang-nhap') !== false || strpos($uri, '/dang-ky') !== false) {
-    return true;
-  }
+//   if ($uri === $base . '/' || strpos($uri, '/dang-nhap') !== false || strpos($uri, '/dang-ky') !== false) {
+//     return true;
+//   }
 
-  return false;
-}
+//   return false;
+// }
 
-add_action('template_redirect', function () {
-  if (!isset($_COOKIE['signup_token']) && !is_public_page()) {
-    echo "<script>
-      alert('Bạn cần đăng nhập để xem trang này!');
-      window.location.href = '" . home_url('/dang-nhap') . "';
-    </script>";
-    exit;
-  }
-}, 1);
+// add_action('template_redirect', function () {
+//   if (!isset($_COOKIE['signup_token']) && !is_public_page()) {
+//     echo "<script>
+//       alert('Bạn cần đăng nhập để xem trang này!');
+//       window.location.href = '" . home_url('/dang-nhap') . "';
+//     </script>";
+//     exit;
+//   }
+// }, 1);
 
 
 // global $wp_rewrite;

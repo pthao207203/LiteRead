@@ -178,6 +178,10 @@ $isSingleTruyen = strpos($_SERVER['REQUEST_URI'], '/trang-ca-nhan/') !== false; 
                 </div>
               </div>
             </section>
+            <amp-ad width="100vw" height="320" type="adsense" data-ad-client="ca-pub-9357894106826270"
+              data-ad-slot="4222935559" data-auto-format="rspv" data-full-width="">
+              <div overflow=""></div>
+            </amp-ad>
           </div>
           <div class="flex flex-col w-full rounded-none lg:mt-[8px]">
             <!-- Tiêu đề -->

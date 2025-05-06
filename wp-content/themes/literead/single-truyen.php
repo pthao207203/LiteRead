@@ -323,6 +323,10 @@ if ($story) {
                 include "binh-luan.php";
                 ?>
               </section>
+              <amp-ad width="100vw" height="320" type="adsense" data-ad-client="ca-pub-9357894106826270"
+                data-ad-slot="4222935559" data-auto-format="rspv" data-full-width="">
+                <div overflow=""></div>
+              </amp-ad>
             </div>
 
             <!-- 🌟 Nổi bật (4/12) -->

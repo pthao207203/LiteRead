@@ -52,6 +52,12 @@
 </style>
 
 <footer class="flex items-center mx-auto gap-[1rem] md:gap-[2.875rem] w-full bg-[#FFE5E1]">
+  <!-- Quảng cáo footer -->
+  <amp-ad width="100vw" height="320" type="adsense" data-ad-client="ca-pub-9357894106826270" data-ad-slot="4222935559"
+    data-auto-format="rspv" data-full-width="">
+    <div overflow=""></div>
+  </amp-ad>
+
   <div class="footer-container flex items-center mx-auto gap-[1rem] md:gap-[2.875rem] w-full bg-[#FFE5E1]"
     role="contentinfo" aria-label="Contact Information">
     <div class="contact-info">
@@ -73,7 +79,7 @@
           <span class="sr-only">Facebook:</span>
           <a href="https://www.facebook.com/profile.php?id=61573035163575"
             class="focus:ring-2 hover:no-underline hover:text-[#A04D4C]">Facebook:
-            <span class="font-bold">Lite Read</span> 
+            <span class="font-bold">Lite Read</span>
           </a>
         </p>
         <!--<p class="text-[12px] lg:text-[1.375rem]">-->
