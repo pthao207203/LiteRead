@@ -42,9 +42,15 @@ global $wpdb, $wp;
 
       <section class="flex flex-col items-start w-full">
         <h2 class="lg:text-[1.875rem] text-[18px] font-bold text-red-dark">
-          2. Đăng truyện và quyền hạn của người viết
+          2. Quyền và trách nhiệm của tác giả
         </h2>
         <p class="lg:text-[1.75rem] text-[16px] mt-[24px] text-red-dark">
+          Tác giả chịu trách nhiệm hoàn toàn về bản quyền và tính hợp pháp của các tác phẩm mà họ đăng tải lên LiteRead. Tác giả phải đảm bảo rằng các tác phẩm của mình không vi phạm bản quyền, không sao chép hay sử dụng trái phép tác phẩm của người khác. LiteRead không chịu trách nhiệm về bất kỳ tranh chấp bản quyền nào liên quan đến các tác phẩm được đăng tải. Nếu phát hiện có vi phạm bản quyền, LiteRead có quyền yêu cầu tác giả gỡ bỏ nội dung hoặc xóa tài khoản của tác giả đó.
+        </p>
+        <p class="lg:text-[1.75rem] text-[16px] mt-[10px] text-red-dark">
+          Tác giả không được phép đăng tải các tác phẩm có nội dung vi phạm pháp luật hoặc gây hại đến cộng đồng người dùng.
+        </p>
+        <p class="lg:text-[1.75rem] text-[16px] mt-[10px] text-red-dark">
           LiteRead không cung cấp chức năng tự đăng truyện trực tiếp trên trang web.
           Nếu bạn là tác giả và muốn đăng truyện lên LiteRead, vui lòng liên hệ với
           chúng tôi qua trang
@@ -63,6 +69,12 @@ global $wpdb, $wp;
           hoặc đã được cấp phép cho LiteRead. Mọi hành vi sao chép, khai thác hoặc
           sử dụng nội dung không đúng mục đích đều bị nghiêm cấm và có thể bị xử lý
           theo quy định pháp luật.
+        </p>
+        <p class="lg:text-[1.75rem] text-[16px] mt-[10px] text-red-dark">
+          Tất cả người dùng được yêu cầu tuân thủ nghiêm ngặt luật pháp và quy định quốc gia có liên quan khi xuất bản nội dung. Chúng tôi từ chối mọi nội dung không hợp thuần phong mỹ tục, bạo lực, bất hợp pháp hoặc vi phạm các quy định khác và sẽ huỷ bỏ chúng ngay khi phát hiện.
+        </p>
+        <p class="lg:text-[1.75rem] text-[16px] mt-[10px] text-red-dark">
+        Bản quyền của các tác phẩm trên trang này (tiểu thuyết, bình luận, hình ảnh, v.v.) thuộc về tác giả gốc. Trang này chỉ cung cấp chức năng tải lên, lưu trữ và hiển thị. Các tác phẩm, bình luận, nội dung hoặc hình ảnh đều do thành viên đăng tải. Nếu làm ảnh hưởng đến cá nhân hay tổ chức nào, khi được yêu cầu, chúng tôi sẽ xác minh và gỡ bỏ ngay lập tức.
         </p>
       </section>
 
